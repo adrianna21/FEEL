@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Spark — Emotion Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --surface2: #efefeb;
+    --text: #1a1a1a;
+    --text-muted: #888880;
+    --accent: #e8845a;
+    --nav-h: 72px;
+    --radius: 18px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.07);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+    overflow-x: hidden;
+  }
+  .page { display:none; flex-direction:column; min-height:100vh; padding-bottom: calc(var(--nav-h) + 12px); }
+  .page.active { display:flex; }
+  .scroll-area { flex:1; overflow-y:auto; padding:0 18px 24px; }
+  .scroll-area::-webkit-scrollbar { display:none; }
+
+  /* ══ HOME ══ */
+  .home-header { padding:54px 20px 6px; }
+  .home-date-full { font-size:13px; color:var(--text-muted); font-weight:400; letter-spacing:0.04em; margin-bottom:2px; }
+  .home-header h1 { font-family:'DM Serif Display',serif; font-size:30px; line-height:1.15; margin-bottom:18px; }
+
+  .day-strip-wrap { padding:0 18px 18px; }
+  .day-strip { display:flex; gap:10px; overflow-x:auto; cursor:grab; user-select:none; -webkit-overflow-scrolling:touch; }
+  .day-strip:active { cursor:grabbing; }
+  .day-strip::-webkit-scrollbar { display:none; }
+  .day-chip {
+    flex-shrink:0; width:60px; height:72px; border-radius:16px;
+    color:#fff; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:2px; background:#222;
+  }
+  .day-chip.future { background:var(--surface2) !important; color:var(--text-muted) !important; opacity:1 !important; }
+  .day-chip.today-default { background:linear-gradient(145deg,#e8845a,#f0a070); }
+  .day-chip .day-num { font-size:22px; font-weight:700; line-height:1; }
+  .day-chip .day-name { font-size:10px; font-weight:500; opacity:0.85; }
+
+  .section-title { font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-muted); padding:0 18px; margin-bottom:10px; }
+
+  /* live badge next to section title */
+  .section-title-row { display:flex; align-items:center; justify-content:space-between; padding:0 18px; margin-bottom:10px; }
+  .section-title-row .section-title { padding:0; margin:0; }
+  .live-badge {
+    display:flex; align-items:center; gap:5px;
+    font-size:10px; font-weight:600; color:var(--text-muted);
+    letter-spacing:0.04em;
+  }
+  .live-dot {
+    width:7px; height:7px; border-radius:50%;
+    background:#4caf50;
+    animation: livePulse 2s ease-in-out infinite;
+  }
+  .live-dot.stale { background:#f5a623; animation:none; }
+  .live-dot.error { background:#e55; animation:none; }
+  @keyframes livePulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50%      { opacity:0.5; transform:scale(0.85); }
+  }
+  #live-time { font-size:10px; color:var(--text-muted); }
+
+  .tracker-card { background:var(--surface); border-radius:var(--radius); box-shadow:var(--shadow); padding:16px; margin:0 18px 20px; }
+  .tracker-entries { display:flex; flex-direction:column; gap:8px; }
+  .tracker-entry { display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:12px; background:var(--bg); }
+  .emotion-swatch { width:36px; height:36px; border-radius:50%; flex-shrink:0; }
+  .tracker-entry .entry-info { flex:1; }
+  .tracker-entry .emotion-name { font-weight:600; font-size:14px; }
+  .tracker-entry .entry-meta { font-size:12px; color:var(--text-muted); margin-top:1px; }
+  .tracker-entry .entry-val { font-size:22px; font-family:'DM Serif Display',serif; color:var(--text-muted); min-width:30px; text-align:right; }
+  .empty-tracker { text-align:center; padding:24px 0; color:var(--text-muted); font-size:14px; }
+
+  /* journal on home */
+  .home-journal-section { padding:0 18px 24px; }
+  .journal-header-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .journal-heading { font-family:'DM Serif Display',serif; font-size:26px; }
+  .journal-help-btn { width:34px; height:34px; border-radius:50%; background:#1a1a1a; color:#fff; border:none; font-size:16px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; font-family:serif; flex-shrink:0; }
+
+  .journal-scroll-row {
+    display:flex; gap:12px; overflow-x:auto; overflow-y:hidden;
+    cursor:grab; user-select:none; -webkit-overflow-scrolling:touch; padding-bottom:4px;
+  }
+  .journal-scroll-row:active { cursor:grabbing; }
+  .journal-scroll-row::-webkit-scrollbar { display:none; }
+
+  .journal-card {
+    flex-shrink:0; width:180px; min-height:185px; border-radius:18px;
+    padding:16px; display:flex; flex-direction:column; justify-content:space-between;
+    cursor:pointer; transition:transform 0.15s; background:#dce8f5;
+  }
+  .journal-card:nth-child(even) { background:#fde8e8; }
+  .journal-card:hover { transform:scale(0.97); }
+  .journal-card h3 { font-size:13px; font-weight:700; line-height:1.3; }
+  .journal-card p { font-size:11px; color:#666; margin-top:6px; line-height:1.5; flex:1; overflow:hidden; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; }
+  .journal-card .card-footer { margin-top:10px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:4px; }
+  .journal-card .card-date { font-size:10px; color:var(--text-muted); }
+  .journal-card .card-tag { font-size:10px; background:rgba(255,255,255,0.65); border-radius:20px; padding:3px 8px; font-weight:500; }
+
+  /* ══ EMOTIONS PAGE ══ */
+  .emotions-page-header { padding:54px 20px 16px; }
+  .emotions-page-header h2 { font-family:'DM Serif Display',serif; font-size:28px; }
+  .emotions-page-header p { font-size:13px; color:var(--text-muted); margin-top:4px; }
+  .flower-wrap { display:flex; justify-content:center; padding:20px 0; }
+  .flower-svg { width:220px; height:220px; }
+  .emotion-slots { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0 18px 24px; }
+  .emotion-slot { border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); cursor:pointer; transition:transform 0.15s; min-height:108px; position:relative; }
+  .emotion-slot:hover { transform:scale(0.97); }
+  .slot-gradient-bg { position:absolute; inset:0; }
+  .slot-content { position:relative; z-index:1; padding:14px 14px 16px; display:flex; flex-direction:column; justify-content:flex-end; height:100%; min-height:108px; }
+  .slot-label { font-size:10px; color:rgba(255,255,255,0.7); font-weight:500; }
+  .slot-name { font-size:16px; font-weight:700; color:#fff; margin-top:2px; }
+
+  /* modal */
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:200; display:none; align-items:flex-end; justify-content:center; }
+  .modal-overlay.open { display:flex; }
+  .modal-sheet { background:var(--surface); border-radius:24px 24px 0 0; width:100%; max-width:430px; padding:28px 24px 36px; animation:slideUp 0.3s ease; }
+  @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+  .modal-sheet h3 { font-family:'DM Serif Display',serif; font-size:22px; margin-bottom:16px; }
+  .modal-sheet label { font-size:13px; color:var(--text-muted); display:block; margin-bottom:6px; margin-top:14px; }
+  .modal-sheet input[type=text], .modal-sheet input[type=number] { width:100%; border:1.5px solid #e0e0db; border-radius:10px; padding:11px 14px; font-size:15px; font-family:inherit; outline:none; background:var(--bg); }
+  .modal-sheet input:focus { border-color:var(--accent); }
+  .modal-btns { display:flex; gap:10px; margin-top:20px; }
+  .btn-primary { flex:1; background:#1a1a1a; color:#fff; border:none; border-radius:12px; padding:14px; font-size:15px; font-weight:600; cursor:pointer; font-family:inherit; }
+  .btn-secondary { flex:1; background:var(--bg); color:var(--text); border:none; border-radius:12px; padding:14px; font-size:15px; font-weight:500; cursor:pointer; font-family:inherit; }
+
+  /* ══ JOURNAL PAGE ══ */
+  .journal-page-header { padding:54px 20px 16px; display:flex; align-items:flex-end; justify-content:space-between; }
+  .journal-page-header h2 { font-family:'DM Serif Display',serif; font-size:34px; }
+  .add-entry-btn { background:#1a1a1a; color:#fff; border:none; border-radius:14px; padding:10px 18px; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit; }
+  .journal-list { display:flex; flex-direction:column; gap:12px; }
+  .journal-list-card { background:#dce8f5; border-radius:18px; padding:18px; cursor:pointer; transition:transform 0.15s; }
+  .journal-list-card:nth-child(even) { background:#fde8e8; }
+  .journal-list-card:hover { transform:scale(0.99); }
+  .journal-list-card h3 { font-size:15px; font-weight:700; }
+  .journal-list-card p { font-size:13px; color:#555; margin-top:6px; line-height:1.6; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+  .journal-list-card .jcard-foot { display:flex; align-items:center; justify-content:space-between; margin-top:12px; }
+  .journal-list-card .jcard-date { font-size:12px; color:var(--text-muted); }
+  .journal-list-card .jcard-tag { font-size:11px; background:rgba(255,255,255,0.65); padding:4px 10px; border-radius:20px; font-weight:500; }
+
+  /* ══ WHAT TO JOURNAL OVERLAY ══ */
+  .wtj-overlay { position:fixed; inset:0; z-index:300; background:var(--bg); display:none; flex-direction:column; }
+  .wtj-overlay.open { display:flex; animation:fadeIn 0.2s ease; }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+  .wtj-header { padding:54px 20px 8px; display:flex; align-items:center; gap:10px; }
+  .wtj-back { background:none; border:none; cursor:pointer; font-size:26px; color:var(--text); padding:4px 8px 4px 0; line-height:1; }
+  .wtj-header-text h2 { font-family:'DM Serif Display',serif; font-size:28px; }
+  .wtj-header-text p { font-size:13px; color:var(--text-muted); margin-top:2px; }
+  .wtj-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:16px 18px 24px; overflow-y:auto; flex:1; }
+  .wtj-grid::-webkit-scrollbar { display:none; }
+  .wtj-card { border-radius:18px; padding:18px 16px 14px; min-height:130px; background:#ccc; cursor:pointer; transition:transform 0.15s; display:flex; flex-direction:column; justify-content:space-between; position:relative; overflow:hidden; }
+  .wtj-card:nth-child(odd) { background:#c8c8c4; }
+  .wtj-card:nth-child(even) { background:#b8b8b4; }
+  .wtj-card:hover { transform:scale(0.97); }
+  .wtj-card h3 { font-size:20px; font-weight:800; }
+  .wtj-card p { font-size:11px; color:#444; margin-top:4px; }
+  .wtj-flower-icon { display:grid; grid-template-columns:1fr 1fr; gap:4px; width:48px; height:48px; align-self:flex-end; }
+  .wtj-flower-icon span { border-radius:50%; background:rgba(0,0,0,0.6); display:block; }
+
+  /* ══ DATA PAGE ══ */
+  .data-page-header { padding:54px 20px 16px; }
+  .data-page-header h2 { font-family:'DM Serif Display',serif; font-size:28px; }
+  .data-page-header p { font-size:13px; color:var(--text-muted); margin-top:4px; }
+  .date-tab-strip { display:flex; gap:8px; overflow-x:auto; padding:0 18px 16px; }
+  .date-tab-strip::-webkit-scrollbar { display:none; }
+  .date-tab { flex-shrink:0; padding:7px 16px; border-radius:20px; font-size:12px; font-weight:600; cursor:pointer; background:var(--surface2); color:var(--text-muted); border:none; font-family:inherit; transition:all 0.15s; }
+  .date-tab.active { background:#1a1a1a; color:#fff; }
+  .chart-card { background:#1e1e1e; border-radius:20px; margin:0 18px 20px; padding:20px 16px 14px; position:relative; overflow:hidden; }
+  .chart-inner { position:relative; height:160px; display:flex; align-items:flex-end; }
+  .chart-grid { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:space-between; pointer-events:none; }
+  .chart-grid-line { width:100%; border-top:1px solid rgba(255,255,255,0.07); }
+  .chart-bars-scroll { width:100%; height:100%; overflow-x:auto; overflow-y:hidden; position:relative; z-index:1; }
+  .chart-bars-scroll::-webkit-scrollbar { display:none; }
+  .chart-bars { display:flex; align-items:flex-end; height:100%; gap:4px; min-width:100%; padding:0 4px; }
+  .chart-bar { width:14px; border-radius:5px 5px 3px 3px; transition:height 0.4s cubic-bezier(.34,1.56,.64,1); cursor:pointer; position:relative; }
+  .chart-bar:hover { opacity:0.75; }
+  .bar-tooltip { position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%); background:#fff; color:#1a1a1a; font-size:10px; font-weight:600; padding:4px 8px; border-radius:8px; white-space:nowrap; pointer-events:none; opacity:0; transition:opacity 0.15s; z-index:10; box-shadow:0 2px 8px rgba(0,0,0,0.2); }
+  .chart-bar:hover .bar-tooltip { opacity:1; }
+  .chart-xaxis { display:flex; justify-content:space-between; margin-top:8px; padding:0 4px; }
+  .chart-xaxis span { font-size:10px; color:rgba(255,255,255,0.35); font-weight:500; }
+  .chart-legend { display:flex; flex-wrap:wrap; gap:10px; margin:0 18px 20px; }
+  .legend-item { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text-muted); }
+  .legend-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .data-table-wrap { background:var(--surface); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+  .data-table { width:100%; border-collapse:collapse; }
+  .data-table th { text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-muted); padding:12px 16px; background:var(--bg); border-bottom:1px solid #eee; }
+  .data-table td { padding:12px 16px; font-size:13px; border-bottom:1px solid #f0f0ec; }
+  .data-table tr:last-child td { border-bottom:none; }
+  .td-emotion { display:flex; align-items:center; gap:8px; }
+  .td-dot { width:10px; height:10px; border-radius:50%; }
+
+  /* ══ PROFILE ══ */
+  .profile-header { background:linear-gradient(160deg,#f4d0a0,#c8d8f0,#d4c4e8); padding:60px 20px 36px; text-align:center; }
+  .profile-avatar { width:80px; height:80px; border-radius:50%; background:rgba(255,255,255,0.5); margin:0 auto 12px; display:flex; align-items:center; justify-content:center; font-size:36px; }
+  .profile-name { font-family:'DM Serif Display',serif; font-size:26px; color:#fff; }
+  .profile-sub { font-size:13px; color:rgba(255,255,255,0.8); margin-top:4px; }
+  .profile-badge { display:inline-block; background:rgba(255,255,255,0.3); border-radius:20px; padding:4px 14px; font-size:12px; color:#fff; margin-top:8px; }
+  .profile-section { margin:16px 18px 0; }
+  .profile-section h4 { font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text-muted); margin-bottom:10px; }
+  .profile-list { background:var(--surface); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+  .profile-list-item { display:flex; align-items:center; gap:12px; padding:15px 16px; border-bottom:1px solid #f0f0ec; cursor:pointer; }
+  .profile-list-item:last-child { border-bottom:none; }
+  .profile-list-icon { width:36px; height:36px; border-radius:10px; background:var(--bg); display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
+  .profile-list-label { flex:1; font-size:14px; font-weight:500; }
+  .profile-list-arrow { color:var(--text-muted); font-size:18px; }
+
+  /* ══ NAV ══ */
+  .bottom-nav { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:430px; height:var(--nav-h); background:var(--surface); border-top:1px solid #e8e8e4; display:flex; align-items:center; justify-content:space-around; z-index:100; padding:0 8px; }
+  .nav-btn { flex:1; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; cursor:pointer; background:none; border:none; font-family:inherit; color:var(--text-muted); transition:color 0.15s; -webkit-tap-highlight-color:transparent; }
+  .nav-btn.active { color:#1a1a1a; }
+  .nav-btn svg { width:24px; height:24px; }
+  .nav-btn span { font-size:10px; font-weight:500; }
+
+  .toast { position:fixed; top:24px; left:50%; transform:translateX(-50%); background:#1a1a1a; color:#fff; padding:10px 20px; border-radius:20px; font-size:13px; font-weight:500; z-index:999; opacity:0; transition:opacity 0.3s; pointer-events:none; white-space:nowrap; }
+  .toast.show { opacity:1; }
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="home-header">
+    <div class="home-date-full" id="home-date-full"></div>
+    <h1 id="home-greeting">Good Morning, Isabella</h1>
+  </div>
+  <div class="day-strip-wrap">
+    <div class="day-strip" id="day-strip"></div>
+  </div>
+  <div class="scroll-area">
+
+    <!-- Live tracker header -->
+    <div class="section-title-row">
+      <div class="section-title">Today's Emotions</div>
+      <div class="live-badge">
+        <div class="live-dot" id="live-dot"></div>
+        <span id="live-time">—</span>
+      </div>
+    </div>
+
+    <div class="tracker-card">
+      <div class="tracker-entries" id="tracker-entries">
+        <div class="empty-tracker">No entries yet today</div>
+      </div>
+    </div>
+    <div class="home-journal-section">
+      <div class="journal-header-row">
+        <div class="journal-heading">Journal</div>
+        <button class="journal-help-btn" onclick="openWTJ()">?</button>
+      </div>
+      <div class="journal-scroll-row" id="home-journal-row"></div>
+    </div>
+  </div>
+</div>
+
+<!-- EMOTIONS -->
+<div class="page" id="page-emotions">
+  <div class="emotions-page-header">
+    <h2>My Emotions</h2>
+    <p>Tap an emotion to rename it.</p>
+  </div>
+  <div class="flower-wrap">
+    <svg class="flower-svg" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="110" cy="55" rx="30" ry="44" fill="var(--petal1,#a3c4bc)" opacity="0.85" transform="rotate(0 110 110)"/>
+      <ellipse cx="110" cy="55" rx="30" ry="44" fill="var(--petal2,#e8c87a)" opacity="0.85" transform="rotate(72 110 110)"/>
+      <ellipse cx="110" cy="55" rx="30" ry="44" fill="var(--petal3,#e88a8a)" opacity="0.85" transform="rotate(144 110 110)"/>
+      <ellipse cx="110" cy="55" rx="30" ry="44" fill="var(--petal4,#c4a8d4)" opacity="0.85" transform="rotate(216 110 110)"/>
+      <ellipse cx="110" cy="55" rx="30" ry="44" fill="var(--petal5,#52a86b)" opacity="0.85" transform="rotate(288 110 110)"/>
+      <circle cx="110" cy="110" r="30" fill="white" opacity="0.95"/>
+    </svg>
+  </div>
+  <div class="scroll-area">
+    <div class="emotion-slots" id="emotion-slots"></div>
+  </div>
+</div>
+
+<!-- JOURNAL -->
+<div class="page" id="page-journal">
+  <div class="journal-page-header">
+    <h2>Journal</h2>
+    <button class="add-entry-btn">+ Add Entry</button>
+  </div>
+  <div class="scroll-area">
+    <div class="journal-list" id="journal-list"></div>
+  </div>
+</div>
+
+<!-- DATA -->
+<div class="page" id="page-data">
+  <div class="data-page-header">
+    <h2>Data Log</h2>
+    <p>Emotion entries over time.</p>
+  </div>
+  <div class="date-tab-strip" id="date-tab-strip"></div>
+  <div class="chart-card">
+    <div class="chart-inner">
+      <div class="chart-grid" id="chart-grid"></div>
+      <div class="chart-bars-scroll">
+        <div class="chart-bars" id="chart-bars"></div>
+      </div>
+    </div>
+    <div class="chart-xaxis">
+      <span>12AM</span><span>6AM</span><span>12PM</span><span>6PM</span><span>11PM</span>
+    </div>
+  </div>
+  <div class="chart-legend" id="chart-legend"></div>
+  <div class="scroll-area" style="padding-top:0;">
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Emotion</th><th>Value</th><th>Time</th></tr></thead>
+        <tbody id="data-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE -->
+<div class="page" id="page-profile">
+  <div class="profile-header">
+    <div class="profile-avatar">👤</div>
+    <div class="profile-name">Isabella</div>
+    <div class="profile-sub">21 years old · She/Her</div>
+    <div class="profile-badge">✦ Spark</div>
+  </div>
+  <div class="scroll-area" style="padding-top:16px;">
+    <div class="profile-section">
+      <h4>First Aid Kit</h4>
+      <div class="profile-list">
+        <div class="profile-list-item"><div class="profile-list-icon">💬</div><div class="profile-list-label">Words of Affirmation</div><div class="profile-list-arrow">›</div></div>
+        <div class="profile-list-item"><div class="profile-list-icon">🌬️</div><div class="profile-list-label">Anxiety Breathing</div><div class="profile-list-arrow">›</div></div>
+        <div class="profile-list-item"><div class="profile-list-icon">🎵</div><div class="profile-list-label">Calming Playlist</div><div class="profile-list-arrow">›</div></div>
+      </div>
+    </div>
+    <div class="profile-section" style="margin-top:20px;">
+      <h4>Settings</h4>
+      <div class="profile-list">
+        <div class="profile-list-item"><div class="profile-list-icon">🔔</div><div class="profile-list-label">Notifications</div><div class="profile-list-arrow">›</div></div>
+        <div class="profile-list-item"><div class="profile-list-icon">🔒</div><div class="profile-list-label">Privacy</div><div class="profile-list-arrow">›</div></div>
+        <div class="profile-list-item"><div class="profile-list-icon" style="background:#fdeae8;">🗑️</div><div class="profile-list-label" style="color:#e55;">Delete Account</div><div class="profile-list-arrow">›</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT TO JOURNAL OVERLAY -->
+<div class="wtj-overlay" id="wtj-overlay">
+  <div class="wtj-header">
+    <button class="wtj-back" onclick="closeWTJ()">‹</button>
+    <div class="wtj-header-text">
+      <h2>What to Journal</h2>
+      <p>Need some help trying to figure out where to start?</p>
+    </div>
+  </div>
+  <div class="wtj-grid" id="wtj-grid"></div>
+</div>
+
+<!-- EMOTION EDIT MODAL -->
+<div class="modal-overlay" id="emotion-modal" onclick="closeModal(event)">
+  <div class="modal-sheet">
+    <h3 id="modal-title">Edit Emotion</h3>
+    <label>Emotion name</label>
+    <input type="text" id="modal-name" placeholder="e.g. Happiness">
+    <label>Triggered by value (1–5)</label>
+    <input type="number" id="modal-key" min="1" max="5">
+    <div class="modal-btns">
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveEmotion()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" onclick="navigate('home')" id="nav-home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Home</span>
+  </button>
+  <button class="nav-btn" onclick="navigate('emotions')" id="nav-emotions">
+    <svg viewBox="0 0 24 24" fill="none">
+      <ellipse cx="12" cy="5.5" rx="3" ry="4.5" fill="currentColor" opacity="0.5" transform="rotate(0 12 12)"/>
+      <ellipse cx="12" cy="5.5" rx="3" ry="4.5" fill="currentColor" opacity="0.5" transform="rotate(72 12 12)"/>
+      <ellipse cx="12" cy="5.5" rx="3" ry="4.5" fill="currentColor" opacity="0.5" transform="rotate(144 12 12)"/>
+      <ellipse cx="12" cy="5.5" rx="3" ry="4.5" fill="currentColor" opacity="0.5" transform="rotate(216 12 12)"/>
+      <ellipse cx="12" cy="5.5" rx="3" ry="4.5" fill="currentColor" opacity="0.5" transform="rotate(288 12 12)"/>
+      <circle cx="12" cy="12" r="3" fill="currentColor"/>
+    </svg>
+    <span>Emotions</span>
+  </button>
+  <button class="nav-btn" onclick="navigate('journal')" id="nav-journal">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    <span>Journal</span>
+  </button>
+  <button class="nav-btn" onclick="navigate('data')" id="nav-data">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    <span>Data</span>
+  </button>
+  <button class="nav-btn" onclick="navigate('profile')" id="nav-profile">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profile</span>
+  </button>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Emotion config ──
+const EMOTION_GRADIENTS = {
+  'Happiness': 'linear-gradient(135deg,#f5a623,#f0c040,#fde68a)',
+  'Joy':       'linear-gradient(135deg,#f5a623,#f0c040,#fde68a)',
+  'Happy':     'linear-gradient(135deg,#f5a623,#f0c040,#fde68a)',
+  'Sadness':   'linear-gradient(135deg,#2d3a8c,#3b5bdb,#1a1a4e)',
+  'Sad':       'linear-gradient(135deg,#2d3a8c,#3b5bdb,#1a1a4e)',
+  'Boredom':   'linear-gradient(135deg,#2a1f3d,#3d2b55,#1e1428)',
+  'Bored':     'linear-gradient(135deg,#2a1f3d,#3d2b55,#1e1428)',
+  'Envy':      'linear-gradient(135deg,#52a86b,#8bc4a0,#b86fa0)',
+  'Excitement':'linear-gradient(135deg,#fde68a,#f5a623,#e8456a)',
+  'Excited':   'linear-gradient(135deg,#fde68a,#f5a623,#e8456a)',
+  'Calm':      'linear-gradient(135deg,#a3c4bc,#cce4df)',
+  'Anxious':   'linear-gradient(135deg,#e88a8a,#f4c4c4)',
+  'Angry':     'linear-gradient(135deg,#e8456a,#c0392b)',
+};
+const EMOTION_COLORS = {
+  'Happiness':'#f5a623','Joy':'#f5a623','Happy':'#f5a623',
+  'Sadness':'#3b5bdb','Sad':'#3b5bdb',
+  'Boredom':'#3d2b55','Bored':'#3d2b55',
+  'Envy':'#52a86b',
+  'Excitement':'#e8456a','Excited':'#e8456a',
+  'Calm':'#a3c4bc','Anxious':'#e88a8a','Angry':'#e8456a',
+};
+
+function getGrad(name) { return EMOTION_GRADIENTS[name] || 'linear-gradient(135deg,#c0bdb8,#a8a5a0)'; }
+function getCol(name)  { return EMOTION_COLORS[name]  || '#aaa'; }
+
+const defaultEmotions = [
+  { name:'Happiness', key:1 }, { name:'Sadness', key:2 },
+  { name:'Boredom',   key:3 }, { name:'Envy',    key:4 },
+  { name:'Excitement',key:5 },
+];
+let emotions = JSON.parse(localStorage.getItem('spark_emotions') || 'null') || defaultEmotions;
+let apiData = [];
+let lastFetchedIds = new Set();
+let editingIndex = null;
+
+function getEmotionByKey(val) { return emotions.find(e => e.key === val) || { name:'Unknown', key:val }; }
+
+function setLiveStatus(state) {
+  const dot = document.getElementById('live-dot');
+  const time = document.getElementById('live-time');
+  if (!dot) return;
+  dot.className = 'live-dot' + (state !== 'live' ? ' ' + state : '');
+  if (state === 'live') {
+    const now = new Date();
+    time.textContent = 'Live · ' + now.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+  } else if (state === 'stale') {
+    time.textContent = 'Retrying…';
+  } else {
+    time.textContent = 'Offline';
+  }
+}
+
+const API_URL = 'https://web-production-e1116.up.railway.app/data';
+const PROXY_URL = 'https://corsproxy.io/?' + encodeURIComponent(API_URL);
+const POLL_INTERVAL = 30000;
+const STORAGE_KEY = 'spark_api_data';
+
+// Load any previously saved data so historical days always show
+function loadStoredData() {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        apiData = parsed;
+        lastFetchedIds = new Set(apiData.map(d => d.id));
+        renderHome();
+        renderData();
+      }
+    }
+  } catch(e) {}
+}
+
+// Merge fresh data with stored data — keeps all historical entries
+function mergeAndStore(fresh) {
+  const existingMap = new Map(apiData.map(d => [d.id, d]));
+  fresh.forEach(d => existingMap.set(d.id, d));
+  apiData = [...existingMap.values()].sort((a, b) => b.id - a.id);
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(apiData)); } catch(e) {}
+}
+
+async function fetchData() {
+  // Try direct first, then proxy fallback
+  const attempts = [
+    () => fetch(API_URL + '?t=' + Date.now()),
+    () => fetch(PROXY_URL + '&t=' + Date.now()),
+  ];
+
+  for (const attempt of attempts) {
+    try {
+      const res = await attempt();
+      if (!res.ok) continue;
+      const fresh = await res.json();
+      if (!Array.isArray(fresh)) continue;
+
+      const prevCount = apiData.length;
+      mergeAndStore(fresh);
+      lastFetchedIds = new Set(fresh.map(d => d.id));
+      setLiveStatus('live');
+
+      renderHome();
+      renderData();
+      return; // success — stop trying
+    } catch(e) {
+      // try next method
+    }
+  }
+
+  // All attempts failed
+  setLiveStatus('error');
+}
+
+// ── Polling: every 30s ──
+function startPolling() {
+  fetchData(); // immediate first fetch
+  setInterval(fetchData, POLL_INTERVAL);
+}
+
+// ── Visibility: re-fetch when tab becomes visible again ──
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    setLiveStatus('stale');
+    fetchData();
+  }
+});
+
+// ── Navigation ──
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.getElementById('nav-' + page).classList.add('active');
+  if (page === 'home') renderHome();
+  if (page === 'emotions') renderEmotions();
+  if (page === 'journal') renderJournal();
+  if (page === 'data') renderData();
+}
+
+// ── Helpers ──
+function formatTime(ts) {
+  const d = new Date(ts.replace(' ','T') + 'Z');
+  return d.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+}
+
+// Get local date string YYYY-MM-DD from a UTC timestamp string
+function utcTimestampToLocalDate(ts) {
+  const d = new Date(ts.replace(' ','T') + 'Z');
+  return d.toLocaleDateString('en-CA'); // 'en-CA' gives YYYY-MM-DD format
+}
+
+// Get today's local date string
+function todayLocalStr() {
+  return new Date().toLocaleDateString('en-CA');
+}
+
+function makeDraggable(el) {
+  let down = false, startX, scrollLeft;
+  el.addEventListener('mousedown', e => { down=true; startX=e.pageX-el.offsetLeft; scrollLeft=el.scrollLeft; });
+  el.addEventListener('mouseleave', () => down=false);
+  el.addEventListener('mouseup', () => down=false);
+  el.addEventListener('mousemove', e => {
+    if (!down) return; e.preventDefault();
+    el.scrollLeft = scrollLeft - (e.pageX - el.offsetLeft - startX) * 1.5;
+  });
+}
+
+// ── Home ──
+function renderHome() {
+  const now = new Date();
+  document.getElementById('home-date-full').textContent =
+    now.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  const h = now.getHours();
+  document.getElementById('home-greeting').textContent =
+    (h < 12 ? 'Good Morning' : h < 18 ? 'Good Afternoon' : 'Good Evening') + ', Isabella';
+
+  // day strip
+  const strip = document.getElementById('day-strip');
+  strip.innerHTML = '';
+  const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const todayStr = todayLocalStr();
+
+  for (let i = -4; i <= 6; i++) {
+    const d = new Date(now); d.setDate(now.getDate() + i);
+    const dStr = d.toLocaleDateString('en-CA');
+    const chip = document.createElement('div');
+    chip.className = 'day-chip';
+    if (i > 0) {
+      chip.classList.add('future');
+    } else {
+      const dayData = apiData.filter(e => utcTimestampToLocalDate(e.timestamp) === dStr);
+      if (dayData.length > 0) {
+        const latest = [...dayData].sort((a,b) => b.timestamp.localeCompare(a.timestamp))[0];
+        const em = getEmotionByKey(latest.button_value);
+        chip.style.background = getGrad(em.name);
+        if (i !== 0) chip.style.opacity = '0.7';
+      } else {
+        if (i === 0) chip.classList.add('today-default');
+      }
+    }
+    chip.innerHTML = `<div class="day-num">${d.getDate()}</div><div class="day-name">${dayNames[d.getDay()]}</div>`;
+    strip.appendChild(chip);
+  }
+  makeDraggable(strip);
+
+  // tracker entries — today only in LOCAL time, newest first
+  const todayData = [...apiData]
+    .filter(d => utcTimestampToLocalDate(d.timestamp) === todayStr)
+    .sort((a,b) => b.id - a.id);
+
+  const container = document.getElementById('tracker-entries');
+  if (todayData.length === 0) {
+    container.innerHTML = '<div class="empty-tracker">No entries today — log your first emotion 🌸</div>';
+  } else {
+    container.innerHTML = '';
+    todayData.forEach(d => {
+      const em = getEmotionByKey(d.button_value);
+      const el = document.createElement('div');
+      el.className = 'tracker-entry';
+      el.innerHTML = `
+        <div class="emotion-swatch" style="background:${getGrad(em.name)}"></div>
+        <div class="entry-info">
+          <div class="emotion-name">${em.name}</div>
+          <div class="entry-meta">${formatTime(d.timestamp)}</div>
+        </div>
+        <div class="entry-val" style="color:${getCol(em.name)}">${d.button_value}</div>`;
+      container.appendChild(el);
+    });
+  }
+
+  // journal row
+  const row = document.getElementById('home-journal-row');
+  row.innerHTML = '';
+  journalEntries.slice(0,5).forEach((j,i) => {
+    const card = document.createElement('div');
+    card.className = 'journal-card';
+    card.innerHTML = `<h3>${j.title}</h3><p>${j.body}</p><div class="card-footer"><span class="card-date">${j.date}</span><span class="card-tag">${j.tag}</span></div>`;
+    row.appendChild(card);
+  });
+  makeDraggable(row);
+}
+
+// ── Emotions ──
+function renderEmotions() {
+  const slots = document.getElementById('emotion-slots');
+  slots.innerHTML = '';
+  const flower = document.querySelector('.flower-svg');
+  emotions.forEach((em, i) => {
+    flower.style.setProperty(`--petal${i+1}`, getCol(em.name));
+    const slot = document.createElement('div');
+    slot.className = 'emotion-slot';
+    slot.onclick = () => openModal(i);
+    slot.innerHTML = `
+      <div class="slot-gradient-bg" style="background:${getGrad(em.name)}"></div>
+      <div class="slot-content">
+        <div class="slot-label">Value ${em.key}</div>
+        <div class="slot-name">${em.name}</div>
+      </div>`;
+    slots.appendChild(slot);
+  });
+}
+
+// ── Journal ──
+const journalEntries = [
+  { title:'Long coffee line for bad coffee', body:'Stood in line for 20 minutes today and I was very disappointed by the coffee I got. This really set the standard for my day, which in a way is kinda upsetting... starting your day with bad coffee is the worst!', date:'Tuesday, 6th 2026', tag:'Personal' },
+  { title:'Productive morning session', body:'Actually got through my whole to-do list before noon. Felt really good about the momentum. Need to do this more often.', date:'Monday, 5th 2026', tag:'Work' },
+  { title:'Ran into an old friend', body:'Bumped into Sarah at the park. We talked for over an hour. It made me realize how much I miss having those easy connections.', date:'Sunday, 4th 2026', tag:'Personal' },
+  { title:'Tried a new recipe', body:'Made the spiced lentil soup from that cookbook. It came out way better than expected. Will definitely make again.', date:'Saturday, 3rd 2026', tag:'Personal' },
+  { title:'Hard conversation at work', body:'Had to give some feedback to a colleague and it was more awkward than anticipated. But I think it needed to happen.', date:'Friday, 2nd 2026', tag:'Work' },
+];
+
+function renderJournal() {
+  const list = document.getElementById('journal-list');
+  list.innerHTML = '';
+  journalEntries.forEach(j => {
+    const card = document.createElement('div');
+    card.className = 'journal-list-card';
+    card.innerHTML = `<h3>${j.title}</h3><p>${j.body}</p><div class="jcard-foot"><span class="jcard-date">${j.date}</span><span class="jcard-tag">${j.tag}</span></div>`;
+    list.appendChild(card);
+  });
+}
+
+// ── What to Journal ──
+const wtjPrompts = [
+  { name:'Rant', desc:"Say whatever's on your mind" },
+  { name:'Gratitude', desc:'What are you thankful for?' },
+  { name:'Reflection', desc:'How did today make you feel?' },
+  { name:'Goal', desc:'What do you want to achieve?' },
+  { name:'Memory', desc:'Something worth remembering' },
+  { name:'Letter', desc:'Write to your future self' },
+  { name:'Dream', desc:'What did you dream about?' },
+  { name:'Worry', desc:'Get your anxieties out' },
+];
+
+function openWTJ() {
+  const grid = document.getElementById('wtj-grid');
+  grid.innerHTML = '';
+  wtjPrompts.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'wtj-card';
+    card.innerHTML = `<div><h3>${p.name}</h3><p>${p.desc}</p></div><div class="wtj-flower-icon"><span></span><span></span><span></span><span></span></div>`;
+    card.onclick = () => { closeWTJ(); showToast(`Starting "${p.name}" entry`); };
+    grid.appendChild(card);
+  });
+  document.getElementById('wtj-overlay').classList.add('open');
+}
+
+function closeWTJ() { document.getElementById('wtj-overlay').classList.remove('open'); }
+
+// ── Data ──
+let selectedDateKey = null;
+
+function getUniqueDates(data) {
+  const seen = new Set(), dates = [];
+  // Use LOCAL date so "today" matches correctly
+  data.forEach(d => {
+    const k = utcTimestampToLocalDate(d.timestamp);
+    if (!seen.has(k)) { seen.add(k); dates.push(k); }
+  });
+  return dates.sort().reverse();
+}
+
+function renderData() {
+  const dates = getUniqueDates(apiData);
+  if (!selectedDateKey || !dates.includes(selectedDateKey)) selectedDateKey = dates[0] || null;
+  const strip = document.getElementById('date-tab-strip');
+  strip.innerHTML = '';
+  dates.forEach(key => {
+    const btn = document.createElement('button');
+    btn.className = 'date-tab' + (key === selectedDateKey ? ' active' : '');
+    const d = new Date(key + 'T00:00:00');
+    const today = new Date(); today.setHours(0,0,0,0);
+    const diff = Math.round((today - d) / 86400000);
+    btn.textContent = diff === 0 ? 'Today' : diff === 1 ? 'Yesterday' : d.toLocaleDateString('en-GB',{month:'short',day:'numeric'});
+    btn.onclick = () => { selectedDateKey = key; renderData(); };
+    strip.appendChild(btn);
+  });
+  const filtered = selectedDateKey ? apiData.filter(d => utcTimestampToLocalDate(d.timestamp) === selectedDateKey) : [];
+  const barsEl = document.getElementById('chart-bars');
+  const gridEl = document.getElementById('chart-grid');
+  const legendEl = document.getElementById('chart-legend');
+  barsEl.innerHTML = ''; gridEl.innerHTML = '';
+  for (let i = 0; i <= 5; i++) { const l = document.createElement('div'); l.className='chart-grid-line'; gridEl.appendChild(l); }
+  legendEl.innerHTML = '';
+  [...new Set(filtered.map(d => d.button_value))].forEach(val => {
+    const em = getEmotionByKey(val);
+    const item = document.createElement('div');
+    item.className = 'legend-item';
+    item.innerHTML = `<div class="legend-dot" style="background:${getCol(em.name)}"></div>${em.name}`;
+    legendEl.appendChild(item);
+  });
+  if (filtered.length === 0) {
+    barsEl.innerHTML = '<div style="color:rgba(255,255,255,0.3);font-size:13px;padding:20px 0;">No entries for this day</div>';
+  } else {
+    const sorted = [...filtered].sort((a,b) => a.timestamp.localeCompare(b.timestamp));
+    const maxH = 140;
+    barsEl.style.cssText = 'position:relative;min-width:100%;height:'+maxH+'px';
+    sorted.forEach(d => {
+      const ts = new Date(d.timestamp.replace(' ','T') + 'Z');
+      const xPct = (ts.getUTCHours()*60 + ts.getUTCMinutes()) / (24*60);
+      const em = getEmotionByKey(d.button_value);
+      const barH = Math.round((d.button_value/5)*maxH);
+      const col = getCol(em.name);
+      const wrap = document.createElement('div');
+      wrap.style.cssText = `position:absolute;bottom:0;left:calc(${xPct*100}% - 7px)`;
+      const bar = document.createElement('div');
+      bar.className = 'chart-bar';
+      bar.style.height = barH+'px';
+      bar.style.background = `linear-gradient(to top,${col},${col}88)`;
+      const tip = document.createElement('div');
+      tip.className = 'bar-tooltip';
+      tip.textContent = `${em.name} · ${d.button_value} · ${formatTime(d.timestamp)}`;
+      bar.appendChild(tip); wrap.appendChild(bar); barsEl.appendChild(wrap);
+    });
+  }
+  const tbody = document.getElementById('data-tbody');
+  tbody.innerHTML = '';
+  [...filtered].sort((a,b)=>b.timestamp.localeCompare(a.timestamp)).forEach(d => {
+    const em = getEmotionByKey(d.button_value);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${d.id}</td><td><div class="td-emotion"><div class="td-dot" style="background:${getCol(em.name)}"></div>${em.name}</div></td><td>${d.button_value}</td><td>${formatTime(d.timestamp)}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ── Modal ──
+function openModal(i) {
+  editingIndex = i;
+  const em = emotions[i];
+  document.getElementById('modal-name').value = em.name;
+  document.getElementById('modal-key').value = em.key;
+  document.getElementById('emotion-modal').classList.add('open');
+}
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('emotion-modal'))
+    document.getElementById('emotion-modal').classList.remove('open');
+}
+function saveEmotion() {
+  const name = document.getElementById('modal-name').value.trim();
+  const key = parseInt(document.getElementById('modal-key').value);
+  if (!name) { showToast('Please enter a name'); return; }
+  emotions[editingIndex] = { name, key };
+  localStorage.setItem('spark_emotions', JSON.stringify(emotions));
+  closeModal(); renderEmotions(); showToast(`"${name}" saved!`);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── Init ──
+renderEmotions();
+renderJournal();
+loadStoredData(); // show historical data immediately from cache
+startPolling();   // then fetch live + every 30s
+</script>
+</body>
+</html>
