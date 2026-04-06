@@ -3,184 +3,303 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Spark — Emotion Tracker</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>FEEL — Emotion Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f5f4f0;
+    --sky-top: #77DEF8;
+    --sky-bot: #F3FCFF;
+    --bg: #EEF9FE;
     --surface: #ffffff;
-    --surface2: #efefeb;
     --text: #1a1a1a;
-    --text-muted: #888880;
-    --accent: #e8845a;
-    --nav-h: 72px;
-    --radius: 18px;
-    --shadow: 0 4px 24px rgba(0,0,0,0.07);
+    --text-muted: #888;
+    --accent: #E8784A;
+    --nav-h: 76px;
+    --radius: 20px;
+    --shadow: 0 4px 20px rgba(0,0,0,0.08);
+    --w: 834px;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     background: var(--bg);
     color: var(--text);
+    width: var(--w);
     min-height: 100vh;
-    max-width: 430px;
     margin: 0 auto;
     position: relative;
     overflow-x: hidden;
   }
-  .page { display:none; flex-direction:column; min-height:100vh; padding-bottom: calc(var(--nav-h) + 12px); }
+
+  /* ── Pages ── */
+  .page { display:none; flex-direction:column; min-height:100vh; padding-bottom:calc(var(--nav-h) + 8px); }
   .page.active { display:flex; }
-  .scroll-area { flex:1; overflow-y:auto; padding:0 18px 24px; }
+  .scroll-area { flex:1; overflow-y:auto; }
   .scroll-area::-webkit-scrollbar { display:none; }
 
-  /* ══ HOME ══ */
-  .home-header { padding:54px 20px 6px; }
-  .home-date-full { font-size:13px; color:var(--text-muted); font-weight:400; letter-spacing:0.04em; margin-bottom:2px; }
-  .home-header h1 { font-family:'DM Serif Display',serif; font-size:30px; line-height:1.15; margin-bottom:18px; }
+  /* ══════════════════════
+     HOME PAGE
+  ══════════════════════ */
+  #page-home {
+    background: linear-gradient(180deg, #77DEF8 39.9%, #F3FCFF 76.92%);
+    padding-bottom: calc(var(--nav-h) + 8px);
+  }
 
-  .day-strip-wrap { padding:0 18px 18px; }
-  .day-strip { display:flex; gap:10px; overflow-x:auto; cursor:grab; user-select:none; -webkit-overflow-scrolling:touch; }
+  /* ── Greeting card ── */
+  .greeting-card {
+    margin: 36px 28px 0;
+    border-radius: 28px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(41,193,231,0.25);
+  }
+  .greeting-bg-svg {
+    width: 100%;
+    display: block;
+  }
+  .greeting-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 32px;
+    /* clouds start at ~55% height — constrain the space above them */
+    padding-bottom: 18%;
+    justify-content: space-between;
+  }
+  .greeting-text {
+    text-align: center;
+    flex-shrink: 0;
+    position: relative; z-index: 2;
+  }
+  .greeting-text h1 {
+    font-size: 41.212px; font-weight: 700; color: #fff;
+    line-height: normal; margin-bottom: 6px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.12);
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+  }
+  .greeting-text p {
+    font-size: 29.834px; font-weight: 400; color: #fff;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    line-height: normal;
+  }
+  .sun-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  /* ── Month + day strip ── */
+  .home-calendar { padding: 24px 28px 0; }
+  .home-month {
+    font-size: 14px; font-weight: 400; color: #444;
+    margin-bottom: 12px;
+  }
+  .day-strip {
+    display:flex; gap:12px; overflow-x:auto;
+    cursor:grab; user-select:none; -webkit-overflow-scrolling:touch;
+    padding-bottom: 4px;
+  }
   .day-strip:active { cursor:grabbing; }
   .day-strip::-webkit-scrollbar { display:none; }
   .day-chip {
-    flex-shrink:0; width:60px; height:72px; border-radius:16px;
+    flex-shrink:0; width:80px; height:96px; border-radius:20px;
     color:#fff; display:flex; flex-direction:column;
-    align-items:center; justify-content:center; gap:2px; background:#222;
+    align-items:center; justify-content:center; gap:4px;
+    background: #1a1a1a;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
-  .day-chip.future { background:var(--surface2) !important; color:var(--text-muted) !important; opacity:1 !important; }
-  .day-chip.today-default { background:linear-gradient(145deg,#e8845a,#f0a070); }
-  .day-chip .day-num { font-size:22px; font-weight:700; line-height:1; }
-  .day-chip .day-name { font-size:10px; font-weight:500; opacity:0.85; }
+  .day-chip.today-default { background: var(--accent); }
+  .day-chip.future {
+    background: rgba(255,255,255,0.5) !important;
+    color: #888 !important;
+    box-shadow: none;
+  }
+  .day-chip .day-num { font-size: 30px; font-weight: 700; line-height: 1; }
+  .day-chip .day-name { font-size: 13px; font-weight: 500; opacity: 0.9; }
 
-  .section-title { font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-muted); padding:0 18px; margin-bottom:10px; }
-
-  /* live badge next to section title */
-  .section-title-row { display:flex; align-items:center; justify-content:space-between; padding:0 18px; margin-bottom:10px; }
-  .section-title-row .section-title { padding:0; margin:0; }
-  .live-badge {
-    display:flex; align-items:center; gap:5px;
-    font-size:10px; font-weight:600; color:var(--text-muted);
-    letter-spacing:0.04em;
+  /* ── Section label ── */
+  .section-label {
+    font-size: 13px; font-weight: 400; color: #444;
+    padding: 20px 28px 10px;
+    letter-spacing: 0.01em;
   }
-  .live-dot {
-    width:7px; height:7px; border-radius:50%;
-    background:#4caf50;
-    animation: livePulse 2s ease-in-out infinite;
+  .section-label-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 28px 10px;
   }
+  .section-label-row .section-label { padding: 0; }
+  .live-badge { display:flex; align-items:center; gap:5px; font-size:11px; color:#888; }
+  .live-dot { width:7px; height:7px; border-radius:50%; background:#4caf50; animation:livePulse 2s ease-in-out infinite; }
   .live-dot.stale { background:#f5a623; animation:none; }
   .live-dot.error { background:#e55; animation:none; }
-  @keyframes livePulse {
-    0%,100% { opacity:1; transform:scale(1); }
-    50%      { opacity:0.5; transform:scale(0.85); }
+  @keyframes livePulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.85)} }
+
+  /* ── Tracker card ── */
+  .tracker-card {
+    margin: 0 28px 20px;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
   }
-  #live-time { font-size:10px; color:var(--text-muted); }
+  .tracker-entries { display:flex; flex-direction:column; }
+  .tracker-entry {
+    display:flex; align-items:center; gap:16px;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .tracker-entry:last-child { border-bottom: none; }
+  .emotion-swatch { width:44px; height:44px; border-radius:50%; flex-shrink:0; }
+  .entry-info { flex:1; }
+  .emotion-name { font-weight:600; font-size:17px; color:#1a1a1a; }
+  .entry-meta { font-size:13px; color:#888; margin-top:2px; }
+  .entry-val { font-size:18px; font-weight:700; color:#888; min-width:30px; text-align:right; }
 
-  .tracker-card { background:var(--surface); border-radius:var(--radius); box-shadow:var(--shadow); padding:16px; margin:0 18px 20px; }
-  .tracker-entries { display:flex; flex-direction:column; gap:8px; }
-  .tracker-entry { display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:12px; background:var(--bg); }
-  .emotion-swatch { width:36px; height:36px; border-radius:50%; flex-shrink:0; }
-  .tracker-entry .entry-info { flex:1; }
-  .tracker-entry .emotion-name { font-weight:600; font-size:14px; }
-  .tracker-entry .entry-meta { font-size:12px; color:var(--text-muted); margin-top:1px; }
-  .tracker-entry .entry-val { font-size:22px; font-family:'DM Serif Display',serif; color:var(--text-muted); min-width:30px; text-align:right; }
-  .empty-tracker { text-align:center; padding:24px 0; color:var(--text-muted); font-size:14px; }
+  /* empty state */
+  .empty-tracker {
+    display: flex; align-items: center; gap:16px;
+    padding: 20px;
+  }
+  .empty-face {
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .empty-text { font-size:16px; color:#888; font-weight:400; }
 
-  /* journal on home */
-  .home-journal-section { padding:0 18px 24px; }
-  .journal-header-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
-  .journal-heading { font-family:'DM Serif Display',serif; font-size:26px; }
-  .journal-help-btn { width:34px; height:34px; border-radius:50%; background:#1a1a1a; color:#fff; border:none; font-size:16px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; font-family:serif; flex-shrink:0; }
+  /* ── Journal section ── */
+  /* tag palette */
+  :root {
+    --tag-personal: #7DD8F0;
+    --tag-work:     #F5C97A;
+    --tag-relationships: #F0A8B0;
+    --tag-health:   #9FD4A8;
+    --tag-growth:   #B8A8E0;
+  }
+
+  .journal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 28px 12px;
+  }
+  .journal-heading { font-size: 28px; font-weight: 700; color: #1a1a1a; }
+  .journal-qbtn {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: #1a1a1a; color:#fff; border:none;
+    font-size:18px; font-weight:700; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  /* filter pill strip */
+  .journal-filter-row {
+    display:flex; gap:10px; overflow-x:auto; padding:0 28px 14px;
+    -webkit-overflow-scrolling:touch;
+  }
+  .journal-filter-row::-webkit-scrollbar { display:none; }
+  .filter-pill {
+    flex-shrink:0; padding:10px 22px; border-radius:40px;
+    font-size:15px; font-weight:500; color:#fff;
+    border:none; cursor:pointer; font-family:inherit;
+    transition:opacity 0.15s, transform 0.12s;
+    opacity:0.55;
+  }
+  .filter-pill.active { opacity:1; transform:scale(1.04); }
+  .filter-pill[data-tag="All"]           { background:#888; }
+  .filter-pill[data-tag="Personal"]      { background:var(--tag-personal); }
+  .filter-pill[data-tag="Work"]          { background:var(--tag-work); }
+  .filter-pill[data-tag="Relationships"] { background:var(--tag-relationships); }
+  .filter-pill[data-tag="Health"]        { background:var(--tag-health); }
+  .filter-pill[data-tag="Growth"]        { background:var(--tag-growth); }
 
   .journal-scroll-row {
-    display:flex; gap:12px; overflow-x:auto; overflow-y:hidden;
-    cursor:grab; user-select:none; -webkit-overflow-scrolling:touch; padding-bottom:4px;
+    display:flex; gap:16px; overflow-x:auto; padding:0 28px 8px;
+    cursor:grab; user-select:none; -webkit-overflow-scrolling:touch;
   }
   .journal-scroll-row:active { cursor:grabbing; }
   .journal-scroll-row::-webkit-scrollbar { display:none; }
-
   .journal-card {
-    flex-shrink:0; width:180px; min-height:185px; border-radius:18px;
-    padding:16px; display:flex; flex-direction:column; justify-content:space-between;
-    cursor:pointer; transition:transform 0.15s; background:#dce8f5;
+    flex-shrink:0; width:407px; height:150px; border-radius:22px;
+    padding:20px; display:flex; flex-direction:column; justify-content:space-between;
+    cursor:pointer; transition:transform 0.15s; overflow:hidden;
   }
-  .journal-card:nth-child(even) { background:#fde8e8; }
   .journal-card:hover { transform:scale(0.97); }
-  .journal-card h3 { font-size:13px; font-weight:700; line-height:1.3; }
-  .journal-card p { font-size:11px; color:#666; margin-top:6px; line-height:1.5; flex:1; overflow:hidden; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; }
-  .journal-card .card-footer { margin-top:10px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:4px; }
-  .journal-card .card-date { font-size:10px; color:var(--text-muted); }
-  .journal-card .card-tag { font-size:10px; background:rgba(255,255,255,0.65); border-radius:20px; padding:3px 8px; font-weight:500; }
+  .journal-card h3 { font-size:16px; font-weight:700; line-height:1.3; color:#1a1a1a; flex-shrink:0; }
+  .journal-card p {
+    font-size:13px; margin-top:8px; line-height:1.55; flex:1; overflow:hidden;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+    background: linear-gradient(184deg, rgba(0,0,0,0.60) 2.59%, rgba(74,74,74,0.00) 96.38%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .card-footer { margin-top:14px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:4px; flex-shrink:0; }
+  .card-date { font-size:13px; color:#333; font-weight:400; }
+  .card-tag { font-size:13px; background:rgba(255,255,255,0.75); border-radius:20px; padding:5px 14px; font-weight:500; color:#333; }
 
-  /* ══ EMOTIONS PAGE ══ */
-  .emotions-page-header { padding:54px 20px 16px; }
-  .emotions-page-header h2 { font-family:'DM Serif Display',serif; font-size:28px; }
+  /* ══════════════════════
+     EMOTIONS PAGE
+  ══════════════════════ */
+  .emotions-page-header { padding:54px 28px 16px; background:#fff; }
+  .emotions-page-header h2 { font-size:28px; font-weight:700; }
   .emotions-page-header p { font-size:13px; color:var(--text-muted); margin-top:4px; }
   .flower-wrap { display:flex; justify-content:center; padding:20px 0; }
   .flower-svg { width:220px; height:220px; }
-  .emotion-slots { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0 18px 24px; }
-  .emotion-slot { border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); cursor:pointer; transition:transform 0.15s; min-height:108px; position:relative; }
+  .emotion-slots { display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:0 28px 24px; }
+  .emotion-slot { border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); cursor:pointer; transition:transform 0.15s; min-height:110px; position:relative; }
   .emotion-slot:hover { transform:scale(0.97); }
   .slot-gradient-bg { position:absolute; inset:0; }
-  .slot-content { position:relative; z-index:1; padding:14px 14px 16px; display:flex; flex-direction:column; justify-content:flex-end; height:100%; min-height:108px; }
+  .slot-content { position:relative; z-index:1; padding:14px 14px 16px; display:flex; flex-direction:column; justify-content:flex-end; height:100%; min-height:110px; }
   .slot-label { font-size:10px; color:rgba(255,255,255,0.7); font-weight:500; }
-  .slot-name { font-size:16px; font-weight:700; color:#fff; margin-top:2px; }
+  .slot-name { font-size:17px; font-weight:700; color:#fff; margin-top:2px; }
 
-  /* modal */
-  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:200; display:none; align-items:flex-end; justify-content:center; }
-  .modal-overlay.open { display:flex; }
-  .modal-sheet { background:var(--surface); border-radius:24px 24px 0 0; width:100%; max-width:430px; padding:28px 24px 36px; animation:slideUp 0.3s ease; }
-  @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
-  .modal-sheet h3 { font-family:'DM Serif Display',serif; font-size:22px; margin-bottom:16px; }
-  .modal-sheet label { font-size:13px; color:var(--text-muted); display:block; margin-bottom:6px; margin-top:14px; }
-  .modal-sheet input[type=text], .modal-sheet input[type=number] { width:100%; border:1.5px solid #e0e0db; border-radius:10px; padding:11px 14px; font-size:15px; font-family:inherit; outline:none; background:var(--bg); }
-  .modal-sheet input:focus { border-color:var(--accent); }
-  .modal-btns { display:flex; gap:10px; margin-top:20px; }
-  .btn-primary { flex:1; background:#1a1a1a; color:#fff; border:none; border-radius:12px; padding:14px; font-size:15px; font-weight:600; cursor:pointer; font-family:inherit; }
-  .btn-secondary { flex:1; background:var(--bg); color:var(--text); border:none; border-radius:12px; padding:14px; font-size:15px; font-weight:500; cursor:pointer; font-family:inherit; }
-
-  /* ══ JOURNAL PAGE ══ */
-  .journal-page-header { padding:54px 20px 16px; display:flex; align-items:flex-end; justify-content:space-between; }
-  .journal-page-header h2 { font-family:'DM Serif Display',serif; font-size:34px; }
-  .add-entry-btn { background:#1a1a1a; color:#fff; border:none; border-radius:14px; padding:10px 18px; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit; }
-  .journal-list { display:flex; flex-direction:column; gap:12px; }
-  .journal-list-card { background:#dce8f5; border-radius:18px; padding:18px; cursor:pointer; transition:transform 0.15s; }
-  .journal-list-card:nth-child(even) { background:#fde8e8; }
+  /* ══════════════════════
+     JOURNAL PAGE
+  ══════════════════════ */
+  .journal-page-header { padding:54px 28px 16px; display:flex; align-items:flex-end; justify-content:space-between; background:#fff; }
+  .journal-page-header h2 { font-size:34px; font-weight:700; }
+  .add-entry-btn { background:#1a1a1a; color:#fff; border:none; border-radius:14px; padding:10px 20px; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit; }
+  .journal-list { display:flex; flex-direction:column; gap:12px; padding:0 28px; }
+  .journal-list-card { border-radius:var(--radius); padding:18px; cursor:pointer; transition:transform 0.15s; }
   .journal-list-card:hover { transform:scale(0.99); }
   .journal-list-card h3 { font-size:15px; font-weight:700; }
   .journal-list-card p { font-size:13px; color:#555; margin-top:6px; line-height:1.6; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
-  .journal-list-card .jcard-foot { display:flex; align-items:center; justify-content:space-between; margin-top:12px; }
-  .journal-list-card .jcard-date { font-size:12px; color:var(--text-muted); }
-  .journal-list-card .jcard-tag { font-size:11px; background:rgba(255,255,255,0.65); padding:4px 10px; border-radius:20px; font-weight:500; }
+  .jcard-foot { display:flex; align-items:center; justify-content:space-between; margin-top:12px; }
+  .jcard-date { font-size:12px; color:#888; }
+  .jcard-tag { font-size:11px; background:rgba(255,255,255,0.65); padding:4px 10px; border-radius:20px; font-weight:500; }
 
-  /* ══ WHAT TO JOURNAL OVERLAY ══ */
-  .wtj-overlay { position:fixed; inset:0; z-index:300; background:var(--bg); display:none; flex-direction:column; }
+  /* WTJ overlay */
+  .wtj-overlay { position:fixed; inset:0; z-index:300; background:#f5f4f0; display:none; flex-direction:column; }
   .wtj-overlay.open { display:flex; animation:fadeIn 0.2s ease; }
   @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-  .wtj-header { padding:54px 20px 8px; display:flex; align-items:center; gap:10px; }
-  .wtj-back { background:none; border:none; cursor:pointer; font-size:26px; color:var(--text); padding:4px 8px 4px 0; line-height:1; }
-  .wtj-header-text h2 { font-family:'DM Serif Display',serif; font-size:28px; }
-  .wtj-header-text p { font-size:13px; color:var(--text-muted); margin-top:2px; }
-  .wtj-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:16px 18px 24px; overflow-y:auto; flex:1; }
+  .wtj-header { padding:54px 28px 8px; display:flex; align-items:center; gap:10px; }
+  .wtj-back { background:none; border:none; cursor:pointer; font-size:26px; color:#1a1a1a; padding:4px 8px 4px 0; line-height:1; }
+  .wtj-header-text h2 { font-size:28px; font-weight:700; }
+  .wtj-header-text p { font-size:13px; color:#888; margin-top:2px; }
+  .wtj-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:16px 28px 24px; overflow-y:auto; flex:1; }
   .wtj-grid::-webkit-scrollbar { display:none; }
-  .wtj-card { border-radius:18px; padding:18px 16px 14px; min-height:130px; background:#ccc; cursor:pointer; transition:transform 0.15s; display:flex; flex-direction:column; justify-content:space-between; position:relative; overflow:hidden; }
-  .wtj-card:nth-child(odd) { background:#c8c8c4; }
+  .wtj-card { border-radius:var(--radius); padding:18px 16px 14px; min-height:130px; background:#d0d0cc; cursor:pointer; transition:transform 0.15s; display:flex; flex-direction:column; justify-content:space-between; }
   .wtj-card:nth-child(even) { background:#b8b8b4; }
   .wtj-card:hover { transform:scale(0.97); }
   .wtj-card h3 { font-size:20px; font-weight:800; }
   .wtj-card p { font-size:11px; color:#444; margin-top:4px; }
   .wtj-flower-icon { display:grid; grid-template-columns:1fr 1fr; gap:4px; width:48px; height:48px; align-self:flex-end; }
-  .wtj-flower-icon span { border-radius:50%; background:rgba(0,0,0,0.6); display:block; }
+  .wtj-flower-icon span { border-radius:50%; background:rgba(0,0,0,0.5); display:block; }
 
-  /* ══ DATA PAGE ══ */
-  .data-page-header { padding:54px 20px 16px; }
-  .data-page-header h2 { font-family:'DM Serif Display',serif; font-size:28px; }
-  .data-page-header p { font-size:13px; color:var(--text-muted); margin-top:4px; }
-  .date-tab-strip { display:flex; gap:8px; overflow-x:auto; padding:0 18px 16px; }
+  /* ══════════════════════
+     DATA PAGE
+  ══════════════════════ */
+  .data-page-header { padding:54px 28px 16px; background:#fff; }
+  .data-page-header h2 { font-size:28px; font-weight:700; }
+  .data-page-header p { font-size:13px; color:#888; margin-top:4px; }
+  .date-tab-strip { display:flex; gap:8px; overflow-x:auto; padding:0 28px 16px; }
   .date-tab-strip::-webkit-scrollbar { display:none; }
-  .date-tab { flex-shrink:0; padding:7px 16px; border-radius:20px; font-size:12px; font-weight:600; cursor:pointer; background:var(--surface2); color:var(--text-muted); border:none; font-family:inherit; transition:all 0.15s; }
+  .date-tab { flex-shrink:0; padding:7px 18px; border-radius:20px; font-size:13px; font-weight:600; cursor:pointer; background:#efefeb; color:#888; border:none; font-family:inherit; transition:all 0.15s; }
   .date-tab.active { background:#1a1a1a; color:#fff; }
-  .chart-card { background:#1e1e1e; border-radius:20px; margin:0 18px 20px; padding:20px 16px 14px; position:relative; overflow:hidden; }
+  .chart-card { background:#1e1e1e; border-radius:20px; margin:0 28px 20px; padding:20px 16px 14px; position:relative; overflow:hidden; }
   .chart-inner { position:relative; height:160px; display:flex; align-items:flex-end; }
   .chart-grid { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:space-between; pointer-events:none; }
   .chart-grid-line { width:100%; border-top:1px solid rgba(255,255,255,0.07); }
@@ -193,38 +312,63 @@
   .chart-bar:hover .bar-tooltip { opacity:1; }
   .chart-xaxis { display:flex; justify-content:space-between; margin-top:8px; padding:0 4px; }
   .chart-xaxis span { font-size:10px; color:rgba(255,255,255,0.35); font-weight:500; }
-  .chart-legend { display:flex; flex-wrap:wrap; gap:10px; margin:0 18px 20px; }
-  .legend-item { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text-muted); }
+  .chart-legend { display:flex; flex-wrap:wrap; gap:10px; margin:0 28px 20px; }
+  .legend-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#888; }
   .legend-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
-  .data-table-wrap { background:var(--surface); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+  .data-table-wrap { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; margin:0 28px; }
   .data-table { width:100%; border-collapse:collapse; }
-  .data-table th { text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-muted); padding:12px 16px; background:var(--bg); border-bottom:1px solid #eee; }
+  .data-table th { text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:#888; padding:12px 16px; background:#f5f4f0; border-bottom:1px solid #eee; }
   .data-table td { padding:12px 16px; font-size:13px; border-bottom:1px solid #f0f0ec; }
   .data-table tr:last-child td { border-bottom:none; }
   .td-emotion { display:flex; align-items:center; gap:8px; }
   .td-dot { width:10px; height:10px; border-radius:50%; }
 
-  /* ══ PROFILE ══ */
-  .profile-header { background:linear-gradient(160deg,#f4d0a0,#c8d8f0,#d4c4e8); padding:60px 20px 36px; text-align:center; }
+  /* ══════════════════════
+     PROFILE PAGE
+  ══════════════════════ */
+  .profile-header { background:linear-gradient(160deg,#f4d0a0,#c8d8f0,#d4c4e8); padding:60px 28px 36px; text-align:center; }
   .profile-avatar { width:80px; height:80px; border-radius:50%; background:rgba(255,255,255,0.5); margin:0 auto 12px; display:flex; align-items:center; justify-content:center; font-size:36px; }
-  .profile-name { font-family:'DM Serif Display',serif; font-size:26px; color:#fff; }
+  .profile-name { font-size:26px; font-weight:700; color:#fff; }
   .profile-sub { font-size:13px; color:rgba(255,255,255,0.8); margin-top:4px; }
   .profile-badge { display:inline-block; background:rgba(255,255,255,0.3); border-radius:20px; padding:4px 14px; font-size:12px; color:#fff; margin-top:8px; }
-  .profile-section { margin:16px 18px 0; }
-  .profile-section h4 { font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text-muted); margin-bottom:10px; }
-  .profile-list { background:var(--surface); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
-  .profile-list-item { display:flex; align-items:center; gap:12px; padding:15px 16px; border-bottom:1px solid #f0f0ec; cursor:pointer; }
+  .profile-section { margin:16px 28px 0; }
+  .profile-section h4 { font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#888; margin-bottom:10px; }
+  .profile-list { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+  .profile-list-item { display:flex; align-items:center; gap:12px; padding:16px 18px; border-bottom:1px solid #f0f0ec; cursor:pointer; }
   .profile-list-item:last-child { border-bottom:none; }
-  .profile-list-icon { width:36px; height:36px; border-radius:10px; background:var(--bg); display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
+  .profile-list-icon { width:36px; height:36px; border-radius:10px; background:#f5f4f0; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
   .profile-list-label { flex:1; font-size:14px; font-weight:500; }
-  .profile-list-arrow { color:var(--text-muted); font-size:18px; }
+  .profile-list-arrow { color:#aaa; font-size:18px; }
 
-  /* ══ NAV ══ */
-  .bottom-nav { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:430px; height:var(--nav-h); background:var(--surface); border-top:1px solid #e8e8e4; display:flex; align-items:center; justify-content:space-around; z-index:100; padding:0 8px; }
-  .nav-btn { flex:1; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; cursor:pointer; background:none; border:none; font-family:inherit; color:var(--text-muted); transition:color 0.15s; -webkit-tap-highlight-color:transparent; }
+  /* ══════════════════════
+     MODAL
+  ══════════════════════ */
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:200; display:none; align-items:flex-end; justify-content:center; }
+  .modal-overlay.open { display:flex; }
+  .modal-sheet { background:#fff; border-radius:24px 24px 0 0; width:100%; max-width:var(--w); padding:28px 28px 40px; animation:slideUp 0.3s ease; }
+  @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+  .modal-sheet h3 { font-size:22px; font-weight:700; margin-bottom:16px; }
+  .modal-sheet label { font-size:13px; color:#888; display:block; margin-bottom:6px; margin-top:14px; }
+  .modal-sheet input { width:100%; border:1.5px solid #e0e0db; border-radius:10px; padding:12px 14px; font-size:15px; font-family:inherit; outline:none; background:#f5f4f0; }
+  .modal-sheet input:focus { border-color:var(--accent); }
+  .modal-btns { display:flex; gap:10px; margin-top:20px; }
+  .btn-primary { flex:1; background:#1a1a1a; color:#fff; border:none; border-radius:12px; padding:14px; font-size:15px; font-weight:600; cursor:pointer; font-family:inherit; }
+  .btn-secondary { flex:1; background:#f5f4f0; color:#1a1a1a; border:none; border-radius:12px; padding:14px; font-size:15px; font-weight:500; cursor:pointer; font-family:inherit; }
+
+  /* ══════════════════════
+     BOTTOM NAV
+  ══════════════════════ */
+  .bottom-nav {
+    position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+    width:var(--w); height:var(--nav-h);
+    background:#fff; border-top:1px solid #e8e8e4;
+    display:flex; align-items:center; justify-content:space-around;
+    z-index:100; padding:0 12px;
+  }
+  .nav-btn { flex:1; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; cursor:pointer; background:none; border:none; font-family:inherit; color:#aaa; transition:color 0.15s; -webkit-tap-highlight-color:transparent; }
   .nav-btn.active { color:#1a1a1a; }
-  .nav-btn svg { width:24px; height:24px; }
-  .nav-btn span { font-size:10px; font-weight:500; }
+  .nav-btn svg { width:26px; height:26px; }
+  .nav-btn span { font-size:11px; font-weight:500; }
 
   .toast { position:fixed; top:24px; left:50%; transform:translateX(-50%); background:#1a1a1a; color:#fff; padding:10px 20px; border-radius:20px; font-size:13px; font-weight:500; z-index:999; opacity:0; transition:opacity 0.3s; pointer-events:none; white-space:nowrap; }
   .toast.show { opacity:1; }
@@ -232,42 +376,96 @@
 </head>
 <body>
 
-<!-- HOME -->
+<!-- ══ HOME ══ -->
 <div class="page active" id="page-home">
-  <div class="home-header">
-    <div class="home-date-full" id="home-date-full"></div>
-    <h1 id="home-greeting">Good Morning, Isabella</h1>
+
+  <!-- Greeting card with background SVG + sun SVG -->
+  <div class="greeting-card">
+    <!-- Background clouds SVG -->
+    <svg class="greeting-bg-svg" width="742" height="607" viewBox="0 0 742 607" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="742" height="607" rx="20" fill="#29C1E7"/>
+      <mask id="mask0_130_160" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="742" height="607">
+        <rect width="742" height="607" rx="20" fill="#29C1E7"/>
+      </mask>
+      <g mask="url(#mask0_130_160)">
+        <path d="M150.051 327.889C134.994 264.695 66.3991 222.95 0 262.735V547.054H380.095V463.387C361.797 405.728 307.248 407.074 271.347 423.603C261.727 352.567 222.202 309.438 150.051 327.889Z" fill="#B6F0FF" stroke="#B6F0FF" stroke-width="5"/>
+        <path d="M591.949 324.732C607.006 261.538 675.601 219.793 742 259.578V543.897H361.905V460.23C380.203 402.572 434.752 403.917 470.653 420.446C480.273 349.41 519.798 306.281 591.949 324.732Z" fill="#B6F0FF" stroke="#B6F0FF" stroke-width="5"/>
+        <path d="M107.71 421.96C107.71 385.227 66.3991 339.872 0 374.165V619.234H380.095V547.117C361.797 497.418 303.021 485.262 267.12 499.509C251.323 441.461 179.86 406.057 107.71 421.96Z" fill="#E1F9FF" stroke="#E1F9FF" stroke-width="5"/>
+        <path d="M634.29 422.726C634.29 385.992 675.601 340.638 742 374.931V620H361.905V547.883C380.203 498.184 438.979 486.028 474.88 500.275C490.677 442.227 562.14 406.822 634.29 422.726Z" fill="#E1F9FF" stroke="#E1F9FF" stroke-width="5"/>
+      </g>
+    </svg>
+
+    <!-- Overlay: text + sun -->
+    <div class="greeting-overlay">
+      <div class="greeting-text">
+        <h1 id="home-greeting">Good Morning, Isabella</h1>
+        <p>We hope you're having a great day</p>
+      </div>
+      <!-- Sun SVG floating -->
+      <div class="sun-wrap">
+        <svg width="280" height="278" viewBox="0 0 350 348" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="174.555" cy="173.636" r="115.757" fill="#FFC675"/>
+          <rect x="27.5835" y="76.2527" width="47.7745" height="16.9301" rx="8.46504" transform="rotate(32.9537 27.5835 76.2527)" fill="#FFC675"/>
+          <rect x="166.287" y="47.7744" width="47.7745" height="16.9301" rx="8.46504" transform="rotate(-90 166.287 47.7744)" fill="#FFC675"/>
+          <rect x="166.287" y="347.274" width="47.7745" height="16.9301" rx="8.46504" transform="rotate(-90 166.287 347.274)" fill="#FFC675"/>
+          <rect x="301.337" y="165.368" width="47.7745" height="16.9301" rx="8.46504" fill="#FFC675"/>
+          <rect y="165.368" width="47.7745" height="16.9301" rx="8.46504" fill="#FFC675"/>
+          <rect x="95.7703" y="15.6179" width="47.7745" height="16.9301" rx="8.46504" transform="rotate(61.8234 95.7703 15.6179)" fill="#FFC675"/>
+          <rect x="70.7168" y="329.357" width="47.7745" height="16.9301" rx="8.46504" transform="rotate(-57.8028 70.7168 329.357)" fill="#FFC675"/>
+          <rect x="9.18726" y="261.977" width="47.7745" height="16.9301" rx="8.46504" transform="rotate(-28.933 9.18726 261.977)" fill="#FFC675"/>
+          <rect width="47.7745" height="16.9301" rx="8.46504" transform="matrix(-0.888189 0.459478 0.459478 0.888189 331.044 84.4551)" fill="#FFC675"/>
+          <rect width="47.7745" height="16.9301" rx="8.46504" transform="matrix(-0.55596 0.831209 0.831209 0.55596 269.1 17.4553)" fill="#FFC675"/>
+          <rect width="47.7745" height="16.9301" rx="8.46504" transform="matrix(-0.587043 -0.809555 -0.809555 0.587043 280.616 312.998)" fill="#FFC675"/>
+          <rect width="47.7745" height="16.9301" rx="8.46504" transform="matrix(-0.904955 -0.425508 -0.425508 0.904955 337.607 241.737)" fill="#FFC675"/>
+          <circle cx="122.447" cy="156.439" r="18.6326" fill="black"/>
+          <circle cx="227.467" cy="156.439" r="18.6326" fill="black"/>
+          <path d="M193.589 185.235C187.899 190.348 173.156 197.506 159.712 185.235" stroke="black" stroke-width="9.21875" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
   </div>
-  <div class="day-strip-wrap">
+
+  <!-- Month + day strip -->
+  <div class="home-calendar">
+    <div class="home-month" id="home-month">January 2026</div>
     <div class="day-strip" id="day-strip"></div>
   </div>
-  <div class="scroll-area">
 
-    <!-- Live tracker header -->
-    <div class="section-title-row">
-      <div class="section-title">Today's Emotions</div>
-      <div class="live-badge">
-        <div class="live-dot" id="live-dot"></div>
-        <span id="live-time">—</span>
-      </div>
-    </div>
-
-    <div class="tracker-card">
-      <div class="tracker-entries" id="tracker-entries">
-        <div class="empty-tracker">No entries yet today</div>
-      </div>
-    </div>
-    <div class="home-journal-section">
-      <div class="journal-header-row">
-        <div class="journal-heading">Journal</div>
-        <button class="journal-help-btn" onclick="openWTJ()">?</button>
-      </div>
-      <div class="journal-scroll-row" id="home-journal-row"></div>
+  <!-- Today's emotions -->
+  <div class="section-label-row">
+    <div class="section-label">Today's emotions</div>
+    <div class="live-badge">
+      <div class="live-dot" id="live-dot"></div>
+      <span id="live-time">—</span>
     </div>
   </div>
+  <div class="tracker-card">
+    <div class="tracker-entries" id="tracker-entries">
+      <div class="empty-tracker">
+        <div class="empty-face">
+<svg width="52" height="52" viewBox="0 0 131 131" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="65.5" cy="65.5" r="65.5" fill="#A7EAFB"/>
+            <circle cx="34" cy="55" r="10.5" fill="black" stroke="black"/>
+            <circle cx="96" cy="55" r="10.5" fill="black" stroke="black"/>
+            <path d="M56 76C59.3596 72.9815 68.063 68.7556 76 76" stroke="black" stroke-width="5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="empty-text">No emotions logged in today</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Journal -->
+  <div class="journal-header">
+    <div class="journal-heading">Journal</div>
+    <button class="journal-qbtn" onclick="openWTJ()">?</button>
+  </div>
+  <div class="journal-filter-row" id="journal-filter-row"></div>
+  <div class="journal-scroll-row" id="home-journal-row"></div>
+
 </div>
 
-<!-- EMOTIONS -->
+<!-- ══ EMOTIONS ══ -->
 <div class="page" id="page-emotions">
   <div class="emotions-page-header">
     <h2>My Emotions</h2>
@@ -283,23 +481,23 @@
       <circle cx="110" cy="110" r="30" fill="white" opacity="0.95"/>
     </svg>
   </div>
-  <div class="scroll-area">
+  <div class="scroll-area" style="padding:0 0 24px;">
     <div class="emotion-slots" id="emotion-slots"></div>
   </div>
 </div>
 
-<!-- JOURNAL -->
+<!-- ══ JOURNAL ══ -->
 <div class="page" id="page-journal">
   <div class="journal-page-header">
     <h2>Journal</h2>
     <button class="add-entry-btn">+ Add Entry</button>
   </div>
-  <div class="scroll-area">
+  <div class="scroll-area" style="padding:16px 0 24px;">
     <div class="journal-list" id="journal-list"></div>
   </div>
 </div>
 
-<!-- DATA -->
+<!-- ══ DATA ══ -->
 <div class="page" id="page-data">
   <div class="data-page-header">
     <h2>Data Log</h2>
@@ -318,7 +516,7 @@
     </div>
   </div>
   <div class="chart-legend" id="chart-legend"></div>
-  <div class="scroll-area" style="padding-top:0;">
+  <div class="scroll-area" style="padding:0 0 24px;">
     <div class="data-table-wrap">
       <table class="data-table">
         <thead><tr><th>#</th><th>Emotion</th><th>Value</th><th>Time</th></tr></thead>
@@ -328,7 +526,7 @@
   </div>
 </div>
 
-<!-- PROFILE -->
+<!-- ══ PROFILE ══ -->
 <div class="page" id="page-profile">
   <div class="profile-header">
     <div class="profile-avatar">👤</div>
@@ -336,7 +534,7 @@
     <div class="profile-sub">21 years old · She/Her</div>
     <div class="profile-badge">✦ Spark</div>
   </div>
-  <div class="scroll-area" style="padding-top:16px;">
+  <div class="scroll-area" style="padding:16px 0 24px;">
     <div class="profile-section">
       <h4>First Aid Kit</h4>
       <div class="profile-list">
@@ -356,7 +554,7 @@
   </div>
 </div>
 
-<!-- WHAT TO JOURNAL OVERLAY -->
+<!-- WTJ overlay -->
 <div class="wtj-overlay" id="wtj-overlay">
   <div class="wtj-header">
     <button class="wtj-back" onclick="closeWTJ()">‹</button>
@@ -368,10 +566,10 @@
   <div class="wtj-grid" id="wtj-grid"></div>
 </div>
 
-<!-- EMOTION EDIT MODAL -->
+<!-- Emotion edit modal -->
 <div class="modal-overlay" id="emotion-modal" onclick="closeModal(event)">
   <div class="modal-sheet">
-    <h3 id="modal-title">Edit Emotion</h3>
+    <h3>Edit Emotion</h3>
     <label>Emotion name</label>
     <input type="text" id="modal-name" placeholder="e.g. Happiness">
     <label>Triggered by value (1–5)</label>
@@ -383,7 +581,7 @@
   </div>
 </div>
 
-<!-- NAV -->
+<!-- Nav -->
 <nav class="bottom-nav">
   <button class="nav-btn active" onclick="navigate('home')" id="nav-home">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -441,7 +639,6 @@ const EMOTION_COLORS = {
   'Excitement':'#e8456a','Excited':'#e8456a',
   'Calm':'#a3c4bc','Anxious':'#e88a8a','Angry':'#e8456a',
 };
-
 function getGrad(name) { return EMOTION_GRADIENTS[name] || 'linear-gradient(135deg,#c0bdb8,#a8a5a0)'; }
 function getCol(name)  { return EMOTION_COLORS[name]  || '#aaa'; }
 
@@ -457,27 +654,27 @@ let editingIndex = null;
 
 function getEmotionByKey(val) { return emotions.find(e => e.key === val) || { name:'Unknown', key:val }; }
 
+// ── Live status ──
 function setLiveStatus(state) {
   const dot = document.getElementById('live-dot');
   const time = document.getElementById('live-time');
   if (!dot) return;
   dot.className = 'live-dot' + (state !== 'live' ? ' ' + state : '');
   if (state === 'live') {
-    const now = new Date();
-    time.textContent = 'Live · ' + now.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+    time.textContent = new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
   } else if (state === 'stale') {
-    time.textContent = 'Retrying…';
+    time.textContent = 'Syncing…';
   } else {
     time.textContent = 'Offline';
   }
 }
 
+// ── Fetch ──
 const API_URL = 'https://web-production-e1116.up.railway.app/data';
 const PROXY_URL = 'https://corsproxy.io/?' + encodeURIComponent(API_URL);
 const POLL_INTERVAL = 30000;
 const STORAGE_KEY = 'spark_api_data';
 
-// Load any previously saved data so historical days always show
 function loadStoredData() {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -486,64 +683,46 @@ function loadStoredData() {
       if (Array.isArray(parsed) && parsed.length > 0) {
         apiData = parsed;
         lastFetchedIds = new Set(apiData.map(d => d.id));
-        renderHome();
-        renderData();
+        renderHome(); renderData();
       }
     }
   } catch(e) {}
 }
 
-// Merge fresh data with stored data — keeps all historical entries
 function mergeAndStore(fresh) {
-  const existingMap = new Map(apiData.map(d => [d.id, d]));
-  fresh.forEach(d => existingMap.set(d.id, d));
-  apiData = [...existingMap.values()].sort((a, b) => b.id - a.id);
+  const map = new Map(apiData.map(d => [d.id, d]));
+  fresh.forEach(d => map.set(d.id, d));
+  apiData = [...map.values()].sort((a,b) => b.id - a.id);
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(apiData)); } catch(e) {}
 }
 
 async function fetchData() {
-  // Try direct first, then proxy fallback
-  const attempts = [
+  for (const attempt of [
     () => fetch(API_URL + '?t=' + Date.now()),
     () => fetch(PROXY_URL + '&t=' + Date.now()),
-  ];
-
-  for (const attempt of attempts) {
+  ]) {
     try {
       const res = await attempt();
       if (!res.ok) continue;
       const fresh = await res.json();
       if (!Array.isArray(fresh)) continue;
-
-      const prevCount = apiData.length;
       mergeAndStore(fresh);
       lastFetchedIds = new Set(fresh.map(d => d.id));
       setLiveStatus('live');
-
-      renderHome();
-      renderData();
-      return; // success — stop trying
-    } catch(e) {
-      // try next method
-    }
+      renderHome(); renderData();
+      return;
+    } catch(e) {}
   }
-
-  // All attempts failed
   setLiveStatus('error');
 }
 
-// ── Polling: every 30s ──
 function startPolling() {
-  fetchData(); // immediate first fetch
+  fetchData();
   setInterval(fetchData, POLL_INTERVAL);
 }
 
-// ── Visibility: re-fetch when tab becomes visible again ──
 document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible') {
-    setLiveStatus('stale');
-    fetchData();
-  }
+  if (document.visibilityState === 'visible') { setLiveStatus('stale'); fetchData(); }
 });
 
 // ── Navigation ──
@@ -560,20 +739,12 @@ function navigate(page) {
 
 // ── Helpers ──
 function formatTime(ts) {
-  const d = new Date(ts.replace(' ','T') + 'Z');
-  return d.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+  return new Date(ts.replace(' ','T') + 'Z').toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
 }
-
-// Get local date string YYYY-MM-DD from a UTC timestamp string
 function utcTimestampToLocalDate(ts) {
-  const d = new Date(ts.replace(' ','T') + 'Z');
-  return d.toLocaleDateString('en-CA'); // 'en-CA' gives YYYY-MM-DD format
+  return new Date(ts.replace(' ','T') + 'Z').toLocaleDateString('en-CA');
 }
-
-// Get today's local date string
-function todayLocalStr() {
-  return new Date().toLocaleDateString('en-CA');
-}
+function todayLocalStr() { return new Date().toLocaleDateString('en-CA'); }
 
 function makeDraggable(el) {
   let down = false, startX, scrollLeft;
@@ -589,11 +760,11 @@ function makeDraggable(el) {
 // ── Home ──
 function renderHome() {
   const now = new Date();
-  document.getElementById('home-date-full').textContent =
-    now.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
   const h = now.getHours();
   document.getElementById('home-greeting').textContent =
-    (h < 12 ? 'Good Morning' : h < 18 ? 'Good Afternoon' : 'Good Evening') + ', Isabella';
+    (h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening') + ', Isabella';
+  document.getElementById('home-month').textContent =
+    now.toLocaleDateString('en-GB', { month:'long', year:'numeric' });
 
   // day strip
   const strip = document.getElementById('day-strip');
@@ -601,7 +772,7 @@ function renderHome() {
   const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   const todayStr = todayLocalStr();
 
-  for (let i = -4; i <= 6; i++) {
+  for (let i = -2; i <= 4; i++) {
     const d = new Date(now); d.setDate(now.getDate() + i);
     const dStr = d.toLocaleDateString('en-CA');
     const chip = document.createElement('div');
@@ -611,10 +782,10 @@ function renderHome() {
     } else {
       const dayData = apiData.filter(e => utcTimestampToLocalDate(e.timestamp) === dStr);
       if (dayData.length > 0) {
-        const latest = [...dayData].sort((a,b) => b.timestamp.localeCompare(a.timestamp))[0];
+        const latest = [...dayData].sort((a,b) => b.id - a.id)[0];
         const em = getEmotionByKey(latest.button_value);
         chip.style.background = getGrad(em.name);
-        if (i !== 0) chip.style.opacity = '0.7';
+        if (i !== 0) chip.style.opacity = '0.75';
       } else {
         if (i === 0) chip.classList.add('today-default');
       }
@@ -624,14 +795,25 @@ function renderHome() {
   }
   makeDraggable(strip);
 
-  // tracker entries — today only in LOCAL time, newest first
+  // tracker
   const todayData = [...apiData]
     .filter(d => utcTimestampToLocalDate(d.timestamp) === todayStr)
     .sort((a,b) => b.id - a.id);
 
   const container = document.getElementById('tracker-entries');
   if (todayData.length === 0) {
-    container.innerHTML = '<div class="empty-tracker">No entries today — log your first emotion 🌸</div>';
+    container.innerHTML = `
+      <div class="empty-tracker">
+        <div class="empty-face">
+<svg width="52" height="52" viewBox="0 0 131 131" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="65.5" cy="65.5" r="65.5" fill="#A7EAFB"/>
+            <circle cx="34" cy="55" r="10.5" fill="black" stroke="black"/>
+            <circle cx="96" cy="55" r="10.5" fill="black" stroke="black"/>
+            <path d="M56 76C59.3596 72.9815 68.063 68.7556 76 76" stroke="black" stroke-width="5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="empty-text">No emotions logged in today</span>
+      </div>`;
   } else {
     container.innerHTML = '';
     todayData.forEach(d => {
@@ -649,16 +831,26 @@ function renderHome() {
     });
   }
 
-  // journal row
-  const row = document.getElementById('home-journal-row');
-  row.innerHTML = '';
-  journalEntries.slice(0,5).forEach((j,i) => {
-    const card = document.createElement('div');
-    card.className = 'journal-card';
-    card.innerHTML = `<h3>${j.title}</h3><p>${j.body}</p><div class="card-footer"><span class="card-date">${j.date}</span><span class="card-tag">${j.tag}</span></div>`;
-    row.appendChild(card);
-  });
-  makeDraggable(row);
+  // filter pills
+  const TAGS = ['All','Personal','Work','Relationships','Health','Growth'];
+  const filterRow = document.getElementById('journal-filter-row');
+  if (filterRow && !filterRow.dataset.built) {
+    filterRow.dataset.built = '1';
+    TAGS.forEach(tag => {
+      const pill = document.createElement('button');
+      pill.className = 'filter-pill' + (tag === 'All' ? ' active' : '');
+      pill.dataset.tag = tag;
+      pill.textContent = tag;
+      pill.onclick = () => {
+        filterRow.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        renderJournalRow(tag === 'All' ? null : tag);
+      };
+      filterRow.appendChild(pill);
+    });
+  }
+  renderJournalRow(null);
+  makeDraggable(document.getElementById('home-journal-row'));
 }
 
 // ── Emotions ──
@@ -682,12 +874,39 @@ function renderEmotions() {
 }
 
 // ── Journal ──
+const TAG_COLORS = {
+  'Personal':      '#7DD8F0',
+  'Work':          '#F5C97A',
+  'Relationships': '#F0A8B0',
+  'Health':        '#9FD4A8',
+  'Growth':        '#B8A8E0',
+};
+function tagColor(tag) { return TAG_COLORS[tag] || '#C8C8C8'; }
+
+function renderJournalRow(filterTag) {
+  const row = document.getElementById('home-journal-row');
+  if (!row) return;
+  row.innerHTML = '';
+  const entries = filterTag
+    ? journalEntries.filter(j => j.tag === filterTag)
+    : journalEntries;
+  entries.slice(0, 6).forEach(j => {
+    const card = document.createElement('div');
+    card.className = 'journal-card';
+    card.style.background = tagColor(j.tag);
+    card.innerHTML = `<h3>${j.title}</h3><p>${j.body}</p><div class="card-footer"><span class="card-date">${j.date}</span><span class="card-tag">${j.tag}</span></div>`;
+    row.appendChild(card);
+  });
+}
+
 const journalEntries = [
-  { title:'Long coffee line for bad coffee', body:'Stood in line for 20 minutes today and I was very disappointed by the coffee I got. This really set the standard for my day, which in a way is kinda upsetting... starting your day with bad coffee is the worst!', date:'Tuesday, 6th 2026', tag:'Personal' },
-  { title:'Productive morning session', body:'Actually got through my whole to-do list before noon. Felt really good about the momentum. Need to do this more often.', date:'Monday, 5th 2026', tag:'Work' },
-  { title:'Ran into an old friend', body:'Bumped into Sarah at the park. We talked for over an hour. It made me realize how much I miss having those easy connections.', date:'Sunday, 4th 2026', tag:'Personal' },
-  { title:'Tried a new recipe', body:'Made the spiced lentil soup from that cookbook. It came out way better than expected. Will definitely make again.', date:'Saturday, 3rd 2026', tag:'Personal' },
-  { title:'Hard conversation at work', body:'Had to give some feedback to a colleague and it was more awkward than anticipated. But I think it needed to happen.', date:'Friday, 2nd 2026', tag:'Work' },
+  { title:'Long coffee line for bad coffee', body:'Stood in line for 20 minutes today and I was very disappointed by the coffee I got. This really set the standard for my day, which in a way is kinda upsetting... starting your day with bad coffee is the worst!', date:'Tuesday, 6th April 2026', tag:'Personal' },
+  { title:'Productive morning session', body:'Actually got through my whole to-do list before noon. Felt really good about the momentum. Need to do this more often.', date:'Monday, 5th April 2026', tag:'Work' },
+  { title:'Ran into an old friend', body:'Bumped into Sarah at the park. We talked for over an hour. It made me realize how much I miss having those easy connections.', date:'Sunday, 4th April 2026', tag:'Relationships' },
+  { title:'Morning run — new record', body:'Hit a personal best on my 5k this morning. The weather was perfect and everything clicked. Feeling strong.', date:'Saturday, 3rd April 2026', tag:'Health' },
+  { title:'Hard conversation at work', body:'Had to give some feedback to a colleague and it was more awkward than anticipated. But I think it needed to happen.', date:'Friday, 2nd April 2026', tag:'Work' },
+  { title:'Started reading again', body:'Picked up a book for the first time in months. Just 20 pages but it felt like such a win. Small habits compound.', date:'Thursday, 1st April 2026', tag:'Growth' },
+  { title:'Tried a new recipe', body:'Made the spiced lentil soup from that cookbook. It came out way better than expected. Will definitely make again.', date:'Wednesday, 31st March 2026', tag:'Personal' },
 ];
 
 function renderJournal() {
@@ -696,12 +915,13 @@ function renderJournal() {
   journalEntries.forEach(j => {
     const card = document.createElement('div');
     card.className = 'journal-list-card';
+    card.style.background = tagColor(j.tag);
     card.innerHTML = `<h3>${j.title}</h3><p>${j.body}</p><div class="jcard-foot"><span class="jcard-date">${j.date}</span><span class="jcard-tag">${j.tag}</span></div>`;
     list.appendChild(card);
   });
 }
 
-// ── What to Journal ──
+// ── WTJ ──
 const wtjPrompts = [
   { name:'Rant', desc:"Say whatever's on your mind" },
   { name:'Gratitude', desc:'What are you thankful for?' },
@@ -712,7 +932,6 @@ const wtjPrompts = [
   { name:'Dream', desc:'What did you dream about?' },
   { name:'Worry', desc:'Get your anxieties out' },
 ];
-
 function openWTJ() {
   const grid = document.getElementById('wtj-grid');
   grid.innerHTML = '';
@@ -725,22 +944,15 @@ function openWTJ() {
   });
   document.getElementById('wtj-overlay').classList.add('open');
 }
-
 function closeWTJ() { document.getElementById('wtj-overlay').classList.remove('open'); }
 
 // ── Data ──
 let selectedDateKey = null;
-
 function getUniqueDates(data) {
   const seen = new Set(), dates = [];
-  // Use LOCAL date so "today" matches correctly
-  data.forEach(d => {
-    const k = utcTimestampToLocalDate(d.timestamp);
-    if (!seen.has(k)) { seen.add(k); dates.push(k); }
-  });
+  data.forEach(d => { const k = utcTimestampToLocalDate(d.timestamp); if (!seen.has(k)) { seen.add(k); dates.push(k); } });
   return dates.sort().reverse();
 }
-
 function renderData() {
   const dates = getUniqueDates(apiData);
   if (!selectedDateKey || !dates.includes(selectedDateKey)) selectedDateKey = dates[0] || null;
@@ -765,8 +977,7 @@ function renderData() {
   legendEl.innerHTML = '';
   [...new Set(filtered.map(d => d.button_value))].forEach(val => {
     const em = getEmotionByKey(val);
-    const item = document.createElement('div');
-    item.className = 'legend-item';
+    const item = document.createElement('div'); item.className = 'legend-item';
     item.innerHTML = `<div class="legend-dot" style="background:${getCol(em.name)}"></div>${em.name}`;
     legendEl.appendChild(item);
   });
@@ -784,19 +995,16 @@ function renderData() {
       const col = getCol(em.name);
       const wrap = document.createElement('div');
       wrap.style.cssText = `position:absolute;bottom:0;left:calc(${xPct*100}% - 7px)`;
-      const bar = document.createElement('div');
-      bar.className = 'chart-bar';
-      bar.style.height = barH+'px';
-      bar.style.background = `linear-gradient(to top,${col},${col}88)`;
-      const tip = document.createElement('div');
-      tip.className = 'bar-tooltip';
+      const bar = document.createElement('div'); bar.className = 'chart-bar';
+      bar.style.height = barH+'px'; bar.style.background = `linear-gradient(to top,${col},${col}88)`;
+      const tip = document.createElement('div'); tip.className = 'bar-tooltip';
       tip.textContent = `${em.name} · ${d.button_value} · ${formatTime(d.timestamp)}`;
       bar.appendChild(tip); wrap.appendChild(bar); barsEl.appendChild(wrap);
     });
   }
   const tbody = document.getElementById('data-tbody');
   tbody.innerHTML = '';
-  [...filtered].sort((a,b)=>b.timestamp.localeCompare(a.timestamp)).forEach(d => {
+  [...filtered].sort((a,b)=>b.id-a.id).forEach(d => {
     const em = getEmotionByKey(d.button_value);
     const tr = document.createElement('tr');
     tr.innerHTML = `<td>${d.id}</td><td><div class="td-emotion"><div class="td-dot" style="background:${getCol(em.name)}"></div>${em.name}</div></td><td>${d.button_value}</td><td>${formatTime(d.timestamp)}</td>`;
@@ -824,7 +1032,6 @@ function saveEmotion() {
   localStorage.setItem('spark_emotions', JSON.stringify(emotions));
   closeModal(); renderEmotions(); showToast(`"${name}" saved!`);
 }
-
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
@@ -834,8 +1041,8 @@ function showToast(msg) {
 // ── Init ──
 renderEmotions();
 renderJournal();
-loadStoredData(); // show historical data immediately from cache
-startPolling();   // then fetch live + every 30s
+loadStoredData();
+startPolling();
 </script>
 </body>
 </html>
