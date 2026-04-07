@@ -683,10 +683,14 @@ function loadStoredData() {
       if (Array.isArray(parsed) && parsed.length > 0) {
         apiData = parsed;
         lastFetchedIds = new Set(apiData.map(d => d.id));
-        renderHome(); renderData();
+        setLiveStatus('stale');
+        renderHome();
+        renderData();
+        return true;
       }
     }
   } catch(e) {}
+  return false;
 }
 
 function mergeAndStore(fresh) {
@@ -697,22 +701,35 @@ function mergeAndStore(fresh) {
 }
 
 async function fetchData() {
-  for (const attempt of [
-    () => fetch(API_URL + '?t=' + Date.now()),
-    () => fetch(PROXY_URL + '&t=' + Date.now()),
-  ]) {
+  // Try direct first (works once CORS is fixed on Railway),
+  // then proxy fallback which works now from Vercel
+  const urls = [
+    API_URL + '?t=' + Date.now(),
+    PROXY_URL + '&t=' + Date.now(),
+  ];
+
+  for (const url of urls) {
     try {
-      const res = await attempt();
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
+      const res = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeout);
       if (!res.ok) continue;
-      const fresh = await res.json();
-      if (!Array.isArray(fresh)) continue;
+      const text = await res.text();
+      let fresh;
+      try { fresh = JSON.parse(text); } catch(e) { continue; }
+      if (!Array.isArray(fresh) || fresh.length === 0) continue;
       mergeAndStore(fresh);
       lastFetchedIds = new Set(fresh.map(d => d.id));
       setLiveStatus('live');
       renderHome(); renderData();
       return;
-    } catch(e) {}
+    } catch(e) {
+      // timeout or network error — try next URL
+      continue;
+    }
   }
+  // All failed — show offline but keep existing data visible
   setLiveStatus('error');
 }
 
