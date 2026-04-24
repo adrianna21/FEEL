@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>FEEL — Emotions</title>
+<link rel="stylesheet" href="shared.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root { --accent:#77DEF8; --w:390px; }
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+
+  body {
+    font-family:'Roboto',sans-serif;
+    background:#F3FCFF;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    overflow:hidden;
+    height:100vh;
+    width:100%;
+  }
+
+  .feel-root {
+    width:var(--w);
+    height:100vh;
+    position:relative;
+    overflow:visible;
+  }
+
+  .main-view {
+    width:100%; height:100%;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── HEADER ── */
+  .emo-header {
+    padding:52px 28px 0;
+    display:flex; align-items:flex-start; justify-content:center;
+    position:relative; z-index:10; flex-shrink:0;
+  }
+  .header-center { text-align:center; }
+  .header-center h1 {
+    font-family:'Roboto',sans-serif;
+    font-size:28px; font-weight:700; color:#1a1a1a;
+  }
+  .header-center p {
+    font-size:14px; color:#555;
+    margin-top:4px; line-height:1.5; font-weight:400;
+  }
+  .header-icon {
+    position:absolute; right:28px; top:52px;
+    width:44px; height:44px; background:#1a2a35; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+  }
+
+  /* ── FLOWER STAGE ── */
+  .flower-stage {
+    flex:1; position:relative; overflow:visible; touch-action:none;
+  }
+
+  /* Aura blob — matches design spec */
+  .aura-blob {
+    position:absolute;
+    width:420px; height:520px;
+    border-radius:1193.706px;
+    backdrop-filter:blur(3.502px);
+    -webkit-backdrop-filter:blur(3.502px);
+    filter:blur(28px);
+    transition:background 0.55s ease; pointer-events:none;
+    left:-120px; top:50%; transform:translateY(-52%);
+  }
+
+  /*
+    The SVG flower:
+    - Original canvas: 899 × 1654 px
+    - Flower body center is approx at SVG coords (100, 860)
+    - The right/active petal extends to ~x=730, y=700–1010
+    - We scale the SVG to a render height of ~920px (scale ≈ 0.557)
+    - At that scale, flower center lands at ~(56px, 479px) in rendered space
+    - We push left:-56px so flower center is at x=0 (left edge)
+    - Then top:50% + translateY(-479px) centers vertically
+  */
+  .flower-container {
+    position:absolute;
+    left:-250px;
+    top:50%;
+    width:501px;   /* 899 * 0.557 */
+    height:921px;  /* 1654 * 0.557 */
+    margin-top:-479px;
+    pointer-events:none;
+    transition:opacity 0.25s ease, margin-top 0.3s cubic-bezier(0.4,0,0.2,1);
+    transform-origin: 306px 479px; /* flower body center */
+    will-change: transform;
+  }
+
+  .flower-container svg {
+    width:100%; height:100%;
+    overflow:visible;
+  }
+
+  /* Petal fill transition */
+  #active-petal, #stats-active-petal {
+    transition:fill 0.45s ease;
+  }
+
+  /* ── PILL ── */
+  .emo-pill {
+    position:absolute;
+    right:-190px; top:50%;
+    width:435px; height:46px;
+    transform:translateY(-50%);
+    z-index:10;
+    background:#ffffff;
+    border:1px solid #CCCCCC;
+    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    border-radius:20px; padding:0 16px;
+    display:flex; align-items:center; gap:20px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.10);
+    cursor:pointer; border:none;
+    transition:box-shadow 0.12s;
+  }
+  .emo-pill:hover  { box-shadow:0 6px 28px rgba(0,0,0,0.15); }
+  .emo-pill:active { opacity:0.9; }
+  .emo-pill-left { display:flex; align-items:center; gap:10px; }
+  .emo-pill-dot {
+    width:24px; height:24px;
+    border-radius:50%; flex-shrink:0;
+    transition:background 0.4s ease;
+  }
+  .emo-pill-name {
+    font-family:'Roboto',sans-serif;
+    font-size:22px; font-weight:700;
+    color:#B7B7B7;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .emo-pill-edit { color:#ccc; flex-shrink:0; margin-left:auto; }
+
+  /* Swipe hints */
+  .swipe-hint {
+    position:absolute; left:50%; transform:translateX(-70%);
+    display:flex; flex-direction:column; align-items:center; gap:5px;
+    opacity:0.38; pointer-events:none; z-index:8;
+  }
+  .swipe-hint-top    { top:22px; }
+  .swipe-hint-bottom { bottom:22px; }
+  .swipe-hint span { font-size:10px; font-weight:600; color:#1a2a35; letter-spacing:0.08em; text-transform:uppercase; }
+
+  /* ── STATS PANEL ── */
+  .stats-panel {
+    position:absolute; inset:0;
+    background:#F3FCFF;
+    z-index:20; display:flex; flex-direction:column;
+    transform:translateY(100%); transition:transform 0.48s cubic-bezier(0.4,0,0.2,1);
+    touch-action:none;
+  }
+  .stats-panel.open { transform:translateY(0); }
+  .stats-close-hint {
+    padding:14px 0 4px; display:flex; justify-content:center;
+    cursor:pointer; opacity:0.38; flex-shrink:0;
+  }
+  .stats-header {
+    padding:12px 24px 0; display:flex; align-items:flex-start; justify-content:center;
+    position:relative; flex-shrink:0;
+  }
+  .stats-header-center { text-align:center; }
+  .stats-header-center h2 { font-family:'DM Serif Display',serif; font-size:32px; font-weight:400; color:#1a2a35; }
+  .stats-header-center p { font-size:14px; color:rgba(26,42,53,0.55); margin-top:4px; }
+  .stats-header-icon {
+    position:absolute; right:24px; top:12px;
+    width:44px; height:44px; background:#1a2a35; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .stats-body { flex:1; display:flex; align-items:center; position:relative; overflow:hidden; }
+
+  /* Flower in stats — same layout */
+  .stats-flower-container {
+    position:absolute;
+    left:-250px; top:50%;
+    width:501px; height:921px;
+    margin-top:-479px;
+    pointer-events:none;
+  }
+  .stats-flower-container svg { width:100%; height:100%; overflow:visible; }
+
+  .stats-numbers {
+    margin-left:198px; flex:1; padding-right:28px;
+    display:flex; flex-direction:column; gap:20px;
+  }
+  .stat-emo-name { font-family:'DM Serif Display',serif; font-size:38px; color:#1a2a35; line-height:1; }
+  .stat-all-label { font-size:11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(26,42,53,0.38); margin-top:3px; }
+  .stat-big { font-family:'DM Serif Display',serif; font-size:58px; color:#1a2a35; line-height:1; }
+  .stat-small-label { font-size:13px; color:rgba(26,42,53,0.5); margin-top:1px; }
+
+  /* ── SELECT OVERLAY ── */
+  .select-overlay {
+    position:absolute; inset:0; z-index:40;
+    background:linear-gradient(160deg,#EEF6FF 0%,#E0F5FC 40%,#F3FCFF 100%);
+    transform:translateY(100%); transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);
+    display:flex; flex-direction:column;
+  }
+  .select-overlay.open { transform:translateY(0); }
+  .select-header { padding:52px 24px 0; display:flex; align-items:center; flex-shrink:0; }
+  .select-back { background:none; border:none; font-size:30px; color:#1a2a35; cursor:pointer; line-height:1; padding:0 14px 0 0; font-family:'DM Serif Display',serif; flex-shrink:0; }
+  .select-header-text { flex:1; padding-right:8px; }
+  .select-header-text h2 { font-family:'DM Serif Display',serif; font-size:24px; font-weight:400; color:#1a2a35; }
+  .select-header-text p { font-size:13px; color:rgba(26,42,53,0.5); margin-top:3px; line-height:1.4; }
+  .select-filters { display:flex; gap:8px; padding:18px 20px 0; overflow-x:auto; flex-shrink:0; }
+  .select-filters::-webkit-scrollbar { display:none; }
+  .cat-pill { flex-shrink:0; padding:7px 18px; border-radius:40px; font-size:13px; font-weight:500; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; background:rgba(255,255,255,0.65); color:rgba(26,42,53,0.65); transition:all 0.15s; }
+  .cat-pill.active { background:#1a2a35; color:#fff; }
+  .select-grid-scroll { flex:1; overflow-y:auto; padding:14px 16px 100px; }
+  .select-grid-scroll::-webkit-scrollbar { display:none; }
+  .select-grid-inner { background:rgba(255,255,255,0.50); border-radius:24px; padding:14px; display:grid; grid-template-columns:repeat(3,1fr); gap:10px; backdrop-filter:blur(6px); }
+  .emo-card { background:rgba(255,255,255,0.72); border-radius:16px; padding:14px 8px 10px; display:flex; flex-direction:column; align-items:center; gap:5px; cursor:pointer; transition:transform 0.12s; }
+  .emo-card:hover  { transform:scale(0.97); }
+  .emo-card:active { transform:scale(0.94); }
+  .emo-card-flower { width:58px; height:58px; border-radius:50%; flex-shrink:0; }
+  .emo-card-name { font-size:11.5px; font-weight:700; color:#1a2a35; text-align:center; line-height:1.2; }
+  .emo-card-cat  { font-size:10px; color:rgba(26,42,53,0.42); text-align:center; }
+  .emo-card-btn { width:100%; padding:7px; background:#1a2a35; color:#fff; border:none; border-radius:9px; font-size:11.5px; font-weight:700; cursor:pointer; font-family:'DM Sans',sans-serif; margin-top:2px; }
+  .emo-card-btn.is-added   { background:#bbb; }
+  .emo-card-btn.is-current { background:#52a86b; }
+  .emo-card-btn.custom-btn { background:rgba(26,42,53,0.10); color:#1a2a35; }
+</style>
+</head>
+<body>
+<div class="feel-root">
+
+  <!-- ══ MAIN VIEW ══ -->
+  <div class="main-view">
+
+    <div class="emo-header">
+      <div class="header-center">
+        <h1>Emotions</h1>
+        <p id="header-desc">Copywriting about changing<br>the emotion goes here</p>
+      </div>
+      <div class="header-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="#fff" stroke-width="2"/>
+          <circle cx="8.5" cy="10.5" r="1.5" fill="#fff"/>
+          <circle cx="15.5" cy="10.5" r="1.5" fill="#fff"/>
+          <path d="M8.5 15.5 Q12 18.5 15.5 15.5" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="flower-stage" id="flower-stage">
+
+      <div class="aura-blob" id="aura-blob"></div>
+
+      <!-- Flower — full SVG, no viewBox crop, positioned via CSS -->
+      <div class="flower-container" id="flower-container">
+        <svg viewBox="0 0 899 1654" fill="none" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+          <defs>
+            <filter id="f0" x="-685.057" y="92.7266" width="1522.96" height="1516.18" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+              <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+              <feOffset dx="10.5058" dy="7.00388"/>
+              <feGaussianBlur stdDeviation="3.50194"/>
+              <feComposite in2="hardAlpha" operator="out"/>
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+            </filter>
+            <clipPath id="c0">
+              <rect width="1515.97" height="1478.43" fill="white" transform="translate(-606.077) rotate(7.06824)"/>
+            </clipPath>
+          </defs>
+          <g clip-path="url(#c0)">
+            <g filter="url(#f0)">
+              <path d="M238.431 1592.6C148.453 1581.44 65.6638 1530.37 11.2505 1452.5C3.7993 1441.83 -7.20511 1435.13 -19.744 1433.57C-32.2829 1432.02 -44.7429 1435.85 -54.905 1444.33C-83.5591 1468.26 -108.512 1484.62 -135.752 1497.44C-189.392 1522.64 -248.853 1532.14 -307.613 1524.86C-353.245 1519.2 -398.047 1503.23 -437.228 1478.66C-515.005 1429.92 -568.105 1350.49 -582.961 1260.72C-597.904 1170.46 -573.013 1077.52 -514.639 1005.71C-508.695 998.424 -506.333 988.412 -507.967 977.494C-509.938 964.182 -517.496 951.67 -527.701 944.842C-547.38 931.612 -568.379 916.687 -588.726 897.101C-687.128 802.424 -712.991 656.294 -653.096 533.38C-594.16 412.475 -464.83 342.339 -331.352 358.889C-305.281 362.122 -279.465 368.609 -254.629 378.185C-252.597 378.959 -250.422 379.49 -248.143 379.773C-229.904 382.035 -207.473 367.044 -202.876 349.543C-194.534 317.796 -186.433 289.193 -171.478 260.73C-111.024 145.651 16.4844 79.0604 145.771 95.0911C162.722 97.193 179.684 100.715 196.105 105.589C336.925 147.243 429.86 280.595 422.039 429.791C421.124 447.413 442.838 465.301 461.224 467.581C463.651 467.882 465.999 467.911 468.159 467.657C493.934 464.543 519.918 464.554 545.4 467.713C663.876 482.404 762.273 561.772 802.093 674.835C830.93 756.63 825.556 843.928 786.959 920.647C747.967 998.139 680.074 1055.17 595.786 1081.23C582.898 1085.2 571.336 1095.64 565.604 1108.44C560.588 1119.7 560.452 1131.63 565.238 1142.11C599.275 1216.6 603.82 1300.09 577.976 1377.23C552.072 1454.55 498.011 1518.38 425.721 1556.98C367.224 1588.22 302.417 1600.5 238.325 1592.55L238.431 1592.6Z" fill="white"/>
+            </g>
+            <!-- bottom-left petal -->
+            <path d="M-317.082 1448.56C-440.195 1424.6 -525.753 1310.64 -515.052 1187.3C-507.509 1100.27 -454.933 1026.74 -376.008 990.644C-321.072 965.533 -263.334 947.64 -202.991 943.361C-97.4557 935.949 -9.85869 1020.51 -12.5619 1126.32C-14.2341 1191.9 -30.2683 1257.38 -58.0365 1317.22C-103.58 1415.33 -209.86 1469.4 -317.077 1448.52L-317.082 1448.56Z" fill="white" stroke="black" stroke-opacity="0.12" stroke-width="1.75097" stroke-miterlimit="10"/>
+            <!-- top-left petal -->
+            <path d="M226.169 632.769C163.282 694.604 66.2641 708 -8.80581 654.896C-36.1286 635.566 -56.1816 610.902 -72.3464 581.679C-97.5029 536.146 -116.282 489.163 -126.292 438.004C-142.971 353.012 -112.233 266.805 -45.6111 212.192C40.5362 141.63 162.538 139.023 251.983 204.773C342.485 271.327 374.472 392.455 325.61 495.045C301.078 546.551 266.945 592.686 226.211 632.737L226.169 632.769Z" fill="white" stroke="black" stroke-opacity="0.12" stroke-width="10.5058" stroke-miterlimit="10"/>
+            <!-- ACTIVE PETAL (right) -->
+            <path id="active-petal" d="M482.398 1011.65C423.187 1003.49 342.733 976.341 295.693 941.386C213.206 880.045 196.167 766.334 258.929 684.135C292.586 640.033 335.446 602.709 382.767 572.473C507.501 492.731 668.454 543.043 729.362 672.423C772.69 764.416 753.786 873.521 682.107 945.13C629.179 998.006 556.469 1021.92 482.352 1011.72L482.398 1011.65Z" fill="#EB585A" stroke="black" stroke-opacity="0.12" stroke-width="10.5058" stroke-miterlimit="10"/>
+            <!-- bottom petal -->
+            <path d="M228.575 1515.81C132.563 1496.1 61.0784 1420.4 43.9568 1325.43C32.293 1260.81 32.1944 1161.33 58.3906 1101.22C96.2291 1014.36 193.067 972.306 282.533 1004.46C334.433 1023.1 381.215 1051.71 425.243 1084.47C519.522 1154.59 549.988 1280.45 497.089 1385.49C447.818 1483.25 338.276 1538.33 228.575 1515.81Z" fill="white" stroke="black" stroke-opacity="0.12" stroke-width="10.5058" stroke-miterlimit="10"/>
+            <!-- face ring -->
+            <path d="M181.974 885.62C168.022 956.285 103.685 1002.11 34.303 993.469C-35.7778 984.742 -86.8618 922.777 -82.1666 851.487C-77.3947 778.676 -17.7176 723.761 55.344 725.913C138.117 728.336 198.148 803.656 181.969 885.657L181.974 885.62ZM164.131 915.554C188.46 865.802 178.079 808.594 141.22 770.761C103.293 731.858 44.1405 722.321 -4.36752 746.175C-52.2048 769.739 -80.2251 821.075 -73.8293 875.184C-67.202 931.039 -25.1428 975.756 29.0693 985.092C84.2637 994.586 138.746 967.373 164.141 915.573Z" fill="black" fill-opacity="0.12"/>
+            <!-- smile -->
+            <path d="M123.384 878.168C140.885 883.362 100.574 941.985 41.0461 934.268C5.98946 929.735 -20.5261 904.194 -30.1276 870.82C-31.4096 866.405 -27.7849 860.358 -24.3758 859.362C-20.5027 858.236 -13.9274 861.516 -12.7788 865.803C-5.37063 893.379 16.6164 912.683 44.0062 916.116C71.3959 919.55 97.3305 906.114 111.373 881.085C113.19 877.875 120.249 877.257 123.416 878.21L123.384 878.168Z" fill="black" fill-opacity="0.12"/>
+            <!-- eyes -->
+            <path d="M89.7858 810.379C100.063 806.987 110.073 812.074 113.29 821.06C116.456 829.853 112.211 840.602 102.03 844.119C94.2293 846.811 84.0505 843.084 80.1172 834.457C76.3865 826.303 79.2741 813.855 89.7813 810.416L89.7858 810.379Z" fill="black" fill-opacity="0.12"/>
+            <path d="M9.53287 799.98C19.2089 797.222 28.9151 801.749 32.1371 811.296C35.087 820.025 30.8918 830.071 20.642 833.542C12.2207 836.418 1.95416 832.195 -1.43735 823.113C-4.91638 813.833 -0.72207 802.89 9.53287 799.98Z" fill="black" fill-opacity="0.12"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Pill -->
+      <button class="emo-pill" id="emo-pill" onclick="openSelect()">
+        <div class="emo-pill-left">
+          <div class="emo-pill-dot" id="pill-dot"></div>
+          <div class="emo-pill-name" id="pill-name">Loading…</div>
+        </div>
+        <div class="emo-pill-edit">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+        </div>
+      </button>
+
+      <div class="swipe-hint swipe-hint-bottom">
+        <span>Stats</span>
+        <svg width="20" height="12" viewBox="0 0 20 12" fill="none"><path d="M2 2 L10 10 L18 2" stroke="#1a2a35" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STATS PANEL ══ -->
+  <div class="stats-panel" id="stats-panel">
+    <div class="stats-close-hint" onclick="closeStats()">
+      <svg width="20" height="12" viewBox="0 0 20 12" fill="none"><path d="M2 10 L10 2 L18 10" stroke="#1a2a35" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="stats-header">
+      <div class="stats-header-center">
+        <h2>Emotions</h2>
+        <p>Copywriting about stats<br>goes here</p>
+      </div>
+      <div class="stats-header-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="#fff" stroke-width="2"/>
+          <circle cx="8.5" cy="10.5" r="1.5" fill="#fff"/>
+          <circle cx="15.5" cy="10.5" r="1.5" fill="#fff"/>
+          <path d="M8.5 15.5 Q12 18.5 15.5 15.5" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/>
+        </svg>
+      </div>
+    </div>
+    <div class="stats-body">
+      <div class="stats-flower-container">
+        <svg viewBox="0 0 899 1654" fill="none" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+          <defs>
+            <filter id="f1" x="-685.057" y="92.7266" width="1522.96" height="1516.18" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+              <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+              <feOffset dx="10.5058" dy="7.00388"/>
+              <feGaussianBlur stdDeviation="3.50194"/>
+              <feComposite in2="hardAlpha" operator="out"/>
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+              <feBlend mode="normal" in2="BackgroundImageFix" result="e1"/>
+              <feBlend mode="normal" in="SourceGraphic" in2="e1" result="shape"/>
+            </filter>
+            <clipPath id="c1">
+              <rect width="1515.97" height="1478.43" fill="white" transform="translate(-606.077) rotate(7.06824)"/>
+            </clipPath>
+          </defs>
+          <g clip-path="url(#c1)">
+            <g filter="url(#f1)">
+              <path d="M238.431 1592.6C148.453 1581.44 65.6638 1530.37 11.2505 1452.5C3.7993 1441.83 -7.20511 1435.13 -19.744 1433.57C-32.2829 1432.02 -44.7429 1435.85 -54.905 1444.33C-83.5591 1468.26 -108.512 1484.62 -135.752 1497.44C-189.392 1522.64 -248.853 1532.14 -307.613 1524.86C-353.245 1519.2 -398.047 1503.23 -437.228 1478.66C-515.005 1429.92 -568.105 1350.49 -582.961 1260.72C-597.904 1170.46 -573.013 1077.52 -514.639 1005.71C-508.695 998.424 -506.333 988.412 -507.967 977.494C-509.938 964.182 -517.496 951.67 -527.701 944.842C-547.38 931.612 -568.379 916.687 -588.726 897.101C-687.128 802.424 -712.991 656.294 -653.096 533.38C-594.16 412.475 -464.83 342.339 -331.352 358.889C-305.281 362.122 -279.465 368.609 -254.629 378.185C-252.597 378.959 -250.422 379.49 -248.143 379.773C-229.904 382.035 -207.473 367.044 -202.876 349.543C-194.534 317.796 -186.433 289.193 -171.478 260.73C-111.024 145.651 16.4844 79.0604 145.771 95.0911C162.722 97.193 179.684 100.715 196.105 105.589C336.925 147.243 429.86 280.595 422.039 429.791C421.124 447.413 442.838 465.301 461.224 467.581C463.651 467.882 465.999 467.911 468.159 467.657C493.934 464.543 519.918 464.554 545.4 467.713C663.876 482.404 762.273 561.772 802.093 674.835C830.93 756.63 825.556 843.928 786.959 920.647C747.967 998.139 680.074 1055.17 595.786 1081.23C582.898 1085.2 571.336 1095.64 565.604 1108.44C560.588 1119.7 560.452 1131.63 565.238 1142.11C599.275 1216.6 603.82 1300.09 577.976 1377.23C552.072 1454.55 498.011 1518.38 425.721 1556.98C367.224 1588.22 302.417 1600.5 238.325 1592.55L238.431 1592.6Z" fill="white"/>
+            </g>
+            <path d="M-317.082 1448.56C-440.195 1424.6 -525.753 1310.64 -515.052 1187.3C-507.509 1100.27 -454.933 1026.74 -376.008 990.644C-321.072 965.533 -263.334 947.64 -202.991 943.361C-97.4557 935.949 -9.85869 1020.51 -12.5619 1126.32C-14.2341 1191.9 -30.2683 1257.38 -58.0365 1317.22C-103.58 1415.33 -209.86 1469.4 -317.077 1448.52L-317.082 1448.56Z" fill="white" stroke="black" stroke-opacity="0.12" stroke-width="1.75097" stroke-miterlimit="10"/>
+            <path d="M226.169 632.769C163.282 694.604 66.2641 708 -8.80581 654.896C-36.1286 635.566 -56.1816 610.902 -72.3464 581.679C-97.5029 536.146 -116.282 489.163 -126.292 438.004C-142.971 353.012 -112.233 266.805 -45.6111 212.192C40.5362 141.63 162.538 139.023 251.983 204.773C342.485 271.327 374.472 392.455 325.61 495.045C301.078 546.551 266.945 592.686 226.211 632.737L226.169 632.769Z" fill="white" stroke="black" stroke-opacity="0.12" stroke-width="10.5058" stroke-miterlimit="10"/>
+            <path id="stats-active-petal" d="M482.398 1011.65C423.187 1003.49 342.733 976.341 295.693 941.386C213.206 880.045 196.167 766.334 258.929 684.135C292.586 640.033 335.446 602.709 382.767 572.473C507.501 492.731 668.454 543.043 729.362 672.423C772.69 764.416 753.786 873.521 682.107 945.13C629.179 998.006 556.469 1021.92 482.352 1011.72L482.398 1011.65Z" fill="#EB585A" stroke="black" stroke-opacity="0.12" stroke-width="10.5058" stroke-miterlimit="10"/>
+            <path d="M228.575 1515.81C132.563 1496.1 61.0784 1420.4 43.9568 1325.43C32.293 1260.81 32.1944 1161.33 58.3906 1101.22C96.2291 1014.36 193.067 972.306 282.533 1004.46C334.433 1023.1 381.215 1051.71 425.243 1084.47C519.522 1154.59 549.988 1280.45 497.089 1385.49C447.818 1483.25 338.276 1538.33 228.575 1515.81Z" fill="white" stroke="black" stroke-opacity="0.12" stroke-width="10.5058" stroke-miterlimit="10"/>
+            <path d="M181.974 885.62C168.022 956.285 103.685 1002.11 34.303 993.469C-35.7778 984.742 -86.8618 922.777 -82.1666 851.487C-77.3947 778.676 -17.7176 723.761 55.344 725.913C138.117 728.336 198.148 803.656 181.969 885.657L181.974 885.62ZM164.131 915.554C188.46 865.802 178.079 808.594 141.22 770.761C103.293 731.858 44.1405 722.321 -4.36752 746.175C-52.2048 769.739 -80.2251 821.075 -73.8293 875.184C-67.202 931.039 -25.1428 975.756 29.0693 985.092C84.2637 994.586 138.746 967.373 164.141 915.573Z" fill="black" fill-opacity="0.12"/>
+            <path d="M123.384 878.168C140.885 883.362 100.574 941.985 41.0461 934.268C5.98946 929.735 -20.5261 904.194 -30.1276 870.82C-31.4096 866.405 -27.7849 860.358 -24.3758 859.362C-20.5027 858.236 -13.9274 861.516 -12.7788 865.803C-5.37063 893.379 16.6164 912.683 44.0062 916.116C71.3959 919.55 97.3305 906.114 111.373 881.085C113.19 877.875 120.249 877.257 123.416 878.21L123.384 878.168Z" fill="black" fill-opacity="0.12"/>
+            <path d="M89.7858 810.379C100.063 806.987 110.073 812.074 113.29 821.06C116.456 829.853 112.211 840.602 102.03 844.119C94.2293 846.811 84.0505 843.084 80.1172 834.457C76.3865 826.303 79.2741 813.855 89.7813 810.416L89.7858 810.379Z" fill="black" fill-opacity="0.12"/>
+            <path d="M9.53287 799.98C19.2089 797.222 28.9151 801.749 32.1371 811.296C35.087 820.025 30.8918 830.071 20.642 833.542C12.2207 836.418 1.95416 832.195 -1.43735 823.113C-4.91638 813.833 -0.72207 802.89 9.53287 799.98Z" fill="black" fill-opacity="0.12"/>
+          </g>
+        </svg>
+      </div>
+      <div class="stats-numbers">
+        <div>
+          <div class="stat-emo-name" id="stat-name">—</div>
+          <div class="stat-all-label">ALL TIME STATS</div>
+        </div>
+        <div><div class="stat-big">42</div><div class="stat-small-label">Total Logs</div></div>
+        <div><div class="stat-big">20</div><div class="stat-small-label">Journal Entries</div></div>
+        <div><div class="stat-big">60%</div><div class="stat-small-label">Average Intensity</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SELECT OVERLAY ══ -->
+  <div class="select-overlay" id="select-overlay">
+    <div class="select-header">
+      <button class="select-back" onclick="closeSelect()">‹</button>
+      <div class="select-header-text">
+        <h2>Select an emotion</h2>
+        <p>Need some help trying to<br>figure out where to start?</p>
+      </div>
+    </div>
+    <div class="select-filters" id="select-filters"></div>
+    <div class="select-grid-scroll">
+      <div class="select-grid-inner" id="select-grid"></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="nav.js"></script>
+<script>
+const ALL_EMOTIONS = [
+  { name:'Happiness',  cat:'Warmth',         color:'#F5A623', grad:'linear-gradient(135deg,#FFD580,#F5A623)' },
+  { name:'Anger',      cat:'Social Tension', color:'#E05050', grad:'linear-gradient(135deg,#F08080,#C83030)' },
+  { name:'Fear',       cat:'Withdrawal',     color:'#7B5EA7', grad:'linear-gradient(135deg,#A080C8,#5B3A80)' },
+  { name:'Disgust',    cat:'Social Tension', color:'#7DB87D', grad:'linear-gradient(135deg,#98CC78,#559855)' },
+  { name:'Sadness',    cat:'Withdrawal',     color:'#5AB8D8', grad:'linear-gradient(135deg,#77DEF8,#3A98B8)' },
+  { name:'Surprise',   cat:'Social Tension', color:'#E88AE8', grad:'linear-gradient(135deg,#F0A0F0,#C060C0)' },
+  { name:'Contempt',   cat:'Withdrawal',     color:'#6AAA6A', grad:'linear-gradient(135deg,#88CC88,#449944)' },
+  { name:'Admiration', cat:'Withdrawal',     color:'#60A8D0', grad:'linear-gradient(135deg,#80C8F0,#3880A8)' },
+  { name:'Anxiety',    cat:'Warmth',         color:'#E8A840', grad:'linear-gradient(135deg,#F8C860,#C88020)' },
+  { name:'Pride',      cat:'Activation',     color:'#E84040', grad:'linear-gradient(135deg,#F06060,#B82020)' },
+  { name:'Envy',       cat:'Warmth',         color:'#9B8BC8', grad:'linear-gradient(135deg,#C0A8E8,#7858B0)' },
+  { name:'Nostalgia',  cat:'Warmth',         color:'#D4A870', grad:'linear-gradient(135deg,#E8C890,#B08040)' },
+  { name:'Boredom',    cat:'Warmth',         color:'#A0A8B0', grad:'linear-gradient(135deg,#C0C8D0,#7880A0)' },
+  { name:'Excitement', cat:'Activation',     color:'#F06040', grad:'linear-gradient(135deg,#F8A060,#D84020)' },
+];
+
+let trackedEmotions = [];
+try { const s = localStorage.getItem('feel_emotions'); if (s) trackedEmotions = JSON.parse(s); } catch(e) {}
+if (!trackedEmotions.length) {
+  trackedEmotions = [{ name:'Anger' },{ name:'Happiness' },{ name:'Sadness' },{ name:'Envy' },{ name:'Contempt' }];
+}
+function saveTracked() { try { localStorage.setItem('feel_emotions', JSON.stringify(trackedEmotions)); } catch(e) {} }
+function getEmo(name) { return ALL_EMOTIONS.find(e => e.name === name) || { name, cat:'', color:'#aaa', grad:'linear-gradient(135deg,#ccc,#999)' }; }
+
+let currentIdx = 0;
+
+function applyEmotion(name, animate) {
+  const emo = getEmo(name);
+  const c = emo.color;
+  if (animate) {
+    const container = document.getElementById('flower-container');
+    container.style.transition = 'margin-top 0.28s ease, opacity 0.22s ease';
+    container.style.opacity = '0.15';
+    container.style.marginTop = animate === 'up' ? '-451px' : '-507px';
+    setTimeout(() => {
+      setPetalColor(c);
+      container.style.marginTop = '-479px';
+      container.style.opacity = '1';
+    }, 150);
+  } else {
+    setPetalColor(c);
+  }
+
+  // convert hex to rgba for spec-accurate gradient
+  const [ar,ag,ab] = hexToRgb(c);
+  document.getElementById('aura-blob').style.background = `linear-gradient(179deg, rgba(${ar},${ag},${ab},0.35) 13.29%, rgba(255,255,255,0.00) 49.11%)`;
+  document.getElementById('pill-dot').style.background = c;
+  document.getElementById('pill-name').textContent = name;
+  document.getElementById('stat-name').textContent = name;
+}
+
+function setPetalColor(c) {
+  const p1 = document.getElementById('active-petal');
+  const p2 = document.getElementById('stats-active-petal');
+  if (p1) p1.setAttribute('fill', c);
+  if (p2) p2.setAttribute('fill', c);
+}
+
+function showEmotion(idx, dir) {
+  currentIdx = ((idx % trackedEmotions.length) + trackedEmotions.length) % trackedEmotions.length;
+  applyEmotion(trackedEmotions[currentIdx].name, dir || null);
+}
+
+// ── Live drag-to-rotate swipe ──
+const stage = document.getElementById('flower-stage');
+const container = document.getElementById('flower-container');
+
+let dragStartY = 0;
+let isDragging = false;
+let dragCommitted = false; // have we crossed the threshold?
+const DRAG_THRESHOLD = 60;  // px before snap commits
+const ROTATE_MAX = 45;       // max rotation degrees during drag
+const STATS_THRESHOLD = 80;  // drag DOWN this far to open stats
+
+// Hex → RGB helper
+function hexToRgb(hex) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return [r,g,b];
+}
+
+function lerpColor(c1, c2, t) {
+  const [r1,g1,b1] = hexToRgb(c1);
+  const [r2,g2,b2] = hexToRgb(c2);
+  const r = Math.round(r1 + (r2-r1)*t);
+  const g = Math.round(g1 + (g2-g1)*t);
+  const b = Math.round(b1 + (b2-b1)*t);
+  return `#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`;
+}
+
+function onDragStart(y) {
+  isDragging = true;
+  dragStartY = y;
+  dragCommitted = false;
+  // kill any ongoing transition so drag feels instant
+  container.style.transition = 'none';
+}
+
+function onDragMove(y) {
+  if (!isDragging) return;
+  const dy = y - dragStartY;
+
+  // Downward drag → stats (no rotation, just hint)
+  if (dy > 0) {
+    container.style.transform = `translateY(${Math.min(dy * 0.15, 18)}px)`;
+    return;
+  }
+
+  // Upward drag → rotate + blend color toward next emotion
+  const progress = Math.min(Math.abs(dy) / DRAG_THRESHOLD, 1);
+  const rotation = -progress * ROTATE_MAX;
+  const lift     = progress * 24;
+
+  container.style.transform = `translateY(${-lift}px) rotate(${rotation}deg)`;
+
+  // Color blend: current → next
+  const nextIdx = ((currentIdx + 1) % trackedEmotions.length + trackedEmotions.length) % trackedEmotions.length;
+  const fromColor = getEmo(trackedEmotions[currentIdx].name).color;
+  const toColor   = getEmo(trackedEmotions[nextIdx].name).color;
+  const blended   = lerpColor(fromColor, toColor, progress);
+
+  setPetalColor(blended);
+  document.getElementById('aura-blob').style.background = blended;
+  document.getElementById('pill-dot').style.background = blended;
+
+  // Fade pill name out as we progress
+  const pill = document.getElementById('pill-name');
+  pill.style.opacity = String(1 - progress * 0.5);
+}
+
+function onDragEnd(y) {
+  if (!isDragging) return;
+  isDragging = false;
+  const dy = y - dragStartY;
+
+  // Restore smooth transition
+  container.style.transition = 'transform 0.45s cubic-bezier(0.34,1.4,0.64,1), opacity 0.3s ease, margin-top 0.3s ease';
+
+  if (dy > STATS_THRESHOLD) {
+    // snap back and open stats
+    container.style.transform = 'translateY(0) rotate(0deg)';
+    openStats();
+    return;
+  }
+
+  if (dy < -DRAG_THRESHOLD * 0.55) {
+    // crossed threshold → snap to next emotion with spin-through
+    const nextIdx = ((currentIdx + 1) % trackedEmotions.length + trackedEmotions.length) % trackedEmotions.length;
+    currentIdx = nextIdx;
+    const emo = getEmo(trackedEmotions[currentIdx].name);
+
+    // Spin flower an extra quarter turn then back to 0
+    container.style.transform = 'translateY(-10px) rotate(-55deg)';
+    setTimeout(() => {
+      container.style.transition = 'transform 0.55s cubic-bezier(0.22,1,0.36,1), opacity 0.3s ease';
+      container.style.transform = 'translateY(0) rotate(0deg)';
+    }, 60);
+
+    setPetalColor(emo.color);
+    document.getElementById('aura-blob').style.background = emo.color;
+    document.getElementById('pill-dot').style.background = emo.color;
+    document.getElementById('pill-name').textContent = emo.name;
+    document.getElementById('pill-name').style.opacity = '1';
+    document.getElementById('stat-name').textContent = emo.name;
+  } else {
+    // didn't reach threshold → bounce back
+    container.style.transform = 'translateY(0) rotate(0deg)';
+    const emo = getEmo(trackedEmotions[currentIdx].name);
+    setPetalColor(emo.color);
+    document.getElementById('aura-blob').style.background = emo.color;
+    document.getElementById('pill-dot').style.background = emo.color;
+    document.getElementById('pill-name').style.opacity = '1';
+  }
+}
+
+// Touch
+stage.addEventListener('touchstart', e => onDragStart(e.touches[0].clientY), { passive:true });
+stage.addEventListener('touchmove',  e => onDragMove(e.touches[0].clientY),  { passive:true });
+stage.addEventListener('touchend',   e => onDragEnd(e.changedTouches[0].clientY), { passive:true });
+
+// Mouse
+stage.addEventListener('mousedown', e => { e.preventDefault(); onDragStart(e.clientY); });
+window.addEventListener('mousemove', e => { if (isDragging) onDragMove(e.clientY); });
+window.addEventListener('mouseup',   e => { if (isDragging) onDragEnd(e.clientY); });
+
+const statsPanel = document.getElementById('stats-panel');
+let sTouchY0 = 0;
+statsPanel.addEventListener('touchstart', e => { sTouchY0 = e.touches[0].clientY; }, { passive:true });
+statsPanel.addEventListener('touchend', e => { if (e.changedTouches[0].clientY - sTouchY0 > 50) closeStats(); }, { passive:true });
+
+function openStats()  { statsPanel.classList.add('open'); }
+function closeStats() { statsPanel.classList.remove('open'); }
+
+let editingSlot = 0;
+function openSelect() {
+  editingSlot = currentIdx;
+  buildFilters(); buildGrid(null);
+  document.getElementById('select-overlay').classList.add('open');
+}
+function closeSelect() { document.getElementById('select-overlay').classList.remove('open'); }
+
+function buildFilters() {
+  const row = document.getElementById('select-filters');
+  if (row.dataset.built) return;
+  row.dataset.built = '1';
+  const cats = ['All', ...new Set(ALL_EMOTIONS.map(e => e.cat))];
+  cats.forEach(cat => {
+    const p = document.createElement('button');
+    p.className = 'cat-pill' + (cat === 'All' ? ' active' : '');
+    p.textContent = cat;
+    p.onclick = () => {
+      row.querySelectorAll('.cat-pill').forEach(x => x.classList.remove('active'));
+      p.classList.add('active');
+      buildGrid(cat === 'All' ? null : cat);
+    };
+    row.appendChild(p);
+  });
+}
+
+function buildGrid(filterCat) {
+  const grid = document.getElementById('select-grid');
+  grid.innerHTML = '';
+  const list = filterCat ? ALL_EMOTIONS.filter(e => e.cat === filterCat) : ALL_EMOTIONS;
+  const curName = trackedEmotions[editingSlot]?.name;
+  list.forEach(emo => {
+    const isCur = emo.name === curName;
+    const isTracked = trackedEmotions.some((t, i) => t.name === emo.name && i !== editingSlot);
+    const card = document.createElement('div');
+    card.className = 'emo-card';
+    card.innerHTML = `
+      <div class="emo-card-flower" style="background:${emo.grad}"></div>
+      <div class="emo-card-name">${emo.name}</div>
+      <div class="emo-card-cat">${emo.cat}</div>
+      <button class="emo-card-btn ${isCur?'is-current':isTracked?'is-added':''}" ${isTracked&&!isCur?'disabled':''}>${isCur?'Selected':isTracked?'Added':'Add'}</button>`;
+    card.querySelector('button').onclick = ev => {
+      ev.stopPropagation();
+      if (isTracked && !isCur) return;
+      trackedEmotions[editingSlot] = { name: emo.name };
+      saveTracked(); closeSelect(); showEmotion(editingSlot, 'up');
+    };
+    grid.appendChild(card);
+  });
+  const custom = document.createElement('div');
+  custom.className = 'emo-card';
+  custom.innerHTML = `<div class="emo-card-flower" style="background:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;color:#1a2a35;border:2px solid rgba(26,42,53,0.12)">+</div><div class="emo-card-name">Custom Emotion</div><div class="emo-card-cat">Category</div><button class="emo-card-btn custom-btn">Add</button>`;
+  grid.appendChild(custom);
+}
+
+try { initNav('emotions'); } catch(e) {}
+applyEmotion(trackedEmotions[0].name, null);
+</script>
+</body>
+</html>

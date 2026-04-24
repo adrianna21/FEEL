@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>FEEL — Predictions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Roboto', sans-serif; }
+
+  html, body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+  }
+
+  .feel-root {
+    width: 390px;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #77DEF8 0%, #b6eaf8 34%, #F3FCFF 64%);
+    padding-bottom: 48px;
+  }
+
+  .pred-header {
+    padding: 52px 24px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .back-btn {
+    width: 36px; height: 36px;
+    background: rgba(255,255,255,0.55);
+    border: none; border-radius: 50%;
+    font-size: 22px; color: #1a1a1a;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: background 0.15s;
+    flex-shrink: 0;
+  }
+  .back-btn:hover  { background: rgba(255,255,255,0.82); }
+  .back-btn:active { transform: scale(0.95); }
+
+  .page-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .spacer-36 { width: 36px; flex-shrink: 0; }
+
+  .pred-title-block {
+    text-align: center;
+    padding: 24px 24px 0;
+  }
+
+  .pred-title-block h2 {
+    font-size: 27px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 10px rgba(0,90,120,0.2);
+  }
+
+  .pred-title-block .pred-date {
+    font-size: 15px;
+    color: rgba(255,255,255,0.82);
+    font-weight: 400;
+    margin-top: 5px;
+  }
+
+  .pred-cards {
+    padding: 22px 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pred-card {
+    background: rgba(255,255,255,0.9);
+    border-radius: 22px;
+    padding: 18px 20px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 0.5px solid rgba(255,255,255,0.96);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .pred-icon {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .pred-icon.up   { background: rgba(216,64,64,0.11); }
+  .pred-icon.down { background: rgba(32,150,216,0.11); }
+
+  .pred-body { flex: 1; }
+
+  .pred-emotion {
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .pred-emotion.high { color: #D84040; }
+  .pred-emotion.low  { color: #2096D8; }
+
+  .pred-window {
+    font-size: 12px;
+    color: rgba(20,70,90,0.52);
+    font-weight: 400;
+    margin-top: 4px;
+  }
+
+  .info-card {
+    margin: 12px 20px 0;
+    background: rgba(255,255,255,0.84);
+    border-radius: 22px;
+    padding: 18px 20px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 0.5px solid rgba(255,255,255,0.92);
+  }
+
+  .info-card .ic-label {
+    font-size: 11px;
+    color: rgba(20,70,90,0.5);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 4px;
+  }
+
+  .info-card .ic-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #152830;
+    margin-bottom: 16px;
+    line-height: 1.35;
+  }
+
+  .info-card .ic-desc {
+    font-size: 13px;
+    color: rgba(20,70,90,0.6);
+    line-height: 1.58;
+  }
+
+  .timeline-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+  }
+
+  .tl-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    flex: 1;
+  }
+
+  .tl-label {
+    font-size: 10px;
+    color: rgba(20,70,90,0.5);
+    font-weight: 500;
+  }
+
+  .tl-bar {
+    width: 100%;
+    height: 7px;
+    border-radius: 4px;
+  }
+
+  .tip-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    margin-bottom: 14px;
+  }
+
+  .tip-icon {
+    width: 38px; height: 38px;
+    background: rgba(20,70,90,0.08);
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 19px;
+    flex-shrink: 0;
+  }
+
+  .tip-text {
+    font-size: 14px;
+    color: #152830;
+    line-height: 1.58;
+    padding-top: 2px;
+  }
+
+  .tip-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 20px;
+    background: rgba(20,70,90,0.08);
+    color: #152830;
+    border: none;
+    border-radius: 40px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .tip-action-btn:hover { background: rgba(20,70,90,0.15); }
+
+  .btn-primary {
+    display: block;
+    margin: 16px 20px 0;
+    padding: 15px;
+    background: #152830;
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    width: calc(100% - 40px);
+    transition: background 0.15s, transform 0.12s;
+    text-align: center;
+  }
+  .btn-primary:hover  { background: #253e4a; }
+  .btn-primary:active { transform: scale(0.98); }
+</style>
+</head>
+<body>
+<div class="feel-root">
+
+  <div class="pred-header">
+    <button class="back-btn" onclick="window.location.href='index.html'">‹</button>
+    <span class="page-label">Predictions</span>
+    <div class="spacer-36"></div>
+  </div>
+
+  <div class="pred-title-block">
+    <h2>Today's predictions:</h2>
+    <div class="pred-date" id="pred-date">Monday 20th, 2026</div>
+  </div>
+
+  <div class="pred-cards">
+    <div class="pred-card">
+      <div class="pred-icon up">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M12 17V7M7 12l5-5 5 5" stroke="#D84040" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="pred-body">
+        <div class="pred-emotion high">High Anxiety</div>
+        <div class="pred-window">Morning window · 9 AM – 11 AM</div>
+      </div>
+    </div>
+
+    <div class="pred-card">
+      <div class="pred-icon down">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M12 7v10M7 12l5 5 5-5" stroke="#2096D8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="pred-body">
+        <div class="pred-emotion low">Low Anxiety</div>
+        <div class="pred-window">Evening window · 5 PM – 7 PM</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card">
+    <div class="ic-label">Today's forecast</div>
+    <div class="ic-title">Expect a rough morning and easier evening</div>
+    <div class="timeline-row">
+      <div class="tl-item"><div class="tl-label">6 AM</div><div class="tl-bar" style="background:rgba(190,200,210,0.4)"></div></div>
+      <div class="tl-item"><div class="tl-label">9 AM</div><div class="tl-bar" style="background:#D84040;opacity:0.82"></div></div>
+      <div class="tl-item"><div class="tl-label">12 PM</div><div class="tl-bar" style="background:#e88848;opacity:0.75"></div></div>
+      <div class="tl-item"><div class="tl-label">3 PM</div><div class="tl-bar" style="background:#e8b858;opacity:0.68"></div></div>
+      <div class="tl-item"><div class="tl-label">6 PM</div><div class="tl-bar" style="background:#5bcca0;opacity:0.78"></div></div>
+      <div class="tl-item"><div class="tl-label">9 PM</div><div class="tl-bar" style="background:#78c8e0;opacity:0.72"></div></div>
+      <div class="tl-item"><div class="tl-label">12 AM</div><div class="tl-bar" style="background:rgba(190,200,210,0.32)"></div></div>
+    </div>
+  </div>
+
+  <div class="info-card">
+    <div class="ic-label">Pattern</div>
+    <div class="ic-title" id="pattern-title">Mondays tend to feel your most stressful</div>
+    <div class="ic-desc">You've logged overwhelm 4 times this week, most often between Mondays 9 PM – 12 AM.</div>
+  </div>
+
+  <div class="info-card">
+    <div class="ic-label">Tip for today</div>
+    <div class="tip-body">
+      <div class="tip-icon">🌸</div>
+      <div class="tip-text">Try a 5-min breathing exercise before your morning start to ease into the day.</div>
+    </div>
+    <button class="tip-action-btn">Breathing exercise →</button>
+  </div>
+
+  <button class="btn-primary" onclick="window.location.href='index.html'">Done</button>
+
+</div>
+
+<script>
+  (function() {
+    const now = new Date();
+    const days   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const ordinal = n => { const s=['th','st','nd','rd'], v=n%100; return n+(s[(v-20)%10]||s[v]||s[0]); };
+    const dayName = days[now.getDay()];
+    const dateNum = now.getDate();
+    const year    = now.getFullYear();
+    document.getElementById('pred-date').textContent = `${dayName} ${ordinal(dateNum)}, ${year}`;
+
+    const DAY_PATTERNS = [
+      'Sundays tend to feel your most relaxed',
+      'Mondays tend to feel your most stressful',
+      'Tuesdays are often your most productive',
+      'Midweek energy dips are common on Wednesdays',
+      'Thursdays bring a sense of momentum',
+      'Fridays lift your mood naturally',
+      'Saturdays are when you feel most free'
+    ];
+    const patternEl = document.getElementById('pattern-title');
+    if (patternEl) patternEl.textContent = DAY_PATTERNS[now.getDay()];
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>FEEL — Profile</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  body { background: var(--bg); min-height:100vh; padding-bottom:24px; }
+
+  .profile-header { background:linear-gradient(160deg,#f4d0a0,#c8d8f0,#d4c4e8); padding:60px 28px 36px; text-align:center; }
+  .profile-avatar { width:80px; height:80px; border-radius:50%; background:rgba(255,255,255,0.5); margin:0 auto 12px; display:flex; align-items:center; justify-content:center; font-size:36px; }
+  .profile-name { font-size:26px; font-weight:700; color:#fff; }
+  .profile-sub { font-size:13px; color:rgba(255,255,255,0.8); margin-top:4px; }
+  .profile-badge { display:inline-block; background:rgba(255,255,255,0.3); border-radius:20px; padding:4px 14px; font-size:12px; color:#fff; margin-top:8px; }
+
+  .profile-section { margin:16px 28px 0; }
+  .profile-section h4 { font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#888; margin-bottom:10px; }
+  .profile-list { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+  .profile-list-item { display:flex; align-items:center; gap:12px; padding:16px 18px; border-bottom:1px solid #f0f0ec; cursor:pointer; transition:background 0.12s; }
+  .profile-list-item:hover { background:#f9f9f9; }
+  .profile-list-item:last-child { border-bottom:none; }
+  .profile-list-icon { width:36px; height:36px; border-radius:10px; background:#f5f4f0; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
+  .profile-list-label { flex:1; font-size:14px; font-weight:500; }
+  .profile-list-arrow { color:#aaa; font-size:18px; }
+</style>
+</head>
+<body>
+
+<div class="profile-header">
+  <div class="profile-avatar">👤</div>
+  <div class="profile-name">Isabella</div>
+  <div class="profile-sub">21 years old · She/Her</div>
+  <div class="profile-badge">✦ Spark</div>
+</div>
+
+<div style="padding:16px 0 24px;">
+  <div class="profile-section">
+    <h4>First Aid Kit</h4>
+    <div class="profile-list">
+      <div class="profile-list-item"><div class="profile-list-icon">💬</div><div class="profile-list-label">Words of Affirmation</div><div class="profile-list-arrow">›</div></div>
+      <div class="profile-list-item"><div class="profile-list-icon">🌬️</div><div class="profile-list-label">Anxiety Breathing</div><div class="profile-list-arrow">›</div></div>
+      <div class="profile-list-item"><div class="profile-list-icon">🎵</div><div class="profile-list-label">Calming Playlist</div><div class="profile-list-arrow">›</div></div>
+    </div>
+  </div>
+  <div class="profile-section" style="margin-top:20px;">
+    <h4>Settings</h4>
+    <div class="profile-list">
+      <div class="profile-list-item"><div class="profile-list-icon">🔔</div><div class="profile-list-label">Notifications</div><div class="profile-list-arrow">›</div></div>
+      <div class="profile-list-item"><div class="profile-list-icon">🔒</div><div class="profile-list-label">Privacy</div><div class="profile-list-arrow">›</div></div>
+      <div class="profile-list-item"><div class="profile-list-icon" style="background:#fdeae8;">🗑️</div><div class="profile-list-label" style="color:#e55;">Delete Account</div><div class="profile-list-arrow">›</div></div>
+    </div>
+  </div>
+</div>
+
+<script src="nav.js"></script>
+<script>
+initNav('profile');
+</script>
+</body>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>FEEL — Journal</title>
+<link rel="stylesheet" href="shared.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f0f0f0;
+    --radius: 38.44px;
+    --personal: #77DEF8;
+    --work: #FFC675;
+    --relationships: #F0A5A7;
+    --health: #9DD2A6;
+    --growth: #B293EB;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { background: linear-gradient(180deg, #77DEF8 39.9%, #F3FCFF 76.92%); min-height: 100vh; font-family: Roboto, sans-serif; background-attachment: fixed; }
+
+  /* ── Journal Page ── */
+  .journal-page {
+    position: relative;
+    min-height: 100vh;
+  }
+
+  /* Centered content wrapper */
+  .page-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* Sticky header */
+  .journal-page-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: transparent;
+    padding: 54px 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .journal-page-header h2 {
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.5px;
+    text-align: center;
+    flex: 1;
+  }
+
+  /* Add Entry FAB */
+  .add-entry-fab {
+    position: fixed;
+    bottom: 36px;
+    right: clamp(16px, 4vw, 48px);
+    z-index: 500;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    border-radius: 28px;
+    padding: 14px 22px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: Roboto, sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .add-entry-fab:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.3); }
+  .add-entry-fab:active { transform: translateY(0); }
+
+  .journal-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 16px 0 160px;
+  }
+
+  @media (min-width: 640px) {
+    .journal-list { grid-template-columns: 1fr 1fr; }
+    .page-inner { padding: 0 32px; }
+  }
+  @media (min-width: 1100px) {
+    .journal-list { grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+    .page-inner { max-width: 1200px; padding: 0 48px; }
+  }
+
+  /* Cards */
+  .journal-list-card {
+    border-radius: var(--radius);
+    background: #fff;
+    padding: 22px 24px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .journal-list-card:hover { transform: scale(0.99); box-shadow: 0 4px 18px rgba(0,0,0,0.1); }
+
+  .journal-list-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 6px;
+    border-radius: var(--radius) 0 0 var(--radius);
+  }
+
+  .card-accent-Personal::before    { background: var(--personal); }
+  .card-accent-Work::before         { background: var(--work); }
+  .card-accent-Relationships::before{ background: var(--relationships); }
+  .card-accent-Health::before       { background: var(--health); }
+  .card-accent-Growth::before       { background: var(--growth); }
+
+  .journal-list-card h3 { font-size: 16px; font-weight: 700; color: #1a1a1a; margin-bottom: 6px; }
+  .journal-list-card p { font-size: 13px; color: #777; line-height: 1.6; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .jcard-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; }
+  .jcard-date { font-size: 12px; color: #aaa; font-weight: 500; }
+  .jcard-tag { font-size: 11px; font-weight: 600; padding: 5px 14px; border-radius: 20px; color: #1a1a1a; }
+  .tag-Personal     { background: var(--personal); }
+  .tag-Work         { background: var(--work); }
+  .tag-Relationships{ background: var(--relationships); }
+  .tag-Health       { background: var(--health); }
+  .tag-Growth       { background: var(--growth); }
+
+  /* ── Screens ── */
+  .screen {
+    display: none;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #f5f5f5;
+    position: fixed;
+    inset: 0;
+    z-index: 400;
+    overflow-y: auto;
+  }
+  .screen.active { display: flex; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  .top-bar { background: #33C6E8; padding: 54px 20px 20px; flex-shrink: 0; }
+  .top-bar-row { display: flex; align-items: center; justify-content: space-between; }
+  .back-btn { background: none; border: none; cursor: pointer; font-size: 26px; color: #fff; line-height: 1; padding: 2px 8px 2px 0; }
+  .top-bar h2 { color: #fff; font-size: 20px; font-weight: 700; }
+
+  .date-pill { background: #fff; border-radius: 14px; padding: 10px 14px; display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 14px; color: #333; font-weight: 500; }
+
+  .content-area { background: #fff; border-radius: 24px 24px 0 0; flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+  .section-label { font-size: 15px; font-weight: 600; color: #aaa; margin-bottom: 10px; }
+
+  .emotions-scroll { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
+  .emotions-scroll::-webkit-scrollbar { display: none; }
+  .emotion-item { display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0; cursor: pointer; }
+  .flower-wrap { width: 58px; height: 58px; }
+  .flower-wrap svg { width: 58px; height: 58px; }
+  .emotion-label { font-size: 11px; color: #777; text-align: center; font-weight: 500; }
+  .emotion-val { font-size: 11px; color: #333; font-weight: 600; }
+
+  .categories { display: flex; gap: 10px; flex-wrap: wrap; }
+  .cat-pill { height: 34px; padding: 0 18px; border-radius: 20px; border: none; background: #C0C0C0; font-size: 13px; font-weight: 500; cursor: pointer; color: #fff; transition: all 0.15s; white-space: nowrap; font-family: Roboto, sans-serif; }
+  .cat-pill.selected { background: #33C6E8; }
+
+  .journal-text-area { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+  .title-input { font-family: Roboto, sans-serif; font-size: 22px; font-weight: 600; color: #585656; border: none; outline: none; width: 100%; background: transparent; }
+  .title-input::placeholder { color: #c8c8c8; font-weight: 400; }
+  .body-input { font-family: Roboto, sans-serif; font-size: 15px; color: #1a1a1a; border: none; outline: none; width: 100%; min-height: 120px; background: transparent; resize: none; line-height: 1.6; }
+  .body-input::placeholder { color: #c8c8c8; }
+
+  .create-btn { background: #1a1a1a; color: #fff; border: none; border-radius: 28px; padding: 16px; font-size: 16px; font-weight: 600; cursor: pointer; font-family: Roboto, sans-serif; width: 75%; margin: 0 auto 40px; flex-shrink: 0; }
+
+  /* ── Intensity screen ── */
+  .intensity-screen { background: #EBF8FD; }
+  .intensity-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px; padding: 24px; }
+  .big-flower-wrap { width: 220px; height: 220px; }
+  .big-flower-wrap svg { width: 220px; height: 220px; }
+  .slider-wrap { width: 100%; max-width: 320px; position: relative; padding-top: 32px; }
+  .slider-val { position: absolute; top: 0; font-size: 13px; font-weight: 600; color: #fff; background: #888; border-radius: 10px; padding: 3px 8px; transform: translateX(-50%); pointer-events: none; transition: left 0.05s; }
+  .intensity-slider { width: 100%; height: 6px; -webkit-appearance: none; appearance: none; border-radius: 3px; outline: none; cursor: pointer; background: #ddd; }
+  .intensity-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 32px; height: 32px; border-radius: 50%; background: #fff; border: 2px solid #ccc; box-shadow: 0 2px 8px rgba(0,0,0,0.18); cursor: pointer; }
+  .intensity-slider::-moz-range-thumb { width: 32px; height: 32px; border-radius: 50%; background: #fff; border: 2px solid #ccc; cursor: pointer; }
+  .set-btn { background: #1a1a1a; color: #fff; border: none; border-radius: 28px; padding: 16px 64px; font-size: 16px; font-weight: 600; cursor: pointer; font-family: Roboto, sans-serif; }
+</style>
+</head>
+<body>
+
+<!-- ── Journal Page ── -->
+<div class="journal-page">
+  <div class="page-inner">
+    <div class="journal-page-header">
+      <h2>Journal</h2>
+    </div>
+    <div class="journal-list" id="journal-list"></div>
+  </div>
+
+  <button class="add-entry-fab" onclick="openEntryScreen(null)">+ Add Entry</button>
+</div>
+
+<!-- ── Journal Entry Screen ── -->
+<div class="screen" id="journal-entry-screen">
+  <div class="top-bar">
+    <div class="top-bar-row">
+      <button class="back-btn" onclick="closeEntryScreen()">&#8249;</button>
+      <h2>Journal</h2>
+      <div style="width:38px"></div>
+    </div>
+    <div class="date-pill">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2">
+        <rect x="3" y="4" width="18" height="18" rx="2"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/>
+        <line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+      <span id="today-date"></span>
+    </div>
+  </div>
+  <div class="content-area">
+    <div>
+      <div class="section-label">What were your main emotion(s) today?</div>
+      <div class="emotions-scroll" id="emotions-row"></div>
+    </div>
+    <div>
+      <div class="section-label">What category is this?</div>
+      <div class="categories" id="categories-row"></div>
+    </div>
+    <div class="journal-text-area">
+      <input class="title-input" id="entry-title" placeholder="Title"/>
+      <textarea class="body-input" id="entry-body" placeholder="Short writing..."></textarea>
+    </div>
+  </div>
+  <button class="create-btn" onclick="createEntry()">Create</button>
+</div>
+
+<!-- ── Intensity Screen ── -->
+<div class="screen intensity-screen" id="intensity-screen">
+  <div class="top-bar">
+    <div class="top-bar-row">
+      <button class="back-btn" onclick="closeIntensity()">&#8249;</button>
+      <span id="intensity-name" style="color:#fff;font-size:20px;font-weight:700;font-family:Roboto,sans-serif;"></span>
+      <div style="width:38px"></div>
+    </div>
+  </div>
+  <div class="intensity-content">
+    <div class="big-flower-wrap">
+      <svg viewBox="0 0 953 930" xmlns="http://www.w3.org/2000/svg">
+        <path id="big-petal" d="M457.281 859.036C401.187 920.976 320.295 946.357 238.762 919.144C167.294 895.321 109.828 828.158 104.978 746.793C99.1213 646.919 142.496 629.052 137.005 603.304C135.541 596.524 126.299 585.529 118.704 582.047C25.7323 539.44 -21.1195 438.008 9.16945 341.616C38.8179 247.24 136.273 184.842 236.84 206.374C246.723 208.482 259.625 208.848 266.122 204.267C272.619 199.686 279.482 187.499 280.306 178.428C290.097 75.0724 374.101 1.77045 474.21 0.0295334C574.319 -1.71139 662.899 73.698 673.239 177.695C674.154 186.949 680.651 199.044 686.965 203.717C694.286 209.032 707.737 208.482 719.176 206.1C818.095 185.392 915.093 247.882 943.552 340.059C974.115 438.833 928.636 538.707 834.475 582.505C827.978 585.529 818.187 597.715 816.173 604.037C813.886 611.184 821.481 624.837 825.69 632.717C873.457 723.978 848.842 831.64 768.681 891.106C688.155 950.755 574.319 941.226 503.493 865.633C493.427 854.913 473.112 841.627 457.281 859.036Z"
+          fill="rgba(192,192,192,0.75)"/>
+      </svg>
+    </div>
+    <div class="slider-wrap">
+      <div class="slider-val" id="slider-val" style="left:0%;">0</div>
+      <input type="range" min="0" max="100" value="0" step="1"
+        class="intensity-slider" id="intensity-slider"
+        oninput="updateIntensity(this.value)">
+    </div>
+    <button class="set-btn" onclick="setIntensity()">Set</button>
+  </div>
+</div>
+
+<script src="nav.js"></script>
+<script>
+const TAG_COLORS = {
+  Personal:      '#77DEF8',
+  Work:          '#FFC675',
+  Relationships: '#F0A5A7',
+  Health:        '#9DD2A6',
+  Growth:        '#B293EB'
+};
+function tagColor(t) { return TAG_COLORS[t] || '#C8C8C8'; }
+
+const journalEntries = [
+  { title:'Long coffee line for bad coffee', body:'Stood in line for 20 minutes today and I was very disappointed by the coffee I got. This really set the standard for my day, which in a way is kinda upsetting... starting your day with bad coffee is the worst!', date:'Tuesday, 6th April 2026', tag:'Personal' },
+  { title:'Productive morning session', body:'Actually got through my whole to-do list before noon. Felt really good about the momentum. Need to do this more often.', date:'Monday, 5th April 2026', tag:'Work' },
+  { title:'Ran into an old friend', body:'Bumped into Sarah at the park. We talked for over an hour. It made me realize how much I miss having those easy connections.', date:'Sunday, 4th April 2026', tag:'Relationships' },
+  { title:'Morning run — new record', body:'Hit a personal best on my 5k this morning. The weather was perfect and everything clicked. Feeling strong.', date:'Saturday, 3rd April 2026', tag:'Health' },
+  { title:'Hard conversation at work', body:'Had to give some feedback to a colleague and it was more awkward than anticipated. But I think it needed to happen.', date:'Friday, 2nd April 2026', tag:'Work' },
+  { title:'Started reading again', body:'Picked up a book for the first time in months. Just 20 pages but it felt like such a win. Small habits compound.', date:'Thursday, 1st April 2026', tag:'Growth' },
+  { title:'Tried a new recipe', body:'Made the spiced lentil soup from that cookbook. It came out way better than expected. Will definitely make again.', date:'Wednesday, 31st March 2026', tag:'Personal' },
+];
+
+const EMOTIONS = [
+  { name:'Happiness',  color:'#FAC038' },
+  { name:'Anger',      color:'#C00404' },
+  { name:'Fear',       color:'#711A79' },
+  { name:'Disgust',    color:'#6F8919' },
+  { name:'Sadness',    color:'#1F59A9' },
+  { name:'Contempt',   color:'#0D555A' },
+  { name:'Admiration', color:'#F9EC43' },
+  { name:'Pride',      color:'#931C4A' },
+  { name:'Envy',       color:'#31D8D8' },
+  { name:'Nostalgia',  color:'#67C8AF' },
+  { name:'Boredom',    color:'#33263E' },
+];
+const CATEGORIES = ['Personal', 'Work', 'Relationships', 'Health', 'Growth'];
+const FLOWER_PATH = "M457.281 859.036C401.187 920.976 320.295 946.357 238.762 919.144C167.294 895.321 109.828 828.158 104.978 746.793C99.1213 646.919 142.496 629.052 137.005 603.304C135.541 596.524 126.299 585.529 118.704 582.047C25.7323 539.44 -21.1195 438.008 9.16945 341.616C38.8179 247.24 136.273 184.842 236.84 206.374C246.723 208.482 259.625 208.848 266.122 204.267C272.619 199.686 279.482 187.499 280.306 178.428C290.097 75.0724 374.101 1.77045 474.21 0.0295334C574.319 -1.71139 662.899 73.698 673.239 177.695C674.154 186.949 680.651 199.044 686.965 203.717C694.286 209.032 707.737 208.482 719.176 206.1C818.095 185.392 915.093 247.882 943.552 340.059C974.115 438.833 928.636 538.707 834.475 582.505C827.978 585.529 818.187 597.715 816.173 604.037C813.886 611.184 821.481 624.837 825.69 632.717C873.457 723.978 848.842 831.64 768.681 891.106C688.155 950.755 574.319 941.226 503.493 865.633C493.427 854.913 473.112 841.627 457.281 859.036Z";
+
+const emotionState = {};
+let selCat = null;
+let activeEmo = null;
+
+const now = new Date();
+document.getElementById('today-date').textContent = now.toLocaleDateString('en-GB', {
+  weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+});
+
+function renderJournal() {
+  const list = document.getElementById('journal-list');
+  list.innerHTML = '';
+  journalEntries.forEach(j => {
+    const card = document.createElement('div');
+    card.className = `journal-list-card card-accent-${j.tag}`;
+    card.innerHTML = `
+      <h3>${j.title}</h3>
+      <p>${j.body}</p>
+      <div class="jcard-foot">
+        <span class="jcard-date">${j.date}</span>
+        <span class="jcard-tag tag-${j.tag}">${j.tag}</span>
+      </div>`;
+    card.onclick = () => openEntryScreen(j);
+    list.appendChild(card);
+  });
+}
+
+function openEntryScreen(entry) {
+  Object.keys(emotionState).forEach(k => delete emotionState[k]);
+  selCat = null;
+  if (entry) {
+    document.getElementById('entry-title').value = entry.title;
+    document.getElementById('entry-body').value = entry.body;
+    selCat = entry.tag || null;
+  } else {
+    document.getElementById('entry-title').value = '';
+    document.getElementById('entry-body').value = '';
+  }
+  renderEmotions();
+  renderCategories();
+  document.getElementById('journal-entry-screen').classList.add('active');
+}
+
+function closeEntryScreen() {
+  document.getElementById('journal-entry-screen').classList.remove('active');
+}
+
+function hexToRgb(h) {
+  return { r: parseInt(h.slice(1,3),16), g: parseInt(h.slice(3,5),16), b: parseInt(h.slice(5,7),16) };
+}
+function blendColor(hex, t) {
+  const { r, g, b } = hexToRgb(hex);
+  return `rgb(${Math.round(192+(r-192)*t)},${Math.round(192+(g-192)*t)},${Math.round(192+(b-192)*t)})`;
+}
+
+function renderEmotions() {
+  const row = document.getElementById('emotions-row');
+  row.innerHTML = '';
+  EMOTIONS.forEach(e => {
+    const s = emotionState[e.name] || { intensity: 0, set: false };
+    const fill = s.set ? blendColor(e.color, s.intensity / 100) : 'rgba(192,192,192,0.75)';
+    const div = document.createElement('div');
+    div.className = 'emotion-item';
+    div.onclick = () => openIntensity(e.name);
+    div.innerHTML = `
+      <div class="flower-wrap">
+        <svg viewBox="0 0 953 930" xmlns="http://www.w3.org/2000/svg">
+          <path d="${FLOWER_PATH}" fill="${fill}"/>
+        </svg>
+      </div>
+      <span class="emotion-label">${e.name}</span>
+      ${s.set && s.intensity > 0 ? `<span class="emotion-val">${s.intensity}</span>` : ''}`;
+    row.appendChild(div);
+  });
+}
+
+function renderCategories() {
+  const row = document.getElementById('categories-row');
+  row.innerHTML = '';
+  CATEGORIES.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-pill' + (selCat === c ? ' selected' : '');
+    btn.textContent = c;
+    btn.onclick = () => { selCat = c; renderCategories(); };
+    row.appendChild(btn);
+  });
+}
+
+function openIntensity(name) {
+  activeEmo = name;
+  const s = emotionState[name] || { intensity: 0, set: false };
+  document.getElementById('intensity-name').textContent = name;
+  document.getElementById('intensity-slider').value = s.intensity;
+  updateIntensity(s.intensity);
+  document.getElementById('intensity-screen').classList.add('active');
+}
+
+function closeIntensity() {
+  document.getElementById('intensity-screen').classList.remove('active');
+  activeEmo = null;
+}
+
+function updateIntensity(val) {
+  const v = parseInt(val);
+  const e = EMOTIONS.find(x => x.name === activeEmo);
+  if (!e) return;
+
+  document.getElementById('big-petal').setAttribute('fill', blendColor(e.color, v / 100));
+
+  const sv = document.getElementById('slider-val');
+  sv.textContent = v;
+  sv.style.left = `calc(${v}% - ${v * 0.26}px)`;
+
+  const { r:r1, g:g1, b:b1 } = hexToRgb('#5BB8DC');
+  const { r:r2, g:g2, b:b2 } = hexToRgb('#E8806A');
+  const tr = Math.round(r1 + (r2-r1) * (v/100));
+  const tg = Math.round(g1 + (g2-g1) * (v/100));
+  const tb = Math.round(b1 + (b2-b1) * (v/100));
+  const mid = `rgb(${tr},${tg},${tb})`;
+
+  document.getElementById('intensity-slider').style.background =
+    `linear-gradient(to right, #5BB8DC 0%, ${mid} ${v}%, #ddd ${v}%, #ddd 100%)`;
+  sv.style.background = mid;
+}
+
+function setIntensity() {
+  if (!activeEmo) return;
+  const v = parseInt(document.getElementById('intensity-slider').value);
+  emotionState[activeEmo] = { intensity: v, set: true };
+  closeIntensity();
+  renderEmotions();
+}
+
+function createEntry() {
+  const title = document.getElementById('entry-title').value.trim();
+  if (!title) { document.getElementById('entry-title').focus(); return; }
+  journalEntries.unshift({
+    title,
+    body: document.getElementById('entry-body').value,
+    date: now.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' }),
+    tag: selCat || 'Personal',
+    emotions: Object.entries(emotionState)
+      .filter(([, v]) => v.set && v.intensity > 0)
+      .map(([k, v]) => ({ name: k, intensity: v.intensity }))
+  });
+  renderJournal();
+  closeEntryScreen();
+}
+
+renderJournal();
+initNav('journal');
+</script>
+</body>
+</html>

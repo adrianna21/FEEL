@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>FEEL — Daily Summary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Roboto', sans-serif; }
+
+  html, body {
+    background: #F3FCFF;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+  }
+
+  .feel-root {
+    width: 390px;
+    min-height: 100vh;
+    background: #F3FCFF;
+    padding-bottom: 48px;
+  }
+
+  .summary-header {
+    padding: 52px 24px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .back-btn {
+    width: 36px; height: 36px;
+    background: rgba(200,235,245,0.7);
+    border: none; border-radius: 50%;
+    font-size: 22px; color: #1a1a1a;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+    flex-shrink: 0;
+  }
+  .back-btn:hover  { background: rgba(200,235,245,1); }
+  .back-btn:active { transform: scale(0.95); }
+
+  .page-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(20,70,90,0.55);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .spacer-36 { width: 36px; flex-shrink: 0; }
+
+  .summary-title-block {
+    text-align: center;
+    padding: 28px 28px 0;
+  }
+
+  .summary-title-block .date-sub {
+    font-size: 13px;
+    color: rgba(20,70,90,0.6);
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+
+  .summary-title-block h1 {
+    font-size: 31px;
+    font-weight: 700;
+    line-height: 1.22;
+    color: #152830;
+  }
+
+  .summary-title-block h1 em {
+    font-style: italic;
+    font-weight: 700;
+    background: linear-gradient(90deg, #E8784A 0%, #f5a44c 48%, #9ed4eb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .summary-desc {
+    font-size: 13px;
+    color: rgba(20,70,90,0.65);
+    text-align: center;
+    padding: 10px 40px 0;
+    line-height: 1.65;
+  }
+
+  .aura-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 226px;
+    margin-top: -6px;
+  }
+
+  .aura-fallback {
+    width: 210px;
+    height: 210px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(240,180,80,0.58) 0%, rgba(250,210,120,0.32) 44%, rgba(250,240,200,0.09) 72%, transparent 100%);
+    animation: auraPulse 4s ease-in-out infinite;
+  }
+
+  @keyframes auraPulse {
+    0%, 100% { transform: scale(1);    opacity: 1;   }
+    50%       { transform: scale(1.07); opacity: 0.88; }
+  }
+
+  .stat-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    padding: 0 20px;
+    margin-top: -6px;
+  }
+
+  .stat-card {
+    background: rgba(255,255,255,0.84);
+    border-radius: 18px;
+    padding: 14px 8px;
+    text-align: center;
+    border: 0.5px solid rgba(255,255,255,0.92);
+    box-shadow: 0 2px 12px rgba(20,70,90,0.06);
+  }
+
+  .stat-card .s-label {
+    font-size: 10px;
+    color: rgba(20,70,90,0.52);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 5px;
+  }
+
+  .stat-card .s-value {
+    font-size: 27px;
+    font-weight: 700;
+    color: #152830;
+    line-height: 1.1;
+  }
+
+  .stat-card .s-value.text-val {
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  .stat-card .s-sub {
+    font-size: 11px;
+    color: rgba(20,70,90,0.5);
+    margin-top: 4px;
+  }
+
+  .chart-section {
+    margin: 20px 20px 0;
+    background: rgba(255,255,255,0.84);
+    border-radius: 22px;
+    padding: 18px 16px 14px;
+    border: 0.5px solid rgba(255,255,255,0.92);
+    box-shadow: 0 2px 12px rgba(20,70,90,0.06);
+  }
+
+  .chart-title {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(20,70,90,0.52);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 14px;
+  }
+
+  .chart-area {
+    position: relative;
+    height: 130px;
+  }
+
+  .chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    margin-top: 13px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: rgba(20,70,90,0.62);
+    font-weight: 500;
+  }
+
+  .legend-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .btn-primary {
+    display: block;
+    margin: 16px 20px 0;
+    padding: 15px;
+    background: #152830;
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    width: calc(100% - 40px);
+    transition: background 0.15s, transform 0.12s;
+    text-align: center;
+  }
+  .btn-primary:hover  { background: #253e4a; }
+  .btn-primary:active { transform: scale(0.98); }
+</style>
+</head>
+<body>
+<div class="feel-root">
+
+  <div class="summary-header">
+    <button class="back-btn" onclick="window.location.href='index.html'">‹</button>
+    <span class="page-label">Daily summary</span>
+    <div class="spacer-36"></div>
+  </div>
+
+  <div class="summary-title-block">
+    <div class="date-sub" id="summary-date">Sunday · April 20, 2026</div>
+    <h1>Today was an<br><em>Enthusiastic Adventure</em></h1>
+  </div>
+  <p class="summary-desc">Started with high anxiety predicted by weekly logins. Things shifted in the evening toward something more joyful.</p>
+
+  <div class="aura-container">
+    <div class="aura-fallback"></div>
+  </div>
+
+  <div class="stat-cards">
+    <div class="stat-card">
+      <div class="s-label">Total logs</div>
+      <div class="s-value">14</div>
+      <div class="s-sub">today</div>
+    </div>
+    <div class="stat-card">
+      <div class="s-label">Most felt</div>
+      <div class="s-value text-val">Sadness</div>
+      <div class="s-sub">today</div>
+    </div>
+    <div class="stat-card">
+      <div class="s-label">Peak time</div>
+      <div class="s-value">6 PM</div>
+      <div class="s-sub">most active</div>
+    </div>
+  </div>
+
+  <div class="chart-section">
+    <div class="chart-title">Emotions over time</div>
+    <div class="chart-area">
+      <canvas id="emo-chart"></canvas>
+    </div>
+    <div class="chart-legend" id="chart-legend"></div>
+  </div>
+
+  <button class="btn-primary" onclick="window.location.href='index.html'">Done</button>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+  (function() {
+    const now = new Date();
+    const days   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const dayName   = days[now.getDay()];
+    const monthName = months[now.getMonth()];
+    const dateNum   = now.getDate();
+    const year      = now.getFullYear();
+    document.getElementById('summary-date').textContent = `${dayName} · ${monthName} ${dateNum}, ${year}`;
+  })();
+
+  const EMOTION_COLORS = {
+    Sadness: '#7DD8F0', Joy: '#F5C97A', Anger: '#F08080', Envy: '#C8A8E8', Calm: '#9FD4A8',
+  };
+
+  const chartData = {
+    labels: ['12 AM', '6', '9', '12 PM', '6', '9'],
+    datasets: [
+      { label:'Sadness', data:[2,3,null,null,null,null],  borderColor:'#7DD8F0', backgroundColor:'rgba(125,216,240,0.08)', tension:0.4, pointRadius:4, pointBackgroundColor:'#7DD8F0', spanGaps:false },
+      { label:'Joy',     data:[null,null,null,null,3,4],  borderColor:'#F5C97A', backgroundColor:'rgba(245,201,122,0.08)', tension:0.4, pointRadius:4, pointBackgroundColor:'#F5C97A', spanGaps:false },
+      { label:'Anger',   data:[1,2,null,null,null,null],  borderColor:'#F08080', backgroundColor:'rgba(240,128,128,0.08)', tension:0.4, pointRadius:4, pointBackgroundColor:'#F08080', spanGaps:false },
+      { label:'Envy',    data:[1,null,2,2,null,null],     borderColor:'#C8A8E8', backgroundColor:'rgba(200,168,232,0.08)', tension:0.4, pointRadius:4, pointBackgroundColor:'#C8A8E8', spanGaps:false },
+      { label:'Calm',    data:[null,1,null,3,2,null],     borderColor:'#9FD4A8', backgroundColor:'rgba(159,212,168,0.08)', tension:0.4, pointRadius:4, pointBackgroundColor:'#9FD4A8', spanGaps:false },
+    ]
+  };
+
+  const legendEl = document.getElementById('chart-legend');
+  chartData.datasets.forEach(ds => {
+    const item = document.createElement('div');
+    item.className = 'legend-item';
+    item.innerHTML = `<div class="legend-dot" style="background:${EMOTION_COLORS[ds.label]}"></div><span>${ds.label}</span>`;
+    legendEl.appendChild(item);
+  });
+
+  window.addEventListener('load', () => {
+    const canvas = document.getElementById('emo-chart');
+    if (!canvas || typeof Chart === 'undefined') return;
+    new Chart(canvas, {
+      type: 'line',
+      data: chartData,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            mode: 'index', intersect: false,
+            backgroundColor: 'rgba(21,40,48,0.88)',
+            titleFont: { family: 'Roboto', size: 12, weight: '500' },
+            bodyFont:  { family: 'Roboto', size: 11 },
+            padding: 10, cornerRadius: 10,
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(20,70,90,0.07)' },
+            ticks: { font: { family: 'Roboto', size: 11 }, color: 'rgba(20,70,90,0.5)' }
+          },
+          y: { display: false, min: 0, max: 5.5 }
+        },
+        interaction: { mode: 'nearest', axis: 'x', intersect: false }
+      }
+    });
+  });
+</script>
+</body>
+</html>
