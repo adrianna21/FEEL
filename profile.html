@@ -6,51 +6,265 @@
 <title>FEEL — Profile</title>
 <link rel="stylesheet" href="shared.css">
 <style>
-  body { background: var(--bg); min-height:100vh; padding-bottom:24px; }
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 
-  .profile-header { background:linear-gradient(160deg,#f4d0a0,#c8d8f0,#d4c4e8); padding:60px 28px 36px; text-align:center; }
-  .profile-avatar { width:80px; height:80px; border-radius:50%; background:rgba(255,255,255,0.5); margin:0 auto 12px; display:flex; align-items:center; justify-content:center; font-size:36px; }
-  .profile-name { font-size:26px; font-weight:700; color:#fff; }
-  .profile-sub { font-size:13px; color:rgba(255,255,255,0.8); margin-top:4px; }
-  .profile-badge { display:inline-block; background:rgba(255,255,255,0.3); border-radius:20px; padding:4px 14px; font-size:12px; color:#fff; margin-top:8px; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg, #f5f4f0);
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
 
-  .profile-section { margin:16px 28px 0; }
-  .profile-section h4 { font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#888; margin-bottom:10px; }
-  .profile-list { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
-  .profile-list-item { display:flex; align-items:center; gap:12px; padding:16px 18px; border-bottom:1px solid #f0f0ec; cursor:pointer; transition:background 0.12s; }
-  .profile-list-item:hover { background:#f9f9f9; }
-  .profile-list-item:last-child { border-bottom:none; }
-  .profile-list-icon { width:36px; height:36px; border-radius:10px; background:#f5f4f0; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
-  .profile-list-label { flex:1; font-size:14px; font-weight:500; }
-  .profile-list-arrow { color:#aaa; font-size:18px; }
+  /* ── GRADIENT HEADER ── */
+  .profile-header {
+    background: linear-gradient(145deg, #f5c5a0 0%, #e8b8d0 25%, #c8d0f0 55%, #a8d8d8 80%, #b8e0c8 100%);
+    padding: 56px 24px 32px;
+    text-align: center;
+  }
+
+  /* ── AVATAR BLOB ── */
+  .avatar-wrap {
+    width: 110px;
+    height: 110px;
+    margin: 0 auto 14px;
+  }
+
+  .avatar-glow {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 38%, #e8f4ff 0%, #7ec8f0 40%, #4a9ed4 70%, #2a7ab8 100%);
+    box-shadow: 0 0 0 6px rgba(255,255,255,0.6), 0 8px 32px rgba(74,158,212,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .blob-face {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .blob-eyes { display: flex; gap: 14px; }
+  .blob-eye {
+    width: 7px;
+    height: 7px;
+    background: #1a3a5c;
+    border-radius: 50%;
+  }
+  .blob-mouth {
+    width: 20px;
+    height: 10px;
+    border: 3px solid #1a3a5c;
+    border-top: none;
+    border-radius: 0 0 20px 20px;
+    transform: rotate(180deg);
+  }
+
+  .mood-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(6px);
+    border-radius: 20px;
+    padding: 4px 14px 4px 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  .mood-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #5bbfe8;
+  }
+
+  .profile-name {
+    font-size: 28px;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    letter-spacing: -0.3px;
+  }
+  .profile-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+    margin-top: 4px;
+  }
+
+  /* ── CONTENT ── */
+  .content { padding: 20px 16px 0; }
+
+  /* ── TODAY FEELING CARD ── */
+  .feeling-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px 18px 18px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    margin-bottom: 14px;
+  }
+  .feeling-title {
+    font-size: 22px;
+    font-weight: 900;
+    color: #111;
+    margin-bottom: 8px;
+  }
+  .feeling-desc {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .mood-tag {
+    display: inline-block;
+    border-radius: 20px;
+    padding: 2px 12px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .tag-sad { background: #e0f0ff; color: #4a9ed4; }
+  .tag-stressed { background: #fff0e0; color: #e8903a; border: 1.5px solid #f0b870; }
+
+  /* ── MINI CARDS ── */
+  .mini-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .mini-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px 14px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .mini-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+  .mini-card-title { font-size: 13px; font-weight: 800; color: #111; margin-bottom: 6px; }
+  .mini-card-sub { font-size: 12px; font-weight: 700; color: #5bbfe8; margin-bottom: 6px; }
+  .mini-card-desc { font-size: 11px; color: #888; line-height: 1.45; }
+  .mini-card-more { font-size: 10px; color: #aaa; margin-top: 8px; }
+
+  /* ── SETTINGS LIST ── */
+  .settings-list {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .settings-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px;
+    border-bottom: 1px solid #f2f2ef;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  .settings-item:hover { background: #fafaf8; }
+  .settings-item:last-child { border-bottom: none; }
+  .settings-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #eeeeeb;
+    flex-shrink: 0;
+  }
+  .settings-label { flex: 1; font-size: 15px; font-weight: 700; color: #111; }
+  .settings-label.danger { color: #e03e3e; }
+  .settings-arrow { color: #bbb; font-size: 20px; }
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <div class="profile-header">
-  <div class="profile-avatar">👤</div>
+  <div class="avatar-wrap">
+    <div class="avatar-glow">
+      <div class="blob-face">
+        <div class="blob-eyes">
+          <div class="blob-eye"></div>
+          <div class="blob-eye"></div>
+        </div>
+        <div class="blob-mouth"></div>
+      </div>
+    </div>
+  </div>
+  <div class="mood-badge">
+    <div class="mood-dot"></div>
+    Sad
+  </div>
   <div class="profile-name">Isabella</div>
-  <div class="profile-sub">21 years old · She/Her</div>
-  <div class="profile-badge">✦ Spark</div>
+  <div class="profile-sub">18 years old | She/Her</div>
 </div>
 
-<div style="padding:16px 0 24px;">
-  <div class="profile-section">
-    <h4>First Aid Kit</h4>
-    <div class="profile-list">
-      <div class="profile-list-item"><div class="profile-list-icon">💬</div><div class="profile-list-label">Words of Affirmation</div><div class="profile-list-arrow">›</div></div>
-      <div class="profile-list-item"><div class="profile-list-icon">🌬️</div><div class="profile-list-label">Anxiety Breathing</div><div class="profile-list-arrow">›</div></div>
-      <div class="profile-list-item"><div class="profile-list-icon">🎵</div><div class="profile-list-label">Calming Playlist</div><div class="profile-list-arrow">›</div></div>
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- Today Feeling Card -->
+  <div class="feeling-card">
+    <div class="feeling-title">Today You Are Feeling...</div>
+    <div class="feeling-desc">
+      Mostly <span class="mood-tag tag-sad">Sad</span>
+      But Also <span class="mood-tag tag-stressed">Stressed</span>
+      , so let's fix that and make sure you get back on track!
     </div>
   </div>
-  <div class="profile-section" style="margin-top:20px;">
-    <h4>Settings</h4>
-    <div class="profile-list">
-      <div class="profile-list-item"><div class="profile-list-icon">🔔</div><div class="profile-list-label">Notifications</div><div class="profile-list-arrow">›</div></div>
-      <div class="profile-list-item"><div class="profile-list-icon">🔒</div><div class="profile-list-label">Privacy</div><div class="profile-list-arrow">›</div></div>
-      <div class="profile-list-item"><div class="profile-list-icon" style="background:#fdeae8;">🗑️</div><div class="profile-list-label" style="color:#e55;">Delete Account</div><div class="profile-list-arrow">›</div></div>
+
+  <!-- Breathing + Affirmation mini cards -->
+  <div class="mini-cards">
+    <div class="mini-card">
+      <div class="mini-card-title">Breathing Exercise</div>
+      <div class="mini-card-sub">4-7-8 Breathing</div>
+      <div class="mini-card-desc">Close your mouth and inhale quietly through your nose for 4 seconds.</div>
+      <div class="mini-card-more">Click To See More</div>
+    </div>
+    <div class="mini-card">
+      <div class="mini-card-title">Words of Affirmation</div>
+      <div class="mini-card-sub">Repeat 3 Times</div>
+      <div class="mini-card-desc">"I am allowed to feel sad, and I am allowed to feel broken."</div>
+      <div class="mini-card-more">Click To See More</div>
     </div>
   </div>
+
+  <!-- Settings List -->
+  <div class="settings-list">
+    <div class="settings-item">
+      <div class="settings-icon"></div>
+      <div class="settings-label">FIRST AID</div>
+      <div class="settings-arrow">›</div>
+    </div>
+    <div class="settings-item">
+      <div class="settings-icon"></div>
+      <div class="settings-label">Preferences</div>
+      <div class="settings-arrow">›</div>
+    </div>
+    <div class="settings-item">
+      <div class="settings-icon"></div>
+      <div class="settings-label">Privacy Policy</div>
+      <div class="settings-arrow">›</div>
+    </div>
+    <div class="settings-item">
+      <div class="settings-icon"></div>
+      <div class="settings-label">Log Out</div>
+      <div class="settings-arrow">›</div>
+    </div>
+    <div class="settings-item">
+      <div class="settings-icon"></div>
+      <div class="settings-label danger">Delete Account</div>
+      <div class="settings-arrow">›</div>
+    </div>
+  </div>
+
 </div>
 
 <script src="nav.js"></script>
