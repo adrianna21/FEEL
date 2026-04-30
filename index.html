@@ -9,269 +9,307 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  * { font-family: 'Roboto', sans-serif; }
-  body { background: linear-gradient(180deg, #77DEF8 39.9%, #F3FCFF 76.92%); min-height:100vh; padding-bottom:140px; }
-
-  .greeting-card { margin:36px 28px 0; border-radius:20px; overflow:hidden; position:relative; width:742px; height:607px; box-shadow:0 8px 32px rgba(41,193,231,0.18); }
-  .greeting-bg-full { position:absolute; inset:0; background-size:cover; background-position:center bottom; background-repeat:no-repeat; }
-  .greeting-overlay { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; padding-top:120px; z-index:10; }
-  .greeting-text { text-align:center; flex-shrink:0; position:relative; z-index:2; }
-  .greeting-text h1 { font-size:41.212px; font-weight:700; color:#fff; line-height:normal; margin-bottom:6px; text-shadow:0 1px 4px rgba(0,0,0,0.12); }
-  .greeting-text p { font-size:29.834px; font-weight:400; color:#fff; line-height:1.3; }
-
-  .home-calendar { padding:20px 28px 0; }
-  .home-calendar-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
-  .home-month { font-size:16px; font-weight:400; color:#555; }
-  .home-cal-icon { width:36px; height:36px; display:flex; align-items:center; justify-content:center; color:#888; cursor:pointer; }
-
-  .cal-overlay { position:fixed; inset:0; z-index:500; display:none; flex-direction:column; width:var(--w); left:50%; transform:translateX(-50%); background:#f5f4f0; }
-  .cal-overlay.open { display:flex; animation:fadeIn 0.2s ease; }
-  .cal-header { width:100%; flex-shrink:0; background:rgba(255,255,255,0.80); box-shadow:0 4px 4px 0 rgba(0,0,0,0.25); backdrop-filter:blur(12px); padding:54px 28px 16px; position:sticky; top:0; z-index:2; }
-  .cal-header-top { display:flex; align-items:center; justify-content:space-between; }
-  .cal-close { background:none; border:none; cursor:pointer; font-size:22px; color:#1a1a1a; line-height:1; padding:4px; }
-  .cal-toggle { display:flex; background:#efefeb; border-radius:40px; padding:3px; gap:2px; }
-  .cal-toggle-btn { padding:7px 22px; border-radius:40px; border:none; font-family:inherit; font-size:14px; font-weight:500; cursor:pointer; background:none; color:#888; transition:all 0.15s; }
-  .cal-toggle-btn.active { background:#fff; color:#1a1a1a; box-shadow:0 1px 4px rgba(0,0,0,0.12); }
-  .cal-body { flex:1; overflow-y:auto; padding:0 28px 120px; }
-  .cal-body::-webkit-scrollbar { display:none; }
-  .cal-month-block { margin-top:32px; }
-  .cal-month-name { font-size:20px; font-weight:700; color:#1a1a1a; text-align:center; margin-bottom:14px; }
-  .cal-grid-dow { display:grid; grid-template-columns:repeat(7,1fr); text-align:center; margin-bottom:6px; }
-  .cal-grid-dow span { font-size:13px; color:#aaa; font-weight:600; }
-  .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); row-gap:2px; }
-  .cal-cell { display:flex; align-items:center; justify-content:center; height:52px; cursor:pointer; font-size:17px; font-weight:600; color:#1a1a1a; position:relative; transition:opacity 0.12s; }
-  .cal-cell:hover { opacity:0.7; }
-  .cal-cell.empty { pointer-events:none; }
-  .cal-cell-inner { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
-  .cal-cell.today .cal-cell-inner { background:#E8784A; color:#fff; }
-  .cal-cell.past-data .cal-cell-inner { background:#1a1a1a; color:#fff; }
-  .cal-month-divider { height:1px; background:#e0e0dc; margin:28px 0 0; }
-  .cal-detail { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:var(--w); background:#fff; border-radius:24px 24px 0 0; box-shadow:0 -4px 24px rgba(0,0,0,0.12); padding:24px 28px 48px; z-index:600; display:none; }
-  .cal-detail.open { display:block; animation:slideUp 0.3s ease; }
-  .cal-detail-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; }
-  .cal-detail-title { font-size:22px; font-weight:700; }
-  .cal-detail-close { background:none; border:none; cursor:pointer; font-size:22px; color:#888; }
-  .cal-detail-sub { font-size:14px; color:#888; margin-bottom:20px; }
-  .cal-detail-cards { display:flex; gap:12px; overflow-x:auto; }
-  .cal-detail-cards::-webkit-scrollbar { display:none; }
-  .cal-detail-card { flex-shrink:0; width:120px; height:120px; border-radius:20px; }
-
-  .day-strip { display:flex; gap:10px; user-select:none; }
-  .day-strip::-webkit-scrollbar { display:none; }
-  .day-chip { flex:1; height:100px; border-radius:20px; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; background:#1a1a1a; box-shadow:0 4px 12px rgba(0,0,0,0.15); }
-  .day-chip.today-default { background:var(--accent); }
-  .day-chip.future { background:rgba(255,255,255,0.55)!important; color:#1a1a1a!important; box-shadow:none; backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,0.4); }
-  .day-chip .day-num { font-size:32px; font-weight:700; line-height:1; }
-  .day-chip .day-name { font-size:13px; font-weight:500; opacity:0.85; }
-
-  .section-label { font-size:13px; font-weight:400; color:#444; padding:20px 28px 10px; letter-spacing:0.01em; }
-  .section-label-row { display:flex; align-items:center; justify-content:space-between; padding:20px 28px 10px; }
-  .section-label-row .section-label { padding:0; }
-  .live-badge { display:flex; align-items:center; gap:5px; font-size:11px; color:#888; }
-  .live-dot { width:7px; height:7px; border-radius:50%; background:#4caf50; animation:livePulse 2s ease-in-out infinite; }
-  .live-dot.stale { background:#f5a623; animation:none; }
-  .live-dot.error { background:#e55; animation:none; }
-
-  .tracker-card { margin:0 28px 20px; background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
-  .tracker-entries { display:flex; flex-direction:column; }
-  .tracker-entry { display:flex; align-items:center; gap:16px; padding:16px 20px; border-bottom:1px solid #f0f0f0; }
-  .tracker-entry:last-child { border-bottom:none; }
-  .emotion-swatch { width:44px; height:44px; border-radius:50%; flex-shrink:0; }
-  .entry-info { flex:1; }
-  .emotion-name { font-weight:600; font-size:17px; color:#1a1a1a; }
-  .entry-meta { font-size:13px; color:#888; margin-top:2px; }
-  .entry-val { font-size:18px; font-weight:700; color:#888; min-width:30px; text-align:right; }
-  .empty-tracker { display:flex; align-items:center; gap:16px; padding:20px; }
-  .empty-face { flex-shrink:0; display:flex; align-items:center; justify-content:center; }
-  .empty-text { font-size:16px; color:#888; font-weight:400; }
-
-  /* ===================== DAILY INSIGHTS SECTION ===================== */
-  .insights-section { padding:0 28px 4px; }
-  .insights-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
-  .insights-title { font-size:18px; font-weight:700; color:#1a1a1a; }
-  .insights-subtitle { font-size:13px; color:#888; font-weight:400; }
-  .insights-dot { width:6px; height:6px; border-radius:50%; background:#77DEF8; display:inline-block; margin-right:6px; }
-  .insights-cards-row { display:flex; gap:14px; }
-
-  .insight-card {
-    flex:1; background:#fff; border-radius:22px;
-    box-shadow:0 4px 20px rgba(119,222,248,0.18), 0 1px 4px rgba(0,0,0,0.06);
-    padding:20px 18px 16px; display:flex; flex-direction:column; align-items:center;
-    min-height:200px; position:relative; overflow:hidden; cursor:pointer;
-    transition:transform 0.15s, box-shadow 0.15s;
+  :root {
+    --personal: #77DEF8; --work: #FFC675;
+    --relationships: #F0A5A7; --health: #9DD2A6; --growth: #B293EB;
+    --radius: 22px;
   }
-  .insight-card:hover { transform:scale(0.98); box-shadow:0 6px 28px rgba(119,222,248,0.28); }
-  .insight-card:active { transform:scale(0.96); }
-  .insight-card-label { font-size:13px; color:#aaa; font-weight:500; text-align:center; margin-bottom:6px; width:100%; }
-  .insight-card-ready { font-size:15px; font-weight:600; text-align:center; background:linear-gradient(90deg,#F4A261,#77DEF8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:10px; }
-  .insight-orb { width:90px; height:90px; border-radius:50%; background:radial-gradient(circle at 40% 40%, #FFD580 0%, #F4A261 55%, rgba(244,162,97,0) 80%); filter:blur(6px); margin:8px auto 14px; flex-shrink:0; }
-  .insight-card-btn { margin-top:auto; padding:10px 24px; border-radius:51.25px; background:rgba(183,183,183,0.20); border:none; font-family:inherit; font-size:14px; font-weight:500; color:#555; cursor:pointer; transition:background 0.15s, transform 0.12s; align-self:center; pointer-events:none; }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Roboto', sans-serif; -webkit-tap-highlight-color: transparent; }
+  html { overflow-x: hidden; }
+  body { background: linear-gradient(180deg, #77DEF8 39.9%, #F3FCFF 76.92%); min-height: 100vh; padding-bottom: 140px; background-attachment: fixed; }
+
+  /* ── Header ── */
+  .home-header {
+    position: relative; padding: 54px 20px 12px;
+    display: flex; align-items: flex-start; justify-content: center; text-align: center;
+  }
+  .home-header-text h1 { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .home-header-text p  { font-size: 14px; color: rgba(255,255,255,0.85); }
+
+  /* Frosted glass calendar icon — top right */
+  .cal-icon-btn {
+    position: absolute; right: 20px; top: 54px;
+    width: 52px; height: 52px;
+    background: rgba(255,255,255,0.35);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border: none; border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: #1a1a1a; box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  }
+  .cal-icon-btn svg { width: 26px; height: 26px; }
+
+  /* ── Calendar card — transparent glass ── */
+  .cal-card {
+    margin: 0 16px 16px;
+    background: rgba(255,255,255,0.28);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-radius: 24px; padding: 14px 14px 16px;
+  }
+  .cal-month-label { font-size: 15px; font-weight: 700; color: #1a1a1a; margin-bottom: 12px; }
+  .day-strip { display: flex; gap: 8px; }
+  .day-chip {
+    flex: 1; height: 88px; border-radius: 18px;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 6px; cursor: pointer; transition: transform 0.12s;
+  }
+  .day-chip.past   { background: #1a1a1a; color: #fff; }
+  .day-chip.today  { background: #F5A623; color: #fff; }
+  .day-chip.future { background: #D6F0FB;  color: #1a1a1a; }
+  .day-chip .day-num  { font-size: 28px; font-weight: 700; line-height: 1; }
+  .day-chip .day-name { font-size: 12px; font-weight: 500; }
+
+  /* ── Sections ── */
+  .section        { margin: 0 16px 16px; }
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .section-title  { font-size: 18px; font-weight: 700; color: #1a1a1a; }
+  .section-link   { font-size: 13px; color: #555; font-weight: 500; cursor: pointer; }
+  .live-badge { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #888; }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #4caf50; }
+  .live-dot.stale { background: #f5a623; }
+  .live-dot.error { background: #e55; }
+
+  /* ── Mood — each entry its own card ── */
+  .mood-entries { display: flex; flex-direction: column; gap: 8px; }
+  .mood-entry-card {
+    background: #fff; border-radius: 18px; padding: 14px 16px;
+    display: flex; align-items: center; gap: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer;
+  }
+  .mood-dot     { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; }
+  .mood-name    { font-size: 20px; font-weight: 600; color: #1a1a1a; flex: 1; }
+  .mood-time    { font-size: 13px; color: #aaa; }
+  .mood-chevron { font-size: 18px; color: #ccc; }
+  .mood-empty-card {
+    background: #fff; border-radius: 18px; padding: 18px 16px;
+    display: flex; align-items: center; gap: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .mood-empty-text { font-size: 15px; color: #aaa; }
+
+  /* ── Insights ── */
+  .insights-row { display: flex; gap: 12px; }
+  .insight-card {
+    flex: 1; background: #fff; border-radius: 22px;
+    padding: 18px 14px 16px; display: flex; flex-direction: column;
+    align-items: center; min-height: 210px;
+    box-shadow: 0 4px 16px rgba(119,222,248,0.2), 0 1px 4px rgba(0,0,0,0.06);
+    cursor: pointer; transition: transform 0.15s;
+  }
+  .insight-card:hover { transform: scale(0.98); }
+  .insight-card-label { font-size: 12px; color: #aaa; text-align: center; margin-bottom: 6px; width: 100%; }
+  .insight-card-ready { font-size: 14px; font-weight: 600; text-align: center; background: linear-gradient(90deg,#F4A261,#77DEF8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px; }
+  .insight-orb { width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle at 40% 40%, #FFD580 0%, #F4A261 55%, rgba(244,162,97,0) 80%); filter: blur(6px); margin: 6px auto 12px; }
+  .insight-btn { margin-top: auto; padding: 9px 16px; border-radius: 40px; background: rgba(183,183,183,0.18); border: none; font-size: 12px; font-weight: 500; color: #555; cursor: pointer; }
 
   .prediction-card {
-    flex:1; background:#fff; border-radius:22px;
-    box-shadow:0 4px 20px rgba(119,222,248,0.18), 0 1px 4px rgba(0,0,0,0.06);
-    padding:20px 18px 16px; display:flex; flex-direction:column; align-items:center;
-    min-height:200px; cursor:pointer; transition:transform 0.15s, box-shadow 0.15s;
+    flex: 1; background: #fff; border-radius: 22px;
+    padding: 18px 14px 16px; display: flex; flex-direction: column;
+    align-items: center; min-height: 210px;
+    box-shadow: 0 4px 16px rgba(119,222,248,0.2), 0 1px 4px rgba(0,0,0,0.06);
+    cursor: pointer; transition: transform 0.15s;
   }
-  .prediction-card:hover { transform:scale(0.98); box-shadow:0 6px 28px rgba(119,222,248,0.28); }
-  .prediction-card:active { transform:scale(0.96); }
-  .prediction-card-label { font-size:13px; color:#aaa; font-weight:500; text-align:center; margin-bottom:14px; width:100%; }
-  .prediction-items { display:flex; flex-direction:column; gap:8px; width:100%; margin-bottom:10px; align-items:center; }
-  .prediction-item { display:flex; align-items:center; gap:8px; justify-content:center; }
-  .pred-icon { width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#fff; flex-shrink:0; }
-  .pred-icon.up { background:#E55A5A; }
-  .pred-icon.down { background:#77DEF8; }
-  .pred-label { font-size:17px; font-weight:700; line-height:1.2; }
-  .pred-label.high { color:#E55A5A; }
-  .pred-label.low { color:#5AB8D8; }
-  .pred-note { font-size:12px; color:#aaa; text-align:center; line-height:1.5; margin:6px 0 10px; padding:0 4px; }
-  .prediction-card .insight-card-btn { pointer-events:none; }
-  /* ================================================================== */
+  .prediction-card:hover { transform: scale(0.98); }
+  .pred-label-top { font-size: 12px; color: #aaa; text-align: center; margin-bottom: 12px; width: 100%; }
+  .pred-items { display: flex; flex-direction: column; gap: 8px; width: 100%; align-items: center; margin-bottom: 8px; }
+  .pred-item  { display: flex; align-items: center; gap: 6px; }
+  .pred-icon  { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .pred-icon.up   { background: #E55A5A; }
+  .pred-icon.down { background: #77DEF8; }
+  .pred-name      { font-size: 16px; font-weight: 700; }
+  .pred-name.high { color: #E55A5A; }
+  .pred-name.low  { color: #5AB8D8; }
+  .pred-note      { font-size: 11px; color: #aaa; text-align: center; line-height: 1.5; margin: 4px 0 8px; }
 
-  .journal-header { display:flex; align-items:center; justify-content:space-between; padding:8px 28px 12px; }
-  .journal-heading-group { display:flex; align-items:center; gap:10px; }
-  .journal-heading { font-size:28px; font-weight:700; color:#1a1a1a; }
-  .journal-qbtn { width:32px; height:32px; border-radius:50%; background:#e0e0dc; color:#555; border:none; font-size:15px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.15s; }
-  .journal-qbtn:hover { background:#d0d0cc; }
-  .journal-plusbtn { width:40px; height:40px; border-radius:50%; background:#1a1a1a; color:#fff; border:none; font-size:22px; font-weight:300; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.15s, transform 0.12s; line-height:1; }
-  .journal-plusbtn:hover { background:#333; }
-  .journal-plusbtn:active { transform:scale(0.93); }
-  .journal-filter-row { display:flex; gap:10px; overflow-x:auto; padding:0 28px 14px; }
-  .journal-filter-row::-webkit-scrollbar { display:none; }
-  .filter-pill { flex-shrink:0; padding:10px 22px; border-radius:40px; font-size:15px; font-weight:500; color:#fff; border:none; cursor:pointer; font-family:inherit; transition:opacity 0.15s, transform 0.12s; opacity:0.45; background:#ccc; }
-  .filter-pill.active { opacity:1; transform:scale(1.04); }
-  .filter-pill[data-tag="All"] { background:#888; color:#fff; }
-  .filter-pill[data-tag="Personal"] { background:var(--tag-personal); color:#1a1a1a; }
-  .filter-pill[data-tag="Work"] { background:var(--tag-work); color:#1a1a1a; }
-  .filter-pill[data-tag="Relationships"] { background:var(--tag-relationships); color:#1a1a1a; }
-  .filter-pill[data-tag="Health"] { background:var(--tag-health); color:#1a1a1a; }
-  .filter-pill[data-tag="Growth"] { background:var(--tag-growth); color:#1a1a1a; }
-  .journal-scroll-row { display:flex; gap:16px; overflow-x:auto; padding:0 28px 8px; cursor:grab; user-select:none; }
-  .journal-scroll-row:active { cursor:grabbing; }
-  .journal-scroll-row::-webkit-scrollbar { display:none; }
-  .journal-card { flex-shrink:0; width:300px; min-height:180px; border-radius:22px; padding:20px; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer; transition:transform 0.15s, box-shadow 0.15s; overflow:hidden; background:#ffffff; box-shadow:0 4px 18px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.06); }
-  .journal-card:hover { transform:scale(0.97); box-shadow:0 6px 24px rgba(0,0,0,0.13); }
-  .journal-card h3 { font-size:16px; font-weight:700; line-height:1.3; color:#1a1a1a; flex-shrink:0; }
-  .journal-card p { font-size:13px; margin-top:8px; line-height:1.55; flex:1; overflow:hidden; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; color:#666; -webkit-text-fill-color:#666; }
-  .card-footer { margin-top:14px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:4px; flex-shrink:0; }
-  .card-date { font-size:13px; color:#aaa; font-weight:400; }
-  .card-tag { font-size:13px; border-radius:20px; padding:5px 14px; font-weight:500; color:#1a1a1a; }
+  /* ── Journal ── */
+  .journal-header { display: flex; align-items: center; justify-content: space-between; margin: 4px 16px 10px; }
+  .journal-title-group { display: flex; align-items: center; gap: 8px; }
+  .journal-title { font-size: 24px; font-weight: 700; color: #1a1a1a; }
+  .journal-qbtn  { width: 30px; height: 30px; border-radius: 50%; background: #1a1a1a; color: #fff; border: none; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .journal-plusbtn { width: 40px; height: 40px; border-radius: 50%; background: #1a1a1a; color: #fff; border: none; font-size: 24px; font-weight: 300; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; transition: transform 0.12s; }
+  .journal-plusbtn:active { transform: scale(0.92); }
 
-  .wtj-overlay { position:fixed; inset:0; z-index:300; background:#f5f4f0; display:none; flex-direction:column; width:var(--w); left:50%; transform:translateX(-50%); }
-  .wtj-overlay.open { display:flex; animation:fadeIn 0.2s ease; }
-  .wtj-header { padding:54px 28px 8px; display:flex; align-items:center; gap:10px; }
-  .wtj-back { background:none; border:none; cursor:pointer; font-size:26px; color:#1a1a1a; padding:4px 8px 4px 0; line-height:1; }
-  .wtj-header-text h2 { font-size:28px; font-weight:700; }
-  .wtj-header-text p { font-size:13px; color:#888; margin-top:2px; }
-  .wtj-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:16px 28px 24px; overflow-y:auto; flex:1; }
-  .wtj-grid::-webkit-scrollbar { display:none; }
-  .wtj-card { border-radius:var(--radius); padding:18px 16px 14px; min-height:130px; background:#d0d0cc; cursor:pointer; transition:transform 0.15s; display:flex; flex-direction:column; justify-content:space-between; }
+  .filter-row { display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 12px; scrollbar-width: none; }
+  .filter-row::-webkit-scrollbar { display: none; }
+  .filter-pill { flex-shrink: 0; padding: 7px 16px; border-radius: 40px; font-size: 13px; font-weight: 500; border: none; cursor: pointer; font-family: inherit; opacity: 0.45; transition: opacity 0.15s, transform 0.12s; }
+  .filter-pill.active { opacity: 1; transform: scale(1.04); }
+  .filter-pill[data-tag="All"]           { background: #888;                color: #fff; }
+  .filter-pill[data-tag="Personal"]      { background: var(--personal);     color: #1a1a1a; }
+  .filter-pill[data-tag="Work"]          { background: var(--work);         color: #1a1a1a; }
+  .filter-pill[data-tag="Relationships"] { background: var(--relationships); color: #1a1a1a; }
+  .filter-pill[data-tag="Health"]        { background: var(--health);       color: #1a1a1a; }
+  .filter-pill[data-tag="Growth"]        { background: var(--growth);       color: #1a1a1a; }
+
+  /* Journal list — condensed matching journal.html */
+  .journal-list { display: flex; flex-direction: column; gap: 8px; padding: 0 16px; }
+  .journal-list-card { background: #fff; border-radius: var(--radius); padding: 12px 12px 14px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.07); display: flex; flex-direction: row; align-items: center; gap: 10px; transition: transform 0.12s; }
+  .journal-list-card:hover { transform: scale(0.99); }
+  .jcard-date-block { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 52px; min-width: 52px; height: 58px; border-radius: 12px; flex-shrink: 0; }
+  .jcard-day-name { font-size: 9px; font-weight: 600; color: #1a1a1a; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.6; }
+  .jcard-day-num  { font-size: 22px; font-weight: 700; color: #1a1a1a; line-height: 1.1; }
+  .date-Personal      { background: #E8F8FD; }
+  .date-Work          { background: #FFF4E5; }
+  .date-Relationships { background: #FDE8E9; }
+  .date-Health        { background: #E8F5EA; }
+  .date-Growth        { background: #F0EAFD; }
+  .jcard-content   { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  /* Journal list */
+  .journal-list { display: flex; flex-direction: column; gap: 8px; padding: 0 16px; }
+  .journal-list-card { background: #fff; border-radius: var(--radius); padding: 12px 12px 14px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.07); display: flex; flex-direction: row; align-items: center; gap: 10px; transition: transform 0.12s; }
+  .journal-list-card:hover { transform: scale(0.99); }
+  .jcard-date-block { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 52px; min-width: 52px; height: 58px; border-radius: 12px; flex-shrink: 0; }
+  .jcard-day-name { font-size: 9px; font-weight: 600; color: #1a1a1a; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.6; }
+  .jcard-day-num  { font-size: 22px; font-weight: 700; color: #1a1a1a; line-height: 1.1; }
+  .date-Personal { background: #E8F8FD; } .date-Work { background: #FFF4E5; } .date-Relationships { background: #FDE8E9; } .date-Health { background: #E8F5EA; } .date-Growth { background: #F0EAFD; }
+  .jcard-content   { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .jcard-body-text { font-size: 11px; color: #999; line-height: 1.4; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .jcard-date-text { font-size: 10px; color: #bbb; margin-top: 2px; }
+  .jcard-right     { display: flex; flex-direction: row; align-items: center; gap: 4px; flex-shrink: 0; }
+  .jcard-tag       { display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 4px 9px; border-radius: 20px; color: #555; white-space: nowrap; }
+  .jcard-dot       { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .jcard-chevron   { font-size: 16px; color: #ccc; }
+  .dot-Personal      { background: var(--personal); }
+  .dot-Work          { background: var(--work); }
+  .dot-Relationships { background: var(--relationships); }
+  .dot-Health        { background: var(--health); }
+  .dot-Growth        { background: var(--growth); }
+  .tag-bg-Personal      { background: #E8F8FD; }
+  .tag-bg-Work          { background: #FFF4E5; }
+  .tag-bg-Relationships { background: #FDE8E9; }
+  .tag-bg-Health        { background: #E8F5EA; }
+  .tag-bg-Growth        { background: #F0EAFD; }
+
+  /* ── Overlays ── */
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;} }
+  .cal-overlay { position:fixed;inset:0;z-index:500;display:none;flex-direction:column;background:#f5f4f0; }
+  .cal-overlay.open { display:flex;animation:fadeIn 0.2s ease; }
+  .cal-header { background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);padding:54px 20px 16px;position:sticky;top:0;z-index:2;box-shadow:0 2px 8px rgba(0,0,0,0.08); }
+  .cal-header-top { display:flex;align-items:center;justify-content:space-between; }
+  .cal-close { background:none;border:none;cursor:pointer;font-size:22px;color:#1a1a1a; }
+  .cal-toggle { display:flex;background:#efefeb;border-radius:40px;padding:3px;gap:2px; }
+  .cal-toggle-btn { padding:7px 22px;border-radius:40px;border:none;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;background:none;color:#888;transition:all 0.15s; }
+  .cal-toggle-btn.active { background:#fff;color:#1a1a1a;box-shadow:0 1px 4px rgba(0,0,0,0.12); }
+  .cal-body { flex:1;overflow-y:auto;padding:0 20px 120px;scrollbar-width:none; }
+  .cal-body::-webkit-scrollbar { display:none; }
+  .cal-month-block { margin-top:32px; }
+  .cal-month-name { font-size:20px;font-weight:700;color:#1a1a1a;text-align:center;margin-bottom:14px; }
+  .cal-grid-dow { display:grid;grid-template-columns:repeat(7,1fr);text-align:center;margin-bottom:6px; }
+  .cal-grid-dow span { font-size:13px;color:#aaa;font-weight:600; }
+  .cal-grid { display:grid;grid-template-columns:repeat(7,1fr);row-gap:2px; }
+  .cal-cell { display:flex;align-items:center;justify-content:center;height:52px;cursor:pointer;font-size:17px;font-weight:600;color:#1a1a1a;transition:opacity 0.12s; }
+  .cal-cell:hover { opacity:0.7; }
+  .cal-cell.empty { pointer-events:none; }
+  .cal-cell-inner { width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center; }
+  .cal-cell.today .cal-cell-inner { background:#F5A623;color:#fff; }
+  .cal-cell.past-data .cal-cell-inner { background:#1a1a1a;color:#fff; }
+  .cal-month-divider { height:1px;background:#e0e0dc;margin:28px 0 0; }
+  .wtj-overlay { position:fixed;inset:0;z-index:400;background:#f5f4f0;display:none;flex-direction:column; }
+  .wtj-overlay.open { display:flex;animation:fadeIn 0.2s ease; }
+  .wtj-header { padding:54px 20px 8px;display:flex;align-items:center;gap:10px; }
+  .wtj-back { background:none;border:none;cursor:pointer;font-size:26px;color:#1a1a1a;padding:4px 8px 4px 0; }
+  .wtj-header-text h2 { font-size:24px;font-weight:700; }
+  .wtj-header-text p  { font-size:13px;color:#888;margin-top:2px; }
+  .wtj-grid { display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px 20px 24px;overflow-y:auto;flex:1; }
+  .wtj-card { border-radius:20px;padding:18px 16px 14px;min-height:120px;background:#d0d0cc;cursor:pointer;transition:transform 0.15s;display:flex;flex-direction:column;justify-content:space-between; }
   .wtj-card:nth-child(even) { background:#b8b8b4; }
   .wtj-card:hover { transform:scale(0.97); }
-  .wtj-card h3 { font-size:20px; font-weight:800; }
-  .wtj-card p { font-size:11px; color:#444; margin-top:4px; }
-  .wtj-flower-icon { display:grid; grid-template-columns:1fr 1fr; gap:4px; width:48px; height:48px; align-self:flex-end; }
-  .wtj-flower-icon span { border-radius:50%; background:rgba(0,0,0,0.5); display:block; }
-
-  /* nav injected by nav.js */
+  .wtj-card h3 { font-size:18px;font-weight:800; }
+  .wtj-card p  { font-size:11px;color:#444;margin-top:4px; }
 </style>
 </head>
 <body>
 
-<!-- Greeting card -->
-<div class="greeting-card">
-  <div class="greeting-bg-full" style="background-image:url('https://i.imgur.com/orANzho.jpeg')"></div>
-  <div class="greeting-overlay">
-    <div class="greeting-text">
-      <h1 id="home-greeting">Good morning, Isabella</h1>
-      <p>We hope you're having a<br>great day</p>
-    </div>
+<!-- Header -->
+<div class="home-header">
+  <div class="home-header-text">
+    <h1 id="home-greeting">Good morning, Isabella</h1>
+    <p>We hope you're having a great day</p>
   </div>
+  <button class="cal-icon-btn" onclick="openCalendar()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="3"/>
+      <line x1="3" y1="9" x2="21" y2="9"/>
+      <line x1="8" y1="2" x2="8" y2="6"/>
+      <line x1="16" y1="2" x2="16" y2="6"/>
+      <circle cx="8"  cy="14" r="1" fill="currentColor"/>
+      <circle cx="12" cy="14" r="1" fill="currentColor"/>
+      <circle cx="16" cy="14" r="1" fill="currentColor"/>
+    </svg>
+  </button>
 </div>
 
-<!-- Month + day strip -->
-<div class="home-calendar">
-  <div class="home-calendar-header">
-    <div class="home-month" id="home-month">April 2026</div>
-    <div class="home-cal-icon" onclick="openCalendar()">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="4" width="18" height="18" rx="3"/><line x1="3" y1="9" x2="21" y2="9"/>
-        <line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/>
-        <circle cx="8" cy="14" r="1" fill="currentColor"/><circle cx="12" cy="14" r="1" fill="currentColor"/><circle cx="16" cy="14" r="1" fill="currentColor"/>
-      </svg>
-    </div>
-  </div>
+<!-- Calendar card -->
+<div class="cal-card">
+  <div class="cal-month-label" id="home-month">April 2026</div>
   <div class="day-strip" id="day-strip"></div>
 </div>
 
-<!-- Today's emotions -->
-<div class="section-label-row">
-  <div class="section-label">Today's emotions</div>
-  <div class="live-badge">
-    <div class="live-dot" id="live-dot"></div>
-    <span id="live-time">—</span>
+<!-- Today's mood -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-title">Today's mood</span>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="live-badge"><div class="live-dot" id="live-dot"></div><span id="live-time">—</span></div>
+      <span class="section-link" onclick="window.location.href='data.html'">View history</span>
+    </div>
   </div>
-</div>
-<div class="tracker-card">
-  <div class="tracker-entries" id="tracker-entries">
-    <div class="empty-tracker">
-      <div class="empty-face">
-        <svg width="52" height="52" viewBox="0 0 131 131" fill="none"><circle cx="65.5" cy="65.5" r="65.5" fill="#A7EAFB"/><circle cx="34" cy="55" r="10.5" fill="black" stroke="black"/><circle cx="96" cy="55" r="10.5" fill="black" stroke="black"/><path d="M56 76C59.3596 72.9815 68.063 68.7556 76 76" stroke="black" stroke-width="5" stroke-linecap="round"/></svg>
-      </div>
-      <span class="empty-text">No emotions logged in today</span>
+  <div class="mood-entries" id="mood-entries">
+    <div class="mood-empty-card">
+      <svg width="44" height="44" viewBox="0 0 131 131" fill="none">
+        <circle cx="65.5" cy="65.5" r="65.5" fill="#A7EAFB"/>
+        <circle cx="34" cy="55" r="10.5" fill="black"/>
+        <circle cx="96" cy="55" r="10.5" fill="black"/>
+        <path d="M56 76C59.3596 72.9815 68.063 68.7556 76 76" stroke="black" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+      <span class="mood-empty-text">No emotions logged today</span>
     </div>
   </div>
 </div>
 
-<!-- ===== MY DAILY INSIGHTS ===== -->
-<div class="section-label" style="padding-bottom:4px;">My daily insights • <span id="insights-day-label">Today</span></div>
-<div class="insights-section">
-  <div class="insights-cards-row">
-    <div class="insight-card" onclick="openSummary()">
+<!-- Daily insights -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-title">My daily insights • <span id="insights-day" style="font-weight:400;font-size:16px;">Today</span></span>
+  </div>
+  <div class="insights-row">
+    <div class="insight-card" onclick="window.location.href='summary.html'">
       <div class="insight-card-label">Your daily summary is</div>
       <div class="insight-card-ready">ready to view.</div>
       <div class="insight-orb"></div>
-      <button class="insight-card-btn">View Summary</button>
+      <button class="insight-btn">View Summary</button>
     </div>
-    <div class="prediction-card" onclick="openPredDetails()">
-      <div class="prediction-card-label">Today's predictions:</div>
-      <div class="prediction-items" id="prediction-items">
-        <div class="prediction-item">
-          <div class="pred-icon up">↑</div>
-          <div class="pred-label high">High Anxiety</div>
-        </div>
-        <div class="prediction-item">
-          <div class="pred-icon down">↓</div>
-          <div class="pred-label low">Low Anger</div>
-        </div>
+    <div class="prediction-card" onclick="window.location.href='predictions.html'">
+      <div class="pred-label-top">Today's predictions:</div>
+      <div class="pred-items">
+        <div class="pred-item"><div class="pred-icon up">↑</div><div class="pred-name high">High Anxiety</div></div>
+        <div class="pred-item"><div class="pred-icon down">↓</div><div class="pred-name low">Low Anger</div></div>
       </div>
       <div class="pred-note" id="pred-note">Sundays tend to feel<br>your most relaxed.</div>
-      <button class="insight-card-btn">View Details</button>
+      <button class="insight-btn" style="margin-top:auto;">View Details</button>
     </div>
   </div>
 </div>
 
-<!-- Journal preview -->
+<!-- Journal -->
 <div class="journal-header">
-  <div class="journal-heading-group">
-    <div class="journal-heading">Journal</div>
+  <div class="journal-title-group">
+    <span class="journal-title">Journal</span>
     <button class="journal-qbtn" onclick="openWTJ()">?</button>
   </div>
-  <button class="journal-plusbtn" onclick="showToast('New entry coming soon')">+</button>
+  <button class="journal-plusbtn" onclick="window.location.href='journal.html'">+</button>
 </div>
-<div class="journal-filter-row" id="journal-filter-row"></div>
-<div class="journal-scroll-row" id="home-journal-row"></div>
+<div class="filter-row" id="filter-row"></div>
+<div class="journal-list" id="journal-list"></div>
 
-<!-- WTJ overlay -->
+<!-- WTJ -->
 <div class="wtj-overlay" id="wtj-overlay">
   <div class="wtj-header">
     <button class="wtj-back" onclick="closeWTJ()">‹</button>
-    <div class="wtj-header-text"><h2>What to Journal</h2><p>Need some help trying to figure out where to start?</p></div>
+    <div class="wtj-header-text"><h2>What to Journal</h2><p>Need help figuring out where to start?</p></div>
   </div>
   <div class="wtj-grid" id="wtj-grid"></div>
 </div>
 
-<!-- Calendar overlay -->
+<!-- Calendar -->
 <div class="cal-overlay" id="cal-overlay">
   <div class="cal-header">
     <div class="cal-header-top">
@@ -285,205 +323,183 @@
   </div>
   <div class="cal-body" id="cal-body"></div>
 </div>
-<div class="cal-detail" id="cal-detail">
-  <div class="cal-detail-header">
-    <div class="cal-detail-title" id="cal-detail-title"></div>
-    <button class="cal-detail-close" onclick="closeCalDetail()">✕</button>
-  </div>
-  <div class="cal-detail-sub">My daily insights</div>
-  <div class="cal-detail-cards" id="cal-detail-cards"></div>
-</div>
 
 <script src="nav.js"></script>
 <script>
-const emotions = loadEmotions();
-let apiData = loadStoredData();
+const STORAGE_KEY='spark_api_data';
+function loadStoredData(){try{const s=localStorage.getItem(STORAGE_KEY);if(s){const p=JSON.parse(s);if(Array.isArray(p)&&p.length)return p;}}catch(e){}return[];}
+function saveData(d){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(d));}catch(e){}}
+function mergeAndStore(ex,fr){const m=new Map(ex.map(d=>[d.id,d]));fr.forEach(d=>m.set(d.id,d));const mg=[...m.values()].sort((a,b)=>b.id-a.id);saveData(mg);return mg;}
+function formatTime(ts){return new Date(ts.replace(' ','T')+'Z').toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
+function utcTimestampToLocalDate(ts){return new Date(ts.replace(' ','T')+'Z').toLocaleDateString('en-CA');}
+function todayLocalStr(){return new Date().toLocaleDateString('en-CA');}
+const defaultEmotions=[{name:'Happiness',key:1},{name:'Sadness',key:2},{name:'Boredom',key:3},{name:'Envy',key:4},{name:'Excitement',key:5}];
+function loadEmotions(){return JSON.parse(localStorage.getItem('spark_emotions')||'null')||defaultEmotions;}
+const EMOTION_COLORS={'Happiness':'#FAC038','Joy':'#FAC038','Sadness':'#3b82c4','Boredom':'#9b8ec4','Envy':'#5bc4b0','Excitement':'#f06080','Calm':'#7ecfbe','Anxious':'#e88a8a','Angry':'#e05050','Anger':'#e05050','Fear':'#7b4ea8','Surprise':'#c87ad4','Pride':'#e06060','Relief':'#68c87a','Contempt':'#5a8a7a','Disgust':'#8aaa30'};
+function getCol(name){return EMOTION_COLORS[name]||'#77DEF8';}
+function getEmotionByKey(emos,val){return emos.find(e=>e.key===val)||{name:'Unknown',key:val};}
 
-function setLiveStatus(state) {
-  const dot = document.getElementById('live-dot');
-  const time = document.getElementById('live-time');
-  if (!dot) return;
-  dot.className = 'live-dot' + (state !== 'live' ? ' ' + state : '');
-  time.textContent = state === 'live' ? new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) : state === 'stale' ? 'Syncing…' : 'Offline';
+const emotions=loadEmotions();
+let apiData=loadStoredData();
+
+function setLiveStatus(s){
+  const dot=document.getElementById('live-dot'),t=document.getElementById('live-time');
+  if(!dot)return;
+  dot.className='live-dot'+(s!=='live'?' '+s:'');
+  t.textContent=s==='live'?new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):s==='stale'?'Syncing…':'Offline';
 }
 
-const API_URL = 'https://web-production-e1116.up.railway.app/data';
-const PROXY_URL = 'https://corsproxy.io/?' + encodeURIComponent(API_URL);
-
-async function fetchData() {
-  const urls = [API_URL + '?t=' + Date.now(), PROXY_URL + '&t=' + Date.now()];
-  for (const url of urls) {
-    try {
-      const c = new AbortController(); const t = setTimeout(() => c.abort(), 8000);
-      const res = await fetch(url, { signal: c.signal }); clearTimeout(t);
-      if (!res.ok) continue;
-      const fresh = JSON.parse(await res.text());
-      if (!Array.isArray(fresh) || !fresh.length) continue;
-      apiData = mergeAndStore(apiData, fresh);
-      setLiveStatus('live'); renderHome(); return;
-    } catch(e) { continue; }
+const API_URL='https://web-production-e1116.up.railway.app/data';
+const PROXY_URL='https://corsproxy.io/?'+encodeURIComponent(API_URL);
+async function fetchData(){
+  for(const url of[API_URL+'?t='+Date.now(),PROXY_URL+'&t='+Date.now()]){
+    try{
+      const c=new AbortController();const t=setTimeout(()=>c.abort(),8000);
+      const res=await fetch(url,{signal:c.signal});clearTimeout(t);
+      if(!res.ok)continue;
+      const fresh=JSON.parse(await res.text());
+      if(!Array.isArray(fresh)||!fresh.length)continue;
+      apiData=mergeAndStore(apiData,fresh);setLiveStatus('live');renderHome();return;
+    }catch(e){continue;}
   }
   setLiveStatus('error');
 }
 
-function makeDraggable(el) {
-  let down=false, startX, scrollLeft;
-  el.addEventListener('mousedown', e => { down=true; startX=e.pageX-el.offsetLeft; scrollLeft=el.scrollLeft; });
-  el.addEventListener('mouseleave', () => down=false);
-  el.addEventListener('mouseup', () => down=false);
-  el.addEventListener('mousemove', e => { if (!down) return; e.preventDefault(); el.scrollLeft = scrollLeft - (e.pageX - el.offsetLeft - startX) * 1.5; });
-}
-
-const TAG_COLORS = { Personal:'#7DD8F0', Work:'#F5C97A', Relationships:'#F0A8B0', Health:'#9FD4A8', Growth:'#B8A8E0' };
-function tagColor(t) { return TAG_COLORS[t] || '#C8C8C8'; }
-
-const journalEntries = [
-  { title:'Long coffee line for bad coffee', body:'Stood in line for 20 minutes today and I was very disappointed by the coffee I got.', date:'Tuesday, 6th April 2026', tag:'Personal' },
-  { title:'Productive morning session', body:'Actually got through my whole to-do list before noon. Felt really good about the momentum.', date:'Monday, 5th April 2026', tag:'Work' },
-  { title:'Ran into an old friend', body:'Bumped into Sarah at the park. We talked for over an hour.', date:'Sunday, 4th April 2026', tag:'Relationships' },
-  { title:'Morning run — new record', body:'Hit a personal best on my 5k this morning. The weather was perfect.', date:'Saturday, 3rd April 2026', tag:'Health' },
-  { title:'Hard conversation at work', body:'Had to give some feedback to a colleague and it was more awkward than anticipated.', date:'Friday, 2nd April 2026', tag:'Work' },
-  { title:'Started reading again', body:'Picked up a book for the first time in months. Just 20 pages but it felt like such a win.', date:'Thursday, 1st April 2026', tag:'Growth' },
-  { title:'Tried a new recipe', body:'Made the spiced lentil soup from that cookbook. It came out way better than expected.', date:'Wednesday, 31st March 2026', tag:'Personal' },
+const journalEntries=[
+  {title:'Long coffee line for bad coffee',body:'Stood in line for 20 minutes today and I was very disappointed by the coffee I got.',date:'Tuesday, 6th April 2026',tag:'Personal'},
+  {title:'Productive morning session',body:'Actually got through my whole to-do list before noon. Felt really good about the momentum.',date:'Monday, 5th April 2026',tag:'Work'},
+  {title:'Ran into an old friend',body:'Bumped into Sarah at the park. We talked for over an hour.',date:'Sunday, 4th April 2026',tag:'Relationships'},
+  {title:'Morning run — new record',body:'Hit a personal best on my 5k this morning. The weather was perfect.',date:'Saturday, 3rd April 2026',tag:'Health'},
+  {title:'Hard conversation at work',body:'Had to give some feedback to a colleague and it was more awkward than anticipated.',date:'Friday, 2nd April 2026',tag:'Work'},
+  {title:'Started reading again',body:'Picked up a book for the first time in months. Just 20 pages but it felt like such a win.',date:'Thursday, 1st April 2026',tag:'Growth'},
+  {title:'Tried a new recipe',body:'Made the spiced lentil soup from that cookbook. It came out way better than expected.',date:'Wednesday, 31st March 2026',tag:'Personal'},
 ];
 
-function renderJournalRow(filterTag) {
-  const row = document.getElementById('home-journal-row');
-  if (!row) return;
-  row.innerHTML = '';
-  const entries = filterTag ? journalEntries.filter(j => j.tag === filterTag) : journalEntries;
-  entries.slice(0,6).forEach(j => {
-    const card = document.createElement('div');
-    card.className = 'journal-card';
-    card.innerHTML = `<h3>${j.title}</h3><p>${j.body}</p><div class="card-footer"><span class="card-date">${j.date}</span><span class="card-tag" style="background:${tagColor(j.tag)}">${j.tag}</span></div>`;
-    row.appendChild(card);
+function parseDateBlock(s){
+  const p=s.split(',');
+  return{
+    dayName:p[0]?p[0].trim().slice(0,3).toUpperCase():'',
+    dayNum:p[1]?(p[1].trim().match(/\d+/)||[''])[0]:'',
+    shortDate:p[1]&&p[2]?(p[1].trim().replace(/\d+(st|nd|rd|th)/,m=>m.replace(/(st|nd|rd|th)/,''))+','+p[2]).trim():s
+  };
+}
+
+function renderJournalList(filterTag){
+  const list=document.getElementById('journal-list');list.innerHTML='';
+  const entries=filterTag?journalEntries.filter(j=>j.tag===filterTag):journalEntries;
+  entries.slice(0,6).forEach(j=>{
+    const{dayName,dayNum,shortDate}=parseDateBlock(j.date);
+    const card=document.createElement('div');card.className='journal-list-card';
+    card.innerHTML=`<div class="jcard-date-block date-${j.tag}"><span class="jcard-day-name">${dayName}</span><span class="jcard-day-num">${dayNum}</span></div><div class="jcard-content"><div class="jcard-title">${j.title}</div><div class="jcard-body-text">${j.body}</div><div class="jcard-date-text">${shortDate}</div></div><div class="jcard-right"><div class="jcard-tag tag-bg-${j.tag}"><span class="jcard-dot dot-${j.tag}"></span>${j.tag}</div><span class="jcard-chevron">›</span></div>`;
+    card.onclick=()=>window.location.href='journal.html';
+    list.appendChild(card);
   });
 }
 
-const DAY_NOTES = ['Sundays tend to feel<br>your most relaxed.','Mondays tend to feel<br>your most stressful.','Tuesdays are often<br>your most productive.','Midweek energy<br>dips are common.','Thursdays bring<br>a sense of momentum.','Fridays lift<br>your mood naturally.','Saturdays are when<br>you feel most free.'];
+const DAY_NOTES=['Sundays tend to feel<br>your most relaxed.','Mondays tend to feel<br>your most stressful.','Tuesdays are often<br>your most productive.','Midweek energy<br>dips are common.','Thursdays bring<br>a sense of momentum.','Fridays lift<br>your mood naturally.','Saturdays are when<br>you feel most free.'];
 
-function renderHome() {
-  const now = new Date(); const h = now.getHours();
-  document.getElementById('home-greeting').textContent = (h<12?'Good morning':h<18?'Good afternoon':'Good evening') + ', Isabella';
-  document.getElementById('home-month').textContent = now.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+function renderHome(){
+  const now=new Date();const h=now.getHours();
+  document.getElementById('home-greeting').textContent=(h<12?'Good morning':h<18?'Good afternoon':'Good evening')+', Isabella';
+  document.getElementById('home-month').textContent=now.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+  document.getElementById('pred-note').innerHTML=DAY_NOTES[now.getDay()];
 
-  const insightsLabel = document.getElementById('insights-day-label');
-  if (insightsLabel) insightsLabel.textContent = 'Today';
-
-  const predNote = document.getElementById('pred-note');
-  if (predNote) predNote.innerHTML = DAY_NOTES[now.getDay()];
-
-  const strip = document.getElementById('day-strip'); strip.innerHTML = '';
-  const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const todayStr = todayLocalStr();
-  for (let i=-3; i<=3; i++) {
-    const d = new Date(now); d.setDate(now.getDate()+i);
-    const dStr = d.toLocaleDateString('en-CA');
-    const chip = document.createElement('div'); chip.className = 'day-chip';
-    if (i>0) { chip.classList.add('future'); }
-    else {
-      const dayData = apiData.filter(e => utcTimestampToLocalDate(e.timestamp) === dStr);
-      if (dayData.length>0) { const em = getEmotionByKey(emotions, dayData.sort((a,b)=>b.id-a.id)[0].button_value); chip.style.background = getGrad(em.name); if (i!==0) chip.style.opacity='0.75'; }
-      else if (i===0) chip.classList.add('today-default');
+  /* Day strip */
+  const strip=document.getElementById('day-strip');strip.innerHTML='';
+  const dn=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  for(let i=-3;i<=3;i++){
+    const d=new Date(now);d.setDate(now.getDate()+i);
+    const dStr=d.toLocaleDateString('en-CA');
+    const chip=document.createElement('div');
+    if(i===0) chip.className='day-chip today';
+    else if(i>0) chip.className='day-chip future';
+    else{
+      chip.className='day-chip past';
+      const dd=apiData.filter(e=>utcTimestampToLocalDate(e.timestamp)===dStr);
+      if(dd.length>0){const em=getEmotionByKey(emotions,dd.sort((a,b)=>b.id-a.id)[0].button_value);chip.style.background=getCol(em.name);}
     }
-    chip.innerHTML = `<div class="day-num">${d.getDate()}</div><div class="day-name">${dayNames[d.getDay()]}</div>`;
+    chip.innerHTML=`<div class="day-num">${d.getDate()}</div><div class="day-name">${dn[d.getDay()]}</div>`;
     strip.appendChild(chip);
   }
-  makeDraggable(strip);
-  const todayData = apiData.filter(d => utcTimestampToLocalDate(d.timestamp) === todayStr).sort((a,b)=>b.id-a.id);
-  const container = document.getElementById('tracker-entries');
-  if (todayData.length===0) {
-    container.innerHTML = `<div class="empty-tracker"><div class="empty-face"><svg width="52" height="52" viewBox="0 0 131 131" fill="none"><circle cx="65.5" cy="65.5" r="65.5" fill="#A7EAFB"/><circle cx="34" cy="55" r="10.5" fill="black" stroke="black"/><circle cx="96" cy="55" r="10.5" fill="black" stroke="black"/><path d="M56 76C59.3596 72.9815 68.063 68.7556 76 76" stroke="black" stroke-width="5" stroke-linecap="round"/></svg></div><span class="empty-text">No emotions logged in today</span></div>`;
+
+  /* Mood */
+  const todayStr=todayLocalStr();
+  const todayData=apiData.filter(d=>utcTimestampToLocalDate(d.timestamp)===todayStr).sort((a,b)=>b.id-a.id);
+  const moodEl=document.getElementById('mood-entries');
+  if(todayData.length===0){
+    moodEl.innerHTML=`<div class="mood-empty-card"><svg width="44" height="44" viewBox="0 0 131 131" fill="none"><circle cx="65.5" cy="65.5" r="65.5" fill="#A7EAFB"/><circle cx="34" cy="55" r="10.5" fill="black"/><circle cx="96" cy="55" r="10.5" fill="black"/><path d="M56 76C59.3596 72.9815 68.063 68.7556 76 76" stroke="black" stroke-width="5" stroke-linecap="round"/></svg><span class="mood-empty-text">No emotions logged today</span></div>`;
   } else {
-    container.innerHTML = '';
-    todayData.forEach(d => {
-      const em = getEmotionByKey(emotions, d.button_value);
-      const el = document.createElement('div'); el.className = 'tracker-entry';
-      el.innerHTML = `<div class="emotion-swatch" style="background:${getGrad(em.name)}"></div><div class="entry-info"><div class="emotion-name">${em.name}</div><div class="entry-meta">${formatTime(d.timestamp)}</div></div><div class="entry-val" style="color:${getCol(em.name)}">${d.button_value}</div>`;
-      container.appendChild(el);
+    moodEl.innerHTML='';
+    todayData.forEach(d=>{
+      const em=getEmotionByKey(emotions,d.button_value);
+      const el=document.createElement('div');el.className='mood-entry-card';
+      el.innerHTML=`<div class="mood-dot" style="background:${getCol(em.name)}"></div><div class="mood-name">${em.name}</div><div class="mood-time">${formatTime(d.timestamp)}</div><span class="mood-chevron">›</span>`;
+      moodEl.appendChild(el);
     });
   }
-  const TAGS = ['All','Personal','Work','Relationships','Health','Growth'];
-  const filterRow = document.getElementById('journal-filter-row');
-  if (filterRow && !filterRow.dataset.built) {
-    filterRow.dataset.built = '1';
-    TAGS.forEach(tag => {
-      const pill = document.createElement('button'); pill.className = 'filter-pill' + (tag==='All'?' active':''); pill.dataset.tag = tag; pill.textContent = tag;
-      pill.onclick = () => { filterRow.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active')); pill.classList.add('active'); renderJournalRow(tag==='All'?null:tag); };
-      filterRow.appendChild(pill);
+
+  /* Filter */
+  const fr=document.getElementById('filter-row');
+  if(!fr.dataset.built){
+    fr.dataset.built='1';
+    ['All','Personal','Work','Relationships','Health','Growth'].forEach(tag=>{
+      const p=document.createElement('button');
+      p.className='filter-pill'+(tag==='All'?' active':'');
+      p.dataset.tag=tag;p.textContent=tag;
+      p.onclick=()=>{fr.querySelectorAll('.filter-pill').forEach(x=>x.classList.remove('active'));p.classList.add('active');renderJournalList(tag==='All'?null:tag);};
+      fr.appendChild(p);
     });
   }
-  renderJournalRow(null);
-  makeDraggable(document.getElementById('home-journal-row'));
+  renderJournalList(null);
 }
 
-function openSummary() { window.location.href = 'summary.html'; }
-function openPredDetails() { window.location.href = 'predictions.html'; }
-
-const wtjPrompts = [
-  {name:'Rant',desc:"Say whatever's on your mind"},{name:'Gratitude',desc:'What are you thankful for?'},
-  {name:'Reflection',desc:'How did today make you feel?'},{name:'Goal',desc:'What do you want to achieve?'},
-  {name:'Memory',desc:'Something worth remembering'},{name:'Letter',desc:'Write to your future self'},
-  {name:'Dream',desc:'What did you dream about?'},{name:'Worry',desc:'Get your anxieties out'},
-];
-function openWTJ() {
-  const grid = document.getElementById('wtj-grid'); grid.innerHTML = '';
-  wtjPrompts.forEach(p => {
-    const card = document.createElement('div'); card.className = 'wtj-card';
-    card.innerHTML = `<div><h3>${p.name}</h3><p>${p.desc}</p></div><div class="wtj-flower-icon"><span></span><span></span><span></span><span></span></div>`;
-    card.onclick = () => { closeWTJ(); showToast(`Starting "${p.name}" entry`); };
+const wtjPrompts=[{name:'Rant',desc:"Say whatever's on your mind"},{name:'Gratitude',desc:'What are you thankful for?'},{name:'Reflection',desc:'How did today make you feel?'},{name:'Goal',desc:'What do you want to achieve?'},{name:'Memory',desc:'Something worth remembering'},{name:'Letter',desc:'Write to your future self'},{name:'Dream',desc:'What did you dream about?'},{name:'Worry',desc:'Get your anxieties out'}];
+function openWTJ(){
+  const grid=document.getElementById('wtj-grid');grid.innerHTML='';
+  wtjPrompts.forEach(p=>{
+    const card=document.createElement('div');card.className='wtj-card';
+    card.innerHTML=`<div><h3>${p.name}</h3><p>${p.desc}</p></div>`;
+    card.onclick=()=>{closeWTJ();window.location.href='journal.html';};
     grid.appendChild(card);
   });
   document.getElementById('wtj-overlay').classList.add('open');
 }
-function closeWTJ() { document.getElementById('wtj-overlay').classList.remove('open'); }
+function closeWTJ(){document.getElementById('wtj-overlay').classList.remove('open');}
 
-function openCalendar() { buildCalBody(); document.getElementById('cal-overlay').classList.add('open'); }
-function closeCalendar() { document.getElementById('cal-overlay').classList.remove('open'); closeCalDetail(); }
-function calToggle(mode) {
-  document.getElementById('cal-btn-month').classList.toggle('active', mode==='month');
-  document.getElementById('cal-btn-year').classList.toggle('active', mode==='year');
+function openCalendar(){buildCalBody();document.getElementById('cal-overlay').classList.add('open');}
+function closeCalendar(){document.getElementById('cal-overlay').classList.remove('open');}
+function calToggle(mode){
+  document.getElementById('cal-btn-month').classList.toggle('active',mode==='month');
+  document.getElementById('cal-btn-year').classList.toggle('active',mode==='year');
 }
-function buildCalBody() {
-  const body = document.getElementById('cal-body'); body.innerHTML = '';
-  const now = new Date(); const todayStr = todayLocalStr();
-  for (let m=-3; m<=2; m++) {
-    const md = new Date(now.getFullYear(), now.getMonth()+m, 1);
-    const block = document.createElement('div'); block.className = 'cal-month-block';
-    const dim = new Date(md.getFullYear(), md.getMonth()+1, 0).getDate();
-    const fd = md.getDay();
-    let html = `<div class="cal-month-name">${md.toLocaleDateString('en-GB',{month:'long'})}</div>`;
-    html += `<div class="cal-grid-dow"><span>S</span><span>M</span><span>T</span><span>W</span><span>R</span><span>F</span><span>S</span></div><div class="cal-grid">`;
-    for (let e=0; e<fd; e++) html += `<div class="cal-cell empty"></div>`;
-    for (let day=1; day<=dim; day++) {
-      const d = new Date(md.getFullYear(), md.getMonth(), day);
-      const dStr = d.toLocaleDateString('en-CA');
-      const isToday = dStr===todayStr;
-      const isPast = dStr<todayStr && apiData.some(e=>utcTimestampToLocalDate(e.timestamp)===dStr);
-      const cls = isToday?' today':isPast?' past-data':'';
-      html += `<div class="cal-cell${cls}" onclick="openCalDetail(new Date('${dStr}T12:00:00'))"><div class="cal-cell-inner">${day}</div></div>`;
+function buildCalBody(){
+  const body=document.getElementById('cal-body');body.innerHTML='';
+  const now=new Date();const todayStr=todayLocalStr();
+  for(let m=-3;m<=2;m++){
+    const md=new Date(now.getFullYear(),now.getMonth()+m,1);
+    const block=document.createElement('div');block.className='cal-month-block';
+    const dim=new Date(md.getFullYear(),md.getMonth()+1,0).getDate();
+    const fd=md.getDay();
+    let html=`<div class="cal-month-name">${md.toLocaleDateString('en-GB',{month:'long'})}</div><div class="cal-grid-dow"><span>S</span><span>M</span><span>T</span><span>W</span><span>R</span><span>F</span><span>S</span></div><div class="cal-grid">`;
+    for(let e=0;e<fd;e++)html+=`<div class="cal-cell empty"></div>`;
+    for(let day=1;day<=dim;day++){
+      const d=new Date(md.getFullYear(),md.getMonth(),day);
+      const dStr=d.toLocaleDateString('en-CA');
+      const cls=dStr===todayStr?' today':dStr<todayStr&&apiData.some(e=>utcTimestampToLocalDate(e.timestamp)===dStr)?' past-data':'';
+      html+=`<div class="cal-cell${cls}"><div class="cal-cell-inner">${day}</div></div>`;
     }
-    html += `</div>`; if (m<2) html += `<div class="cal-month-divider"></div>`;
-    block.innerHTML = html; body.appendChild(block);
+    html+=`</div>`;if(m<2)html+=`<div class="cal-month-divider"></div>`;
+    block.innerHTML=html;body.appendChild(block);
   }
-  setTimeout(() => { const blocks = body.querySelectorAll('.cal-month-block'); if (blocks[3]) blocks[3].scrollIntoView({behavior:'auto',block:'start'}); }, 50);
+  setTimeout(()=>{const b=body.querySelectorAll('.cal-month-block');if(b[3])b[3].scrollIntoView({behavior:'auto',block:'start'});},50);
 }
-function openCalDetail(date) {
-  const detail = document.getElementById('cal-detail');
-  document.getElementById('cal-detail-title').textContent = date.toLocaleDateString('en-GB',{month:'long',day:'numeric'});
-  const cards = document.getElementById('cal-detail-cards'); cards.innerHTML = '';
-  ['#7DD8F0','#F5C97A','#9FD4A8'].forEach(c => { const card = document.createElement('div'); card.className='cal-detail-card'; card.style.background=c; cards.appendChild(card); });
-  detail.classList.add('open');
-}
-function closeCalDetail() { document.getElementById('cal-detail').classList.remove('open'); }
 
-// Init
 initNav('home');
 setLiveStatus('stale');
 renderHome();
 fetchData();
-setInterval(fetchData, 30000);
-document.addEventListener('visibilitychange', () => { if (document.visibilityState==='visible') { setLiveStatus('stale'); fetchData(); } });
+setInterval(fetchData,30000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){setLiveStatus('stale');fetchData();}});
 </script>
 </body>
 </html>

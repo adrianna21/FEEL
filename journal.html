@@ -99,65 +99,177 @@
     .page-inner { max-width: 1200px; padding: 0 48px; }
   }
 
-  /* Cards */
+  /* ── Header — left aligned ── */
+  .journal-page-header {
+    padding: 54px 0 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .journal-page-header-left { display: flex; flex-direction: column; gap: 4px; }
+  .journal-page-header h2 {
+    font-size: clamp(28px, 6vw, 46px);
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.5px;
+    text-align: left;
+  }
+  .journal-subtitle {
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.8);
+    font-family: Roboto, sans-serif;
+  }
+  .help-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    border: 2px solid rgba(255,255,255,0.6);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 6px;
+    font-family: Roboto, sans-serif;
+  }
+
+  /* ── Cards ── */
   .journal-list-card {
-    border-radius: var(--radius);
+    border-radius: 22px;
     background: #fff;
-    padding: 22px 24px;
+    padding: 16px 14px 20px 14px;
     cursor: pointer;
     transition: transform 0.15s, box-shadow 0.15s;
     position: relative;
     overflow: hidden;
     box-shadow: 0 4px 16px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.06);
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
   }
   .journal-list-card:hover { transform: scale(0.99); box-shadow: 0 4px 18px rgba(0,0,0,0.1); }
 
-  .journal-list-card h3 {
-    font-size: 16px;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin-bottom: 6px;
-  }
-  .journal-list-card p {
-    font-size: 13px;
-    color: #777;
-    line-height: 1.6;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    flex: 1;
-  }
-  .jcard-foot {
+  /* Date block */
+  .jcard-date-block {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 14px;
+    justify-content: center;
+    width: 58px;
+    min-width: 58px;
+    height: 64px;
+    border-radius: 14px;
     flex-shrink: 0;
   }
-  .jcard-date { font-size: 12px; color: #aaa; font-weight: 500; }
-  .jcard-tag {
-    font-size: 11px;
+  .jcard-day-name {
+    font-size: 10px;
     font-weight: 600;
-    padding: 5px 14px;
-    border-radius: 20px;
     color: #1a1a1a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: Roboto, sans-serif;
+    opacity: 0.6;
   }
-  .tag-Personal     { background: var(--personal); }
-  .tag-Work         { background: var(--work); }
-  .tag-Relationships{ background: var(--relationships); }
-  .tag-Health       { background: var(--health); }
-  .tag-Growth       { background: var(--growth); }
+  .jcard-day-num {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.1;
+    font-family: Roboto, sans-serif;
+  }
+  .date-Personal      { background: #E8F8FD; }
+  .date-Work          { background: #FFF4E5; }
+  .date-Relationships { background: #FDE8E9; }
+  .date-Health        { background: #E8F5EA; }
+  .date-Growth        { background: #F0EAFD; }
+
+  /* Middle content */
+  .jcard-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .jcard-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a1a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: Roboto, sans-serif;
+  }
+  .jcard-body-text {
+    font-size: 11px;
+    color: #999;
+    line-height: 1.45;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-family: Roboto, sans-serif;
+  }
+  .jcard-date-text {
+    font-size: 10px;
+    color: #bbb;
+    margin-top: 3px;
+    font-family: Roboto, sans-serif;
+  }
+
+  /* Right side — tag and chevron horizontal */
+  .jcard-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .jcard-tag {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    color: #555;
+    font-family: Roboto, sans-serif;
+    white-space: nowrap;
+  }
+  /* Tag bg matches date block color */
+  .tag-bg-Personal      { background: #E8F8FD; }
+  .tag-bg-Work          { background: #FFF4E5; }
+  .tag-bg-Relationships { background: #FDE8E9; }
+  .tag-bg-Health        { background: #E8F5EA; }
+  .tag-bg-Growth        { background: #F0EAFD; }
+
+  .jcard-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-Personal     { background: var(--personal); }
+  .dot-Work         { background: var(--work); }
+  .dot-Relationships{ background: var(--relationships); }
+  .dot-Health       { background: var(--health); }
+  .dot-Growth       { background: var(--growth); }
+  .jcard-chevron { font-size: 18px; color: #ccc; line-height: 1; }
 
   /* ── Swipe-to-delete wrapper ── */
   .card-swipe-wrapper {
     position: relative;
-    border-radius: var(--radius);
+    border-radius: 22px;
   }
   .card-swipe-wrapper .journal-list-card {
-    border-radius: var(--radius);
+    border-radius: 22px;
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     will-change: transform;
     touch-action: pan-y;
@@ -169,14 +281,14 @@
   }
   .delete-btn {
     position: absolute;
-    right: -10px;
+    right: -4px;
     top: 50%;
     transform: translateY(-50%) scale(0.5);
     width: 64px;
     height: 64px;
     border-radius: 500px;
     background: #EB585A;
-    box-shadow: 0 8.2px 8.2px 0 rgba(0,0,0,0.25);
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,0.15);
     border: none;
     cursor: pointer;
     display: flex;
@@ -200,7 +312,7 @@
     position: fixed;
     bottom: 100px;
     right: clamp(16px, 4vw, 48px);
-    z-index: 500;
+    z-index: 300;
     background: #1a1a1a;
     color: #fff;
     border: none;
@@ -214,10 +326,14 @@
     align-items: center;
     gap: 8px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-    transition: transform 0.15s, box-shadow 0.15s;
+    transition: transform 0.15s, box-shadow 0.15s, filter 0.25s;
   }
   .add-entry-fab:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.3); }
   .add-entry-fab:active { transform: translateY(0); }
+  .add-entry-fab.blurred {
+    filter: blur(4px);
+    pointer-events: none;
+  }
 
   /* ── Entry Screen — Popup Overlay ── */
   .screen {
@@ -225,10 +341,10 @@
     position: fixed;
     inset: 0;
     z-index: 400;
-    background: rgba(140, 140, 140, 0.44);
+    background: rgba(255, 255, 255, 0.36);
     backdrop-filter: blur(12.5px);
     -webkit-backdrop-filter: blur(12.5px);
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
     padding: 20px 16px;
   }
@@ -238,15 +354,16 @@
   /* Popup container */
   .popup-card {
     width: 100%;
-    max-width: 560px;
+    max-width: 520px;
     border-radius: 48px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    max-height: 90vh;
+    max-height: 92vh;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
   }
 
-  /* Top header block — gradient + white underlay */
+  /* Header */
   .popup-header {
     position: relative;
     border-radius: 48px 48px 0 0;
@@ -256,48 +373,52 @@
   .popup-header-bg {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, #F5A623 0%, #C7614A 25%, #9B6EA8 50%, #4ABCD4 75%, #77DEF8 100%);
-    background-size: 200% 200%;
-    filter: blur(18px);
-    transform: scale(1.1);
+    background: linear-gradient(135deg, #F5A623 0%, #E8906A 20%, #C7614A 35%, #9B6EA8 55%, #4ABCD4 75%, #77DEF8 100%);
+    filter: blur(0px);
   }
   .popup-header-white {
     position: relative;
-    background: rgba(255,255,255,0.55);
-    border-radius: 48px 48px 0 0;
-    padding: 24px 28px 20px;
+    background: transparent;
+    padding: 28px 24px 20px;
     z-index: 1;
   }
   .popup-header-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
   }
-  .popup-back-btn {
-    background: none;
+  .popup-close-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
     border: none;
     cursor: pointer;
-    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
     color: #1a1a1a;
-    line-height: 1;
-    padding: 0;
-    font-weight: 300;
+    font-weight: 500;
+    font-family: Roboto, sans-serif;
+    flex-shrink: 0;
   }
   .popup-title {
     font-family: Roboto, sans-serif;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
-    color: #1a1a1a;
+    color: #ffffff;
     text-align: center;
     flex: 1;
   }
   .popup-date-pill {
     background: #fff;
     border-radius: 50px;
-    padding: 10px 18px;
+    padding: 11px 18px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
     font-family: Roboto, sans-serif;
     font-size: 15px;
@@ -305,15 +426,17 @@
     color: #333;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   }
+  .popup-date-pill-left { display: flex; align-items: center; gap: 10px; }
+  .popup-date-chevron { color: #818A90; font-size: 16px; }
 
-  /* Body block — top corners NOT rounded */
+  /* Body block */
   .popup-body {
-    background: #F3F6F8;
+    background: #FFFFFF;
     border-radius: 0 0 48px 48px;
-    padding: 20px 20px 28px;
+    padding: 20px 16px 24px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 12px;
     overflow-y: auto;
     flex: 1;
   }
@@ -321,68 +444,74 @@
   /* Section cards */
   .popup-section {
     border-radius: 25px;
+    border: none;
     background: #FFF;
-    box-shadow: 0 0 0 5px #EAF4FA;
-    padding: 18px 20px;
+    box-shadow: -1px -1px 1px rgba(0,0,0,0.012), 2px 2px 2px rgba(0,0,0,0.06);
+    padding: 16px 18px;
   }
 
   /* Section labels */
   .section-label {
-    color: #B5BCC0;
+    color: #818A90;
     font-family: Roboto, sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     margin-bottom: 14px;
   }
 
   /* Emotions */
-  .emotions-scroll { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+  .emotions-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
   .emotions-scroll::-webkit-scrollbar { display: none; }
   .emotion-item { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; cursor: pointer; }
-  .flower-wrap { width: 58px; height: 58px; }
-  .flower-wrap svg { width: 58px; height: 58px; filter: drop-shadow(0 3px 4px rgba(0,0,0,0.18)); }
-  .emotion-label { font-size: 11px; color: #B5BCC0; text-align: center; font-weight: 600; font-family: Roboto, sans-serif; }
+  .flower-wrap { width: 56px; height: 56px; }
+  .flower-wrap svg { width: 56px; height: 56px; }
+  .emotion-label { font-size: 11px; color: #818A90; text-align: center; font-weight: 500; font-family: Roboto, sans-serif; }
   .emotion-val { font-size: 11px; color: #333; font-weight: 600; font-family: Roboto, sans-serif; }
 
-  /* Categories — single row, evenly spaced */
-  .categories { display: flex; gap: 8px; flex-wrap: nowrap; justify-content: space-between; }
+  /* Categories */
+  .categories { display: flex; gap: 6px; flex-wrap: nowrap; justify-content: space-between; }
   .cat-pill {
     flex: 1;
-    height: 36px;
-    padding: 0 8px;
+    height: 34px;
+    padding: 0 4px;
     border-radius: 34.09px;
     border: none;
-    background: #CCD8DF;
-    font-size: 12px;
+    background: #F3F6F8;
+    font-size: 11px;
     font-weight: 600;
     font-style: normal;
     cursor: pointer;
-    color: #fff;
+    color: #818A90;
     transition: all 0.15s;
     white-space: nowrap;
     font-family: Roboto, sans-serif;
     text-align: center;
   }
-  .cat-pill.selected { background: #33C6E8; }
+  .cat-pill[data-cat="Relationships"] { padding: 0 10px; }
+  .cat-pill.selected[data-cat="Personal"]     { background: #3AC6E9; color: #fff; }
+  .cat-pill.selected[data-cat="Work"]         { background: #FCB750; color: #fff; }
+  .cat-pill.selected[data-cat="Relationships"]{ background: #EB585A; color: #fff; }
+  .cat-pill.selected[data-cat="Health"]       { background: #68BC7A; color: #fff; }
+  .cat-pill.selected[data-cat="Growth"]       { background: #B293EB; color: #fff; }
 
-  /* Text area */
+  /* Text inputs */
   .title-input {
     font-family: Roboto, sans-serif;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 600;
-    color: #B5BCC0;
+    color: #818A90;
     text-align: left;
     border: none;
     outline: none;
     width: 100%;
     background: transparent;
   }
-  .title-input::placeholder { color: #B5BCC0; font-weight: 600; }
+  .title-input::placeholder { color: #818A90; font-weight: 600; }
   .body-input {
     font-family: Roboto, sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    color: #555;
+    font-size: 15px;
+    font-weight: 400;
+    color: #818A90;
     text-align: left;
     border: none;
     outline: none;
@@ -392,11 +521,11 @@
     resize: none;
     line-height: 1.6;
   }
-  .body-input::placeholder { color: #C5CBCE; font-weight: 500; }
+  .body-input::placeholder { color: #818A90; font-weight: 400; }
 
   /* Create button */
   .create-btn {
-    background: var(--black-gradient, linear-gradient(180deg, #666 0%, #000 75.96%));
+    background: #000000;
     color: #fff;
     border: none;
     border-radius: 50px;
@@ -409,40 +538,65 @@
     margin-top: 4px;
   }
 
-  /* ── Intensity screen ── */
-  .intensity-screen { background: #fff; }
-  .intensity-top-bar {
-    background: #33C6E8;
-    padding: 54px 24px 24px;
-    border-radius: 0 0 32px 32px;
-    flex-shrink: 0;
+  /* ── Intensity popup ── */
+  .intensity-screen {
+    background: rgba(255, 255, 255, 0.36);
+    backdrop-filter: blur(12.5px);
+    -webkit-backdrop-filter: blur(12.5px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px 16px;
   }
-  .intensity-top-row {
+  .intensity-popup-card {
+    width: 100%;
+    max-width: 520px;
+    min-height: 70vh;
+    background: #fff;
+    border-radius: 40px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  }
+  .intensity-popup-header {
     display: flex;
     align-items: center;
+    padding: 28px 24px 16px;
     justify-content: space-between;
   }
-  .intensity-top-bar .back-btn { color: #1a1a1a; font-size: 28px; }
+  .intensity-back-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 26px;
+    color: #1a1a1a;
+    font-weight: 400;
+    font-family: Roboto, sans-serif;
+    padding: 0;
+    line-height: 1;
+  }
   .intensity-title {
     font-size: 22px;
     font-weight: 700;
     color: #1a1a1a;
     font-family: Roboto, sans-serif;
+    text-align: center;
+    flex: 1;
   }
 
   .intensity-content {
-    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 48px;
-    padding: 32px 28px 40px;
+    padding: 16px 28px 48px;
+    flex: 1;
   }
 
   /* Big flower */
-  .big-flower-wrap { width: 390px; height: 390px; }
-  .big-flower-wrap svg { width: 390px; height: 390px; }
+  .big-flower-wrap { width: 320px; height: 320px; }
+  .big-flower-wrap svg { width: 320px; height: 320px; }
 
   /* Custom slider track box */
   .slider-box {
@@ -537,11 +691,11 @@
   }
 
   .set-btn {
-    background: #1a1a1a;
+    background: #000;
     color: #fff;
     border: none;
-    border-radius: 28px;
-    padding: 16px 80px;
+    border-radius: 50px;
+    padding: 16px 72px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
@@ -551,13 +705,15 @@
 </head>
 <body>
 
-  <script src="nav.js"></script>
-
 <!-- ── Journal Page ── -->
 <div class="journal-page">
   <div class="page-inner">
     <div class="journal-page-header">
-      <h2>Journal</h2>
+      <div class="journal-page-header-left">
+        <h2>Journal</h2>
+        <span class="journal-subtitle">Your thoughts, your story.</span>
+      </div>
+      <button class="help-btn" onclick="void(0)">?</button>
     </div>
 
     <div class="journal-list" id="journal-list"></div>
@@ -578,18 +734,21 @@
       <div class="popup-header-bg"></div>
       <div class="popup-header-white">
         <div class="popup-header-row">
-          <button class="popup-back-btn" onclick="closeEntryScreen()">&#8249;</button>
+          <button class="popup-close-btn" onclick="closeEntryScreen()">✕</button>
           <span class="popup-title">Journal</span>
-          <div style="width:32px;"></div>
+          <div style="width:36px;"></div>
         </div>
         <div class="popup-date-pill">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2"/>
-            <line x1="16" y1="2" x2="16" y2="6"/>
-            <line x1="8" y1="2" x2="8" y2="6"/>
-            <line x1="3" y1="10" x2="21" y2="10"/>
-          </svg>
-          <span id="today-date"></span>
+          <div class="popup-date-pill-left">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            <span id="today-date"></span>
+          </div>
+          <span class="popup-date-chevron">⌄</span>
         </div>
       </div>
     </div>
@@ -599,7 +758,7 @@
 
       <!-- Emotions section -->
       <div class="popup-section">
-        <div class="section-label">What were your main emotion(s) today?</div>
+        <div class="section-label">How are you feeling today?</div>
         <div class="emotions-scroll" id="emotions-row"></div>
       </div>
 
@@ -610,9 +769,9 @@
       </div>
 
       <!-- Text section -->
-      <div class="popup-section" style="display:flex;flex-direction:column;gap:10px;min-height:160px;">
+      <div class="popup-section" style="display:flex;flex-direction:column;gap:10px;min-height:140px;">
         <input class="title-input" id="entry-title" placeholder="Title"/>
-        <textarea class="body-input" id="entry-body" placeholder="Short writing..."></textarea>
+        <textarea class="body-input" id="entry-body" placeholder="Start writing..."></textarea>
       </div>
 
       <button class="create-btn" onclick="createEntry()">Create</button>
@@ -622,50 +781,52 @@
 </div>
 
 <!-- ── Intensity Screen ── -->
-<div class="screen intensity-screen" id="intensity-screen">
-  <div class="intensity-top-bar">
-    <div class="intensity-top-row">
-      <button class="back-btn" onclick="closeIntensity()">&#8249;</button>
+<!-- ── Intensity Screen — Popup ── -->
+<div class="screen intensity-screen" id="intensity-screen" onclick="handleIntensityOverlayClick(event)">
+  <div class="intensity-popup-card">
+    <div class="intensity-popup-header">
+      <button class="intensity-back-btn" onclick="closeIntensity()">&#8249;</button>
       <span id="intensity-name" class="intensity-title"></span>
-      <div style="width:38px;"></div>
-    </div>
-  </div>
-  <div class="intensity-content">
-    <!-- Flower -->
-    <div class="big-flower-wrap">
-      <svg id="big-flower-svg" viewBox="0 0 953 930" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <filter id="flower-shadow" x="0" y="0" width="953" height="940" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
-            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-            <feOffset dy="10"/>
-            <feGaussianBlur stdDeviation="5"/>
-            <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-            <feBlend mode="normal" in2="shape" result="effect1_innerShadow"/>
-          </filter>
-        </defs>
-        <g filter="url(#flower-shadow)">
-          <path id="big-petal" d="M457.281 859.036C401.187 920.976 320.295 946.357 238.762 919.144C167.294 895.321 109.828 828.158 104.978 746.793C99.1213 646.919 142.496 629.052 137.005 603.304C135.541 596.524 126.299 585.529 118.704 582.047C25.7323 539.44 -21.1195 438.008 9.16945 341.616C38.8179 247.24 136.273 184.842 236.84 206.374C246.723 208.482 259.625 208.848 266.122 204.267C272.619 199.686 279.482 187.499 280.306 178.428C290.097 75.0724 374.101 1.77045 474.21 0.0295334C574.319 -1.71139 662.899 73.698 673.239 177.695C674.154 186.949 680.651 199.044 686.965 203.717C694.286 209.032 707.737 208.482 719.176 206.1C818.095 185.392 915.093 247.882 943.552 340.059C974.115 438.833 928.636 538.707 834.475 582.505C827.978 585.529 818.187 597.715 816.173 604.037C813.886 611.184 821.481 624.837 825.69 632.717C873.457 723.978 848.842 831.64 768.681 891.106C688.155 950.755 574.319 941.226 503.493 865.633C493.427 854.913 473.112 841.627 457.281 859.036Z"
-            fill="rgba(192,192,192,0.75)"/>
-        </g>
-      </svg>
+      <div style="width:26px;"></div>
     </div>
 
-    <!-- Slider box -->
-    <div class="slider-box" id="slider-box">
-      <div class="slider-inner">
-        <div class="slider-track-fill" id="slider-track-fill"></div>
-        <div class="slider-ticks" id="slider-ticks"></div>
+    <div class="intensity-content">
+      <!-- Flower -->
+      <div class="big-flower-wrap">
+        <svg id="big-flower-svg" viewBox="0 0 166 161" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="flower-shadow" x="-20%" y="-20%" width="140%" height="140%" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+              <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+              <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+              <feOffset dy="10"/>
+              <feGaussianBlur stdDeviation="5"/>
+              <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.125 0"/>
+              <feBlend mode="normal" in2="shape" result="effect1_innerShadow"/>
+            </filter>
+          </defs>
+          <g filter="url(#flower-shadow)">
+            <path id="big-petal" d="M82.6768 1.5C84.4633 1.50002 86.269 1.64705 88.0342 1.94043L88.0361 1.94043C103.181 4.44365 114.557 17.0499 115.668 32.626L115.668 32.627C115.782 34.2206 116.87 35.4671 117.971 36.2461C119.097 37.0435 120.55 37.584 121.926 37.584C122.296 37.584 122.673 37.5451 123.036 37.4561L123.04 37.4551C125.679 36.8009 128.379 36.4687 131.063 36.4687C143.355 36.4688 154.427 43.2013 160.102 54.0908L160.368 54.6123C164.418 62.7169 164.98 71.8137 161.963 80.2461C158.914 88.7646 152.606 95.5414 144.173 99.3301C142.416 100.117 141.015 101.752 140.444 103.608L140.444 103.61C139.935 105.275 140.111 107.019 141.016 108.485L141.016 108.486C145.513 115.77 147.058 124.357 145.368 132.677C143.674 141.015 138.885 148.318 131.87 153.248C126.188 157.241 119.619 159.34 112.873 159.34L112.872 159.343C103.407 159.339 94.1371 155.12 87.4561 147.723C86.2273 146.362 84.5421 145.596 82.7246 145.596C80.905 145.596 79.2148 146.367 77.959 147.707C75.2402 150.608 72.8492 152.624 70.1953 154.296C64.9515 157.593 58.9032 159.34 52.7109 159.34C48.2028 159.34 43.6479 158.392 39.4824 156.591L38.6543 156.219C29.9426 152.167 23.4066 144.619 20.71 135.52C17.9976 126.369 19.3833 116.42 24.5264 108.225L24.5254 108.224C25.3365 106.934 25.4608 105.368 25.0449 103.88L25.0439 103.88C24.5493 102.102 23.3079 100.486 21.6934 99.6748L21.6943 99.6748C19.4033 98.5184 17.0168 97.2312 14.6514 95.4639L14.6504 95.4639C3.39726 87.0601 -1.19988 72.5998 3.08008 59.2812L3.29102 58.6484C7.85158 45.3789 20.3725 36.4561 34.4434 36.4561C37.1929 36.4561 39.9609 36.7967 42.668 37.4707L42.6729 37.4717C43.0278 37.5586 43.3913 37.5996 43.7549 37.5996C45.2121 37.5996 46.6079 36.9213 47.6426 36.0303C48.675 35.1411 49.5538 33.8629 49.748 32.4209C50.2258 28.8756 50.7034 25.8226 51.877 22.7168C56.6677 10.0365 69.0497 1.5 82.6768 1.5Z"
+              fill="#F3F6F8" stroke="#CCD8DF" stroke-width="1.5"/>
+          </g>
+        </svg>
       </div>
-      <div class="slider-thumb" id="slider-thumb">0</div>
-      <input type="range" min="0" max="100" value="0" step="1"
-        class="intensity-slider" id="intensity-slider"
-        oninput="updateIntensity(this.value)">
-    </div>
 
-    <button class="set-btn" onclick="setIntensity()">Set</button>
+      <!-- Slider box -->
+      <div class="slider-box" id="slider-box">
+        <div class="slider-inner">
+          <div class="slider-track-fill" id="slider-track-fill"></div>
+          <div class="slider-ticks" id="slider-ticks"></div>
+        </div>
+        <div class="slider-thumb" id="slider-thumb">0</div>
+        <input type="range" min="0" max="100" value="0" step="1"
+          class="intensity-slider" id="intensity-slider"
+          oninput="updateIntensity(this.value)">
+      </div>
+
+      <button class="set-btn" onclick="setIntensity()">Set</button>
+    </div>
   </div>
 </div>
 
@@ -705,7 +866,7 @@ const EMOTIONS = [
   { name:'Boredom',    color:'#33263E' },
 ];
 const CATEGORIES = ['Personal', 'Work', 'Relationships', 'Health', 'Growth'];
-const FLOWER_PATH = "M457.281 859.036C401.187 920.976 320.295 946.357 238.762 919.144C167.294 895.321 109.828 828.158 104.978 746.793C99.1213 646.919 142.496 629.052 137.005 603.304C135.541 596.524 126.299 585.529 118.704 582.047C25.7323 539.44 -21.1195 438.008 9.16945 341.616C38.8179 247.24 136.273 184.842 236.84 206.374C246.723 208.482 259.625 208.848 266.122 204.267C272.619 199.686 279.482 187.499 280.306 178.428C290.097 75.0724 374.101 1.77045 474.21 0.0295334C574.319 -1.71139 662.899 73.698 673.239 177.695C674.154 186.949 680.651 199.044 686.965 203.717C694.286 209.032 707.737 208.482 719.176 206.1C818.095 185.392 915.093 247.882 943.552 340.059C974.115 438.833 928.636 538.707 834.475 582.505C827.978 585.529 818.187 597.715 816.173 604.037C813.886 611.184 821.481 624.837 825.69 632.717C873.457 723.978 848.842 831.64 768.681 891.106C688.155 950.755 574.319 941.226 503.493 865.633C493.427 854.913 473.112 841.627 457.281 859.036Z";
+const FLOWER_PATH = "M82.6768 1.5C84.4633 1.50002 86.269 1.64705 88.0342 1.94043L88.0361 1.94043C103.181 4.44365 114.557 17.0499 115.668 32.626L115.668 32.627C115.782 34.2206 116.87 35.4671 117.971 36.2461C119.097 37.0435 120.55 37.584 121.926 37.584C122.296 37.584 122.673 37.5451 123.036 37.4561L123.04 37.4551C125.679 36.8009 128.379 36.4687 131.063 36.4687C143.355 36.4688 154.427 43.2013 160.102 54.0908L160.368 54.6123C164.418 62.7169 164.98 71.8137 161.963 80.2461C158.914 88.7646 152.606 95.5414 144.173 99.3301C142.416 100.117 141.015 101.752 140.444 103.608L140.444 103.61C139.935 105.275 140.111 107.019 141.016 108.485L141.016 108.486C145.513 115.77 147.058 124.357 145.368 132.677C143.674 141.015 138.885 148.318 131.87 153.248C126.188 157.241 119.619 159.34 112.873 159.34L112.872 159.343C103.407 159.339 94.1371 155.12 87.4561 147.723C86.2273 146.362 84.5421 145.596 82.7246 145.596C80.905 145.596 79.2148 146.367 77.959 147.707C75.2402 150.608 72.8492 152.624 70.1953 154.296C64.9515 157.593 58.9032 159.34 52.7109 159.34C48.2028 159.34 43.6479 158.392 39.4824 156.591L38.6543 156.219C29.9426 152.167 23.4066 144.619 20.71 135.52C17.9976 126.369 19.3833 116.42 24.5264 108.225L24.5254 108.224C25.3365 106.934 25.4608 105.368 25.0449 103.88L25.0439 103.88C24.5493 102.102 23.3079 100.486 21.6934 99.6748L21.6943 99.6748C19.4033 98.5184 17.0168 97.2312 14.6514 95.4639L14.6504 95.4639C3.39726 87.0601 -1.19988 72.5998 3.08008 59.2812L3.29102 58.6484C7.85158 45.3789 20.3725 36.4561 34.4434 36.4561C37.1929 36.4561 39.9609 36.7967 42.668 37.4707L42.6729 37.4717C43.0278 37.5586 43.3913 37.5996 43.7549 37.5996C45.2121 37.5996 46.6079 36.9213 47.6426 36.0303C48.675 35.1411 49.5538 33.8629 49.748 32.4209C50.2258 28.8756 50.7034 25.8226 51.877 22.7168C56.6677 10.0365 69.0497 1.5 82.6768 1.5Z";
 
 const emotionState = {};
 let selCat = null;
@@ -725,14 +886,30 @@ function renderJournal() {
     const wrapper = document.createElement('div');
     wrapper.className = 'card-swipe-wrapper';
 
+    // Parse day name and day number from date string e.g. "Tuesday, 6th April 2026"
+    const parts = j.date.split(',');
+    const dayName = parts[0] ? parts[0].trim().slice(0,3).toUpperCase() : '';
+    const dayNum = parts[1] ? parts[1].trim().match(/\d+/)?.[0] || '' : '';
+    const shortDate = parts[1] && parts[2] ? (parts[1].trim().replace(/\d+(st|nd|rd|th)/, m => m.replace(/(st|nd|rd|th)/,'')) + ',' + parts[2]).trim() : j.date;
+
     const card = document.createElement('div');
     card.className = `journal-list-card`;
     card.innerHTML = `
-      <h3>${j.title}</h3>
-      <p>${j.body}</p>
-      <div class="jcard-foot">
-        <span class="jcard-date">${j.date}</span>
-        <span class="jcard-tag tag-${j.tag}">${j.tag}</span>
+      <div class="jcard-date-block date-${j.tag}">
+        <span class="jcard-day-name">${dayName}</span>
+        <span class="jcard-day-num">${dayNum}</span>
+      </div>
+      <div class="jcard-content">
+        <div class="jcard-title">${j.title}</div>
+        <div class="jcard-body-text">${j.body}</div>
+        <div class="jcard-date-text">${shortDate}</div>
+      </div>
+      <div class="jcard-right">
+        <div class="jcard-tag tag-bg-${j.tag}">
+          <span class="jcard-dot dot-${j.tag}"></span>
+          ${j.tag}
+        </div>
+        <span class="jcard-chevron">›</span>
       </div>`;
     card.onclick = () => {
       if (wrapper.classList.contains('swiped')) return;
@@ -758,51 +935,34 @@ function renderJournal() {
       }, 250);
     };
 
-    // ── Swipe logic ──
     let startX = 0, startY = 0, isDragging = false, isHorizontal = null;
-
-    function onStart(x, y) {
-      startX = x; startY = y;
-      isDragging = true; isHorizontal = null;
-    }
+    function onStart(x, y) { startX = x; startY = y; isDragging = true; isHorizontal = null; }
     function onMove(x, y) {
       if (!isDragging) return;
       const dx = x - startX, dy = y - startY;
       if (isHorizontal === null) {
-        if (Math.abs(dx) > 6 || Math.abs(dy) > 6)
-          isHorizontal = Math.abs(dx) > Math.abs(dy);
+        if (Math.abs(dx) > 6 || Math.abs(dy) > 6) isHorizontal = Math.abs(dx) > Math.abs(dy);
       }
-      if (!isHorizontal) return;
     }
     function onEnd(x) {
       if (!isDragging || !isHorizontal) { isDragging = false; return; }
       const dx = x - startX;
       isDragging = false;
       if (dx < -40) {
-        // close any other open wrappers
-        document.querySelectorAll('.card-swipe-wrapper.swiped').forEach(w => {
-          if (w !== wrapper) w.classList.remove('swiped');
-        });
+        document.querySelectorAll('.card-swipe-wrapper.swiped').forEach(w => { if (w !== wrapper) w.classList.remove('swiped'); });
         wrapper.classList.add('swiped');
       } else if (dx > 20) {
         wrapper.classList.remove('swiped');
       }
     }
 
-    // Touch
     card.addEventListener('touchstart', e => onStart(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
     card.addEventListener('touchmove',  e => onMove(e.touches[0].clientX, e.touches[0].clientY),  { passive: true });
     card.addEventListener('touchend',   e => onEnd(e.changedTouches[0].clientX));
-
-    // Mouse (desktop)
     card.addEventListener('mousedown',  e => onStart(e.clientX, e.clientY));
     window.addEventListener('mousemove', e => { if (isDragging) onMove(e.clientX, e.clientY); });
     window.addEventListener('mouseup',   e => { if (isDragging) onEnd(e.clientX); });
-
-    // Tap outside to close
-    document.addEventListener('click', e => {
-      if (!wrapper.contains(e.target)) wrapper.classList.remove('swiped');
-    });
+    document.addEventListener('click', e => { if (!wrapper.contains(e.target)) wrapper.classList.remove('swiped'); });
 
     wrapper.appendChild(card);
     wrapper.appendChild(delBtn);
@@ -831,10 +991,12 @@ function openEntryScreen(entry) {
   renderEmotions();
   renderCategories();
   document.getElementById('journal-entry-screen').classList.add('active');
+  document.querySelector('.add-entry-fab').classList.add('blurred');
 }
 
 function closeEntryScreen() {
   document.getElementById('journal-entry-screen').classList.remove('active');
+  document.querySelector('.add-entry-fab').classList.remove('blurred');
 }
 
 /* ── Color helpers ── */
@@ -843,14 +1005,28 @@ function hexToRgb(h) {
 }
 function blendColor(hex, t) {
   const { r, g, b } = hexToRgb(hex);
-  return `rgb(${Math.round(192+(r-192)*t)},${Math.round(192+(g-192)*t)},${Math.round(192+(b-192)*t)})`;
+  // Blend from #F3F6F8 (243,246,248) to the emotion color
+  return `rgb(${Math.round(243+(r-243)*t)},${Math.round(246+(g-246)*t)},${Math.round(248+(b-248)*t)})`;
 }
 
 /* ── Emotions ── */
 function renderEmotions() {
   const row = document.getElementById('emotions-row');
   row.innerHTML = '';
-  EMOTIONS.forEach(e => {
+
+  // Sort: set emotions first (by order they were set, most recent first), unset last
+  const sorted = [...EMOTIONS].sort((a, b) => {
+    const sa = emotionState[a.name];
+    const sb = emotionState[b.name];
+    const aSet = sa && sa.set;
+    const bSet = sb && sb.set;
+    if (aSet && bSet) return (sb.timestamp || 0) - (sa.timestamp || 0);
+    if (aSet) return -1;
+    if (bSet) return 1;
+    return 0;
+  });
+
+  sorted.forEach(e => {
     const s = emotionState[e.name] || { intensity: 0, set: false };
     const fill = s.set ? blendColor(e.color, s.intensity / 100) : '#818A90';
     const div = document.createElement('div');
@@ -858,8 +1034,8 @@ function renderEmotions() {
     div.onclick = () => openIntensity(e.name);
     div.innerHTML = `
       <div class="flower-wrap">
-        <svg viewBox="0 0 953 930" xmlns="http://www.w3.org/2000/svg">
-          <path d="${FLOWER_PATH}" fill="${fill}"/>
+        <svg viewBox="0 0 166 161" xmlns="http://www.w3.org/2000/svg">
+          <path d="${FLOWER_PATH}" fill="${fill === '#818A90' ? '#F3F6F8' : fill}" stroke="${fill === '#818A90' ? '#CCD8DF' : 'none'}" stroke-width="3"/>
         </svg>
       </div>
       <span class="emotion-label">${e.name}</span>
@@ -874,6 +1050,7 @@ function renderCategories() {
   CATEGORIES.forEach(c => {
     const btn = document.createElement('button');
     btn.className = 'cat-pill' + (selCat === c ? ' selected' : '');
+    btn.setAttribute('data-cat', c);
     btn.textContent = c;
     btn.onclick = () => { selCat = c; renderCategories(); };
     row.appendChild(btn);
@@ -906,19 +1083,28 @@ function closeIntensity() {
   activeEmo = null;
 }
 
+function handleIntensityOverlayClick(e) {
+  if (e.target === document.getElementById('intensity-screen')) closeIntensity();
+}
+
+function setIntensity() {
+  if (!activeEmo) return;
+  const v = parseInt(document.getElementById('intensity-slider').value);
+  emotionState[activeEmo] = { intensity: v, set: true, timestamp: Date.now() };
+  closeIntensity();
+  renderEmotions();
+}
+
 function updateIntensity(val) {
   const v = parseInt(val);
   const e = EMOTIONS.find(x => x.name === activeEmo);
   if (!e) return;
 
-  // Update flower color
   document.getElementById('big-petal').setAttribute('fill', blendColor(e.color, v / 100));
 
-  // Update gradient fill — grows full width, no thumb offset needed
   const fill = document.getElementById('slider-track-fill');
   fill.style.width = v + '%';
 
-  // Move thumb: starts -10px (left of bar), ends boxW - thumbW + 10px (right of bar)
   const box = document.getElementById('slider-box');
   const boxW = box.offsetWidth || 360;
   const thumbW = 62;
@@ -928,14 +1114,6 @@ function updateIntensity(val) {
   const thumb = document.getElementById('slider-thumb');
   thumb.style.left = thumbLeft + 'px';
   thumb.textContent = v;
-}
-
-function setIntensity() {
-  if (!activeEmo) return;
-  const v = parseInt(document.getElementById('intensity-slider').value);
-  emotionState[activeEmo] = { intensity: v, set: true };
-  closeIntensity();
-  renderEmotions();
 }
 
 /* ── Create entry ── */
@@ -1107,6 +1285,14 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
 }
+
+// Init
+initNav('home');
+setLiveStatus('stale');
+renderHome();
+fetchData();
+setInterval(fetchData, 30000);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState==='visible') { setLiveStatus('stale'); fetchData(); } });
 </script>
 <script src="nav.js"></script>
 </body>
