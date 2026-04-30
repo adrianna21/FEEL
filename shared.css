@@ -108,3 +108,9 @@ body {
 .modal-btns { display:flex; gap:10px; margin-top:20px; }
 .btn-primary { flex:1; background:#1a1a1a; color:#fff; border:none; border-radius:12px; padding:14px; font-size:15px; font-weight:600; cursor:pointer; font-family:inherit; }
 .btn-secondary { flex:1; background:#f5f4f0; color:#1a1a1a; border:none; border-radius:12px; padding:14px; font-size:15px; font-weight:500; cursor:pointer; font-family:inherit; }
+
+.popup-header-bg {
+  position: absolute;
+  inset: 0;
+  background: url('data:image/png;base64,PASTE_BASE64_HERE') center top / cover no-repeat;
+}
