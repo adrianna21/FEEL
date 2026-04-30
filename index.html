@@ -40,7 +40,7 @@
 
   /* ── Calendar card — transparent glass ── */
   .cal-card {
-    margin: 0 16px 16px;
+    margin: 0 20px 20px;
     background: rgba(255,255,255,0.28);
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     border-radius: 24px; padding: 14px 14px 16px;
@@ -59,7 +59,7 @@
   .day-chip .day-name { font-size: 12px; font-weight: 500; }
 
   /* ── Sections ── */
-  .section        { margin: 0 16px 16px; }
+  .section        { margin: 0 20px 20px; }
   .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
   .section-title  { font-size: 18px; font-weight: 700; color: #1a1a1a; }
   .section-link   { font-size: 13px; color: #555; font-weight: 500; cursor: pointer; }
@@ -121,14 +121,14 @@
   .pred-note      { font-size: 11px; color: #aaa; text-align: center; line-height: 1.5; margin: 4px 0 8px; }
 
   /* ── Journal ── */
-  .journal-header { display: flex; align-items: center; justify-content: space-between; margin: 4px 16px 10px; }
+  .journal-header { display: flex; align-items: center; justify-content: space-between; margin: 4px 20px 10px; }
   .journal-title-group { display: flex; align-items: center; gap: 8px; }
   .journal-title { font-size: 24px; font-weight: 700; color: #1a1a1a; }
   .journal-qbtn  { width: 30px; height: 30px; border-radius: 50%; background: #1a1a1a; color: #fff; border: none; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; }
   .journal-plusbtn { width: 40px; height: 40px; border-radius: 50%; background: #1a1a1a; color: #fff; border: none; font-size: 24px; font-weight: 300; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; transition: transform 0.12s; }
   .journal-plusbtn:active { transform: scale(0.92); }
 
-  .filter-row { display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 12px; scrollbar-width: none; }
+  .filter-row { display: flex; gap: 8px; overflow-x: auto; padding: 0 20px 12px; scrollbar-width: none; }
   .filter-row::-webkit-scrollbar { display: none; }
   .filter-pill { flex-shrink: 0; padding: 7px 16px; border-radius: 40px; font-size: 13px; font-weight: 500; border: none; cursor: pointer; font-family: inherit; opacity: 0.45; transition: opacity 0.15s, transform 0.12s; }
   .filter-pill.active { opacity: 1; transform: scale(1.04); }
@@ -140,7 +140,7 @@
   .filter-pill[data-tag="Growth"]        { background: var(--growth);       color: #1a1a1a; }
 
   /* Journal list — condensed matching journal.html */
-  .journal-list { display: flex; flex-direction: column; gap: 8px; padding: 0 16px; }
+  .journal-list { display: flex; flex-direction: column; gap: 8px; padding: 0 20px; }
   .journal-list-card { background: #fff; border-radius: var(--radius); padding: 12px 12px 14px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.07); display: flex; flex-direction: row; align-items: center; gap: 10px; transition: transform 0.12s; }
   .journal-list-card:hover { transform: scale(0.99); }
   .jcard-date-block { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 52px; min-width: 52px; height: 58px; border-radius: 12px; flex-shrink: 0; }
@@ -152,8 +152,6 @@
   .date-Health        { background: #E8F5EA; }
   .date-Growth        { background: #F0EAFD; }
   .jcard-content   { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-  /* Journal list */
-  .journal-list { display: flex; flex-direction: column; gap: 8px; padding: 0 16px; }
   .journal-list-card { background: #fff; border-radius: var(--radius); padding: 12px 12px 14px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.07); display: flex; flex-direction: row; align-items: center; gap: 10px; transition: transform 0.12s; }
   .journal-list-card:hover { transform: scale(0.99); }
   .jcard-date-block { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 52px; min-width: 52px; height: 58px; border-radius: 12px; flex-shrink: 0; }
@@ -214,6 +212,33 @@
   .wtj-card:hover { transform:scale(0.97); }
   .wtj-card h3 { font-size:18px;font-weight:800; }
   .wtj-card p  { font-size:11px;color:#444;margin-top:4px; }
+
+  /* ── Responsive — iPad & tablets ── */
+  @media (max-width: 834px) {
+    .home-header { padding: 48px 20px 32px; }
+    .cal-icon-btn { right: 20px; top: 48px; }
+    .day-chip { height: 76px; }
+    .day-chip .day-num { font-size: 24px; }
+    .insights-row { gap: 10px; }
+    .insight-card, .prediction-card { min-height: 190px; padding: 16px 12px 14px; }
+  }
+
+  @media (max-width: 600px) {
+    .home-header { padding: 44px 16px 28px; }
+    .cal-card { margin: 0 16px 16px; padding: 12px 10px 14px; }
+    .cal-icon-btn { right: 16px; top: 44px; width: 44px; height: 44px; }
+    .cal-icon-btn svg { width: 22px; height: 22px; }
+    .section { margin: 0 16px 16px; }
+    .journal-header { margin: 4px 16px 10px; }
+    .filter-row { padding: 0 16px 12px; }
+    .journal-list { padding: 0 16px; }
+    .day-chip { height: 68px; border-radius: 14px; }
+    .day-chip .day-num { font-size: 22px; }
+    .day-chip .day-name { font-size: 11px; }
+    .insights-row { flex-direction: column; }
+    .insight-card, .prediction-card { min-height: auto; }
+    .wtj-grid { grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px 16px 20px; }
+  }
 </style>
 </head>
 <body>
