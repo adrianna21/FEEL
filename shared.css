@@ -26,7 +26,8 @@ body {
   font-family: 'Roboto', sans-serif;
   background: var(--bg);
   color: var(--text);
-  width: var(--w);
+  max-width: var(--w);
+  width: 100%;
   min-height: 100vh;
   margin: 0 auto;
   position: relative;
@@ -63,7 +64,7 @@ body {
 
 .nav-overlay {
   position: fixed; inset: 0;
-  width: var(--w); left: 50%; transform: translateX(-50%);
+  max-width: var(--w); width: 100%; left: 50%; transform: translateX(-50%);
   background: rgba(10,10,10,0.80);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   z-index: 200; display: flex; flex-direction: column;
