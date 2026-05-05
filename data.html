@@ -139,7 +139,7 @@
     box-shadow: 0 2px 12px rgba(0,0,0,.06);
     overflow: hidden; position: relative;
     min-height: clamp(120px, 18vw, 170px);
-    display: flex; flex-direction: column; justify-content: space-between;
+    display: flex; flex-direction: column; justify-content: flex-start;
   }
   .stat-label-small {
     font-size: clamp(9px, 1.2vw, 11px); font-weight: 600;
@@ -160,10 +160,18 @@
     font-size: clamp(24px, 4.5vw, 38px); color: var(--text); line-height: 1.1;
   }
   .stat-asset {
-    position: absolute; bottom: -4px; right: -4px;
-    width: clamp(80px, 14vw, 130px); height: auto;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
     pointer-events: none;
+    border-radius: var(--radius);
+    z-index: 0;
   }
+  /* Keep text above the image */
+  .stat-card > div { position: relative; z-index: 1; }
 
   /* ── Line chart area ── */
   .chart-scroll { overflow-x: auto; padding-bottom: 4px; }
@@ -234,36 +242,46 @@
     width: clamp(40px, 7vw, 56px); height: clamp(40px, 7vw, 56px);
     border-radius: 12px; object-fit: cover; flex-shrink: 0;
   }
-  .pattern-text { flex: 1; font-size: clamp(12px, 1.5vw, 14px); color: #444; line-height: 1.5; }
-  .pattern-text strong { color: var(--text); }
-  .pattern-text .highlight { color: var(--orange); font-weight: 600; }
+  .pattern-text { flex: 1; font-size: clamp(12px, 1.5vw, 14px); color: #666; line-height: 1.6; }
+  .pattern-text strong { font-weight: 700; color: var(--text); }
+  .pat-green  { color: #5FC672; font-weight: 700; }
+  .pat-orange { color: #FBA732; font-weight: 700; }
+  .pat-red    { color: #EB585A; font-weight: 700; }
   .pattern-chevron { color: #ccc; font-size: 18px; flex-shrink: 0; }
 
   /* ── Article card ── */
   .article-card {
     display: flex; align-items: center; gap: 14px;
-    background: #fafafa; border-radius: var(--radius-sm);
-    padding: 12px; cursor: pointer; transition: background .15s;
+    background: #fff; border-radius: var(--radius);
+    padding: 14px; cursor: pointer; transition: box-shadow .15s;
+    box-shadow: 0 2px 12px rgba(0,0,0,.06);
   }
-  .article-card:hover { background: #f0f0f0; }
+  .article-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,.10); }
   .article-thumb {
-    width: clamp(70px, 12vw, 100px); height: clamp(70px, 12vw, 100px);
-    border-radius: 12px; object-fit: cover; flex-shrink: 0;
+    width: clamp(90px, 15vw, 140px); height: clamp(90px, 15vw, 140px);
+    border-radius: 14px; object-fit: cover; flex-shrink: 0;
   }
   .article-meta { flex: 1; }
   .article-kicker {
-    font-size: 10px; font-weight: 700; letter-spacing: .1em;
-    text-transform: uppercase; color: var(--orange); margin-bottom: 4px;
+    font-size: 11px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; margin-bottom: 6px;
+    background: linear-gradient(90deg, #F6A952 0%, #EAA4A6 10%, #BBA1D4 25%, #1DCBD6 40%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   .article-title {
     font-family: 'Nunito', sans-serif; font-weight: 800;
-    font-size: clamp(13px, 1.8vw, 17px); color: var(--text); margin-bottom: 4px; line-height: 1.3;
+    font-size: clamp(14px, 1.9vw, 20px); color: var(--text); margin-bottom: 6px; line-height: 1.3;
   }
   .article-excerpt {
-    font-size: clamp(11px, 1.3vw, 13px); color: var(--text-soft); line-height: 1.4;
+    font-size: clamp(12px, 1.4vw, 14px); color: var(--text-soft); line-height: 1.45;
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
-  .article-chevron { color: #ccc; font-size: 20px; flex-shrink: 0; }
+  .article-chevron {
+    width: clamp(32px, 4.5vw, 44px); height: clamp(32px, 4.5vw, 44px);
+    flex-shrink: 0; object-fit: contain;
+  }
 </style>
 </head>
 <body>
@@ -335,8 +353,12 @@
   Emotion Heatmap
   <img class="section-icon" src="assets/heaticon.png" alt="" />
 </div>
-<div class="card">
-  <div class="heatmap-grid" id="heatmap"></div>
+<div style="position:relative; margin-right: clamp(90px,14vw,150px);">
+  <div class="card">
+    <div class="heatmap-grid" id="heatmap"></div>
+  </div>
+  <img src="assets/morecolor_arrow.png" alt="more color = more feels"
+       style="position:absolute; top:0; right:clamp(-110px,-16vw,-85px); width:clamp(80px,12vw,130px); pointer-events:none;" />
 </div>
 
 <!-- ── Weekly Patterns ── -->
@@ -351,20 +373,20 @@
   Learn more about your emotions
   <img class="section-icon" src="assets/learnicon.png" alt="" />
 </div>
-<div class="card">
-  <div class="article-kicker" style="padding-bottom:10px;">Article of the week</div>
-  <div class="article-card">
+<div class="article-card" style="margin:0 16px 20px;">
     <img class="article-thumb" src="assets/book-2.png" alt="Article" />
     <div class="article-meta">
+      <div class="article-kicker">Article of the week</div>
       <div class="article-title">Understanding emotional patterns</div>
       <div class="article-excerpt">Stood in line for 20 minutes today and I was very dissapointed by the coffee I got. This really set...</div>
     </div>
-    <div class="article-chevron">›</div>
-  </div>
+    <img class="article-chevron" src="assets/backbutton_grey.png" alt="›" />
 </div>
 
+<script src="placeholder-data.js"></script>
 <script src="nav.js" onerror="void 0"></script>
 <script>
+(function(){
 /* ════════════════════════════════════════════
    DATA & HELPERS
 ════════════════════════════════════════════ */
@@ -372,7 +394,15 @@ function loadEmotions() {
   try { return JSON.parse(localStorage.getItem('feel_emotions') || '[]'); } catch { return []; }
 }
 function loadStoredData() {
-  try { return JSON.parse(localStorage.getItem('feel_data') || '[]'); } catch { return []; }
+  try {
+    // Merge placeholder data + real API data, with API entries winning on duplicate IDs
+    const placeholder = JSON.parse(localStorage.getItem('feel_placeholder') || '[]');
+    const apiData     = JSON.parse(localStorage.getItem('feel_data')        || '[]');
+    const map = {};
+    placeholder.forEach(d => map[d.id] = d);
+    apiData.forEach(d => map[d.id] = d);  // API overwrites placeholder on same ID
+    return Object.values(map);
+  } catch { return []; }
 }
 function getEmotionByKey(emotions, val) {
   return emotions.find(e => e.value === val) || { name: 'Unknown', value: val };
@@ -416,15 +446,17 @@ let weekOffset = 0;
 function getWindowBounds() {
   const today = new Date();
   if (mode === 'week') {
-    const dow = today.getDay();
+    const dow = today.getUTCDay();
     const monday = new Date(today);
-    monday.setDate(today.getDate() - ((dow + 6) % 7) + weekOffset * 7);
-    monday.setHours(0,0,0,0);
-    const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6); sunday.setHours(23,59,59,999);
+    monday.setUTCDate(today.getUTCDate() - ((dow + 6) % 7) + weekOffset * 7);
+    monday.setUTCHours(0,0,0,0);
+    const sunday = new Date(monday); sunday.setUTCDate(monday.getUTCDate() + 6); sunday.setUTCHours(23,59,59,999);
     return { start: monday, end: sunday };
   } else {
-    const y = today.getFullYear(), m = today.getMonth() + weekOffset;
-    return { start: new Date(y, m, 1), end: new Date(y, m+1, 0, 23,59,59,999) };
+    const y = today.getUTCFullYear(), m = today.getUTCMonth() + weekOffset;
+    const start = new Date(Date.UTC(y, m, 1));
+    const end   = new Date(Date.UTC(y, m+1, 0, 23,59,59,999));
+    return { start, end };
   }
 }
 
@@ -437,9 +469,13 @@ function formatWindowLabel() {
 
 function getFilteredData() {
   const {start,end} = getWindowBounds();
+  // For the current week we allow future days so placeholder data
+  // seeded for the full week always shows up in the prototype.
+  const windowEnd = weekOffset === 0 ? new Date(end.getTime()) : end;
+  if (weekOffset === 0) windowEnd.setUTCDate(windowEnd.getUTCDate() + 7);
   return allData.filter(d => {
     const ts = new Date(d.timestamp.replace(' ','T')+'Z');
-    return ts >= start && ts <= end;
+    return ts >= start && ts <= windowEnd;
   });
 }
 
@@ -595,11 +631,27 @@ function render() {
   /* ── Frequency ── */
   const freqCard = document.getElementById('freq-card');
   freqCard.innerHTML = '';
-  const maxCnt = Math.max(...Object.values(countByEm), 1);
-  emotions.forEach(em => {
-    const cnt = countByEm[em.value] || 0;
-    const pct = total ? Math.round((cnt/total)*100) : 0;
-    const barW = Math.round((cnt/maxCnt)*100);
+
+  // Build list of all emotions with counts, sorted highest → lowest
+  const freqList = emotions
+    .map(em => ({ em, cnt: countByEm[em.value] || 0 }))
+    .sort((a, b) => b.cnt - a.cnt);
+
+  // Compute percentages that sum exactly to 100
+  // Use largest-remainder method to avoid rounding errors
+  const rawPcts = freqList.map(f => total ? (f.cnt / total) * 100 : 0);
+  const floored = rawPcts.map(Math.floor);
+  const remainders = rawPcts.map((v, i) => v - floored[i]);
+  let remaining = 100 - floored.reduce((a,b) => a+b, 0);
+  // Give leftover % to items with largest remainders
+  const indices = remainders.map((r,i) => i).sort((a,b) => remainders[b]-remainders[a]);
+  indices.forEach(i => { if (remaining > 0) { floored[i]++; remaining--; } });
+
+  const maxCnt = freqList[0]?.cnt || 1;
+
+  freqList.forEach(({ em, cnt }, i) => {
+    const pct = total ? floored[i] : 0;
+    const barW = Math.round((cnt / maxCnt) * 100);
     const col = getCol(em.name);
     const row = document.createElement('div'); row.className = 'freq-row';
     row.innerHTML = `
@@ -676,7 +728,12 @@ function generatePatterns(filtered) {
   Object.entries(countByEm).forEach(([v,c]) => { if(c>mostCnt){mostVal=+v;mostCnt=c;} });
   if (mostVal) {
     const em = getEmotionByKey(emotions, mostVal);
-    patterns.push(`You added <strong>${em.name}</strong> as a new emotion this week. It showed up mostly on Tuesday evenings.`);
+    // Collect all "new" emotions (appear for first time this period)
+    const newEms = Object.keys(countByEm)
+      .map(v => getEmotionByKey(emotions, +v))
+      .filter(e => e.name !== 'Unknown');
+    const newNames = newEms.map(e => `<span class="pat-green">${e.name}</span>`).join(' and ');
+    patterns.push(`You added ${newNames} as a new emotion this week. It showed up mostly on <strong>Tuesday evenings</strong>.`);
   }
 
   // Calmest day
@@ -687,11 +744,11 @@ function generatePatterns(filtered) {
     countByDay[day] = (countByDay[day]||0)+1;
   });
   const calmest = Object.entries(countByDay).sort((a,b)=>a[1]-b[1])[0];
-  if (calmest) patterns.push(`<strong>${calmest[0]}</strong> is consistently your <span class="highlight">calmest day</span>, you logged calm ${calmest[1]} times with no overwhelm.`);
+  if (calmest) patterns.push(`<strong>${calmest[0]}</strong> is consistently your <span class="pat-orange">calmest day</span> — you logged Calm ${calmest[1]} times with no overwhelm.`);
 
   // Peaks
   const busiest = Object.entries(countByDay).sort((a,b)=>b[1]-a[1])[0];
-  if (busiest) patterns.push(`<span class="highlight">Anxiety peaks</span> on ${busiest[0]} mornings and again Sunday evenings, start-of-week dread pattern.`);
+  if (busiest) patterns.push(`<span class="pat-red">Frustration spikes</span> on <strong>${busiest[0]} mornings</strong> and again on <strong>Sunday evenings</strong> — a recurring tension pattern at the start and end of the week.`);
 
   if (patterns.length < 1) patterns.push('Keep tracking to reveal more patterns about your emotional week.');
   return patterns;
@@ -716,12 +773,15 @@ const API_URL   = 'https://web-production-e1116.up.railway.app/data';
 const PROXY_URL = 'https://corsproxy.io/?' + encodeURIComponent(API_URL);
 
 function mergeAndStore(existing, fresh) {
+  // Only merge/store real API data — placeholder stays untouched in feel_placeholder
+  const apiStored = JSON.parse(localStorage.getItem('feel_data') || '[]');
   const map = {};
-  existing.forEach(d => map[d.id]=d);
-  fresh.forEach(d => map[d.id]=d);
-  const merged = Object.values(map);
-  try { localStorage.setItem('feel_data', JSON.stringify(merged)); } catch {}
-  return merged;
+  apiStored.forEach(d => map[d.id] = d);
+  fresh.forEach(d => map[d.id] = d);
+  const mergedApi = Object.values(map);
+  try { localStorage.setItem('feel_data', JSON.stringify(mergedApi)); } catch {}
+  // Return everything (placeholder + fresh API) for rendering
+  return loadStoredData();
 }
 
 async function fetchData() {
@@ -743,11 +803,37 @@ async function fetchData() {
    INIT
 ════════════════════════════════════════════ */
 try { if (typeof initNav==='function') initNav('data'); } catch {}
+
+// ── DEBUG: log what's in storage and what gets filtered ──
+(function debug() {
+  const ph  = JSON.parse(localStorage.getItem('feel_placeholder') || '[]');
+  const api = JSON.parse(localStorage.getItem('feel_data')        || '[]');
+  const all = loadStoredData();
+  const filtered = getFilteredData();
+  const bounds = getWindowBounds();
+  console.group('[FEEL DEBUG]');
+  console.log('feel_placeholder entries:', ph.length, ph.slice(0,2));
+  console.log('feel_data (API) entries:', api.length);
+  console.log('merged (loadStoredData):', all.length);
+  console.log('Window start (UTC):', bounds.start.toISOString());
+  console.log('Window end   (UTC):', bounds.end.toISOString());
+  console.log('Filtered entries:', filtered.length, filtered.slice(0,2));
+  if (ph.length && !filtered.length) {
+    console.warn('⚠ Placeholder exists but filtered to 0 — timestamps out of window?');
+    console.log('First placeholder ts:', ph[0].timestamp);
+    const ts = new Date(ph[0].timestamp.replace(' ','T')+'Z');
+    console.log('Parsed as Date:', ts.toISOString());
+    console.log('In window?', ts >= bounds.start && ts <= bounds.end);
+  }
+  console.groupEnd();
+})();
+
 render();
 fetchData();
 setInterval(fetchData, 30000);
 document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible') fetchData(); });
 window.addEventListener('resize', ()=>{ const f=getFilteredData(); drawLineChart(f); });
+})();
 </script>
 </body>
 </html>
