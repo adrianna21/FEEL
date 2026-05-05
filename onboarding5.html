@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Onboarding – Step 5</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #e8eef7;
+      --purple: #7c5cbf;
+      --purple-light: #a07de0;
+      --teal: #1DCBD6;
+      --card-bg: #fff;
+      --radius-card: clamp(16px,2vw,28px);
+      --radius-btn: clamp(20px,2.5vw,40px);
+      --radius-tag: 100px;
+    }
+
+    html, body {
+      min-height: 100%;
+      background: var(--bg);
+      font-family: 'Roboto', sans-serif;
+      display: flex; align-items: flex-start; justify-content: center;
+    }
+
+    .shell {
+      width: min(100vw, 820px);
+      min-height: 100vh;
+      background: var(--bg);
+      display: flex; flex-direction: column;
+      padding: 0 0 clamp(28px,3.5vw,52px);
+    }
+
+    /* ── Top bar ── */
+    .topbar { display:flex; align-items:center; gap:clamp(10px,1.5vw,20px); padding:clamp(16px,2.5vw,32px) clamp(20px,3vw,40px) clamp(10px,1.5vw,20px); }
+    .back-btn { width:clamp(36px,5vw,56px); height:clamp(36px,5vw,56px); border-radius:50%; background:var(--card-bg); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,.10); flex-shrink:0; }
+    .back-btn svg { width:clamp(14px,2vw,22px); height:clamp(14px,2vw,22px); }
+    .progress-wrap { flex:1; display:flex; align-items:center; gap:clamp(8px,1vw,14px); }
+    .progress-track { flex:1; height:clamp(6px,0.6vw,10px); background:#d5d5e8; border-radius:100px; overflow:hidden; }
+    .progress-fill {
+      height:100%; width:100%;
+      background: linear-gradient(90deg,#76D586 0%,#F6A952 25%,#E8585F 50%,#8956E2 75%,#1DCBD6 100%);
+      border-radius:100px;
+    }
+    .progress-label { font-family:'Nunito',sans-serif; font-weight:700; font-size:clamp(13px,1.4vw,20px); color:var(--teal); white-space:nowrap; }
+
+    /* ── Hero ── */
+    .hero { padding:clamp(4px,0.8vw,12px) clamp(20px,3vw,40px) clamp(14px,1.8vw,24px); text-align:center; }
+    .step-label {
+      font-family:'Nunito',sans-serif; font-style:normal; font-weight:800;
+      font-size:clamp(14px,2vw,26px); letter-spacing:.12em; text-transform:uppercase;
+      margin-bottom:clamp(2px,0.3vw,6px);
+      color: var(--teal);
+    }
+    .step-title { font-family:'Nunito',sans-serif; font-style:normal; font-weight:900; font-size:clamp(30px,5vw,64px); color:#111; line-height:1.1; margin-bottom:clamp(4px,0.5vw,10px); }
+    .step-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(13px,1.5vw,19px); color:#888; }
+
+    /* ── Recap card ── */
+    .recap-card {
+      margin: 0 clamp(16px,2.5vw,36px) clamp(16px,2vw,26px);
+      background: var(--card-bg);
+      border-radius: var(--radius-card);
+      padding: clamp(20px,2.8vw,42px) clamp(20px,2.8vw,42px) clamp(24px,3vw,46px);
+      box-shadow: 0 4px 24px rgba(0,0,0,.07);
+      display: flex; flex-direction: column;
+      gap: clamp(16px,2vw,28px);
+    }
+
+    /* ── Recap prose ── */
+    .recap-title {
+      font-family:'Nunito',sans-serif; font-weight:900;
+      font-size:clamp(22px,3.2vw,44px); color:#111;
+      margin-bottom:clamp(8px,1vw,16px);
+    }
+    .recap-prose {
+      font-family:'Roboto',sans-serif; font-weight:400;
+      font-size:clamp(13px,1.5vw,20px); color:#aaa;
+      line-height:1.7;
+    }
+    /* inline pill tags */
+    .tag {
+      display:inline-flex; align-items:center;
+      border-radius:var(--radius-tag);
+      padding:clamp(3px,0.4vw,6px) clamp(10px,1.2vw,18px);
+      font-family:'Roboto',sans-serif; font-weight:500;
+      font-size:clamp(12px,1.3vw,17px);
+      vertical-align:middle; margin:0 2px;
+      white-space:nowrap;
+    }
+    .tag-teal   { background:#d6f3f5; color:#1DCBD6; }
+    .tag-purple { background:#e8e0f8; color:#8956E2; }
+    .tag-orange { background:#fdecd8; color:#F6A952; }
+    .tag-green  { background:#dff5e3; color:#4CAF73; }
+    .tag-pink   { background:#fde8e8; color:#E8585F; }
+
+    /* ── Divider ── */
+    .divider { width:100%; height:1px; background:#f0f0f5; }
+
+    /* ── Emotion palette section ── */
+    .palette-label {
+      font-family:'Nunito',sans-serif; font-weight:800;
+      font-size:clamp(13px,1.6vw,21px); color:#111;
+      margin-bottom:clamp(2px,0.3vw,5px);
+    }
+    .palette-sublabel {
+      font-family:'Roboto',sans-serif; font-weight:400;
+      font-size:clamp(11px,1.2vw,15px); color:#aaa;
+      margin-bottom:clamp(10px,1.3vw,20px);
+    }
+
+    .emotion-grid-recap {
+      display:grid;
+      grid-template-columns: repeat(2,1fr);
+      gap:clamp(8px,1.1vw,16px);
+    }
+
+    .emotion-mini {
+      display:flex; align-items:center; gap:clamp(10px,1.3vw,18px);
+      background:#fef0f0;
+      border-radius:clamp(12px,1.4vw,20px);
+      padding:clamp(10px,1.3vw,18px);
+    }
+
+    /* Flower via CSS mask */
+    .mini-flower {
+      width:clamp(44px,6.5vw,80px);
+      height:clamp(44px,6.5vw,80px);
+      flex-shrink:0;
+      -webkit-mask-image: url('assets/flower.png');
+      -webkit-mask-size: contain;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      mask-image: url('assets/flower.png');
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      mask-position: center;
+    }
+    /* Emotion colors */
+    .f-happiness { background:#F6A952; }
+    .f-anger     { background:#C0392B; }
+    .f-fear      { background:#6C3483; }
+    .f-disgust   { background:#5D7A2B; }
+    .f-sadness   { background:#5B9EC9; }
+    .f-surprise  { background:#E91E8C; }
+    .f-contempt  { background:#0E8C77; }
+    .f-pride     { background:#922B21; }
+    .f-nostalgia { background:#45B39D; }
+    .f-red       { background:#C0392B; }
+
+    .mini-info { flex:1; min-width:0; }
+    .mini-name {
+      font-family:'Nunito',sans-serif; font-weight:800;
+      font-size:clamp(13px,1.5vw,19px); color:#111;
+    }
+    .mini-sub {
+      font-family:'Roboto',sans-serif; font-weight:400;
+      font-size:clamp(10px,1.1vw,14px); color:#aaa;
+      line-height:1.4;
+    }
+
+    /* ── Done btn ── */
+    .done-wrap { padding:0 clamp(16px,2.5vw,36px); }
+    .done-btn {
+      width:100%; padding:clamp(16px,2.2vw,26px);
+      background:#111; color:#fff;
+      font-family:'Roboto',sans-serif; font-weight:500; font-style:normal; line-height:normal;
+      font-size:clamp(18px,2.4vw,30px);
+      border:none; border-radius:var(--radius-btn);
+      cursor:pointer; transition:background .2s, transform .12s;
+    }
+    .done-btn:hover  { background:#2a2a2a; }
+    .done-btn:active { transform:scale(.98); }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <button class="back-btn" onclick="window.location.href='onboarding4.html'" aria-label="Go back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill"></div></div>
+      <span class="progress-label">5/5</span>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <p class="step-label">Step 5</p>
+    <h1 class="step-title">Overview</h1>
+    <p class="step-sub">Copywriting goes here</p>
+  </div>
+
+  <!-- Recap card -->
+  <div class="recap-card">
+
+    <!-- Prose summary -->
+    <div>
+      <h2 class="recap-title">So, to recap...</h2>
+      <p class="recap-prose">
+        You want to
+        <span class="tag tag-teal" id="goalTag">Manage stress better</span>
+        and will send you a reminder to journal at
+        <span class="tag tag-purple" id="time1Tag">Night</span>
+        and
+        <span class="tag tag-purple" id="time2Tag">Before bed</span>
+        so let's fix that and make sure you get back on track!
+      </p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Emotional palette -->
+    <div>
+      <p class="palette-label">Selected emotional palette</p>
+      <p class="palette-sublabel">You can always change this later.</p>
+
+      <div class="emotion-grid-recap" id="emotionGrid">
+
+        <div class="emotion-mini">
+          <div class="mini-flower f-happiness"></div>
+          <div class="mini-info">
+            <p class="mini-name">Happiness</p>
+            <p class="mini-sub">Warmth</p>
+          </div>
+        </div>
+
+        <div class="emotion-mini">
+          <div class="mini-flower f-anger"></div>
+          <div class="mini-info">
+            <p class="mini-name">Anger</p>
+            <p class="mini-sub">Social Tension</p>
+          </div>
+        </div>
+
+        <div class="emotion-mini">
+          <div class="mini-flower f-fear"></div>
+          <div class="mini-info">
+            <p class="mini-name">Fear</p>
+            <p class="mini-sub">Withdrawal</p>
+          </div>
+        </div>
+
+        <div class="emotion-mini">
+          <div class="mini-flower f-sadness"></div>
+          <div class="mini-info">
+            <p class="mini-name">Sadness</p>
+            <p class="mini-sub">Withdrawal</p>
+          </div>
+        </div>
+
+        <div class="emotion-mini">
+          <div class="mini-flower f-surprise"></div>
+          <div class="mini-info">
+            <p class="mini-name">Surprise</p>
+            <p class="mini-sub">Social Tension</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Done -->
+  <div class="done-wrap">
+    <button class="done-btn" onclick="window.location.href='home.html'">Done</button>
+  </div>
+
+</div>
+</body>
+</html>
