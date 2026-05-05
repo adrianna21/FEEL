@@ -265,7 +265,7 @@
   .article-kicker {
     font-size: 11px; font-weight: 700; letter-spacing: .12em;
     text-transform: uppercase; margin-bottom: 6px;
-    background: linear-gradient(90deg, #F6A952 0%, #EAA4A6 10%, #BBA1D4 25%, #1DCBD6 40%);
+    background: linear-gradient(90deg, #F6A952 0%, #EAA4A6 36.82%, #BBA1D4 61.9%, #1DCBD6 86.98%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -373,7 +373,7 @@
   Learn more about your emotions
   <img class="section-icon" src="assets/learnicon.png" alt="" />
 </div>
-<div class="article-card" style="margin:0 16px 20px;">
+<div class="article-card" style="margin:0 16px 20px;" onclick="window.open('https://www.therapywithrick.com/emotion/understanding-emotional-patterns','_blank')" role="link">
     <img class="article-thumb" src="assets/book-2.png" alt="Article" />
     <div class="article-meta">
       <div class="article-kicker">Article of the week</div>
@@ -381,6 +381,103 @@
       <div class="article-excerpt">Stood in line for 20 minutes today and I was very dissapointed by the coffee I got. This really set...</div>
     </div>
     <img class="article-chevron" src="assets/backbutton_grey.png" alt="›" />
+</div>
+
+<!-- ══════════ PATTERN DETAIL MODAL ══════════ -->
+<div id="pattern-modal-overlay" style="
+  position:fixed; inset:0; background:rgba(0,0,0,.35);
+  backdrop-filter:blur(6px); z-index:200;
+  display:flex; align-items:flex-end; justify-content:center;
+  opacity:0; pointer-events:none;
+  transition:opacity .3s;">
+  <div id="pattern-modal" style="
+    width:min(100vw,820px); max-height:92vh;
+    background:#fff; border-radius:28px 28px 0 0;
+    overflow-y:auto; overflow-x:hidden;
+    transform:translateY(100%);
+    transition:transform .38s cubic-bezier(.32,.72,0,1);
+    padding-bottom:40px;">
+
+    <!-- Close -->
+    <div style="display:flex;justify-content:flex-end;padding:18px 20px 0;">
+      <button onclick="closePatternModal()" style="
+        width:36px;height:36px;border-radius:50%;
+        background:#f0f0f5;border:none;cursor:pointer;
+        display:flex;align-items:center;justify-content:center;
+        font-size:18px;color:#888;">✕</button>
+    </div>
+
+    <!-- Header area -->
+    <div id="pm-header" style="padding:0 24px 20px;"></div>
+
+    <!-- Why section + mini chart -->
+    <div style="display:flex;gap:12px;padding:0 20px 16px;flex-wrap:wrap;">
+      <!-- Why card -->
+      <div id="pm-why" style="
+        flex:1;min-width:200px;background:#fffaf3;
+        border-radius:18px;padding:18px;">
+        <p style="font-family:'Nunito',sans-serif;font-weight:800;
+          font-size:13px;color:#FBA732;letter-spacing:.06em;
+          text-transform:uppercase;margin-bottom:10px;">
+          Why this might be happening
+        </p>
+        <div id="pm-why-text" style="
+          font-size:13px;color:#555;line-height:1.65;">
+          <div style="height:12px;background:#f0ece4;border-radius:6px;margin-bottom:8px;"></div>
+          <div style="height:12px;background:#f0ece4;border-radius:6px;margin-bottom:8px;width:80%;"></div>
+          <div style="height:12px;background:#f0ece4;border-radius:6px;width:60%;"></div>
+        </div>
+      </div>
+      <!-- Mini spark chart -->
+      <div style="flex:1;min-width:180px;background:#fafafa;border-radius:18px;padding:18px;">
+        <p style="font-size:11px;color:#aaa;margin-bottom:6px;">Your week</p>
+        <p id="pm-chart-label" style="font-family:'Nunito',sans-serif;font-weight:900;font-size:20px;color:#1a1a1a;margin-bottom:10px;"></p>
+        <canvas id="pm-spark" height="70" style="width:100%;display:block;"></canvas>
+        <div id="pm-spark-labels" style="display:flex;justify-content:space-between;font-size:10px;color:#bbb;margin-top:4px;"></div>
+      </div>
+    </div>
+
+    <!-- Tips card -->
+    <div style="margin:0 20px 16px;background:#fafafa;border-radius:18px;padding:18px;position:relative;">
+      <p id="pm-tips-label" style="font-family:'Nunito',sans-serif;font-weight:800;
+        font-size:13px;letter-spacing:.06em;text-transform:uppercase;
+        margin-bottom:14px;color:#FBA732;">Tips</p>
+      <div id="pm-tips" style="display:flex;flex-direction:column;gap:14px;"></div>
+      <!-- Mascot placeholder -->
+      <div style="
+        position:absolute;right:12px;bottom:12px;
+        width:clamp(70px,12vw,100px);height:clamp(70px,12vw,100px);
+        background:#f0ece4;border-radius:50%;
+        display:flex;align-items:center;justify-content:center;
+        color:#ccc;font-size:11px;text-align:center;">
+        character<br>here
+      </div>
+    </div>
+
+    <!-- Reflection prompt -->
+    <div id="pm-reflection" style="
+      margin:0 20px;
+      border:2px dashed #FBA732;
+      border-radius:18px;padding:18px;
+      display:flex;align-items:center;gap:16px;
+      cursor:pointer;background:#fffaf3;"
+      onclick="openJournalWithPrompt()">
+      <div style="
+        width:48px;height:48px;border-radius:14px;
+        background:#FBA732;display:flex;align-items:center;
+        justify-content:center;font-size:22px;flex-shrink:0;">💬</div>
+      <div style="flex:1;">
+        <p style="font-family:'Nunito',sans-serif;font-weight:800;
+          font-size:15px;color:#1a1a1a;margin-bottom:4px;">Reflection Prompt</p>
+        <p id="pm-prompt-text" style="font-size:13px;color:#888;line-height:1.5;"></p>
+      </div>
+      <div style="
+        width:40px;height:40px;border-radius:50%;
+        background:#FBA732;display:flex;align-items:center;
+        justify-content:center;flex-shrink:0;color:#fff;font-size:20px;">›</div>
+    </div>
+
+  </div>
 </div>
 
 <script src="placeholder-data.js"></script>
@@ -705,6 +802,8 @@ function render() {
   ];
   generatePatterns(filtered).forEach((text, i) => {
     const item = document.createElement('div'); item.className = 'pattern-item';
+    item.style.cursor = 'pointer';
+    item.setAttribute('onclick', `window.openPatternModal(${i})`);
     item.innerHTML = `
       <img class="pattern-thumb" src="${patternIcons[i % patternIcons.length]}" alt="" />
       <div class="pattern-text">${text}</div>
@@ -833,6 +932,367 @@ fetchData();
 setInterval(fetchData, 30000);
 document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible') fetchData(); });
 window.addEventListener('resize', ()=>{ const f=getFilteredData(); drawLineChart(f); });
+})();
+</script>
+
+<!-- ══════════ PATTERN MODAL LOGIC ══════════ -->
+<script>
+(function(){
+
+/* ── Pattern configs ── */
+const PATTERN_CONFIGS = [
+  {
+    accentColor: '#5FC672',
+    eyebrow: 'New Emotions',
+    titlePrefix: 'About your',
+    titleHighlight: 'New Emotions',
+    highlightColor: '#5FC672',
+    tipsLabel: 'Tips to keep exploring',
+    chartMetric: 'newEmotion', // which data to chart
+    defaultPrompt: 'What surprised you most about logging a new emotion this week?'
+  },
+  {
+    accentColor: '#FBA732',
+    eyebrow: 'Calmest Day',
+    titlePrefix: 'About your',
+    titleHighlight: 'Calmest Day',
+    highlightColor: '#FBA732',
+    tipsLabel: 'Tips to keep this calm going',
+    chartMetric: 'calm',
+    defaultPrompt: 'What makes your calmest day feel calmer for you? How can you bring a bit of that to other days?'
+  },
+  {
+    accentColor: '#EB585A',
+    eyebrow: 'Tension Pattern',
+    titlePrefix: 'About your',
+    titleHighlight: 'Tension Pattern',
+    highlightColor: '#EB585A',
+    tipsLabel: 'Tips to ease the tension',
+    chartMetric: 'anger',
+    defaultPrompt: 'When frustration shows up on Monday mornings, what is it usually telling you?'
+  },
+];
+
+let currentPatternIdx = 0;
+let currentPrompt = '';
+
+/* ── Open modal ── */
+window.openPatternModal = function(idx) {
+  currentPatternIdx = idx;
+  const cfg = PATTERN_CONFIGS[idx] || PATTERN_CONFIGS[0];
+
+  // Animate in
+  const overlay = document.getElementById('pattern-modal-overlay');
+  const modal   = document.getElementById('pattern-modal');
+  overlay.style.opacity = '1';
+  overlay.style.pointerEvents = 'all';
+  modal.style.transform = 'translateY(0)';
+  document.body.style.overflow = 'hidden';
+
+  // Render header
+  document.getElementById('pm-header').innerHTML = `
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px;">
+      <div style="width:56px;height:56px;border-radius:16px;
+        background:${cfg.accentColor}22;display:flex;align-items:center;
+        justify-content:center;font-size:26px;flex-shrink:0;">
+        ${idx===0?'🌱':idx===1?'⭐':'🔥'}
+      </div>
+      <div>
+        <p style="font-family:'Nunito',sans-serif;font-weight:800;
+          font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+          background:linear-gradient(90deg,#F6A952,#EAA4A6,#BBA1D4,#1DCBD6);
+          background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+          margin-bottom:3px;">Powered by AI</p>
+        <h2 style="font-family:'Nunito',sans-serif;font-weight:900;
+          font-size:clamp(20px,4vw,28px);color:#1a1a1a;line-height:1.1;">
+          ${cfg.titlePrefix} <span style="color:${cfg.highlightColor}">${cfg.titleHighlight}</span>
+        </h2>
+      </div>
+    </div>
+    <div id="pm-summary-text" style="font-size:14px;color:#666;line-height:1.65;padding-left:4px;"></div>`;
+
+  // Set chart label — will be overwritten by generatePatternInsight with real data
+  document.getElementById('pm-chart-label').textContent =
+    idx === 0 ? 'New this week' : idx === 1 ? 'Calmest day' : 'Busiest day';
+
+  // Draw spark chart
+  drawSparkChart(idx);
+
+  // Set tips label colour
+  document.getElementById('pm-tips-label').style.color = cfg.accentColor;
+  document.getElementById('pm-tips-label').textContent = cfg.tipsLabel;
+
+  // Render placeholder tips
+  const tips = getTips(idx);
+  const tipsEl = document.getElementById('pm-tips');
+  tipsEl.innerHTML = '';
+  tips.forEach(t => {
+    const div = document.createElement('div');
+    div.style.cssText = 'display:flex;gap:12px;align-items:flex-start;padding-right:clamp(70px,12vw,110px);';
+    div.innerHTML = `
+      <div style="width:32px;height:32px;border-radius:10px;
+        background:${cfg.accentColor}22;display:flex;align-items:center;
+        justify-content:center;flex-shrink:0;font-size:16px;">${t.icon}</div>
+      <div>
+        <p style="font-family:'Nunito',sans-serif;font-weight:800;
+          font-size:14px;color:#1a1a1a;margin-bottom:2px;">${t.title}</p>
+        <p id="tip-${t.id}" style="font-size:12px;color:#888;line-height:1.5;">${t.placeholder}</p>
+      </div>`;
+    tipsEl.appendChild(div);
+  });
+
+  // Set default prompt
+  currentPrompt = cfg.defaultPrompt;
+  document.getElementById('pm-prompt-text').textContent = currentPrompt;
+  document.getElementById('pm-why-text').innerHTML = '<div style="font-size:13px;color:#aaa;font-style:italic;">Generating AI insight…</div>';
+  document.getElementById('pm-summary-text').innerHTML = '<div style="font-size:13px;color:#aaa;font-style:italic;">Analysing your data…</div>';
+
+  // Call Claude for this pattern
+  generatePatternInsight(idx, cfg);
+};
+
+window.closePatternModal = function() {
+  const overlay = document.getElementById('pattern-modal-overlay');
+  const modal   = document.getElementById('pattern-modal');
+  overlay.style.opacity = '0';
+  overlay.style.pointerEvents = 'none';
+  modal.style.transform = 'translateY(100%)';
+  document.body.style.overflow = '';
+};
+
+// Close on overlay tap
+document.getElementById('pattern-modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) window.closePatternModal();
+});
+
+/* ── Static tips per pattern ── */
+function getTips(idx) {
+  const all = [
+    [ // Pattern 0 — new emotions
+      { id:'t0a', icon:'🌸', title:'Name it to tame it', placeholder:'When you notice this emotion, pause and name exactly what you feel — it reduces its intensity.' },
+      { id:'t0b', icon:'📖', title:'Track when it shows up', placeholder:'Log the time and context each time. Patterns emerge faster than you think.' },
+      { id:'t0c', icon:'💬', title:'Talk about it', placeholder:'Sharing a new emotion with someone you trust can help it feel less overwhelming.' },
+    ],
+    [ // Pattern 1 — calmest day
+      { id:'t1a', icon:'🛡️', title:'Protect your calm day recipe', placeholder:'Notice what is different on this day — keep doing more of it.' },
+      { id:'t1b', icon:'📅', title:'Schedule what matters', placeholder:'Use your calmest day for tasks or people that fill your cup.' },
+      { id:'t1c', icon:'⚓', title:'Build calm anchors', placeholder:'Replicate small habits that bring calm so they can spread to other days.' },
+    ],
+    [ // Pattern 2 — tension pattern
+      { id:'t2a', icon:'🌅', title:'Reframe your tension mornings', placeholder:'A small ritual before the week starts can interrupt the dread before it builds.' },
+      { id:'t2b', icon:'🌬️', title:'Release before the week ends', placeholder:'A short wind-down habit on your hardest evenings can ease the transition.' },
+      { id:'t2c', icon:'📝', title:'Name the tension', placeholder:'Write down one thing you are dreading — externalising it reduces its hold.' },
+    ],
+  ];
+  return all[idx] || all[0];
+}
+
+/* ── Spark chart ── */
+function drawSparkChart(idx) {
+  const canvas = document.getElementById('pm-spark');
+  const W = canvas.parentElement.clientWidth - 36;
+  const H = 70;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0,0,W,H);
+
+  const days = ['S','M','T','W','T','F','S'];
+  document.getElementById('pm-spark-labels').innerHTML = days.map(d =>
+    `<span>${d}</span>`).join('');
+
+  // Sample data per pattern type
+  const datasets = [
+    [0,1,3,1,0,2,1], // new emotions (contempt/boredom)
+    [1,2,1,5,2,3,2], // calm by day
+    [1,3,2,1,1,2,3], // anger/frustration
+  ];
+  const vals = datasets[idx] || datasets[0];
+  const max  = Math.max(...vals, 1);
+  const cfg  = PATTERN_CONFIGS[idx];
+
+  const pts = vals.map((v,i) => ({
+    x: (i / (vals.length-1)) * W,
+    y: H - 10 - (v/max) * (H-20)
+  }));
+
+  // Area fill
+  const grad = ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0, cfg.accentColor + '44');
+  grad.addColorStop(1, cfg.accentColor + '00');
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, H);
+  pts.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.lineTo(pts[pts.length-1].x, H);
+  ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // Line
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, pts[0].y);
+  for(let i=1;i<pts.length;i++){
+    const cpx = (pts[i-1].x+pts[i].x)/2;
+    ctx.bezierCurveTo(cpx,pts[i-1].y,cpx,pts[i].y,pts[i].x,pts[i].y);
+  }
+  ctx.strokeStyle = cfg.accentColor;
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+
+  // Highlight peak dot
+  const peakIdx = vals.indexOf(max);
+  ctx.beginPath();
+  ctx.arc(pts[peakIdx].x, pts[peakIdx].y, 5, 0, Math.PI*2);
+  ctx.fillStyle = cfg.accentColor;
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(pts[peakIdx].x, pts[peakIdx].y, 3, 0, Math.PI*2);
+  ctx.fillStyle = '#fff';
+  ctx.fill();
+}
+
+/* ── Claude AI for pattern detail ── */
+async function generatePatternInsight(idx, cfg) {
+  // Load data
+  let entries = [], emotions = [];
+  try {
+    const ph  = JSON.parse(localStorage.getItem('feel_placeholder')||'[]');
+    const api = JSON.parse(localStorage.getItem('feel_data')||'[]');
+    emotions  = JSON.parse(localStorage.getItem('feel_emotions')||'[]');
+    const map = {}; ph.forEach(d=>map[d.id]=d); api.forEach(d=>map[d.id]=d);
+    entries = Object.values(map);
+  } catch {}
+
+  const countByEm = {};
+  entries.forEach(d => { countByEm[d.button_value]=(countByEm[d.button_value]||0)+1; });
+  const getName = v => emotions.find(e=>e.value===+v)?.name||'Unknown';
+  const sorted = Object.entries(countByEm).sort((a,b)=>b[1]-a[1]);
+  const topName = sorted[0] ? getName(sorted[0][0]) : 'your top emotion';
+  const topCount = sorted[0]?.[1] || 0;
+
+  // ── Compute real stats from data ──
+  const countByDay = {};
+  entries.forEach(d => {
+    const ts = new Date(d.timestamp.replace(' ','T')+'Z');
+    const day = ts.toLocaleDateString('en-US', { weekday: 'long' });
+    countByDay[day] = (countByDay[day]||0) + 1;
+  });
+  const calmEmVal = emotions.find(e => e.name === 'Calm')?.value;
+  const calmByDay = {};
+  entries.forEach(d => {
+    if (d.button_value === calmEmVal) {
+      const ts = new Date(d.timestamp.replace(' ','T')+'Z');
+      const day = ts.toLocaleDateString('en-US', { weekday: 'long' });
+      calmByDay[day] = (calmByDay[day]||0) + 1;
+    }
+  });
+  const calmestDay   = Object.entries(calmByDay).sort((a,b)=>b[1]-a[1])[0]?.[0] || 'your calmest day';
+  const calmCount    = calmByDay[calmestDay] || 0;
+  const busiestDay   = Object.entries(countByDay).sort((a,b)=>b[1]-a[1])[0]?.[0] || 'Monday';
+  const newEmNames   = sorted.slice(0,2).map(([v])=>getName(v)).join(' and ');
+
+  // ── Step 1: show data-driven static summary immediately (always works) ──
+  const staticSummaries = [
+    `You logged new emotions this week — that takes courage. Sitting with unfamiliar feelings is how self-awareness grows.`,
+    `${calmestDay} stood out as your calmest day, with ${calmCount} Calm logs and no overwhelm. Your nervous system clearly has a rhythm worth protecting.`,
+    `Frustration tends to peak around ${busiestDay} — that tension at weekly transitions is more common than you think.`,
+  ];
+  const staticWhy = [
+    `New emotions often surface when something shifts in your environment or relationships. ${newEmNames} usually signal unmet needs — either for meaning, stimulation, or respect.`,
+    `${calmestDay}s often carry less decision fatigue and social pressure than the start or end of the week. Your ${calmestDay} rhythm may include small habits that calm your nervous system without you realising it.`,
+    `${busiestDay} carries a specific emotional load — anticipation, pressure, and transition. This pattern often reflects a chronic low-level stress response rather than a single trigger.`,
+  ];
+
+  document.getElementById('pm-summary-text').textContent = staticSummaries[idx] || '';
+  document.getElementById('pm-why-text').textContent = staticWhy[idx] || '';
+
+  // Also update chart label and tip title to use real day
+  if (idx === 1) {
+    document.getElementById('pm-chart-label').textContent = calmestDay;
+    const t1a = document.querySelector('#pm-tips [id^="t1a"]') || document.getElementById('t1a');
+    if (t1a) t1a.closest('div')?.querySelector('p:first-child') &&
+      (t1a.closest('div').querySelector('[style*="font-weight:800"]').textContent = `Protect your ${calmestDay} recipe`);
+  }
+
+  // ── Step 2: try Claude to replace with personalised insight ──
+  const patternContext = [
+    `New emotions this week: ${newEmNames}. Top emotions: ${sorted.slice(0,3).map(([v,c])=>getName(v)+' '+c+'x').join(', ')}.`,
+    `${calmestDay} is the calmest day — Calm logged ${calmCount} times. Top emotion: ${topName} (${topCount}x).`,
+    `Most logs on ${busiestDay}. Top emotion: ${topName} (${topCount}x).`,
+  ][idx];
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5',
+        max_tokens: 500,
+        messages: [{
+          role: 'user',
+          content: `You are a warm, concise emotional wellness coach. Based on this data: ${patternContext}
+
+Write a JSON object with ONLY these keys (2 sentences max each, warm and specific):
+{"summary":"...","why":"...","tip_0":"...","tip_1":"...","tip_2":"...","reflection_prompt":"...?"}
+
+Return ONLY the JSON.`
+        }]
+      })
+    });
+
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    const raw = (data.content?.[0]?.text || '').replace(/\`\`\`json|\`\`\`/g,'').trim();
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('no json');
+    const ai = JSON.parse(match[0]);
+
+    // Smoothly replace static content with AI content
+    if (ai.summary) streamText('pm-summary-text', ai.summary);
+    if (ai.why)     streamText('pm-why-text', ai.why);
+    const letters = ['a','b','c'];
+    ['tip_0','tip_1','tip_2'].forEach((k,i) => {
+      const el = document.getElementById(`t${idx}${letters[i]}`);
+      if (el && ai[k]) streamText(el.id, ai[k]);
+    });
+    if (ai.reflection_prompt) {
+      currentPrompt = ai.reflection_prompt;
+      document.getElementById('pm-prompt-text').textContent = currentPrompt;
+    }
+  } catch(e) {
+    // Static content already showing — silently keep it, no error message shown
+    console.warn('[Pattern AI] using static fallback:', e.message);
+  }
+}
+
+/* ── Typewriter helper ── */
+function streamText(elId, text) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  el.textContent = '';
+  let i = 0;
+  function tick() {
+    if (i < text.length) { el.textContent += text[i++]; setTimeout(tick, 16); }
+  }
+  tick();
+}
+
+/* ── Journal handoff ── */
+window.openJournalWithPrompt = function() {
+  window.closePatternModal();
+  // Store the prompt so journal.html can read it
+  try { localStorage.setItem('feel_journal_prompt', currentPrompt); } catch {}
+  // Navigate to journal — adjust path to match your file
+  window.location.href = 'journal.html?prompt=' + encodeURIComponent(currentPrompt);
+};
+
 })();
 </script>
 </body>

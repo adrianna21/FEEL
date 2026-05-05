@@ -1,0 +1,540 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>FEEL — AI Insights</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,700;0,800;0,900;1,800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #e8eef7;
+    --white: #ffffff;
+    --purple: #8956E2;
+    --teal: #1DCBD6;
+    --orange: #F6A952;
+    --pink: #EAA4A6;
+    --green: #5FC672;
+    --radius: 22px;
+    --radius-sm: 14px;
+    --text: #1a1a1a;
+    --soft: #888;
+  }
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    padding-bottom: 100px;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: linear-gradient(160deg, #c4b8f0 0%, #9bbfe8 60%, var(--bg) 100%);
+    padding: 52px 24px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 20%, rgba(29,203,214,.18) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .back-btn {
+    position: absolute; top: 52px; left: 20px;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(255,255,255,.85); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,.10); z-index: 1;
+  }
+  .back-btn svg { width: 16px; height: 16px; }
+  .header-inner { text-align: center; position: relative; z-index: 1; }
+  .header-eyebrow {
+    font-family: 'Nunito', sans-serif; font-weight: 800;
+    font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+    background: linear-gradient(90deg, #F6A952 0%, #EAA4A6 40%, #BBA1D4 70%, #1DCBD6 100%);
+    background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+  .header-title {
+    font-family: 'Nunito', sans-serif; font-weight: 900;
+    font-size: clamp(26px, 5vw, 42px); color: #fff;
+    line-height: 1.1; margin-bottom: 6px;
+  }
+  .header-sub {
+    font-size: 14px; color: rgba(255,255,255,.75); font-weight: 400;
+  }
+  .date-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,.2); border-radius: 100px;
+    padding: 5px 14px; font-size: 13px; color: #fff;
+    margin-top: 10px; backdrop-filter: blur(6px);
+  }
+
+  /* ── Generate button ── */
+  .gen-wrap {
+    padding: 20px 20px 0;
+    display: flex; justify-content: center;
+  }
+  .gen-btn {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--text); color: #fff;
+    font-family: 'Nunito', sans-serif; font-weight: 800;
+    font-size: clamp(15px, 2vw, 18px);
+    border: none; border-radius: 100px;
+    padding: clamp(12px,1.8vw,16px) clamp(24px,3.5vw,36px);
+    cursor: pointer; transition: transform .15s, box-shadow .15s;
+    box-shadow: 0 4px 20px rgba(0,0,0,.15);
+    width: 100%; max-width: 480px; justify-content: center;
+  }
+  .gen-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,.18); }
+  .gen-btn:active { transform: scale(.97); }
+  .gen-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+  .gen-btn .btn-icon { font-size: 18px; }
+
+  /* ── Insight cards ── */
+  .insights-wrap {
+    padding: 20px 16px 0;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+
+  .insight-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: 0 2px 16px rgba(0,0,0,.06);
+    opacity: 0; transform: translateY(16px);
+    transition: opacity .5s ease, transform .5s ease;
+    position: relative; overflow: hidden;
+  }
+  .insight-card.visible { opacity: 1; transform: translateY(0); }
+
+  /* Coloured left accent bar */
+  .insight-card::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 4px; border-radius: var(--radius) 0 0 var(--radius);
+  }
+  .card-purple::before { background: var(--purple); }
+  .card-teal::before   { background: var(--teal); }
+  .card-orange::before { background: var(--orange); }
+  .card-green::before  { background: var(--green); }
+  .card-pink::before   { background: var(--pink); }
+
+  .card-header {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+  }
+  .card-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .icon-purple { background: #f0ebff; }
+  .icon-teal   { background: #e0f9fb; }
+  .icon-orange { background: #fff4e6; }
+  .icon-green  { background: #eafaf0; }
+  .icon-pink   { background: #fdf0f0; }
+
+  .card-label {
+    font-family: 'Nunito', sans-serif; font-weight: 800;
+    font-size: clamp(14px, 1.8vw, 17px); color: var(--text);
+  }
+  .card-body {
+    font-size: clamp(13px, 1.6vw, 15px); color: #555;
+    line-height: 1.7; min-height: 20px;
+  }
+  .card-body strong { color: var(--text); font-weight: 600; }
+
+  /* ── Streaming cursor ── */
+  .cursor {
+    display: inline-block; width: 2px; height: 1em;
+    background: var(--purple); margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: blink .7s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ── Skeleton loader ── */
+  .skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: 6px; height: 14px; margin-bottom: 8px;
+  }
+  .skeleton:last-child { width: 65%; margin-bottom: 0; }
+  @keyframes shimmer { to { background-position: -200% 0; } }
+
+  /* ── Emotion chips in card ── */
+  .emotion-chips-mini {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;
+  }
+  .chip-mini {
+    font-size: 12px; font-weight: 600; color: #fff;
+    padding: 4px 12px; border-radius: 100px;
+  }
+
+  /* ── Journal prompt card ── */
+  .journal-card {
+    background: linear-gradient(135deg, #667eea22 0%, #764ba222 100%);
+    border: 1.5px solid rgba(137,86,226,.2);
+    border-radius: var(--radius);
+    padding: 20px; margin: 0 16px;
+    opacity: 0; transform: translateY(16px);
+    transition: opacity .5s ease .4s, transform .5s ease .4s;
+  }
+  .journal-card.visible { opacity: 1; transform: translateY(0); }
+  .journal-prompt-label {
+    font-family: 'Nunito', sans-serif; font-weight: 800;
+    font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--purple); margin-bottom: 8px;
+  }
+  .journal-prompt-text {
+    font-family: 'Nunito', sans-serif; font-style: italic; font-weight: 800;
+    font-size: clamp(16px, 2.4vw, 22px); color: var(--text); line-height: 1.4;
+  }
+  .journal-tap {
+    margin-top: 14px; font-size: 13px; color: var(--soft);
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* ── Error state ── */
+  .error-card {
+    background: #fff5f5; border: 1.5px solid #fecaca;
+    border-radius: var(--radius); padding: 20px; margin: 16px;
+    text-align: center;
+  }
+  .error-card p { font-size: 14px; color: #dc2626; margin-top: 6px; }
+
+  /* ── Empty state ── */
+  .empty-state {
+    text-align: center; padding: 60px 30px;
+    color: var(--soft); font-size: 15px; line-height: 1.7;
+  }
+  .empty-state .big { font-size: 48px; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <button class="back-btn" onclick="history.back()" aria-label="Go back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </button>
+  <div class="header-inner">
+    <p class="header-eyebrow">Powered by AI</p>
+    <h1 class="header-title">Your Weekly<br>Emotional Summary</h1>
+    <p class="header-sub">Personalised insights from your emotion data</p>
+    <div class="date-pill" id="date-pill">📅 This week</div>
+  </div>
+</div>
+
+<!-- Generate button -->
+<div class="gen-wrap">
+  <button class="gen-btn" id="gen-btn" onclick="generateInsights()">
+    <span class="btn-icon">✦</span>
+    Generate my insights
+  </button>
+</div>
+
+<!-- Insight cards container -->
+<div class="insights-wrap" id="insights-wrap"></div>
+
+<!-- Journal prompt (shown after generation) -->
+<div class="journal-card" id="journal-card" style="margin-top:14px; display:none;">
+  <p class="journal-prompt-label">✦ Reflection prompt</p>
+  <p class="journal-prompt-text" id="journal-prompt-text">Loading your prompt…</p>
+  <div class="journal-tap">
+    <span>💬</span> Tap to start journaling
+  </div>
+</div>
+
+<script src="placeholder-data.js"></script>
+<script>
+(function() {
+
+/* ════════════════════════
+   LOAD DATA FROM STORAGE
+════════════════════════ */
+function loadData() {
+  try {
+    const placeholder = JSON.parse(localStorage.getItem('feel_placeholder') || '[]');
+    const api         = JSON.parse(localStorage.getItem('feel_data')        || '[]');
+    const emotions    = JSON.parse(localStorage.getItem('feel_emotions')    || '[]');
+    const map = {};
+    placeholder.forEach(d => map[d.id] = d);
+    api.forEach(d => map[d.id] = d);
+    return { entries: Object.values(map), emotions };
+  } catch { return { entries: [], emotions: [] }; }
+}
+
+function getWeekBounds() {
+  const today = new Date();
+  const dow   = today.getUTCDay();
+  const mon   = new Date(today);
+  mon.setUTCDate(today.getUTCDate() - ((dow + 6) % 7));
+  mon.setUTCHours(0,0,0,0);
+  const sun = new Date(mon);
+  sun.setUTCDate(mon.getUTCDate() + 6);
+  sun.setUTCHours(23,59,59,999);
+  return { start: mon, end: sun };
+}
+
+function buildStats(entries, emotions) {
+  const { start, end } = getWeekBounds();
+  const filtered = entries.filter(d => {
+    const ts = new Date(d.timestamp.replace(' ','T')+'Z');
+    return ts >= start && ts <= end;
+  });
+
+  const countByEm = {};
+  const countByDay = {};
+  const countByHour = { AM: {}, PM: {} };
+
+  filtered.forEach(d => {
+    countByEm[d.button_value] = (countByEm[d.button_value] || 0) + 1;
+    const ts  = new Date(d.timestamp.replace(' ','T')+'Z');
+    const day = ts.toLocaleDateString('en-US', { weekday: 'long' });
+    countByDay[day] = (countByDay[day] || 0) + 1;
+    const slot = ts.getUTCHours() < 12 ? 'AM' : 'PM';
+    countByHour[slot][day] = (countByHour[slot][day] || 0) + 1;
+  });
+
+  const sorted = Object.entries(countByEm).sort((a,b) => b[1]-a[1]);
+  const getName = v => emotions.find(e => e.value === +v)?.name || 'Unknown';
+  const total = filtered.length;
+
+  // Percentages summing to 100
+  const pcts = {};
+  if (total) {
+    const floored = sorted.map(([v,c]) => ({ v, f: Math.floor((c/total)*100), r: (c/total)*100 % 1 }));
+    let rem = 100 - floored.reduce((a,x) => a+x.f, 0);
+    floored.sort((a,b) => b.r-a.r).forEach(x => { if(rem-->0) x.f++; });
+    floored.forEach(x => pcts[x.v] = x.f);
+  }
+
+  const busiestDay = Object.entries(countByDay).sort((a,b) => b[1]-a[1])[0]?.[0] || null;
+  const calmestDay = Object.entries(countByDay).sort((a,b) => a[1]-b[1])[0]?.[0] || null;
+  const topEmotions = sorted.slice(0,3).map(([v,c]) => ({ name: getName(v), count: c, pct: pcts[v] || 0 }));
+
+  return { total, topEmotions, busiestDay, calmestDay, countByDay, countByHour, emotions: emotions.map(e => e.name) };
+}
+
+/* ════════════════════════
+   DATE LABEL
+════════════════════════ */
+(function setDateLabel() {
+  const { start, end } = getWeekBounds();
+  const fmt = d => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  document.getElementById('date-pill').textContent = `📅 ${fmt(start)} – ${fmt(end)}`;
+})();
+
+/* ════════════════════════
+   CARD CONFIGS
+════════════════════════ */
+const CARDS = [
+  { id: 'summary',   label: 'Your week in a nutshell',  icon: '🌸', accent: 'purple', iconBg: 'icon-purple' },
+  { id: 'dominant',  label: 'What stood out',           icon: '✦',  accent: 'teal',   iconBg: 'icon-teal'   },
+  { id: 'pattern',   label: 'A pattern we noticed',     icon: '🔍', accent: 'orange', iconBg: 'icon-orange' },
+  { id: 'growth',    label: 'Something to celebrate',   icon: '🌱', accent: 'green',  iconBg: 'icon-green'  },
+  { id: 'reflection',label: 'Something to sit with',   icon: '💭', accent: 'pink',   iconBg: 'icon-pink'   },
+];
+
+/* ════════════════════════
+   RENDER SKELETON CARDS
+════════════════════════ */
+function renderSkeletons() {
+  const wrap = document.getElementById('insights-wrap');
+  wrap.innerHTML = '';
+  CARDS.forEach((c, i) => {
+    const card = document.createElement('div');
+    card.className = `insight-card card-${c.accent}`;
+    card.id = `card-${c.id}`;
+    card.style.transitionDelay = `${i * 80}ms`;
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="card-icon ${c.iconBg}">${c.icon}</div>
+        <span class="card-label">${c.label}</span>
+      </div>
+      <div class="card-body" id="body-${c.id}">
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+        <div class="skeleton" style="width:50%"></div>
+      </div>`;
+    wrap.appendChild(card);
+    requestAnimationFrame(() => requestAnimationFrame(() => card.classList.add('visible')));
+  });
+}
+
+/* ════════════════════════
+   STREAM TEXT INTO CARD
+════════════════════════ */
+function streamIntoCard(cardId, text, delay = 0) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const el = document.getElementById(`body-${cardId}`);
+      if (!el) return resolve();
+      el.innerHTML = '';
+      let i = 0;
+      const cursor = document.createElement('span');
+      cursor.className = 'cursor';
+      el.appendChild(cursor);
+
+      function tick() {
+        if (i < text.length) {
+          cursor.insertAdjacentText('beforebegin', text[i++]);
+          setTimeout(tick, 18 + Math.random() * 12);
+        } else {
+          cursor.remove();
+          resolve();
+        }
+      }
+      tick();
+    }, delay);
+  });
+}
+
+/* ════════════════════════
+   BUILD PROMPT
+════════════════════════ */
+function buildPrompt(stats) {
+  return `You are an empathetic emotional wellness coach inside the FEEL app.
+
+Here is the user's emotion data for this week:
+- Total emotion logs: ${stats.total}
+- Top emotions logged: ${stats.topEmotions.map(e => `${e.name} (${e.pct}%, ${e.count} times)`).join(', ')}
+- Busiest day emotionally: ${stats.busiestDay || 'unknown'}
+- Calmest day: ${stats.calmestDay || 'unknown'}
+- All emotions in their palette: ${stats.emotions.join(', ')}
+
+Write exactly 5 short paragraphs — one for each section below. Each paragraph should be 2-3 sentences max. Be warm, specific, and human — never generic. Use the actual emotion names and days from the data.
+
+Format your response as JSON with exactly these keys:
+{
+  "summary": "...",
+  "dominant": "...",
+  "pattern": "...",
+  "growth": "...",
+  "reflection": "...",
+  "journal_prompt": "A single reflective question for journaling based on their week (end with ?)"
+}
+
+Return ONLY the JSON object, no other text.`;
+}
+
+/* ════════════════════════
+   CALL CLAUDE API
+════════════════════════ */
+async function callClaude(prompt) {
+  // The Anthropic API proxy used in claude.ai artifacts —
+  // no API key needed, CORS is handled by the environment.
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-5',
+      max_tokens: 1000,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+
+  if (!res.ok) {
+    const errText = await res.text().catch(() => '');
+    throw new Error(`API ${res.status}: ${errText.slice(0, 120)}`);
+  }
+
+  const data = await res.json();
+  const text = data.content?.[0]?.text || '';
+
+  // Strip possible markdown fences then parse
+  const clean = text.replace(/```json[\s\S]*?```|```[\s\S]*?```/g, t =>
+    t.replace(/```json|```/g, '')
+  ).trim();
+
+  // Find the JSON object in the response
+  const jsonMatch = clean.match(/\{[\s\S]*\}/);
+  if (!jsonMatch) throw new Error('No JSON found in response');
+  return JSON.parse(jsonMatch[0]);
+}
+
+/* ════════════════════════
+   MAIN GENERATE FUNCTION
+════════════════════════ */
+async function generateInsights() {
+  const btn = document.getElementById('gen-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="btn-icon" style="animation:spin 1s linear infinite;display:inline-block">✦</span> Generating…';
+
+  // Add spin animation
+  if (!document.getElementById('spin-style')) {
+    const s = document.createElement('style');
+    s.id = 'spin-style';
+    s.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+    document.head.appendChild(s);
+  }
+
+  renderSkeletons();
+
+  try {
+    const { entries, emotions } = loadData();
+
+    if (!entries.length) {
+      document.getElementById('insights-wrap').innerHTML = `
+        <div class="empty-state">
+          <div class="big">🌸</div>
+          <p>No emotion data found for this week.<br>Start logging to get your AI summary!</p>
+        </div>`;
+      btn.disabled = false;
+      btn.innerHTML = '<span class="btn-icon">✦</span> Generate my insights';
+      return;
+    }
+
+    const stats  = buildStats(entries, emotions);
+    const prompt = buildPrompt(stats);
+    const result = await callClaude(prompt);
+
+    // Stream each section in sequence
+    await streamIntoCard('summary',    result.summary,    0);
+    await streamIntoCard('dominant',   result.dominant,   100);
+    await streamIntoCard('pattern',    result.pattern,    100);
+    await streamIntoCard('growth',     result.growth,     100);
+    await streamIntoCard('reflection', result.reflection, 100);
+
+    // Show journal prompt card
+    const jCard = document.getElementById('journal-card');
+    const jText = document.getElementById('journal-prompt-text');
+    jCard.style.display = 'block';
+    jText.textContent = result.journal_prompt || 'What emotion surprised you most this week?';
+    requestAnimationFrame(() => requestAnimationFrame(() => jCard.classList.add('visible')));
+
+    btn.innerHTML = '<span class="btn-icon">↺</span> Regenerate';
+    btn.disabled = false;
+
+  } catch (err) {
+    console.error('[FEEL AI] Error:', err.message, err);
+    document.getElementById('insights-wrap').innerHTML = `
+      <div class="error-card">
+        <div style="font-size:32px">⚠️</div>
+        <p>Couldn't generate insights right now.<br>Check your connection and try again.</p>
+        <p style="font-size:11px;color:#aaa;margin-top:8px;">${err.message}</p>
+      </div>`;
+    btn.innerHTML = '<span class="btn-icon">↺</span> Try again';
+    btn.disabled = false;
+  }
+}
+
+// Expose to global scope for onclick
+window.generateInsights = generateInsights;
+
+})();
+</script>
+</body>
+</html>
