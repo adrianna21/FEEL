@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Onboarding – Step 2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #e8eef7;
+      --purple: #7c5cbf;
+      --purple-light: #a07de0;
+      --orange: #F6A952;
+      --card-bg: #fff;
+      --radius-card: clamp(14px,1.6vw,22px);
+      --radius-btn: clamp(20px,2.5vw,40px);
+    }
+
+    html, body {
+      min-height: 100%;
+      background: var(--bg);
+      font-family: 'Roboto', sans-serif;
+      display: flex; align-items: flex-start; justify-content: center;
+    }
+
+    .shell {
+      width: min(100vw, 820px); min-height: 100vh;
+      background: var(--bg); display: flex; flex-direction: column;
+      padding: 0 0 clamp(24px,3vw,40px);
+    }
+
+    /* ── Top bar ── */
+    .topbar { display:flex; align-items:center; gap:clamp(10px,1.5vw,20px); padding:clamp(16px,2.5vw,32px) clamp(20px,3vw,40px) clamp(10px,1.5vw,20px); }
+    .back-btn { width:clamp(36px,5vw,56px); height:clamp(36px,5vw,56px); border-radius:50%; background:var(--card-bg); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,.10); flex-shrink:0; }
+    .back-btn svg { width:clamp(14px,2vw,22px); height:clamp(14px,2vw,22px); }
+    .progress-wrap { flex:1; display:flex; align-items:center; gap:clamp(8px,1vw,14px); }
+    .progress-track { flex:1; height:clamp(6px,0.5vw,10px); background:#d5d5e8; border-radius:100px; overflow:hidden; }
+    .progress-fill { height:100%; width:40%; background:linear-gradient(90deg,#F6A952 38.08%,#EAA4A6 100%); border-radius:100px; }
+    .progress-label { font-family:'Nunito',sans-serif; font-weight:700; font-size:clamp(13px,1.4vw,18px); color:var(--orange); white-space:nowrap; }
+
+    /* ── Hero ── */
+    .hero { padding:clamp(6px,1vw,16px) clamp(20px,3vw,40px) clamp(10px,1.2vw,18px); text-align:center; }
+    .step-label { font-family:'Nunito',sans-serif; font-style:normal; font-weight:800; font-size:clamp(14px,2vw,26px); color:var(--orange); letter-spacing:.12em; text-transform:uppercase; margin-bottom:clamp(2px,0.3vw,6px); }
+    .step-title { font-family:'Nunito',sans-serif; font-style:normal; font-weight:900; font-size:clamp(26px,4vw,52px); color:#111; line-height:1.15; margin-bottom:clamp(4px,0.5vw,10px); }
+    .step-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(13px,1.4vw,19px); color:#555; line-height:1.55; }
+
+    /* ── Tap hint ── */
+    .tap-hint { display:flex; align-items:center; gap:clamp(6px,0.8vw,12px); padding:clamp(10px,1.2vw,18px) clamp(20px,3vw,40px) clamp(4px,0.5vw,8px); }
+    .tap-hint img { height:clamp(22px,3vw,38px); width:auto; }
+    .tap-hint-text { font-family:'Nunito',sans-serif; font-style:italic; font-weight:700; font-size:clamp(12px,1.4vw,18px); color:var(--purple-light); }
+
+    /* ── Emotion grid ── */
+    .emotion-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(10px,1.4vw,20px); padding:0 clamp(16px,2.5vw,36px) clamp(16px,2vw,28px); }
+
+    .emotion-card { background:var(--card-bg); border-radius:var(--radius-card); padding:clamp(12px,1.5vw,22px) clamp(10px,1.2vw,16px); display:flex; flex-direction:column; align-items:center; gap:clamp(6px,0.8vw,10px); border:2.5px solid transparent; cursor:pointer; transition:border-color .2s, box-shadow .2s; box-shadow:0 2px 10px rgba(0,0,0,.06); }
+    .emotion-card:hover { box-shadow:0 4px 18px rgba(0,0,0,.10); }
+    .emotion-card.added-purple { border-color:var(--purple); }
+    .emotion-card.added-orange { border-color:var(--orange); }
+
+    /* ── Flower image tinting ── */
+    /* PNG is white — sepia+hue-rotate shifts white to target hue, no invert needed */
+    .flower-img { width:clamp(52px,8vw,100px); height:clamp(52px,8vw,100px); object-fit:contain; display:block; }
+
+    .f-happiness { filter: invert(1) sepia(1) saturate(5)  hue-rotate(345deg) brightness(1.10); }
+    .f-anger     { filter: invert(1) sepia(1) saturate(8)  hue-rotate(315deg) brightness(0.80); }
+    .f-fear      { filter: invert(1) sepia(1) saturate(5)  hue-rotate(250deg) brightness(0.70); }
+    .f-disgust   { filter: invert(1) sepia(1) saturate(6)  hue-rotate(55deg)  brightness(0.65); }
+    .f-sadness   { filter: invert(1) sepia(1) saturate(8)  hue-rotate(185deg) brightness(0.75); }
+    .f-surprise  { filter: invert(1) sepia(1) saturate(12) hue-rotate(290deg) brightness(0.85); }
+    .f-contempt  { filter: invert(1) sepia(1) saturate(7)  hue-rotate(148deg) brightness(0.52); }
+    .f-pride     { filter: invert(1) sepia(1) saturate(7)  hue-rotate(318deg) brightness(0.62); }
+    .f-nostalgia { filter: invert(1) sepia(1) saturate(5)  hue-rotate(142deg) brightness(0.92); }
+    .f-teal      { filter: invert(1) sepia(1) saturate(7)  hue-rotate(158deg) brightness(1.05); }
+    .f-red       { filter: invert(1) sepia(1) saturate(8)  hue-rotate(315deg) brightness(0.80); }
+
+    .emotion-name { font-family:'Nunito',sans-serif; font-weight:800; font-size:clamp(13px,1.6vw,20px); color:#111; text-align:center; }
+    .emotion-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(10px,1.1vw,14px); color:#888; text-align:center; margin-top:-clamp(2px,0.3vw,5px); }
+
+    .add-btn { display:flex; align-items:center; justify-content:center; gap:clamp(5px,0.6vw,10px); background:#111; color:#fff; border:none; border-radius:100px; padding:clamp(7px,0.9vw,12px) clamp(16px,2vw,28px); font-family:'Roboto',sans-serif; font-weight:500; font-size:clamp(12px,1.3vw,17px); cursor:pointer; transition:background .2s, transform .12s; width:100%; }
+    .add-btn:active { transform:scale(.97); }
+    .add-btn.added-purple { background:var(--purple); }
+    .add-btn.added-orange { background:linear-gradient(90deg,#F6A952,#EAA4A6); }
+    .add-btn svg { width:clamp(14px,1.6vw,20px); height:clamp(14px,1.6vw,20px); }
+
+    /* ── Explore banner ── */
+    .explore-banner { margin:clamp(4px,0.5vw,8px) clamp(16px,2.5vw,36px) clamp(14px,1.8vw,24px); border:2px dashed #a0cde0; border-radius:var(--radius-card); padding:clamp(14px,1.8vw,24px) clamp(16px,2vw,28px); display:flex; align-items:center; gap:clamp(12px,1.5vw,20px); cursor:pointer; background:rgba(255,255,255,.5); transition:background .2s; }
+    .explore-banner:hover { background:rgba(255,255,255,.8); }
+    .explore-icon { width:clamp(40px,5.5vw,64px); height:clamp(40px,5.5vw,64px); flex-shrink:0; }
+    .explore-icon img { width:100%; height:100%; object-fit:contain; }
+    .explore-text { flex:1; }
+    .explore-title { font-family:'Nunito',sans-serif; font-weight:800; font-size:clamp(14px,1.7vw,21px); color:#111; }
+    .explore-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(11px,1.2vw,15px); color:#777; }
+    .explore-arrow { width:clamp(30px,4vw,46px); height:clamp(30px,4vw,46px); background:#3bc8d8; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .explore-arrow svg { width:55%; height:55%; }
+
+    /* ── Confirm ── */
+    .confirm-wrap { padding:0 clamp(16px,2.5vw,36px) clamp(6px,0.8vw,12px); }
+    .confirm-btn { width:100%; padding:clamp(16px,2.2vw,26px); background:#111; color:#fff; font-family:'Roboto',sans-serif; font-weight:500; font-style:normal; line-height:normal; font-size:clamp(17px,2.2vw,28px); border:none; border-radius:var(--radius-btn); cursor:pointer; transition:background .2s, transform .12s; }
+    .confirm-btn:hover { background:#2a2a2a; }
+    .confirm-btn:active { transform:scale(.98); }
+
+    /* ── Quiz banner ── */
+    .quiz-banner { margin:clamp(10px,1.2vw,18px) clamp(16px,2.5vw,36px) 0; background:#fef8f0; border-radius:var(--radius-card); padding:clamp(14px,1.8vw,22px) clamp(16px,2vw,26px); display:flex; align-items:center; gap:clamp(12px,1.5vw,20px); cursor:pointer; }
+    .quiz-placeholder { width:clamp(52px,7vw,80px); height:clamp(52px,7vw,80px); background:#ffe5c8; border-radius:var(--radius-card); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-family:'Roboto',sans-serif; font-size:clamp(9px,1vw,12px); color:#b07030; text-align:center; font-weight:500; padding:4px; }
+    .quiz-text { flex:1; }
+    .quiz-label { font-family:'Nunito',sans-serif; font-weight:800; font-size:clamp(9px,1vw,13px); color:var(--orange); letter-spacing:.1em; text-transform:uppercase; margin-bottom:2px; }
+    .quiz-title { font-family:'Nunito',sans-serif; font-weight:800; font-size:clamp(13px,1.6vw,20px); color:#111; margin-bottom:clamp(2px,0.3vw,5px); }
+    .quiz-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(10px,1.1vw,14px); color:#888; }
+    .quiz-arrow { color:var(--orange); flex-shrink:0; }
+    .quiz-arrow svg { width:clamp(20px,2.5vw,32px); height:clamp(20px,2.5vw,32px); }
+
+    /* ══ MODAL ══ */
+    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.35); backdrop-filter:blur(4px); z-index:100; display:flex; align-items:flex-end; justify-content:center; opacity:0; pointer-events:none; transition:opacity .3s; }
+    .modal-overlay.open { opacity:1; pointer-events:all; }
+    .modal { width:min(100vw,820px); max-height:90vh; background:var(--bg); border-radius:clamp(20px,2.5vw,36px) clamp(20px,2.5vw,36px) 0 0; overflow:hidden; display:flex; flex-direction:column; transform:translateY(100%); transition:transform .35s cubic-bezier(.32,.72,0,1); }
+    .modal-overlay.open .modal { transform:translateY(0); }
+
+    .modal-header { padding:clamp(20px,2.5vw,36px) clamp(20px,3vw,40px) clamp(12px,1.5vw,20px); text-align:center; flex-shrink:0; }
+    .modal-flower-icon { width:clamp(40px,5.5vw,64px); height:clamp(40px,5.5vw,64px); margin:0 auto clamp(8px,1vw,14px); }
+    .modal-flower-icon img { width:100%; height:100%; object-fit:contain; }
+    .modal-title { font-family:'Nunito',sans-serif; font-style:normal; font-weight:900; font-size:clamp(22px,3.2vw,42px); color:#111; margin-bottom:clamp(3px,0.4vw,7px); }
+    .modal-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(12px,1.3vw,17px); color:#666; }
+
+    .filter-row { display:flex; gap:clamp(6px,0.8vw,12px); padding:0 clamp(16px,2.5vw,36px) clamp(10px,1.2vw,18px); overflow-x:auto; flex-shrink:0; scrollbar-width:none; }
+    .filter-row::-webkit-scrollbar { display:none; }
+    .filter-pill { padding:clamp(6px,0.8vw,10px) clamp(14px,1.8vw,24px); border-radius:100px; border:none; cursor:pointer; font-family:'Roboto',sans-serif; font-weight:500; font-size:clamp(12px,1.3vw,16px); white-space:nowrap; flex-shrink:0; transition:background .2s, color .2s; }
+    .filter-pill.active { background:#111; color:#fff; }
+    .filter-pill:not(.active) { background:#e0e4ef; color:#444; }
+    .filter-pill:not(.active) .dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:#bbb; margin-right:5px; vertical-align:middle; }
+
+    .modal-body { flex:1; overflow-y:auto; padding:0 clamp(16px,2.5vw,36px); scrollbar-width:thin; }
+
+    .cat-section { margin-bottom:clamp(12px,1.5vw,22px); }
+    .cat-header { display:flex; align-items:center; justify-content:space-between; padding:clamp(10px,1.2vw,18px) 0 clamp(8px,1vw,14px); cursor:pointer; }
+    .cat-header-left { display:flex; align-items:center; gap:clamp(8px,1vw,14px); }
+    .cat-dot { width:clamp(10px,1.2vw,16px); height:clamp(10px,1.2vw,16px); border-radius:50%; }
+    .cat-name { font-family:'Nunito',sans-serif; font-weight:800; font-size:clamp(16px,2vw,26px); color:#111; }
+    .cat-toggle svg { width:clamp(18px,2.2vw,28px); height:clamp(18px,2.2vw,28px); color:#888; }
+
+    .cat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(8px,1vw,14px); background:#fff; border-radius:var(--radius-card); padding:clamp(10px,1.2vw,18px); }
+
+    .mini-card { display:flex; align-items:center; gap:clamp(8px,1vw,12px); background:#fef0f0; border-radius:clamp(10px,1.2vw,16px); padding:clamp(8px,1vw,12px); cursor:pointer; border:2px solid transparent; transition:border-color .2s; }
+    .mini-card.added { border-color:var(--orange); background:#fff5ec; }
+    .mini-flower-wrap { width:clamp(36px,5vw,52px); height:clamp(36px,5vw,52px); position:relative; flex-shrink:0; }
+    .mini-flower-wrap img { width:100%; height:100%; object-fit:contain; display:block; }
+    .mini-plus { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#fff; font-size:clamp(14px,1.8vw,20px); font-weight:700; text-shadow:0 1px 3px rgba(0,0,0,.4); }
+    .mini-info { flex:1; min-width:0; }
+    .mini-name { font-family:'Roboto',sans-serif; font-weight:700; font-size:clamp(10px,1.1vw,14px); color:#111; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .mini-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(9px,1vw,12px); color:#888; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+    .modal-footer { padding:clamp(12px,1.5vw,20px) clamp(16px,2.5vw,36px); flex-shrink:0; }
+    .cant-find-banner { background:rgba(255,255,255,.85); backdrop-filter:blur(6px); border-radius:var(--radius-card); padding:clamp(12px,1.5vw,20px) clamp(16px,2vw,26px); display:flex; align-items:center; gap:clamp(12px,1.5vw,20px); margin-bottom:clamp(12px,1.5vw,20px); }
+    .cant-icon { width:clamp(40px,5vw,60px); height:clamp(40px,5vw,60px); background:#e8e0f5; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .cant-icon svg { width:55%; height:55%; color:var(--purple); }
+    .cant-text { flex:1; }
+    .cant-title { font-family:'Nunito',sans-serif; font-weight:800; font-size:clamp(13px,1.5vw,19px); color:#111; }
+    .cant-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(10px,1.1vw,14px); color:#888; }
+    .create-btn { background:#fff; border:2px solid var(--purple-light); color:var(--purple); border-radius:100px; padding:clamp(8px,1vw,14px) clamp(14px,1.8vw,24px); font-family:'Roboto',sans-serif; font-weight:500; font-size:clamp(12px,1.3vw,17px); cursor:pointer; display:flex; align-items:center; gap:6px; flex-shrink:0; }
+
+    .added-strip { display:flex; align-items:center; justify-content:space-between; gap:clamp(10px,1.2vw,18px); }
+    .added-label { font-family:'Roboto',sans-serif; font-weight:500; font-size:clamp(13px,1.5vw,19px); color:var(--orange); }
+    .added-flowers { display:flex; gap:clamp(4px,0.5vw,8px); align-items:center; }
+    .added-flower-dot { width:clamp(24px,3.2vw,40px); height:clamp(24px,3.2vw,40px); object-fit:contain; }
+    .added-flower-dot.empty { opacity:.25; filter:grayscale(1) brightness(0.6); }
+    .done-btn { background:#111; color:#fff; border:none; border-radius:100px; padding:clamp(10px,1.3vw,18px) clamp(20px,2.5vw,36px); font-family:'Roboto',sans-serif; font-weight:500; font-size:clamp(14px,1.7vw,22px); cursor:pointer; display:flex; align-items:center; gap:clamp(6px,0.8vw,12px); }
+    .done-btn svg { width:clamp(18px,2.2vw,28px); height:clamp(18px,2.2vw,28px); }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <button class="back-btn" onclick="window.location.href='onboarding.html'" aria-label="Go back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill"></div></div>
+      <span class="progress-label">2/5</span>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <p class="step-label">Step 2</p>
+    <h1 class="step-title">Select your<br>emotional palette ✨</h1>
+    <p class="step-sub">Choose up to 5 emotions you want to start with.<br>You can always change this later.</p>
+  </div>
+
+  <!-- Tap hint -->
+  <div class="tap-hint">
+    <img src="assets/Tap.png" alt="Tap" />
+    <span class="tap-hint-text">Tap any emotion to add it to your palette</span>
+  </div>
+
+  <!-- Emotion grid — single flower.png tinted per emotion via CSS filter -->
+  <div class="emotion-grid">
+
+    <div class="emotion-card added-purple" data-id="happiness" onclick="toggleEmotion(this)">
+      <img class="flower-img f-happiness" src="assets/flower.png" alt="Happiness flower" />
+      <p class="emotion-name">Happiness</p><p class="emotion-sub">Warmth</p>
+      <button class="add-btn added-purple">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Added
+      </button>
+    </div>
+
+    <div class="emotion-card" data-id="anger" onclick="toggleEmotion(this)">
+      <img class="flower-img f-anger" src="assets/flower.png" alt="Anger flower" />
+      <p class="emotion-name">Anger</p><p class="emotion-sub">Social Tension</p>
+      <button class="add-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add
+      </button>
+    </div>
+
+    <div class="emotion-card" data-id="fear" onclick="toggleEmotion(this)">
+      <img class="flower-img f-fear" src="assets/flower.png" alt="Fear flower" />
+      <p class="emotion-name">Fear</p><p class="emotion-sub">Withdrawal</p>
+      <button class="add-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add
+      </button>
+    </div>
+
+    <div class="emotion-card" data-id="disgust" onclick="toggleEmotion(this)">
+      <img class="flower-img f-disgust" src="assets/flower.png" alt="Disgust flower" />
+      <p class="emotion-name">Disgust</p><p class="emotion-sub">Sadness</p>
+      <button class="add-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add
+      </button>
+    </div>
+
+    <div class="emotion-card added-orange" data-id="sadness" onclick="toggleEmotion(this)">
+      <img class="flower-img f-sadness" src="assets/flower.png" alt="Sadness flower" />
+      <p class="emotion-name">Sadness</p><p class="emotion-sub">Withdrawal</p>
+      <button class="add-btn added-orange">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Added
+      </button>
+    </div>
+
+    <div class="emotion-card added-purple" data-id="surprise" onclick="toggleEmotion(this)">
+      <img class="flower-img f-surprise" src="assets/flower.png" alt="Surprise flower" />
+      <p class="emotion-name">Surprise</p><p class="emotion-sub">Social Tension</p>
+      <button class="add-btn added-purple">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Added
+      </button>
+    </div>
+
+    <div class="emotion-card" data-id="contempt" onclick="toggleEmotion(this)">
+      <img class="flower-img f-contempt" src="assets/flower.png" alt="Contempt flower" />
+      <p class="emotion-name">Contempt</p><p class="emotion-sub">Withdrawal</p>
+      <button class="add-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add
+      </button>
+    </div>
+
+    <div class="emotion-card" data-id="pride" onclick="toggleEmotion(this)">
+      <img class="flower-img f-pride" src="assets/flower.png" alt="Pride flower" />
+      <p class="emotion-name">Pride</p><p class="emotion-sub">Activation</p>
+      <button class="add-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add
+      </button>
+    </div>
+
+    <div class="emotion-card" data-id="nostalgia" onclick="toggleEmotion(this)">
+      <img class="flower-img f-nostalgia" src="assets/flower.png" alt="Nostalgia flower" />
+      <p class="emotion-name">Nostalgia</p><p class="emotion-sub">Expansiveness</p>
+      <button class="add-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Explore more banner -->
+  <div class="explore-banner" onclick="openModal()">
+    <div class="explore-icon"><img class="f-teal" src="assets/flower.png" alt="Explore" /></div>
+    <div class="explore-text">
+      <p class="explore-title">Explore more emotions</p>
+      <p class="explore-sub">Discover more emotions to add to your palette</p>
+    </div>
+    <div class="explore-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+  </div>
+
+  <!-- Confirm -->
+  <div class="confirm-wrap">
+    <button class="confirm-btn" onclick="window.location.href='onboarding3.html'">Confirm</button>
+  </div>
+
+  <!-- Quiz banner -->
+  <div class="quiz-banner" onclick="window.location.href='quiz.html'">
+    <div class="quiz-placeholder">character<br>goes here</div>
+    <div class="quiz-text">
+      <p class="quiz-label">Discover more about you</p>
+      <p class="quiz-title">Take the Mood Personality Quiz</p>
+      <p class="quiz-sub">A 2-minute quiz to discover your emotional type and patterns.</p>
+    </div>
+    <div class="quiz-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════ MODAL ══════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal">
+
+    <div class="modal-header">
+      <div class="modal-flower-icon"><img class="f-teal" src="assets/flower.png" alt="" /></div>
+      <h2 class="modal-title">Explore more emotions</h2>
+      <p class="modal-sub">Tap any emotion to add it to your palette</p>
+    </div>
+
+    <div class="filter-row">
+      <button class="filter-pill active" onclick="filterCategory('all',this)">All</button>
+      <button class="filter-pill" onclick="filterCategory('warmth',this)"><span class="dot"></span>Warmth</button>
+      <button class="filter-pill" onclick="filterCategory('social',this)"><span class="dot"></span>Social Tension</button>
+      <button class="filter-pill" onclick="filterCategory('withdrawal',this)"><span class="dot"></span>Withdrawal</button>
+      <button class="filter-pill" onclick="filterCategory('activation',this)"><span class="dot"></span>Activation</button>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="cat-section" data-cat="warmth">
+        <div class="cat-header" onclick="toggleCat(this)">
+          <div class="cat-header-left"><div class="cat-dot" style="background:#F6A952"></div><span class="cat-name">Warmth</span></div>
+          <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></div>
+        </div>
+        <div class="cat-grid">
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Frustrated</div><div class="mini-sub">Things aren't going my way</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Elated</div><div class="mini-sub">On top of the world</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Grateful</div><div class="mini-sub">Thankful for what I have</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Cozy</div><div class="mini-sub">Safe and comfortable</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Hopeful</div><div class="mini-sub">Looking forward to good</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Tender</div><div class="mini-sub">Soft and caring</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Cheerful</div><div class="mini-sub">Light and bright</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Serene</div><div class="mini-sub">Calm and at peace</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Playful</div><div class="mini-sub">Feeling fun and silly</div></div></div>
+        </div>
+      </div>
+
+      <div class="cat-section" data-cat="social">
+        <div class="cat-header" onclick="toggleCat(this)">
+          <div class="cat-header-left"><div class="cat-dot" style="background:#E91E8C"></div><span class="cat-name">Social Tension</span></div>
+          <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></div>
+        </div>
+        <div class="cat-grid">
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Anxious</div><div class="mini-sub">Worried about what's next</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Embarrassed</div><div class="mini-sub">Wishing I could disappear</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Jealous</div><div class="mini-sub">Wanting what others have</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Guilty</div><div class="mini-sub">Carrying something heavy</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Shy</div><div class="mini-sub">Holding back a little</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Irritated</div><div class="mini-sub">Little things adding up</div></div></div>
+        </div>
+      </div>
+
+      <div class="cat-section" data-cat="withdrawal">
+        <div class="cat-header" onclick="toggleCat(this)">
+          <div class="cat-header-left"><div class="cat-dot" style="background:#2471A3"></div><span class="cat-name">Withdrawal</span></div>
+          <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></div>
+        </div>
+        <div class="cat-grid">
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Lonely</div><div class="mini-sub">Missing connection</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Numb</div><div class="mini-sub">Feeling nothing at all</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Withdrawn</div><div class="mini-sub">Pulling away from others</div></div></div>
+        </div>
+      </div>
+
+      <div class="cat-section" data-cat="activation">
+        <div class="cat-header" onclick="toggleCat(this)">
+          <div class="cat-header-left"><div class="cat-dot" style="background:#922B21"></div><span class="cat-name">Activation</span></div>
+          <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></div>
+        </div>
+        <div class="cat-grid">
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Excited</div><div class="mini-sub">Buzzing with energy</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Motivated</div><div class="mini-sub">Ready to take on the day</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Driven</div><div class="mini-sub">Focused on a goal</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Bold</div><div class="mini-sub">Feeling fearless</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Restless</div><div class="mini-sub">Can't sit still</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><img class="f-red" src="assets/flower.png" alt=""/><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Inspired</div><div class="mini-sub">Ideas flowing freely</div></div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <div class="cant-find-banner">
+        <div class="cant-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <div class="cant-text">
+          <p class="cant-title">Can't find the right one?</p>
+          <p class="cant-sub">Create a custom emotion that fits exactly how you feel</p>
+        </div>
+        <button class="create-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Create
+        </button>
+      </div>
+      <div class="added-strip">
+        <span class="added-label">3 emotions added</span>
+        <div class="added-flowers">
+          <img class="added-flower-dot f-happiness" src="assets/flower.png" alt=""/>
+          <img class="added-flower-dot f-surprise"  src="assets/flower.png" alt=""/>
+          <img class="added-flower-dot f-sadness"   src="assets/flower.png" alt=""/>
+          <img class="added-flower-dot empty"       src="assets/flower.png" alt=""/>
+          <img class="added-flower-dot empty"       src="assets/flower.png" alt=""/>
+        </div>
+        <button class="done-btn" onclick="closeModal()">
+          Done <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const MAX = 5;
+  let added = new Set(['happiness','sadness','surprise']);
+
+  function toggleEmotion(card) {
+    const id = card.dataset.id;
+    const btn = card.querySelector('.add-btn');
+    if (added.has(id)) {
+      added.delete(id);
+      card.classList.remove('added-purple','added-orange');
+      btn.classList.remove('added-purple','added-orange');
+      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add`;
+    } else {
+      if (added.size >= MAX) { alert('You can select up to 5 emotions.'); return; }
+      added.add(id);
+      const useOrange = added.size % 2 === 0;
+      card.classList.add(useOrange ? 'added-orange' : 'added-purple');
+      btn.classList.add(useOrange ? 'added-orange' : 'added-purple');
+      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Added`;
+    }
+  }
+
+  function openModal() { document.getElementById('modalOverlay').classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); document.body.style.overflow=''; }
+  function handleOverlayClick(e) { if (e.target===document.getElementById('modalOverlay')) closeModal(); }
+
+  function toggleCat(header) {
+    const grid = header.nextElementSibling;
+    const poly = header.querySelector('.cat-toggle svg polyline');
+    if (grid.style.display==='none') { grid.style.display='grid'; poly.setAttribute('points','18 15 12 9 6 15'); }
+    else { grid.style.display='none'; poly.setAttribute('points','6 9 12 15 18 9'); }
+  }
+
+  function toggleMini(card) {
+    card.classList.toggle('added');
+    const plus = card.querySelector('.mini-plus');
+    plus.textContent = card.classList.contains('added') ? '✓' : '+';
+  }
+
+  function filterCategory(cat, pill) {
+    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    document.querySelectorAll('.cat-section').forEach(sec => {
+      sec.style.display = (cat==='all' || sec.dataset.cat===cat) ? 'block' : 'none';
+    });
+  }
+</script>
+</body>
+</html>
