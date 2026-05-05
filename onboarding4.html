@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Onboarding – Step 4</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #e8eef7;
+      --purple: #7c5cbf;
+      --purple-light: #a07de0;
+      --green: #76D586;
+      --card-bg: #fff;
+      --radius-card: clamp(16px,2vw,28px);
+      --radius-btn: clamp(20px,2.5vw,40px);
+    }
+
+    html, body {
+      min-height: 100%;
+      background: var(--bg);
+      font-family: 'Roboto', sans-serif;
+      display: flex; align-items: flex-start; justify-content: center;
+    }
+
+    .shell {
+      width: min(100vw, 820px);
+      min-height: 100vh;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      padding: 0 0 clamp(20px,2.5vw,36px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── Decorative blobs ── */
+    .blob { position:absolute; border-radius:50%; pointer-events:none; z-index:0; }
+    .blob-sand  { width:clamp(160px,24vw,300px); height:clamp(160px,24vw,300px); background:#e8dcc8; opacity:.45; top:clamp(200px,26%,340px); left:clamp(-90px,-11vw,-36px); }
+    .blob-teal  { width:clamp(110px,16vw,210px); height:clamp(110px,16vw,210px); background:#a8dde0; opacity:.38; bottom:clamp(160px,20%,260px); right:clamp(-60px,-8vw,-20px); }
+
+    /* ── Top bar ── */
+    .topbar { position:relative; z-index:1; display:flex; align-items:center; gap:clamp(10px,1.5vw,20px); padding:clamp(16px,2.5vw,32px) clamp(20px,3vw,40px) clamp(10px,1.5vw,20px); }
+    .back-btn { width:clamp(36px,5vw,56px); height:clamp(36px,5vw,56px); border-radius:50%; background:var(--card-bg); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,.10); flex-shrink:0; }
+    .back-btn svg { width:clamp(14px,2vw,22px); height:clamp(14px,2vw,22px); }
+    .progress-wrap { flex:1; display:flex; align-items:center; gap:clamp(8px,1vw,14px); }
+    .progress-track { flex:1; height:clamp(6px,0.6vw,10px); background:#d5d5e8; border-radius:100px; overflow:hidden; }
+    .progress-fill { height:100%; width:80%; background:linear-gradient(90deg,#76D586 0%,#F6A952 37.98%,#E8585F 62.5%,#8956E2 100%); border-radius:100px; }
+    .progress-label { font-family:'Nunito',sans-serif; font-weight:700; font-size:clamp(13px,1.4vw,20px); color:var(--green); white-space:nowrap; }
+
+    /* ── Hero ── */
+    .hero { position:relative; z-index:1; padding:clamp(6px,1vw,16px) clamp(20px,3vw,40px) clamp(16px,2vw,28px); text-align:center; }
+    .step-label {
+      font-family:'Nunito',sans-serif; font-style:normal; font-weight:800;
+      font-size:clamp(14px,2vw,26px); letter-spacing:.12em; text-transform:uppercase;
+      margin-bottom:clamp(2px,0.3vw,6px);
+      color: var(--green);
+    }
+    .step-title { font-family:'Nunito',sans-serif; font-style:normal; font-weight:900; font-size:clamp(28px,4.5vw,58px); color:#111; line-height:1.12; margin-bottom:clamp(6px,0.8vw,14px); }
+    .step-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(13px,1.5vw,19px); color:#666; line-height:1.55; }
+
+    /* ── Goals grid ── */
+    .goals-grid {
+      position:relative; z-index:1;
+      display:grid;
+      grid-template-columns: repeat(3,1fr);
+      gap:clamp(10px,1.4vw,20px);
+      padding:0 clamp(16px,2.5vw,36px) clamp(16px,2vw,26px);
+    }
+
+    .goal-card {
+      background:var(--card-bg);
+      border-radius:var(--radius-card);
+      padding:clamp(14px,1.8vw,26px) clamp(12px,1.5vw,20px) clamp(16px,2vw,26px);
+      display:flex; flex-direction:column;
+      gap:clamp(6px,0.8vw,12px);
+      border:2.5px solid transparent;
+      cursor:pointer;
+      position:relative;
+      box-shadow:0 2px 10px rgba(0,0,0,.06);
+      transition:border-color .2s, background .2s, box-shadow .2s;
+      min-height:clamp(180px,26vw,320px);
+      user-select:none;
+    }
+    .goal-card:hover { box-shadow:0 4px 18px rgba(0,0,0,.10); }
+    .goal-card.selected { border-color:var(--purple); background:#f5f0ff; }
+
+    /* Radio circle top-right */
+    .radio-circle {
+      position:absolute; top:clamp(10px,1.2vw,18px); right:clamp(10px,1.2vw,18px);
+      width:clamp(22px,2.8vw,36px); height:clamp(22px,2.8vw,36px);
+      border-radius:50%;
+      border:2.5px solid #c0b8d8;
+      background:#fff;
+      display:flex; align-items:center; justify-content:center;
+      transition:border-color .2s, background .2s;
+      flex-shrink:0;
+    }
+    .goal-card.selected .radio-circle { border-color:var(--purple); background:var(--purple); }
+    .radio-circle svg { display:none; width:60%; height:60%; }
+    .goal-card.selected .radio-circle svg { display:block; }
+
+    /* Text sits at the bottom */
+    .goal-spacer { flex:1; }
+    .goal-name {
+      font-family:'Nunito',sans-serif; font-weight:800;
+      font-size:clamp(14px,1.7vw,22px); color:#111; line-height:1.25;
+    }
+    .goal-sub {
+      font-family:'Roboto',sans-serif; font-weight:400;
+      font-size:clamp(10px,1.2vw,15px); color:#999; line-height:1.45;
+    }
+
+    /* ── Bottom area ── */
+    .bottom-area { position:relative; z-index:1; padding:0 clamp(16px,2.5vw,36px); display:flex; flex-direction:column; gap:clamp(10px,1.2vw,18px); }
+
+    .confirm-btn {
+      width:100%; padding:clamp(16px,2.2vw,26px);
+      background:#111; color:#fff;
+      font-family:'Roboto',sans-serif; font-weight:500; font-style:normal; line-height:normal;
+      font-size:clamp(18px,2.4vw,30px);
+      border:none; border-radius:var(--radius-btn);
+      cursor:pointer; transition:background .2s, transform .12s;
+    }
+    .confirm-btn:hover  { background:#2a2a2a; }
+    .confirm-btn:active { transform:scale(.98); }
+
+    .settings-note {
+      font-family:'Roboto',sans-serif; font-weight:400;
+      font-size:clamp(11px,1.3vw,17px); color:#aaa;
+      text-align:center;
+    }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Blobs -->
+  <div class="blob blob-sand"></div>
+  <div class="blob blob-teal"></div>
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <button class="back-btn" onclick="window.location.href='onboarding3.html'" aria-label="Go back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill"></div></div>
+      <span class="progress-label">4/5</span>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <p class="step-label">Step 4</p>
+    <h1 class="step-title">What are you<br>hoping to feel?</h1>
+    <p class="step-sub">Choose up to 3 goals to start your journey</p>
+  </div>
+
+  <!-- Goals grid -->
+  <div class="goals-grid">
+
+    <div class="goal-card" data-id="balance" onclick="toggleGoal(this)">
+      <div class="radio-circle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="goal-spacer"></div>
+      <p class="goal-name">Feel more balance</p>
+      <p class="goal-sub">Slow down and feel more grounded.</p>
+    </div>
+
+    <div class="goal-card" data-id="habits" onclick="toggleGoal(this)">
+      <div class="radio-circle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="goal-spacer"></div>
+      <p class="goal-name">Build better habits</p>
+      <p class="goal-sub">Slow down and feel more grounded.</p>
+    </div>
+
+    <div class="goal-card" data-id="emotions" onclick="toggleGoal(this)">
+      <div class="radio-circle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="goal-spacer"></div>
+      <p class="goal-name">Understand my emotions</p>
+      <p class="goal-sub">Slow down and feel more grounded.</p>
+    </div>
+
+    <div class="goal-card" data-id="alone" onclick="toggleGoal(this)">
+      <div class="radio-circle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="goal-spacer"></div>
+      <p class="goal-name">Feel less alone</p>
+      <p class="goal-sub">Slow down and feel more grounded.</p>
+    </div>
+
+    <div class="goal-card" data-id="stress" onclick="toggleGoal(this)">
+      <div class="radio-circle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="goal-spacer"></div>
+      <p class="goal-name">Manage stress better</p>
+      <p class="goal-sub">Slow down and feel more grounded.</p>
+    </div>
+
+    <div class="goal-card" data-id="confident" onclick="toggleGoal(this)">
+      <div class="radio-circle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="goal-spacer"></div>
+      <p class="goal-name">Feel more confident</p>
+      <p class="goal-sub">Slow down and feel more grounded.</p>
+    </div>
+
+  </div>
+
+  <!-- Bottom -->
+  <div class="bottom-area">
+    <button class="confirm-btn" onclick="window.location.href='onboarding5.html'">Confirm</button>
+    <p class="settings-note">You can change these anytime in your settings.</p>
+  </div>
+
+</div>
+
+<script>
+  const MAX = 3;
+  let selected = new Set();
+
+  function toggleGoal(card) {
+    const id = card.dataset.id;
+    if (selected.has(id)) {
+      selected.delete(id);
+      card.classList.remove('selected');
+    } else {
+      if (selected.size >= MAX) {
+        const oldest = selected.values().next().value;
+        selected.delete(oldest);
+        document.querySelector(`[data-id="${oldest}"]`).classList.remove('selected');
+      }
+      selected.add(id);
+      card.classList.add('selected');
+    }
+  }
+</script>
+</body>
+</html>
