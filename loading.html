@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personalizing your experience</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #e8eef7;
+      --teal: #1DCBD6;
+      --card-bg: #fff;
+      --radius-card: clamp(16px,2vw,28px);
+    }
+
+    html, body {
+      min-height: 100%;
+      background: var(--bg);
+      font-family: 'Roboto', sans-serif;
+      display: flex; align-items: flex-start; justify-content: center;
+    }
+
+    .shell {
+      width: min(100vw, 820px);
+      min-height: 100vh;
+      background: var(--bg);
+      display: flex; flex-direction: column;
+      padding: 0 0 clamp(28px,3.5vw,52px);
+    }
+
+    /* ── Top bar ── */
+    .topbar { display:flex; align-items:center; gap:clamp(10px,1.5vw,20px); padding:clamp(16px,2.5vw,32px) clamp(20px,3vw,40px) clamp(10px,1.5vw,20px); }
+    .back-btn { width:clamp(36px,5vw,56px); height:clamp(36px,5vw,56px); border-radius:50%; background:var(--card-bg); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,.10); flex-shrink:0; }
+    .back-btn svg { width:clamp(14px,2vw,22px); height:clamp(14px,2vw,22px); }
+    .progress-wrap { flex:1; display:flex; align-items:center; gap:clamp(8px,1vw,14px); }
+    .progress-track { flex:1; height:clamp(6px,0.6vw,10px); background:#d5d5e8; border-radius:100px; overflow:hidden; }
+    .progress-fill {
+      height:100%; width:100%;
+      background: linear-gradient(90deg,#76D586 0%,#F6A952 25%,#E8585F 50%,#8956E2 75%,#1DCBD6 100%);
+      border-radius:100px;
+    }
+    .progress-label { font-family:'Nunito',sans-serif; font-weight:700; font-size:clamp(13px,1.4vw,20px); color:var(--teal); white-space:nowrap; }
+
+    /* ── Hero ── */
+    .hero { padding:clamp(4px,0.8vw,12px) clamp(20px,3vw,40px) 0; text-align:center; }
+    .just-a-sec {
+      font-family:'Nunito',sans-serif; font-style:normal; font-weight:800;
+      font-size:clamp(13px,1.6vw,20px); letter-spacing:.14em; text-transform:uppercase;
+      margin-bottom:clamp(4px,0.5vw,10px);
+      background: linear-gradient(90deg, #F6A952 0%, #EAA4A6 36.82%, #BBA1D4 61.9%, #1DCBD6 86.98%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-title {
+      font-family:'Nunito',sans-serif; font-style:normal; font-weight:900;
+      font-size:clamp(24px,4vw,52px); color:#111; line-height:1.15;
+    }
+
+    /* ── Spinner area ── */
+    .spinner-area {
+      flex: 1;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:clamp(24px,3.5vw,50px);
+      padding:clamp(20px,4vw,60px) clamp(20px,3vw,40px);
+    }
+
+    /* Flower-shaped spinner */
+    .spinner-wrap {
+      position: relative;
+      width: clamp(160px,28vw,280px);
+      height: clamp(160px,28vw,280px);
+    }
+
+    /* White flower bg — uses the flower.png as mask */
+    .flower-bg {
+      position:absolute; inset:0;
+      background: #fff;
+      -webkit-mask-image: url('assets/flower.png');
+      -webkit-mask-size: contain;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      mask-image: url('assets/flower.png');
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      opacity: 0.9;
+    }
+
+    /* The spinning arc — SVG circle stroke approach clipped to flower shape */
+    .spinner-svg {
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      animation: spin 1.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* The welcome.png sits centred inside */
+    .flower-inner {
+      position:absolute; inset:0;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .flower-inner img {
+      width: 72%;
+      height: 72%;
+      object-fit: contain;
+    }
+
+    /* Percentage */
+    .pct-text {
+      font-family:'Nunito',sans-serif; font-weight:900;
+      font-size:clamp(42px,7vw,90px); color:#111;
+      letter-spacing:-.02em;
+    }
+
+    /* ── Fun fact banner ── */
+    .fun-banner {
+      position:relative;
+      margin:0 clamp(16px,2.5vw,36px) clamp(16px,2vw,26px);
+      border-radius:var(--radius-card);
+      padding:clamp(14px,1.8vw,24px) clamp(16px,2vw,28px);
+      display:flex; align-items:center; gap:clamp(14px,1.8vw,24px);
+      overflow:hidden;
+      background:#fff;
+      min-height:clamp(80px,12vw,140px);
+    }
+    .fun-banner-bg {
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; object-position:center right;
+      z-index:0; border-radius:var(--radius-card);
+    }
+    .fun-mascot {
+      position:relative; z-index:1;
+      width:clamp(52px,7.5vw,90px); height:clamp(52px,7.5vw,90px);
+      flex-shrink:0;
+    }
+    .fun-mascot img { width:100%; height:100%; object-fit:contain; }
+    .fun-text { position:relative; z-index:1; flex:1; }
+    .fun-label {
+      font-family:'Nunito',sans-serif; font-weight:800;
+      font-size:clamp(10px,1.1vw,14px); letter-spacing:.08em; text-transform:uppercase;
+      margin-bottom:clamp(2px,0.3vw,5px);
+      background: linear-gradient(90deg, #F6A952 0%, #EAA4A6 36.82%, #BBA1D4 61.9%, #1DCBD6 86.98%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .fun-title {
+      font-family:'Nunito',sans-serif; font-weight:800;
+      font-size:clamp(13px,1.6vw,21px); color:#111;
+      margin-bottom:clamp(2px,0.3vw,6px);
+    }
+    .fun-sub {
+      font-family:'Roboto',sans-serif; font-weight:400;
+      font-size:clamp(11px,1.2vw,15px); color:#888; line-height:1.5;
+    }
+    .fun-sparkles {
+      position:relative; z-index:1;
+      display:flex; flex-direction:column; align-items:center;
+      gap:clamp(4px,0.5vw,8px); flex-shrink:0;
+      padding-right:clamp(4px,0.8vw,12px);
+    }
+    .spark-icon { fill:white; }
+    .spark-icon.large { width:clamp(20px,2.8vw,38px); height:clamp(20px,2.8vw,38px); }
+    .spark-icon.small { width:clamp(14px,1.8vw,24px); height:clamp(14px,1.8vw,24px); }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <button class="back-btn" onclick="window.location.href='onboarding5.html'" aria-label="Go back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill"></div></div>
+      <span class="progress-label">5/5</span>
+    </div>
+  </div>
+
+  <!-- Hero text -->
+  <div class="hero">
+    <p class="just-a-sec">Just a second</p>
+    <h1 class="hero-title">We are personalizing<br>your experience</h1>
+  </div>
+
+  <!-- Spinner + percentage -->
+  <div class="spinner-area">
+
+    <div class="spinner-wrap">
+      <!-- White flower silhouette background -->
+      <div class="flower-bg"></div>
+
+      <!-- Spinning arc drawn over the flower shape -->
+      <svg class="spinner-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#1DCBD6"/>
+            <stop offset="100%" stop-color="#8956E2"/>
+          </linearGradient>
+        </defs>
+        <!-- Background ring (subtle) -->
+        <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(200,210,230,0.4)" stroke-width="7"/>
+        <!-- Arc — dasharray controls how much is filled -->
+        <circle cx="50" cy="50" r="42" fill="none"
+                stroke="url(#arcGrad)" stroke-width="7"
+                stroke-linecap="round"
+                stroke-dasharray="80 184"
+                stroke-dashoffset="0"
+                transform="rotate(-90 50 50)"/>
+      </svg>
+
+      <!-- Flower mascot inside -->
+      <div class="flower-inner">
+        <img src="assets/welcome.png" alt="Personalizing" />
+      </div>
+    </div>
+
+    <!-- Animated percentage counter -->
+    <div class="pct-text" id="pctDisplay">0%</div>
+
+  </div>
+
+  <!-- Fun fact banner -->
+  <div class="fun-banner">
+    <img class="fun-banner-bg" src="assets/loadingbar.png" alt="" aria-hidden="true" />
+    <div class="fun-mascot">
+      <img src="assets/yellowfloweralone.png" alt="Flower mascot" />
+    </div>
+    <div class="fun-text">
+      <p class="fun-label">Fun Fact</p>
+      <p class="fun-title">Consistency builds self-awareness</p>
+      <p class="fun-sub">Journaling at the same times helps you<br>understand your emotions better</p>
+    </div>
+    <div class="fun-sparkles">
+      <svg class="spark-icon large" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2 L13.5 10.5 L22 12 L13.5 13.5 L12 22 L10.5 13.5 L2 12 L10.5 10.5 Z"/>
+      </svg>
+      <svg class="spark-icon small" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2 L13.5 10.5 L22 12 L13.5 13.5 L12 22 L10.5 13.5 L2 12 L10.5 10.5 Z"/>
+      </svg>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // ── Animate percentage 0 → 100 over ~3 seconds then redirect ──
+  const DURATION = 3000; // ms
+  const display  = document.getElementById('pctDisplay');
+  const arc      = document.querySelector('circle[stroke-dasharray]');
+  const FULL     = 264; // 2π × r ≈ 2 × 3.14159 × 42
+
+  let start = null;
+
+  function tick(ts) {
+    if (!start) start = ts;
+    const elapsed = ts - start;
+    const progress = Math.min(elapsed / DURATION, 1);
+
+    // Ease in-out
+    const eased = progress < 0.5
+      ? 2 * progress * progress
+      : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+    const pct = Math.round(eased * 100);
+    display.textContent = pct + '%';
+
+    // Update arc dasharray: filled portion, gap portion
+    const filled = eased * FULL;
+    arc.setAttribute('stroke-dasharray', `${filled} ${FULL - filled + 0.01}`);
+
+    if (progress < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      // Navigate to homepage after a brief pause
+      setTimeout(() => {
+        window.location.href = 'home.html';
+      }, 1500);
+    }
+  }
+
+  requestAnimationFrame(tick);
+</script>
+</body>
+</html>
