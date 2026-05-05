@@ -2,7 +2,7 @@
 
 // ── Page map ──
 const PAGE_MAP = {
-  home:     'index.html',
+  home:     'home.html',
   emotions: 'emotions.html',
   journal:  'journal.html',
   data:     'data.html',
