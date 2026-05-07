@@ -79,7 +79,7 @@
     font-family: 'Nunito Sans', sans-serif;
     font-size: 15px;
     font-weight: 700;
-    color: #454D52;
+    color: #ffff;
     margin-bottom: 2px;
     letter-spacing: 0.3px;
   }
@@ -92,7 +92,7 @@
     line-height: 1;
     margin-bottom: 10px;
     /* Gradient text */
-    background: var(--gradient);
+    background: var(--card-bg);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -102,7 +102,7 @@
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
     font-weight: 400;
-    color: #454D52;
+    color: #ffffff;
     line-height: 1.55;
     max-width: 210px;
   }
@@ -113,7 +113,7 @@
     border-radius: 20px;
     font-size: 13px;
     font-weight: 600;
-    color: #1a1a1a;
+    color: #ffffff;
     margin: 0 1px;
   }
 
@@ -122,7 +122,7 @@
     top: 0;
     right: 0;
     width: 400px;
-    z-index: 0;
+    z-index: -1;
     pointer-events: none;
   }
 
@@ -478,7 +478,7 @@
 
     <!-- Recommendations column -->
     <div class="recommend-col">
-      <div class="recommend-card" onclick="window.location.href='affirmations.html'">
+      <div class="recommend-card" onclick="window.location.href='profile.html'">
         <div class="recommend-icon">
           <img src="assets/iconaffirmations.png" alt="Affirmations" onerror="this.parentElement.style.background='#77DEF8'">
         </div>
@@ -488,7 +488,7 @@
         </div>
         <span class="recommend-chevron">›</span>
       </div>
-      <div class="recommend-card" onclick="window.location.href='breathing.html'">
+      <div class="recommend-card" onclick="window.location.href='profile.html'">
         <div class="recommend-icon">
           <img src="assets/iconbreathing.png" alt="Breathing" onerror="this.parentElement.style.background='#B293EB'">
         </div>
@@ -524,7 +524,7 @@
       <div class="insight-section-label">Today's Insight</div>
       <div class="insight-headline" id="insight-headline">Today felt like a sunny stroll</div>
       <div class="insight-sub" id="insight-sub">You logged mostly warm emotions today</div>
-      <button class="insight-btn" onclick="window.location.href='summary.html'">View Summary</button>
+      <button class="insight-btn" onclick="window.location.href='data.html'">View Summary</button>
     </div>
     <div class="insight-right">
       <img src="assets/bookdesign.png" alt="Book" onerror="this.style.opacity='0'">
@@ -766,9 +766,7 @@ function renderHome() {
 
   /* ── Header insight text ── */
   const insightEl = document.getElementById('header-insight');
-  insightEl.innerHTML = `Today you seem <em style="font-style:normal;font-weight:600;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">${mixed}</em>, with higher levels of <span class="emotion-chip" style="background:${getChipBg(e1)}">${e1}</span> and <span class="emotion-chip" style="background:${getChipBg(e2)}">${e2}</span> being logged.`;
-
-  /* ── Today's Insight headline ── */
+insightEl.innerHTML = `Today you seem <em style="font-style:italic;font-weight:900;font-size:1.15em;filter:drop-shadow(0px 1px 3px rgba(0,0,0,0.18));background:var(--card-bg);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">${mixed}</em>, with higher levels of <span class="emotion-chip" style="background:#3AC6E9">${e1}</span> and <span class="emotion-chip" style="background:#68BC7A">${e2}</span> being logged.`;  /* ── Today's Insight headline ── */
   document.getElementById('insight-headline').textContent = insightHeadline(e1, e2);
   document.getElementById('insight-sub').textContent =
     `You logged ${e1.toLowerCase()} and ${e2.toLowerCase()} most today`;
