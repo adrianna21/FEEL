@@ -6,7 +6,7 @@
 <title>FEEL — Home</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #F0F7FD;
@@ -37,7 +37,7 @@
     content: '';
     position: fixed;
     inset: 0;
-    background-image: url('assets/backgroundhome.png');
+    background-image: url('assets/gradient_bg2.png');
     background-size: cover;
     background-position: top center;
     background-repeat: no-repeat;
@@ -51,11 +51,9 @@
     position: relative;
     z-index: 1;
     min-height: 100vh;
-    height: 100vh;
     display: flex;
     flex-direction: column;
     padding-bottom: 100px;
-    justify-content: space-between;
   }
 
   /* ── Header ── */
@@ -65,6 +63,7 @@
     align-items: flex-start;
     justify-content: space-between;
     gap: 12px;
+    font-family: Nunito, sans-serif;
     overflow: visible;
     flex-shrink: 0;
     position: relative;
@@ -78,23 +77,23 @@
 
 
   .greeting-line {
-    font-family: 'Nunito Sans', sans-serif;
     font-size: 15px;
     font-weight: 700;
-    color: #454D52;
+    font-family: Nunito, sans-serif;
+    color: #ffff;
     margin-bottom: 2px;
     letter-spacing: 0.3px;
   }
 
   .header-name {
-    font-family: 'Nunito Sans', sans-serif;
+   font-family: Nunito, sans-serif;
     font-size: clamp(38px, 5vh, 60px);
     font-weight: 900;
     font-style: italic;
     line-height: 1;
     margin-bottom: 10px;
     /* Gradient text */
-    background: var(--gradient);
+    background: var(--card-bg);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -104,7 +103,7 @@
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
     font-weight: 400;
-    color: #454D52;
+    color: #ffffff;
     line-height: 1.55;
     max-width: 210px;
   }
@@ -115,7 +114,7 @@
     border-radius: 20px;
     font-size: 13px;
     font-weight: 600;
-    color: #1a1a1a;
+    color: #ffffff;
     margin: 0 1px;
   }
 
@@ -124,7 +123,7 @@
     top: 0;
     right: 0;
     width: 400px;
-    z-index: 0;
+    z-index: -1;
     pointer-events: none;
   }
 
@@ -141,8 +140,6 @@
     gap: 12px;
     padding: 0 16px 14px;
     flex-shrink: 0;
-    flex: 1;
-    align-content: stretch;
   }
 
   /* Recommend cards stack */
@@ -150,20 +147,18 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    height: 100%;
   }
 
   .recommend-card {
     background: var(--card-bg);
     border-radius: var(--radius-md);
-    padding: clamp(16px, 2.5vh, 28px) 14px;
+    padding: clamp(12px, 1.8vh, 22px) 14px;
     display: flex;
     align-items: center;
     gap: 10px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.06);
     cursor: pointer;
     transition: transform 0.12s;
-    flex: 1;
   }
   .recommend-card:active { transform: scale(0.97); }
 
@@ -205,12 +200,11 @@
   .device-card {
     background: var(--card-bg);
     border-radius: var(--radius-md);
-    padding: clamp(14px, 2vh, 24px) 14px;
+    padding: 12px 14px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.06);
     display: flex;
     flex-direction: column;
     gap: 0;
-    height: 100%;
   }
 
   .device-status-row {
@@ -241,7 +235,7 @@
     margin-bottom: 10px;
   }
   .device-title {
-    font-family: 'Nunito Sans', sans-serif;
+    font-family: Nunito, sans-serif;
     font-size: 17px;
     font-weight: 800;
     color: #1a1a1a;
@@ -268,10 +262,12 @@
 
   /* ── Today's Insight card ── */
   .insight-card {
+    overflow: hidden;
     margin: 0 16px 14px;
     background: var(--card-bg);
     border-radius: var(--radius-lg);
-    padding: 20px 20px 18px;
+    font-family: Nunito, sans-serif;
+    padding: 20px 20px px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.06);
     display: flex;
     gap: 14px;
@@ -280,37 +276,43 @@
     min-height: 0;
   }
 
-  .insight-left { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: flex-start; gap: 4px; }
-
-  .insight-section-label {
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 18px;
-    font-weight: 800;
-    color: #1a1a1a;
-    margin-bottom: 2px;
-    text-align: left;
+  .insight-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
-  .insight-headline {
+    .insight-left { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: flex-start; gap: 0; }
+
+  .insight-section-label {
+      
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 0px;
+      text-align: left;
+  }
+
+.insight-headline {
     font-family: 'Roboto', sans-serif;
     font-size: 28px;
     font-weight: 700;
     line-height: 1.15;
-    margin-bottom: 4px;
+    margin-bottom: 0px;
     background: var(--gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     text-align: left;
-  }
+}
 
   .insight-sub {
-    font-family: 'Roboto', sans-serif;
-    font-size: 13px;
-    color: #454D52;
-    line-height: 1.4;
-    margin-bottom: 10px;
-    text-align: left;
+      font-family: 'Roboto', sans-serif;
+      font-size: 13px;
+      color: #454D52;
+      line-height: 1.4;
+      margin-bottom: 10px;
+      text-align: left;
   }
 
   .insight-btn {
@@ -326,22 +328,21 @@
     cursor: pointer;
     font-family: 'Roboto', sans-serif;
     transition: background 0.15s;
-    text-align: center;
-    margin-top: auto;
   }
   .insight-btn:active { background: #e8e8e6; }
 
   .insight-right {
-    width: clamp(160px, 22vw, 240px);
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: -10px;
-    margin-bottom: -8px;
+      width: clamp(160px, 22vw, 240px);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: -10px;
+      margin-bottom: -8px;
   }
+
   .insight-right img {
-    width: clamp(180px, 25vw, 260px);
+    width: clamp(250px, 40vw, 300px);
     height: auto;
   }
 
@@ -350,7 +351,7 @@
     margin: 0 16px 14px;
     background: var(--card-bg);
     border-radius: var(--radius-lg);
-    padding: 18px 14px 22px;
+    padding: 16px 14px 18px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.06);
     flex-shrink: 0;
   }
@@ -363,9 +364,9 @@
   }
 
   .cal-month-label {
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 17px;
-    font-weight: 800;
+    font-family: Nunito, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
     color: #1a1a1a;
   }
 
@@ -396,7 +397,7 @@
 
   .day-chip {
     width: 100%;
-    height: clamp(90px, 12vh, 140px);
+    height: clamp(82px, 10vh, 120px);
     border-radius: 16px;
     display: flex;
     flex-direction: column;
@@ -485,7 +486,7 @@
 
     <!-- Recommendations column -->
     <div class="recommend-col">
-      <div class="recommend-card" onclick="window.location.href='affirmations.html'">
+      <div class="recommend-card" onclick="window.location.href='profile.html'">
         <div class="recommend-icon">
           <img src="assets/iconaffirmations.png" alt="Affirmations" onerror="this.parentElement.style.background='#77DEF8'">
         </div>
@@ -495,7 +496,7 @@
         </div>
         <span class="recommend-chevron">›</span>
       </div>
-      <div class="recommend-card" onclick="window.location.href='breathing.html'">
+      <div class="recommend-card" onclick="window.location.href='profile.html'">
         <div class="recommend-icon">
           <img src="assets/iconbreathing.png" alt="Breathing" onerror="this.parentElement.style.background='#B293EB'">
         </div>
@@ -531,7 +532,7 @@
       <div class="insight-section-label">Today's Insight</div>
       <div class="insight-headline" id="insight-headline">Today felt like a sunny stroll</div>
       <div class="insight-sub" id="insight-sub">You logged mostly warm emotions today</div>
-      <button class="insight-btn" onclick="window.location.href='summary.html'">View Summary</button>
+      <button class="insight-btn" onclick="window.location.href='data.html'">View Summary</button>
     </div>
     <div class="insight-right">
       <img src="assets/bookdesign.png" alt="Book" onerror="this.style.opacity='0'">
@@ -773,9 +774,7 @@ function renderHome() {
 
   /* ── Header insight text ── */
   const insightEl = document.getElementById('header-insight');
-  insightEl.innerHTML = `Today you seem <em style="font-style:normal;font-weight:600;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">${mixed}</em>, with higher levels of <span class="emotion-chip" style="background:#3AC6E9">${e1}</span> and <span class="emotion-chip" style="background:#68BC7A">${e2}</span> being logged.`;
-
-  /* ── Today's Insight headline ── */
+insightEl.innerHTML = `Today you seem <em style="font-style:italic;font-weight:900;font-size:1.15em;filter:drop-shadow(0px 1px 3px rgba(0,0,0,0.18));background:var(--card-bg);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">${mixed}</em>, with higher levels of <span class="emotion-chip" style="background:#3AC6E9">${e1}</span> and <span class="emotion-chip" style="background:#68BC7A">${e2}</span> being logged.`;  /* ── Today's Insight headline ── */
   document.getElementById('insight-headline').textContent = insightHeadline(e1, e2);
   document.getElementById('insight-sub').textContent =
     `You logged ${e1.toLowerCase()} and ${e2.toLowerCase()} most today`;
