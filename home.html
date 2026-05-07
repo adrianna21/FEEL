@@ -282,42 +282,48 @@
   .insight-left { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: space-between; }
 
   .insight-section-label {
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 18px;
-    font-weight: 800;
-    color: #1a1a1a;
-    margin-bottom: 6px;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin-bottom: 2px;
+      text-align: left;
   }
+
 
   .insight-headline {
-    font-family: 'Roboto', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 8px;
-    background: var(--gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+      font-family: 'Roboto', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 4px;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: left;
   }
 
+
   .insight-sub {
-    font-family: 'Roboto', sans-serif;
-    font-size: 13px;
-    color: #454D52;
-    line-height: 1.5;
-    margin-bottom: 14px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 13px;
+      color: #454D52;
+      line-height: 1.4;
+      margin-bottom: 10px;
+      text-align: left;
   }
 
   .insight-btn {
     display: inline-block;
-    padding: 9px 20px;
-    border-radius: 40px;
+    padding: 9px 5px;
+    border-radius: 7px;
     background: #f2f2f0;
     border: none;
     font-size: 12px;
     font-weight: 600;
     color: #555;
+    width: 200px;
     cursor: pointer;
     font-family: 'Roboto', sans-serif;
     transition: background 0.15s;
@@ -325,16 +331,17 @@
   .insight-btn:active { background: #e8e8e6; }
 
   .insight-right {
-    width: clamp(160px, 22vw, 240px);
-    flex-shrink: 0;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    margin-right: -10px;
-    margin-bottom: -8px;
+      width: clamp(160px, 22vw, 240px);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: -10px;
+      margin-bottom: -8px;
   }
+
   .insight-right img {
-    width: clamp(500px, 25vw, 300px);
+    width: clamp(500px, 40vw, 300px);
     height: auto;
   }
 
