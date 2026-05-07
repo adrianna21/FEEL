@@ -261,6 +261,7 @@
 
   /* ── Today's Insight card ── */
   .insight-card {
+    overflow: hidden;
     margin: 0 16px 14px;
     background: var(--card-bg);
     border-radius: var(--radius-lg);
@@ -279,31 +280,29 @@
     justify-content: space-between;
   }
 
-  .insight-left { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: space-between; }
+    .insight-left { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: flex-start; gap: 0; }
 
   .insight-section-label {
       font-family: 'Nunito Sans', sans-serif;
       font-size: 18px;
       font-weight: 800;
       color: #1a1a1a;
-      margin-bottom: 2px;
+      margin-bottom: 0px;
       text-align: left;
   }
 
-
-  .insight-headline {
-      font-family: 'Roboto', sans-serif;
-      font-size: 28px;
-      font-weight: 700;
-      line-height: 1.15;
-      margin-bottom: 4px;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-align: left;
-  }
-
+.insight-headline {
+    font-family: 'Roboto', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 0px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: left;
+}
 
   .insight-sub {
       font-family: 'Roboto', sans-serif;
@@ -341,7 +340,7 @@
   }
 
   .insight-right img {
-    width: clamp(500px, 40vw, 300px);
+    width: clamp(250px, 40vw, 300px);
     height: auto;
   }
 
