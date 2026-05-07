@@ -178,6 +178,12 @@
     }
     .begin-btn:hover  { background:#2a2a2a; }
     .begin-btn:active { transform:scale(.98); }
+
+      .settings-note {
+      font-family:'Roboto',sans-serif; font-weight:400;
+      font-size:clamp(11px,1.3vw,17px); color:#aaa;
+      text-align:center;
+    }
   </style>
 </head>
 <body>
@@ -242,7 +248,7 @@
       <div class="radio-circle">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
-      <div class="time-icon"><img src="assets/evening.png" alt="Evening" /></div>
+      <div class="time-icon"><img src="assets/evening.png" style="width:120px;height:120px;object-fit:contain;" alt="Evening" /></div>
       <p class="time-name">Evening</p>
       <p class="time-range">5:00 PM - 9:00 PM</p>
     </div>
@@ -296,6 +302,7 @@
   <!-- Begin -->
   <div class="begin-wrap">
     <button class="begin-btn" onclick="window.location.href='onboarding4.html'">Confirm</button>
+    <p class="settings-note">You can change these anytime in your settings.</p>
   </div>
 
 </div>
