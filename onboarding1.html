@@ -279,6 +279,12 @@
     .cta-btn:hover  { background: #2a2a2a; }
     .cta-btn:active { transform: scale(.98); }
 
+    .cta-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
     .cta-note {
       text-align: center;
       font-family: 'Roboto', sans-serif;
@@ -362,8 +368,7 @@
       </div>
       <div class="card-body">
         <p class="card-label">What should we call you?</p>
-        <input class="card-input" type="text" placeholder="Your name...." />
-      </div>
+          <input class="card-input" type="text" placeholder="Your name...." id="name-input" />      </div>
     </div>
 
   <!-- Pronouns -->
@@ -397,7 +402,7 @@
         <img src="assets/calendar_blue.png" style="width:50px;height:50px;object-fit:contain;" />
       </div>
       <div class="card-body">
-        <p class="card-label" style="font-weight:700; font-size:1.1rem; color: var(--text-primary);">When is your birthday?</p>
+        <p class="card-label" style="font-weight:700; font: size 15px;; color: var(--text-primary);">When is your birthday?</p>
         <p class="card-sublabel" id="dob-sublabel" style="display:none;"></p>
       </div>
       <div class="dob-selects">
@@ -414,13 +419,19 @@
     </div>
 
   <!-- CTA -->
+
   <div class="cta-wrap">
-    <button class="cta-btn" onclick="window.location.href='onboarding2.html'">Begin</button>
-  </div>
+  <button class="cta-btn" id="begin-btn" onclick="saveAndContinue()" disabled>Begin</button>
+</div>
 
 </div>
 
  <script>
+
+document.getElementById('name-input').addEventListener('input', (e) => {
+  localStorage.setItem('userName', e.target.value.trim());
+});
+
     const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     const monthSel = document.getElementById('dob-month');
     const daySel = document.getElementById('dob-day');
@@ -493,9 +504,34 @@
       pronounSublabel.textContent = pronounSelect.value;
       pronounSublabel.style.display = 'block';
     });
-    
+
+    function saveAndContinue() {
+  const name = document.getElementById('name-input').value.trim();
+  if (name) localStorage.setItem('userName', name);
+  window.location.href = 'onboarding2.html';
+}
+function checkFormComplete() {
+  const name = document.getElementById('name-input').value.trim();
+  const pronouns = document.getElementById('pronoun-select').value;
+  const month = document.getElementById('dob-month').value;
+  const day = document.getElementById('dob-day').value;
+  const year = document.getElementById('dob-year').value;
+
+  const isComplete = name && pronouns && month && day && year;
+  document.getElementById('begin-btn').disabled = !isComplete;
+}
+
+// Attach to all fields
+document.getElementById('name-input').addEventListener('input', () => {
+  localStorage.setItem('userName', document.getElementById('name-input').value.trim());
+  checkFormComplete();
+});
+
+document.getElementById('pronoun-select').addEventListener('change', checkFormComplete);
+document.getElementById('dob-month').addEventListener('change', checkFormComplete);
+document.getElementById('dob-day').addEventListener('change', checkFormComplete);
+document.getElementById('dob-year').addEventListener('change', checkFormComplete);
     </script>
     
 </body>
 </html>
-

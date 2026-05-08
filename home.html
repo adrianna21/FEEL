@@ -532,6 +532,11 @@
 /* ──────────────────────────────────────────────
    DATA LAYER
 ─────────────────────────────────────────────── */
+const userName = localStorage.getItem('userName');
+if (userName) {
+  document.querySelector('.header-name').textContent = userName;
+}
+
 const STORAGE_KEY = 'spark_api_data';
 
 function loadStoredData() {
