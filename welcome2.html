@@ -39,13 +39,11 @@
     /* ── Tap hint ── */
     .tap-hint {
       font-family: 'Roboto', sans-serif;
-      font-size: clamp(9px, 1.4vw, 18px);
+      font-size: clamp(13px, 1.4vw, 18px);
+      color: rgba(0,0,0,0.35);
       letter-spacing: 0.06em;
       text-transform: uppercase;
-        color: #aaa;
       animation: fadeInDown 1s ease 2.4s both;
-    margin-bottom: 100px;
-    padding-top: 10px;
     }
 
     /* ── Greeting ── */
@@ -73,12 +71,11 @@
     }
 
     .mascot-img {
-      width: clamp(1000px, 65vw, 780px);
+      width: clamp(320px, 65vw, 780px);
       height: auto;
       object-fit: contain;
       animation: mascotEntrance 0.9s cubic-bezier(0.34,1.3,0.64,1) 0.3s both;
       filter: drop-shadow(0 24px 48px rgba(41,193,231,0.22));
-        padding-top: 50%;
     }
 
     /* Floating sparkles around mascot */
@@ -183,11 +180,40 @@
 
   <!-- Greeting at top -->
   <div class="greeting">
-    <h1>Hi, {name}</h1>
+    <h1>Hi, {name} 👋</h1>
   </div>
 
   <!-- Mascot centre -->
   <div class="mascot-area">
+
+    <!-- Sparkles -->
+    <div class="sparkle sp1">
+      <svg width="32" height="32" viewBox="0 0 24 24"><path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z" fill="none" stroke="#29C1E7" stroke-width="1.8" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="sparkle sp2">
+      <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z" fill="#8956E2"/></svg>
+    </div>
+    <div class="sparkle sp3">
+      <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z" fill="#76D586"/></svg>
+    </div>
+    <div class="sparkle sp4">
+      <svg width="22" height="22" viewBox="0 0 24 24"><path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z" fill="#E8585F"/></svg>
+    </div>
+    <div class="sparkle sp5">
+      <svg width="26" height="26" viewBox="0 0 24 24"><path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z" fill="#F6A952"/></svg>
+    </div>
+    <div class="sparkle sp6">
+      <svg width="28" height="28" viewBox="0 0 24 24"><path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z" fill="none" stroke="#E8585F" stroke-width="1.8" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="sparkle sp7">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z" fill="#29C1E7"/></svg>
+    </div>
+    <div class="sparkle sp8">
+      <svg width="30" height="30" viewBox="0 0 24 24"><path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z" fill="#F6A952"/></svg>
+    </div>
+    <div class="sparkle sp9">
+      <svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z" fill="#8956E2"/></svg>
+    </div>
 
     <img class="mascot-img" src="assets/flowerwelcome.png" alt="FEEL mascot waving" />
   </div>

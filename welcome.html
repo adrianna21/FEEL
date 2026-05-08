@@ -112,26 +112,20 @@
     }
 
     .feel-word {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: clamp(2px, 0.5vw, 8px);
-      margin-bottom: clamp(10px, 2vh, 20px);
-    }
-    .feel-word span {
+      display: block;
+      text-align: center;
+      margin: 0 auto clamp(10px, 2vh, 20px);
       font-family: 'Nunito', sans-serif;
       font-weight: 900;
       font-size: clamp(52px, 11vw, 130px);
       line-height: 1;
       letter-spacing: -0.01em;
-      display: inline-block;
-      animation: letterPop 0.5s cubic-bezier(0.34,1.6,0.64,1) both;
-      
+      background: linear-gradient(90deg, #F6A952 0%, #EAA4A6 36.82%, #BBA1D4 61.9%, #1DCBD6 86.98%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: letterPop 0.6s cubic-bezier(0.34,1.6,0.64,1) 0.7s both;
     }
-    .feel-word .lf  { color: var(--feel-f);  animation-delay: 0.7s;  }
-    .feel-word .le1 { color: var(--feel-e1); animation-delay: 0.82s; }
-    .feel-word .le2 { color: var(--feel-e2); animation-delay: 0.94s; }
-    .feel-word .ll  { color: var(--feel-l);  animation-delay: 1.06s; }
 
     .tagline {
       font-family: 'Roboto', sans-serif;
@@ -190,12 +184,7 @@
   <!-- Bottom text -->
   <div class="bottom-text">
     <p class="welcome-label">Welcome to</p>
-    <div class="feel-word">
-      <span class="lf">F</span>
-      <span class="le1">E</span>
-      <span class="le2">E</span>
-      <span class="ll">L</span>
-    </div>
+    <div class="feel-word">FEEL</div>
     <p class="tagline">Your personal space to check in,<br>reflect, and understand how you feel.</p>
   </div>
 
@@ -214,6 +203,17 @@
       window.location.href = 'home.html';
     }, 300);
   });
+
+  document.querySelector('.greeting h1').textContent = 'Hi, ' + (localStorage.getItem('userName') || 'there');
+
+  document.body.addEventListener('click', function(e) {
+  });
+  // Attach to all fields
+document.getElementById('name-input').addEventListener('input', () => {
+  localStorage.setItem('userName', document.getElementById('name-input').value.trim());
+  checkFormComplete();
+});
+
 </script>
 </body>
 </html>
