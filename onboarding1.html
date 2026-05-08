@@ -165,15 +165,15 @@
       position: relative;
     }
 
-    .card {
-      background: var(--card-bg);
-      border-radius: var(--radius-card);
-      padding: clamp(14px,2vw,26px) clamp(16px,2.5vw,32px);
-      display: flex;
-      align-items: center;
-      gap: clamp(14px,2vw,28px);
-      box-shadow: 0 4px 18px rgba(80,60,160,.07);
-    }
+      .card {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 16px 20px;
+        background: #fff;
+        border-radius: 16px;
+        border: 1px solid #e8eaf0;
+      }
 
     .card-icon {
       width: clamp(48px,7vw,90px);
@@ -186,6 +186,7 @@
     }
 
     .card-body { flex: 1; }
+    
     .card-label {
       font-family: 'Nunito', sans-serif;
       font-weight: 700;
@@ -224,6 +225,38 @@
       cursor: pointer;
       appearance: none;
     }
+
+      .card-sublabel {
+      font-size: 0.9rem;
+      color: #aaa;
+      margin: 0;
+      font-size: clamp(12px, 1.4vw, 18px);
+      color: var(--text-soft);
+  }
+
+      .dob-selects {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0; /* prevents dropdowns from squishing */
+    }
+
+    .dob-selects select {
+  padding: 8px 28px 8px 10px;
+  border-radius: 10px;
+  border: 1px solid #d0d4dc;
+  font-size: 0.9rem;
+  color: #333;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 8px center;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+.dob-selects select:focus {
+  outline: none;
+  border-color: #6bb5d6;
+  box-shadow: 0 0 0 3px rgba(107, 181, 214, 0.15);
+}
 
     /* ── CTA ── */
     .cta-wrap {
@@ -266,9 +299,12 @@
     @media (max-width: 420px) {
       .mascot-wrap { width: 100px; right: 10px; }
     }
+
   </style>
 </head>
 <body>
+
+
 <div class="shell">
 
   <!-- Decorative blobs -->
@@ -330,29 +366,30 @@
       </div>
     </div>
 
-    <!-- Pronouns -->
-    <div class="card">
-      <div class="card-icon violet">
-        <img src="assets/pronouns_icon.png" style="width:50px;height:50px;object-fit:contain;" />
-      </div>
-      <div class="card-body">
-        <p class="card-label">What are your pronouns?</p>
-        <select class="card-select">
-          <option value="" disabled selected>Your pronouns</option>
-          <option>she/her</option>
-          <option>he/him</option>
-          <option>they/them</option>
-          <option>she/they</option>
-          <option>he/they</option>
-          <option>prefer not to say</option>
-        </select>
-      </div>
-      <div class="card-action">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="6 9 12 15 18 9"/>
-        </svg>
-      </div>
-    </div>
+  <!-- Pronouns -->
+<div class="card">
+  <div class="card-icon violet">
+    <img src="assets/pronouns_icon.png" style="width:50px;height:50px;object-fit:contain;" />
+  </div>
+  <div class="card-body">
+    <p class="card-label">What are your pronouns?</p>
+    <p class="card-sublabel" id="pronoun-sublabel" style="display:none;"></p>
+  </div>
+  <div class="card-action" style="position:relative;">
+    <select id="pronoun-select" style="position:absolute; inset:0; opacity:0; cursor:pointer;">
+      <option value="" disabled selected>Your pronouns</option>
+      <option>she/her</option>
+      <option>he/him</option>
+      <option>they/them</option>
+      <option>she/they</option>
+      <option>he/they</option>
+      <option>prefer not to say</option>
+    </select>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  </div>
+</div>
 
     <!-- Birthday -->
     <div class="card">
@@ -360,18 +397,21 @@
         <img src="assets/calendar_blue.png" style="width:50px;height:50px;object-fit:contain;" />
       </div>
       <div class="card-body">
-        <p class="card-label">When is your birthday?</p>
-        <input class="card-input" type="text" placeholder="May 15th, 2026" />
+        <p class="card-label" style="font-weight:700; font-size:1.1rem; color: var(--text-primary);">When is your birthday?</p>
+        <p class="card-sublabel" id="dob-sublabel" style="display:none;"></p>
       </div>
-      <div class="card-action">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="4" width="18" height="18" rx="2"/>
-          <path d="M16 2v4M8 2v4M3 10h18"/>
-        </svg>
+      <div class="dob-selects">
+        <select id="dob-month" aria-label="Month">
+          <option value="" disabled selected>Jan</option>
+        </select>
+        <select id="dob-day" aria-label="Day">
+          <option value="" disabled selected>01</option>
+        </select>
+        <select id="dob-year" aria-label="Year">
+          <option value="" disabled selected>2026</option>
+        </select>
       </div>
     </div>
-
-  </div>
 
   <!-- CTA -->
   <div class="cta-wrap">
@@ -379,5 +419,83 @@
   </div>
 
 </div>
+
+ <script>
+    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const monthSel = document.getElementById('dob-month');
+    const daySel = document.getElementById('dob-day');
+    const yearSel = document.getElementById('dob-year');
+
+    months.forEach((m, i) => {
+      const o = document.createElement('option');
+      o.value = i + 1;
+      o.textContent = m;
+      monthSel.appendChild(o);
+    });
+
+    function populateDays(max) {
+      const prev = daySel.value;
+      daySel.innerHTML = '<option value="" disabled>Day</option>';
+      for (let d = 1; d <= max; d++) {
+        const o = document.createElement('option');
+        o.value = d;
+        o.textContent = String(d).padStart(2, '0');
+        daySel.appendChild(o);
+      }
+      if (prev && parseInt(prev) <= max) daySel.value = prev;
+    }
+
+    function getDaysInMonth() {
+      const m = parseInt(monthSel.value);
+      const y = parseInt(yearSel.value) || 2000;
+      return m ? new Date(y, m, 0).getDate() : 31;
+    }
+
+    populateDays(31);
+
+    const currentYear = new Date().getFullYear();
+    for (let y = currentYear; y >= currentYear - 120; y--) {
+      const o = document.createElement('option');
+      o.value = y;
+      o.textContent = y;
+      yearSel.appendChild(o);
+    }
+
+    monthSel.addEventListener('change', () => populateDays(getDaysInMonth()));
+    yearSel.addEventListener('change', () => populateDays(getDaysInMonth()));    
+    
+    function formatOrdinal(d) {
+      const s = ["th","st","nd","rd"];
+      const v = d % 100;
+      return d + (s[(v - 20) % 10] || s[v] || s[0]);
+    }
+
+    function updateDobSublabel() {
+      const m = monthSel.value;
+      const d = daySel.value;
+      const y = yearSel.value;
+
+      if (m && d && y) {
+        const monthName = months[parseInt(m) - 1]; // reuses your existing months array
+        document.getElementById('dob-sublabel').textContent = `${monthName} ${formatOrdinal(parseInt(d))}, ${y}`;
+        document.getElementById('dob-sublabel').style.display = 'block';
+      }
+    }
+
+    monthSel.addEventListener('change', updateDobSublabel);
+    daySel.addEventListener('change', updateDobSublabel);
+    yearSel.addEventListener('change', updateDobSublabel);
+
+    const pronounSelect = document.getElementById('pronoun-select');
+    const pronounSublabel = document.getElementById('pronoun-sublabel');
+
+    pronounSelect.addEventListener('change', () => {
+      pronounSublabel.textContent = pronounSelect.value;
+      pronounSublabel.style.display = 'block';
+    });
+    
+    </script>
+    
 </body>
 </html>
+
