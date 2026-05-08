@@ -52,15 +52,10 @@
     .progress-label { font-family:'Nunito',sans-serif; font-weight:700; font-size:clamp(13px,1.4vw,20px); color:#F6A952; white-space:nowrap; }
 
     /* ── Hero ── */
-    .hero { position:relative; z-index:1; padding:clamp(6px,1vw,16px) clamp(20px,3vw,40px) clamp(14px,1.8vw,24px); text-align:center; }
+    .hero { position:relative; z-index:1; padding:clamp(6px,1vw,16px) clamp(20px,3vw,40px) clamp(14px,1.8vw,24px); text-align:center; padding-bottom: 5%; }
     .step-label { font-family:'Nunito',sans-serif; font-style:normal; font-weight:800; font-size:clamp(14px,2vw,26px); color:var(--orange); letter-spacing:.12em; text-transform:uppercase; margin-bottom:clamp(2px,0.3vw,6px); }
     .step-title { font-family:'Nunito',sans-serif; font-style:normal; font-weight:900; font-size:clamp(28px,4.5vw,58px); color:#111; line-height:1.1; margin-bottom:clamp(6px,0.8vw,14px); }
-    .step-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(13px,1.5vw,19px); color:#666; line-height:1.55; }
-
-    /* ── Section label ── */
-    .section-label { position:relative; z-index:1; padding:0 clamp(20px,3vw,40px) clamp(8px,1vw,14px); }
-    .section-label h2 { font-family:'Nunito',sans-serif; font-weight:800; font-size:clamp(15px,1.8vw,23px); color:#111; margin-bottom:2px; }
-    .section-label p  { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(12px,1.3vw,16px); color:#888; }
+    .step-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(13px,1.5vw,19px); color:#666; line-height:1.55;  }
 
     /* ── Time grid ── */
     .time-grid {
@@ -111,7 +106,7 @@
       height:clamp(64px,10vw,120px);
       display:flex; align-items:center; justify-content:center;
     }
-    .time-icon img { width:100%; height:100%; object-fit:contain; }\
+    .time-icon img { width:100%; height:100%; object-fit:contain; }
 
     .time-name {
       font-family:'Nunito',sans-serif; font-weight:800;
@@ -179,11 +174,19 @@
     .begin-btn:hover  { background:#2a2a2a; }
     .begin-btn:active { transform:scale(.98); }
 
-      .settings-note {
+    .settings-note {
       font-family:'Roboto',sans-serif; font-weight:400;
       font-size:clamp(11px,1.3vw,17px); color:#aaa;
       text-align:center;
+      padding-top: 2%;
     }
+
+    .begin-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+  
   </style>
 </head>
 <body>
@@ -212,12 +215,6 @@
     <p class="step-label">Step 3</p>
     <h1 class="step-title">Pick journaling times</h1>
     <p class="step-sub">Choose up to 3 times you want to start with.<br>Choose the times that work best for you</p>
-  </div>
-
-  <!-- Section label -->
-  <div class="section-label">
-    <h2>When do you want to journal?</h2>
-    <p>Select all that apply</p>
   </div>
 
   <!-- Time grid -->
@@ -301,7 +298,7 @@
 
   <!-- Begin -->
   <div class="begin-wrap">
-    <button class="begin-btn" onclick="window.location.href='onboarding4.html'">Confirm</button>
+    <button class="begin-btn" id="confirmBtn" disabled onclick="window.location.href='onboarding4.html'">Confirm</button>
     <p class="settings-note">You can change these anytime in your settings.</p>
   </div>
 
@@ -327,6 +324,24 @@
       card.classList.add('selected');
     }
   }
+
+  function toggleTime(card) {
+  const id = card.dataset.id;
+  if (selected.has(id)) {
+    selected.delete(id);
+    card.classList.remove('selected');
+  } else {
+    if (selected.size >= MAX) {
+      const oldest = selected.values().next().value;
+      selected.delete(oldest);
+      document.querySelector(`[data-id="${oldest}"]`).classList.remove('selected');
+    }
+    selected.add(id);
+    card.classList.add('selected');
+  }
+  // Enable button only when at least 1 is selected
+  document.getElementById('confirmBtn').disabled = selected.size === 0;
+}
 </script>
 </body>
 </html>

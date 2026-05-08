@@ -114,7 +114,7 @@
     }
 
     /* ── Bottom area ── */
-    .bottom-area { position:relative; z-index:1; padding:0 clamp(16px,2.5vw,36px); display:flex; flex-direction:column; gap:clamp(10px,1.2vw,18px); }
+    .bottom-area { position:relative; z-index:1; padding:0 clamp(16px,2.5vw,36px); display:flex; flex-direction:column; /* gap:clamp(10px,1.2vw,18px);*/ }
 
     .confirm-btn {
       width:100%; padding:clamp(16px,2.2vw,26px);
@@ -131,7 +131,15 @@
       font-family:'Roboto',sans-serif; font-weight:400;
       font-size:clamp(11px,1.3vw,17px); color:#aaa;
       text-align:center;
+      padding-top: 2%;
     }
+
+    .confirm-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    }
+
   </style>
 </head>
 <body>
@@ -222,8 +230,7 @@
 
   <!-- Bottom -->
   <div class="bottom-area">
-    <button class="confirm-btn" onclick="window.location.href='onboarding5.html'">Confirm</button>
-    <p class="settings-note">You can change these anytime in your settings.</p>
+    <button class="confirm-btn" id="confirmBtn" disabled onclick="window.location.href='onboarding5.html'">Confirm</button>    <p class="settings-note">You can change these anytime in your settings.</p>
   </div>
 
 </div>
@@ -247,6 +254,24 @@
       card.classList.add('selected');
     }
   }
+
+  function toggleGoal(card) {
+  const id = card.dataset.id;
+  if (selected.has(id)) {
+    selected.delete(id);
+    card.classList.remove('selected');
+  } else {
+    if (selected.size >= MAX) {
+      const oldest = selected.values().next().value;
+      selected.delete(oldest);
+      document.querySelector(`[data-id="${oldest}"]`).classList.remove('selected');
+    }
+    selected.add(id);
+    card.classList.add('selected');
+  }
+  document.getElementById('confirmBtn').disabled = selected.size === 0;
+}
+
 </script>
 </body>
 </html>

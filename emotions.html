@@ -40,15 +40,15 @@
     pointer-events: none;
   }
 
-  .page {
-    position: relative;
-    z-index: 1;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 20px 120px;
-  }
+ .page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;              /* remove the bottom:120px padding */
+}
 
   /* ── Top bar ── */
   .topbar {
@@ -82,18 +82,31 @@
   .icon-btn svg { width: 22px; height: 22px; }
 
   /* ── Card ── */
-  .device-card {
-    width: 100%;
-    height: 200%;
-    background: var(--card-bg);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 24px 20px 28px;
-    position: relative;
-  }
+.device-card {
+  width: 100%;
+  height: 100vh;          /* fill full screen height */
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 20px 48px;  /* more breathing room top/bottom */
+  position: relative;
+}
+
+  .device-card-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
   /* battery top-left, settings top-right */
   .card-toprow {
@@ -104,10 +117,11 @@
     margin-bottom: 12px;
   }
 
-  .battery-icon img {
-    height: 20px;
-    width: auto;
-  }
+/* Battery icon bigger */
+.battery-icon img {
+  height: 36px;            /* was 20px */
+  width: auto;
+}
 
   .settings-btn {
     background: none;
@@ -115,16 +129,18 @@
     cursor: pointer;
     padding: 4px;
   }
-  .settings-btn img { width: 26px; height: 26px; object-fit: contain; }
-
+/* Settings icon bigger */
+.settings-btn img {
+  width: 48px; height: 48px;   /* was 26px */
+}
   /* ── Flower device image ── */
-  .flower-wrap {
-    width: 100%;
-    max-width: 320px;
-    cursor: pointer;
-    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1);
-    margin: 8px 0 20px;
-  }
+.flower-wrap {
+  width: 100%;
+  max-width: 600px;        /* was 320px */
+  cursor: pointer;
+  transition: transform 0.18s cubic-bezier(.34,1.56,.64,1);
+  margin: auto 0;          /* auto vertical margin pushes it to center */
+}
   .flower-wrap:active { transform: scale(0.96); }
   .flower-wrap img {
     width: 100%;
@@ -151,12 +167,12 @@
     gap: 8px;
     margin-bottom: 6px;
   }
-  .device-name {
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 24px;
-    font-weight: 900;
-    color: #1a1a1a;
-  }
+.device-name {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 48px;         /* was 24px */
+  font-weight: 900;
+  color: #1a1a1a;
+}
 .device-name-edit {
     background: none;
     border: none;
@@ -175,31 +191,28 @@
     object-fit: contain;
 }
 
-  .device-status {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 14px;
-    color: #888;
-    font-weight: 500;
-  }
-  .status-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: #e55;
-    flex-shrink: 0;
-  }
+.device-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 24px;         /* was 14px */
+  color: #888;
+  font-weight: 500;
+}
+.status-dot {
+  width: 14px; height: 14px;   /* was 8px */
+  border-radius: 50%;
+  background: #e55;
+  flex-shrink: 0;
+}
   .status-dot.live { background: #4caf50; }
 
-  /* ── Tap hint ── */
-  .tap-hint {
-    margin-top: 18px;
-    font-size: 12px;
-    color: #bbb;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-    text-align: center;
-  }
+/* Bigger tap hint */
+.tap-hint {
+  margin-top: 24px;
+  font-size: 20px;         /* was 12px */
+  color: #bbb;
+}
 </style>
 </head>
 <body>
@@ -212,6 +225,7 @@
     </button>
   </div>
 
+  
   <div class="device-card">
     <div class="card-toprow">
       <div class="battery-icon">
