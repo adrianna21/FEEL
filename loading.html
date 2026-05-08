@@ -67,45 +67,31 @@
       padding:clamp(20px,4vw,60px) clamp(20px,3vw,40px);
     }
 
-    /* Flower-shaped spinner */
-    .spinner-wrap {
+    /* ── New flower loader ── */
+    .flower-wrap {
       position: relative;
       width: clamp(160px,28vw,280px);
       height: clamp(160px,28vw,280px);
     }
-
-    /* White flower bg — uses the flower.png as mask */
-    .flower-bg {
-      position:absolute; inset:0;
-      background: #fff;
-      -webkit-mask-image: url('assets/flower.png');
-      -webkit-mask-size: contain;
-      -webkit-mask-repeat: no-repeat;
-      -webkit-mask-position: center;
-      mask-image: url('assets/flower.png');
-      mask-size: contain;
-      mask-repeat: no-repeat;
-      mask-position: center;
-      opacity: 0.9;
+    .flower-wrap svg {
+      width: 100%;
+      height: 100%;
     }
-
-    /* The spinning arc — SVG circle stroke approach clipped to flower shape */
-    .spinner-svg {
-      position:absolute; inset:0;
-      width:100%; height:100%;
-      animation: spin 1.6s linear infinite;
+    .flower-bg-path {
+      fill: none;
+      stroke: rgba(200, 215, 235, 0.55);
+      stroke-width: 50;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* The welcome.png sits centred inside */
-    .flower-inner {
-      position:absolute; inset:0;
-      display:flex; align-items:center; justify-content:center;
-    }
-    .flower-inner img {
-      width: 72%;
-      height: 72%;
-      object-fit: contain;
+    .flower-fill-path {
+      fill: none;
+      stroke: #29C1E7;
+      stroke-width: 50;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 3200;
+      stroke-dashoffset: 3200;
     }
 
     /* Percentage */
@@ -189,36 +175,16 @@
     <h1 class="hero-title">We are personalizing<br>your experience</h1>
   </div>
 
-  <!-- Spinner + percentage -->
+  <!-- Flower loader + percentage -->
   <div class="spinner-area">
 
-    <div class="spinner-wrap">
-      <!-- White flower silhouette background -->
-      <div class="flower-bg"></div>
-
-      <!-- Spinning arc drawn over the flower shape -->
-      <svg class="spinner-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stop-color="#1DCBD6"/>
-            <stop offset="100%" stop-color="#8956E2"/>
-          </linearGradient>
-        </defs>
-        <!-- Background ring (subtle) -->
-        <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(200,210,230,0.4)" stroke-width="7"/>
-        <!-- Arc — dasharray controls how much is filled -->
-        <circle cx="50" cy="50" r="42" fill="none"
-                stroke="url(#arcGrad)" stroke-width="7"
-                stroke-linecap="round"
-                stroke-dasharray="80 184"
-                stroke-dashoffset="0"
-                transform="rotate(-90 50 50)"/>
+    <div class="flower-wrap">
+      <svg viewBox="0 0 805 783" xmlns="http://www.w3.org/2000/svg">
+        <!-- Ghost flower (background) -->
+        <path class="flower-bg-path" d="M402.44 25C410.179 25 417.999 25.6374 425.62 26.9043L425.631 26.9063L425.643 26.9082C491.115 37.7305 540.543 92.2521 545.379 160.086L545.38 160.098C546.473 175.333 556.526 185.591 564.013 190.892C571.937 196.501 582.51 200.659 593.492 200.659C596.506 200.659 599.773 200.346 603.109 199.528L603.143 199.52L603.176 199.512C614.65 196.667 626.36 195.229 637.972 195.229C692.031 195.23 740.561 225.248 764.78 273.76L764.784 273.768C782.364 308.953 784.759 348.227 771.717 384.68C758.533 421.521 731.284 450.891 694.532 467.404C681.117 473.421 670.923 485.498 666.72 499.171L666.715 499.188L666.709 499.206C662.86 511.792 664.073 525.608 671.349 537.405L671.356 537.416C690.909 569.083 697.582 606.309 690.259 642.359C682.921 678.484 662.194 710.127 631.723 731.542L631.722 731.542C606.967 748.942 578.531 757.98 549.428 757.98L549.424 757.999C508.618 757.98 468.188 739.755 438.845 707.265L438.844 707.265C429.745 697.188 417.072 691.26 403.332 691.077L402.677 691.073C388.65 691.073 375.832 697.058 366.566 706.943L366.565 706.944C354.138 720.204 343.641 728.976 332.247 736.155C309.543 750.427 283.372 757.98 256.577 757.98C235.766 757.98 214.651 753.298 195.629 744.44L195.62 744.437L193.852 743.6C156.881 725.801 129.266 693.453 117.78 654.692L117.779 654.691L117.242 652.832C106.233 613.744 112.351 571.366 134.355 536.282L134.356 536.283C141.436 525.037 142.063 512.094 138.962 500.965L138.964 500.965C135.361 488 126.311 475.818 113.528 469.4L113.527 469.4C102.66 463.913 92.156 458.205 81.9102 450.549L81.9053 450.545L80.751 449.674C32.1152 412.589 12.8536 349.202 32.7559 291.257C52.4909 233.829 106.7 195.17 167.659 195.17C179.587 195.17 191.622 196.648 203.415 199.584L203.461 199.596L203.507 199.606C206.7 200.389 209.889 200.737 212.986 200.737C225.416 200.737 236.149 195.101 243.455 188.809C250.726 182.547 258.013 172.686 259.696 160.188L259.695 160.187C262.017 142.961 264.145 129.888 269.075 116.84L269.076 116.839C289.78 62.0356 343.429 25 402.44 25Z"/>
+        <!-- Animated fill stroke -->
+        <path class="flower-fill-path" id="flowerPath" d="M402.44 25C410.179 25 417.999 25.6374 425.62 26.9043L425.631 26.9063L425.643 26.9082C491.115 37.7305 540.543 92.2521 545.379 160.086L545.38 160.098C546.473 175.333 556.526 185.591 564.013 190.892C571.937 196.501 582.51 200.659 593.492 200.659C596.506 200.659 599.773 200.346 603.109 199.528L603.143 199.52L603.176 199.512C614.65 196.667 626.36 195.229 637.972 195.229C692.031 195.23 740.561 225.248 764.78 273.76L764.784 273.768C782.364 308.953 784.759 348.227 771.717 384.68C758.533 421.521 731.284 450.891 694.532 467.404C681.117 473.421 670.923 485.498 666.72 499.171L666.715 499.188L666.709 499.206C662.86 511.792 664.073 525.608 671.349 537.405L671.356 537.416C690.909 569.083 697.582 606.309 690.259 642.359C682.921 678.484 662.194 710.127 631.723 731.542L631.722 731.542C606.967 748.942 578.531 757.98 549.428 757.98L549.424 757.999C508.618 757.98 468.188 739.755 438.845 707.265L438.844 707.265C429.745 697.188 417.072 691.26 403.332 691.077L402.677 691.073C388.65 691.073 375.832 697.058 366.566 706.943L366.565 706.944C354.138 720.204 343.641 728.976 332.247 736.155C309.543 750.427 283.372 757.98 256.577 757.98C235.766 757.98 214.651 753.298 195.629 744.44L195.62 744.437L193.852 743.6C156.881 725.801 129.266 693.453 117.78 654.692L117.779 654.691L117.242 652.832C106.233 613.744 112.351 571.366 134.355 536.282L134.356 536.283C141.436 525.037 142.063 512.094 138.962 500.965L138.964 500.965C135.361 488 126.311 475.818 113.528 469.4L113.527 469.4C102.66 463.913 92.156 458.205 81.9102 450.549L81.9053 450.545L80.751 449.674C32.1152 412.589 12.8536 349.202 32.7559 291.257C52.4909 233.829 106.7 195.17 167.659 195.17C179.587 195.17 191.622 196.648 203.415 199.584L203.461 199.596L203.507 199.606C206.7 200.389 209.889 200.737 212.986 200.737C225.416 200.737 236.149 195.101 243.455 188.809C250.726 182.547 258.013 172.686 259.696 160.188L259.695 160.187C262.017 142.961 264.145 129.888 269.075 116.84L269.076 116.839C289.78 62.0356 343.429 25 402.44 25Z"/>
       </svg>
-
-      <!-- Flower mascot inside -->
-      <div class="flower-inner">
-        <img src="assets/welcome.png" alt="Personalizing" />
-      </div>
     </div>
 
     <!-- Animated percentage counter -->
@@ -250,34 +216,35 @@
 </div>
 
 <script>
-  // ── Animate percentage 0 → 100 over ~3 seconds then redirect ──
-  const DURATION = 3000; // ms
-  const display  = document.getElementById('pctDisplay');
-  const arc      = document.querySelector('circle[stroke-dasharray]');
-  const FULL     = 264; // 2π × r ≈ 2 × 3.14159 × 42
+  const DURATION   = 3000;
+  const flowerPath = document.getElementById('flowerPath');
+  const display    = document.getElementById('pctDisplay');
+
+  // Measure exact path length for a perfect fill
+  const totalLength = flowerPath.getTotalLength();
+  flowerPath.style.strokeDasharray  = totalLength;
+  flowerPath.style.strokeDashoffset = totalLength;
 
   let start = null;
 
   function tick(ts) {
     if (!start) start = ts;
-    const elapsed = ts - start;
+    const elapsed  = ts - start;
     const progress = Math.min(elapsed / DURATION, 1);
 
-    // Ease in-out
+    // Ease in-out cubic
     const eased = progress < 0.5
-      ? 2 * progress * progress
-      : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+      ? 4 * progress * progress * progress
+      : 1 - Math.pow(-2 * progress + 2, 3) / 2;
 
-    const pct = Math.round(eased * 100);
-    display.textContent = pct + '%';
-
-    // Update arc dasharray: filled portion, gap portion
-    const filled = eased * FULL;
-    arc.setAttribute('stroke-dasharray', `${filled} ${FULL - filled + 0.01}`);
+    display.textContent = Math.round(eased * 100) + '%';
+    flowerPath.style.strokeDashoffset = totalLength * (1 - eased);
 
     if (progress < 1) {
       requestAnimationFrame(tick);
     } else {
+      display.textContent = '100%';
+      flowerPath.style.strokeDashoffset = 0;
       // Navigate to homepage after a brief pause
       setTimeout(() => {
         window.location.href = 'home.html';

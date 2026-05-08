@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to FEEL</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --feel-f: #F6A952;
+      --feel-e1: #76D586;
+      --feel-e2: #E8585F;
+      --feel-l: #1DCBD6;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    body {
+      background-image: url('assets/gradient_bg2.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: clamp(32px, 5vh, 80px) clamp(20px, 4vw, 60px);
+      font-family: 'Nunito', sans-serif;
+    }
+
+    /* ── Tap hint ── */
+    .tap-hint {
+      font-family: 'Roboto', sans-serif;
+      font-size: clamp(10px, 1.4vw, 18px);
+      padding-top: 15px;
+      color: #919BA1;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      animation: fadeInDown 1s ease 2.4s both;
+    }
+
+    /* ── Greeting ── */
+    .greeting {
+      text-align: center;
+      animation: fadeInDown 0.7s cubic-bezier(0.34,1.2,0.64,1) 0.1s both;
+    }
+    .greeting h1 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: clamp(32px, 6vw, 80px);
+      color: #111;
+      line-height: 1.1;
+    }
+
+    /* ── Mascot area ── */
+    .mascot-area {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .mascot-img {
+      width: clamp(400px, 44vw, 520px);
+      height: auto;
+      object-fit: contain;
+      animation: mascotEntrance 0.9s cubic-bezier(0.34,1.3,0.64,1) 0.3s both;
+      filter: drop-shadow(0 24px 48px rgba(41,193,231,0.22));
+    }
+
+    /* Floating sparkles around mascot */
+    .sparkle {
+      position: absolute;
+      animation: float 3s ease-in-out infinite, fadeInScale 0.6s ease both;
+      pointer-events: none;
+    }
+    .sparkle svg { display: block; }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0px) rotate(0deg); }
+      50%      { transform: translateY(-10px) rotate(8deg); }
+    }
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.3); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* ── Bottom text block ── */
+    .bottom-text {
+      text-align: center;
+      animation: fadeInUp 0.8s cubic-bezier(0.34,1.1,0.64,1) 0.6s both;
+    }
+
+    .welcome-label {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: clamp(18px, 3vw, 38px);
+      color: #222;
+      margin-bottom: 6px;
+    }
+
+    .feel-word {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(2px, 0.5vw, 8px);
+      margin-bottom: clamp(10px, 2vh, 20px);
+    }
+    .feel-word span {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: clamp(52px, 11vw, 130px);
+      line-height: 1;
+      letter-spacing: -0.01em;
+      display: inline-block;
+      animation: letterPop 0.5s cubic-bezier(0.34,1.6,0.64,1) both;
+      
+    }
+    .feel-word .lf  { color: var(--feel-f);  animation-delay: 0.7s;  }
+    .feel-word .le1 { color: var(--feel-e1); animation-delay: 0.82s; }
+    .feel-word .le2 { color: var(--feel-e2); animation-delay: 0.94s; }
+    .feel-word .ll  { color: var(--feel-l);  animation-delay: 1.06s; }
+
+    .tagline {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: clamp(12px, 1.5vw, 20px);
+      color: rgba(0,0,0,0.45);
+      line-height: 1.6;
+    }
+
+    /* ── Keyframes ── */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes mascotEntrance {
+      from { opacity: 0; transform: scale(0.7) translateY(30px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    @keyframes letterPop {
+      from { opacity: 0; transform: scale(0.4) translateY(20px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Ripple on tap */
+    .ripple {
+      position: fixed;
+      border-radius: 50%;
+      width: 10px; height: 10px;
+      background: rgba(41,193,231,0.3);
+      transform: scale(0);
+      pointer-events: none;
+      animation: rippleOut 0.5s ease-out forwards;
+    }
+    @keyframes rippleOut {
+      to { transform: scale(40); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Greeting at top -->
+  <div class="greeting">
+    <h1>Hi, {name}</h1>
+  </div>
+
+  <!-- Mascot centre -->
+  <div class="mascot-area">
+
+    <img class="mascot-img" src="assets/flowerwelcome.png" alt="FEEL mascot waving" />
+  </div>
+
+  <!-- Bottom text -->
+  <div class="bottom-text">
+    <p class="welcome-label">Welcome to</p>
+    <div class="feel-word">
+      <span class="lf">F</span>
+      <span class="le1">E</span>
+      <span class="le2">E</span>
+      <span class="ll">L</span>
+    </div>
+    <p class="tagline">Your personal space to check in,<br>reflect, and understand how you feel.</p>
+  </div>
+
+  <!-- Tap hint -->
+  <p class="tap-hint">Tap anywhere to continue</p>
+
+<script>
+  // Ripple effect on tap, then navigate
+  document.body.addEventListener('click', function(e) {
+    const ripple = document.createElement('div');
+    ripple.className = 'ripple';
+    ripple.style.left = (e.clientX - 5) + 'px';
+    ripple.style.top  = (e.clientY - 5) + 'px';
+    document.body.appendChild(ripple);
+    setTimeout(() => {
+      window.location.href = 'home.html';
+    }, 300);
+  });
+</script>
+</body>
+</html>
