@@ -102,14 +102,15 @@
   }
 
   /* ── Device image — left overflow ── */
-.device-img-wrap {
-  position: absolute;
-  left: -300px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-  pointer-events: none;
-}
+  .device-img-wrap {
+    position: absolute;
+    left: -60%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 75%;
+    z-index: 2;
+    pointer-events: none;
+  }
 
   .device-img-wrap img {
     width: 100%;
@@ -121,32 +122,31 @@
   /* ── Arc + emotion list ── */
 .arc-area {
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 0px;
+  top: 0px;
   bottom: 0;
-  left: 45%;
+  left: 0;
   display: flex;
   align-items: center;
 }
 
-  .arc-svg {
+    .arc-svg {
     position: absolute;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
-  }
+    }
 
-  /* ── Emotion list ── */
-  .emotion-list {
+    .emotion-list {
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
     z-index: 10;
-  }
+    }
 
   .emotion-row {
     display: flex;
@@ -338,8 +338,9 @@
     </div>
       <!-- Arc SVG -->
       <div class="arc-area">
-        <svg class="arc-svg" viewBox="0 0 300 500" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M 270 20 Q 380 250 270 480" stroke="#DCDCDC" stroke-width="1.5" fill="none"/>        </svg>
+            <svg class="arc-svg" viewBox="150 -50 200 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 270 20 Q 600 250 270 480" stroke="#DCDCDC" stroke-width="2" fill="none"/>
+            </svg>
 
         <!-- Emotion list -->
         <div class="emotion-list" id="emotion-list"></div>
@@ -397,12 +398,12 @@ function renderList() {
   const list = document.getElementById('emotion-list');
   list.innerHTML = '';
 
-  function bezierPoint(t) {
-    const x0=270, y0=20, cx=380, cy=250, x1=270, y1=480;
+    function bezierPoint(t) {
+    const x0=270, y0=20, cx=600, cy=250, x1=270, y1=480;
     const x = (1-t)*(1-t)*x0 + 2*(1-t)*t*cx + t*t*x1;
     const y = (1-t)*(1-t)*y0 + 2*(1-t)*t*cy + t*t*y1;
     return { x, y };
-  }
+    }
 
   const tValues = [0.05, 0.25, 0.5, 0.75, 0.95];
 
@@ -411,8 +412,8 @@ function renderList() {
     const isActive = i === activeButton;
     const pt = bezierPoint(tValues[i]);
 
-    const leftPct = (pt.x / 300) * 100;
-    const topPct  = (pt.y / 500) * 100;
+    const leftPct = ((pt.x - 150) / 200) * 100;
+    const topPct  = ((pt.y - (-50)) / 600) * 100;
 
     const row = document.createElement('div');
     row.style.cssText = `
