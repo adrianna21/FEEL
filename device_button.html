@@ -102,15 +102,14 @@
   }
 
   /* ── Device image — left overflow ── */
-  .device-img-wrap {
-    position: absolute;
-    left: -60%;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 75%;
-    z-index: 2;
-    pointer-events: none;
-  }
+.device-img-wrap {
+  position: absolute;
+  left: -300px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  pointer-events: none;
+}
 
   .device-img-wrap img {
     width: 100%;
@@ -120,15 +119,15 @@
   }
 
   /* ── Arc + emotion list ── */
-    .arc-area {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    left: 20%;
-    display: flex;
-    align-items: center;
-    }
+.arc-area {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  left: 45%;
+  display: flex;
+  align-items: center;
+}
 
   .arc-svg {
     position: absolute;
@@ -332,9 +331,11 @@
     <div class="content-area">
 
       <!-- Device image — overflows left -->
-      <div class="device-img-wrap">
-        <img src="assets/flower_redactive.png" alt="FEEL Device" onerror="this.style.opacity='0.15'" style="width:1000px;height:1000px;object-fit:contain;">     </div>
-
+    <div class="device-img-wrap">
+    <img src="assets/flower_redactive.png" alt="FEEL Device" 
+        onerror="this.style.opacity='0.15'"
+        style="width:1000px;height:1000px;object-fit:contain;">
+    </div>
       <!-- Arc SVG -->
       <div class="arc-area">
         <svg class="arc-svg" viewBox="0 0 300 500" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
