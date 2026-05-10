@@ -414,10 +414,19 @@ function updateFlower(newIndex, oldIndex) {
 
   if (curr.src.includes(newSrc.split('/').pop())) return;
 
-  // direction: negative = shifting up (new is above), positive = shifting down (new is below)
-  const direction = newIndex > oldIndex ? -1 : 1;
-  const rotOut = direction * 15;   // old image rotates this way out
-  const rotIn  = direction * -15;  // new image starts rotated opposite
+  // special case overrides
+  const overrides = [
+  { from: 0, to: 4, dir: -1 },  // Happiness → Envy: go up
+  { from: 4, to: 0, dir: 1 },   // Envy → Happiness: go down
+  { from: 4, to: 0, dir: -1 },  // Envy → Happiness: reverse
+  { from: 0, to: 4, dir: -1 },   // Happiness → Envy: reverse
+  ];
+
+  const override = overrides.find(o => o.from === oldIndex && o.to === newIndex);
+  const direction = override ? override.dir : (newIndex > oldIndex ? -1 : 1);
+
+  const rotOut = direction * 15;
+  const rotIn  = direction * -15;
 
   prev.src = curr.src;
   gsap.set(prev, { opacity: 1, rotation: 0, scale: 1 });
@@ -428,8 +437,6 @@ function updateFlower(newIndex, oldIndex) {
   gsap.to(prev, { opacity: 0, rotation: rotOut, scale: 0.9, duration: 0.4, ease: 'power2.in' });
   gsap.to(curr, { opacity: 1, rotation: 0, scale: 1, duration: 0.4, ease: 'power2.out', delay: 0.15 });
 }
-
-
 
 // then renderList() and at the very bottom:
 renderList();
