@@ -104,7 +104,7 @@
   /* ── Device image — left overflow ── */
   .device-img-wrap {
     position: absolute;
-    left: -70%;
+    left: -40%;
     top: 50%;
     transform: translateY(-50%);
     width: 75%;
@@ -336,9 +336,8 @@
 
   <!-- Device image — overflows left -->
   <div class="device-img-wrap">
-    <img src="assets/flower_redactive.png" alt="FEEL Device" 
-        onerror="this.style.opacity='0.15'"
-        style="width:1000px;height: 1000px;object-fit:contain;">
+    <img id="flower-img-prev" src="assets/flower_redactive.png" style="width:1000px;height:1000px;object-fit:contain;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
+    <img id="flower-img-curr" src="assets/flower_redactive.png" style="width:1000px;height:1000px;object-fit:contain;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
   </div>
 
   <!-- Arc png + emotion list -->
@@ -360,6 +359,8 @@
     <button class="picker-done" onclick="closePicker()">Done</button>
   </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 <script>
 const EMOTIONS = [
@@ -406,27 +407,43 @@ function getFlowerForActive() {
   const emo = getEmotion(BUTTONS[activeButton].emotion);
   return EMOTION_FLOWERS[emo.color] || 'assets/flower_redactive.png';
 }
+function updateFlower(newIndex, oldIndex) {
+  const newSrc = getFlowerForActive();
+  const curr = document.getElementById('flower-img-curr');
+  const prev = document.getElementById('flower-img-prev');
 
-function updateFlower() {
-  const img = document.querySelector('.device-img-wrap img');
-  if (img) img.src = getFlowerForActive();
+  if (curr.src.includes(newSrc.split('/').pop())) return;
+
+  // direction: negative = shifting up (new is above), positive = shifting down (new is below)
+  const direction = newIndex > oldIndex ? -1 : 1;
+  const rotOut = direction * 15;   // old image rotates this way out
+  const rotIn  = direction * -15;  // new image starts rotated opposite
+
+  prev.src = curr.src;
+  gsap.set(prev, { opacity: 1, rotation: 0, scale: 1 });
+
+  curr.src = newSrc;
+  gsap.set(curr, { opacity: 0, rotation: rotIn, scale: 0.9 });
+
+  gsap.to(prev, { opacity: 0, rotation: rotOut, scale: 0.9, duration: 0.4, ease: 'power2.in' });
+  gsap.to(curr, { opacity: 1, rotation: 0, scale: 1, duration: 0.4, ease: 'power2.out', delay: 0.15 });
 }
+
+
 
 // then renderList() and at the very bottom:
 renderList();
 initNav('emotions');
-
 function renderList() {
-    updateFlower();
   const list = document.getElementById('emotion-list');
   list.innerHTML = '';
 
   const positions = [
-    { top: '9%',  left: '52%' },  // Happiness
-    { top: '27%', left: '65%' },  // Calmness
-    { top: '50%', left: '70%' },  // Anger
-    { top: '73%', left: '65%' },  // Sadness
-    { top: '91%', left: '52%' },  // Envy
+    { top: '9%',  left: '52%' },
+    { top: '27%', left: '65%' },
+    { top: '50%', left: '70%' },
+    { top: '73%', left: '65%' },
+    { top: '91%', left: '52%' },
   ];
 
   BUTTONS.forEach((btn, i) => {
@@ -467,13 +484,25 @@ function renderList() {
       `;
     }
 
-    row.onclick = () => { activeButton = i; renderList(); };
+    // single click handler with direction tracking
+    row.onclick = () => {
+      const prev = activeButton;
+      activeButton = i;
+      updateFlower(i, prev);
+      renderList();
+    };
+
     const editIcon = row.querySelector('.edit-icon');
     if (editIcon) {
+      editIcon.onclick = (e) => { e.stopPropagation(); openPicker(i); };
     }
+
     list.appendChild(row);
   });
 }
+
+renderList();
+initNav('emotions');
 
 /* ── Picker ── */
 function openPicker(buttonIdx) {
