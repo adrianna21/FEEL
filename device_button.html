@@ -47,6 +47,7 @@
     align-items: center;
     position: relative;
     overflow: hidden;
+    position: relative; 
   }
 
   /* ── Header ── */
@@ -103,7 +104,7 @@
   /* ── Device image — left overflow ── */
   .device-img-wrap {
     position: absolute;
-    left: -30%;
+    left: -60%;
     top: 50%;
     transform: translateY(-50%);
     width: 75%;
@@ -334,7 +335,7 @@
 
       <!-- Device image — overflows left -->
       <div class="device-img-wrap">
-<img src="assets/flower_redactive.png" alt="FEEL Device" onerror="this.style.opacity='0.15'">      </div>
+        <img src="assets/flower_redactive.png" alt="FEEL Device" onerror="this.style.opacity='0.15'" style="width:1000px;height:1000px;object-fit:contain;">     </div>
 
       <!-- Arc SVG -->
       <div class="arc-area">
