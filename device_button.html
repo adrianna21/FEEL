@@ -601,6 +601,47 @@ function initNav(activePage) {
   document.addEventListener('click', e => { if (open && !scene.contains(e.target)) { open = false; scene.classList.remove('open'); } });
 }
 
+ const contentArea = document.querySelector('.content-area');
+let touchStartY = 0;
+let mouseStartY = 0;
+let isDragging = false;
+
+function handleSwipe(diff) {
+  if (Math.abs(diff) < 30) return;
+
+  const swipeUpOrder   = [2, 3, 4, 0, 1]; 
+  const swipeDownOrder = [2, 1, 0, 4, 3];
+
+  const prev = activeButton;
+  const order = diff > 0 ? swipeUpOrder : swipeDownOrder;
+  const currentPos = order.indexOf(activeButton);
+  const nextPos = (currentPos + 1) % order.length;
+  activeButton = order[nextPos];
+
+  updateFlower(activeButton, prev);
+  renderList();
+}
+
+contentArea.addEventListener('touchstart', (e) => {
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+contentArea.addEventListener('touchend', (e) => {
+  const diff = touchStartY - e.changedTouches[0].clientY;
+  handleSwipe(diff);
+});
+
+contentArea.addEventListener('mousedown', (e) => {
+  mouseStartY = e.clientY;
+  isDragging = true;
+});
+
+window.addEventListener('mouseup', (e) => {
+  if (!isDragging) return;
+  isDragging = false;
+  handleSwipe(mouseStartY - e.clientY);
+});
+
 
 initNav('emotions');
 </script>
