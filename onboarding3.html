@@ -148,7 +148,7 @@
       font-family:'Nunito',sans-serif; font-weight:800;
       font-size:clamp(10px,1.2vw,15px); letter-spacing:.08em; text-transform:uppercase;
       margin-bottom:clamp(3px,0.4vw,7px);
-      background: linear-gradient(90deg, #F6A952 0%, #EAA4A6 8%, #BBA1D4 11%, #1DCBD6 20%);
+      background: linear-gradient(90deg, #F6A952 0%, #EAA4A6 3%, #BBA1D4 6%, #1DCBD6 10%);
       background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -291,14 +291,14 @@
     </div>
     <div class="info-text">
       <p class="fun-fact-label">Fun Fact</p>
-      <p class="info-title">Consistency builds self-awareness</p>
-      <p class="info-sub">Journaling at the same times helps you<br>understand your emotions better</p>
+      <p class="info-title">Small check-ins create big awareness</p>
+      <p class="info-sub">Noticing your emotions a little bit every day can <br>make patterns easier to spot over time.</p>
     </div>
   </div>
 
   <!-- Begin -->
   <div class="begin-wrap">
-    <button class="begin-btn" id="confirmBtn" disabled onclick="window.location.href='onboarding4.html'">Confirm</button>
+    <button class="begin-btn" id="confirmBtn" disabled onclick="handleConfirm()">Confirm</button>
     <p class="settings-note">You can change these anytime in your settings.</p>
   </div>
 
@@ -308,6 +308,16 @@
   const MAX = 3;
   let selected = new Set();
 
+  // Map data-id → display label
+  const TIME_LABELS = {
+    morning:   'Morning',
+    afternoon: 'Afternoon',
+    evening:   'Evening',
+    night:     'Night',
+    beforebed: 'Before bed',
+    whenever:  'Whenever I want to'
+  };
+
   function toggleTime(card) {
     const id = card.dataset.id;
     if (selected.has(id)) {
@@ -315,7 +325,6 @@
       card.classList.remove('selected');
     } else {
       if (selected.size >= MAX) {
-        // Deselect oldest
         const oldest = selected.values().next().value;
         selected.delete(oldest);
         document.querySelector(`[data-id="${oldest}"]`).classList.remove('selected');
@@ -323,25 +332,16 @@
       selected.add(id);
       card.classList.add('selected');
     }
+    document.getElementById('confirmBtn').disabled = selected.size === 0;
   }
 
-  function toggleTime(card) {
-  const id = card.dataset.id;
-  if (selected.has(id)) {
-    selected.delete(id);
-    card.classList.remove('selected');
-  } else {
-    if (selected.size >= MAX) {
-      const oldest = selected.values().next().value;
-      selected.delete(oldest);
-      document.querySelector(`[data-id="${oldest}"]`).classList.remove('selected');
-    }
-    selected.add(id);
-    card.classList.add('selected');
+  function handleConfirm() {
+    if (selected.size === 0) return;
+    const timeLabels = [...selected].map(id => TIME_LABELS[id]);
+    localStorage.setItem('ob_times', JSON.stringify(timeLabels));
+    window.location.href = 'onboarding4.html';
   }
-  // Enable button only when at least 1 is selected
-  document.getElementById('confirmBtn').disabled = selected.size === 0;
-}
 </script>
+
 </body>
 </html>

@@ -58,8 +58,8 @@
       margin-bottom:clamp(2px,0.3vw,6px);
       color: var(--green);
     }
-    .step-title { font-family:'Nunito',sans-serif; font-style:normal; font-weight:900; font-size:clamp(28px,4.5vw,58px); color:#111; line-height:1.12; margin-bottom:clamp(6px,0.8vw,14px); }
-    .step-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(13px,1.5vw,19px); color:#666; line-height:1.55; }
+    .step-title { font-family:'Nunito',sans-serif; font-style:normal; font-weight:900; font-size:clamp(28px,4.5vw,58px); color:#111; line-height:1.1; margin-bottom:clamp(6px,0.8vw,14px); }
+    .step-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(13px,1.5vw,19px); color:#666; line-height:1.55;  }
 
     /* ── Goals grid ── */
     .goals-grid {
@@ -71,19 +71,19 @@
     }
 
     .goal-card {
-      background:var(--card-bg);
-      border-radius:var(--radius-card);
-      padding:clamp(14px,1.8vw,26px) clamp(12px,1.5vw,20px) clamp(16px,2vw,26px);
-      display:flex; flex-direction:column;
-      gap:clamp(6px,0.8vw,12px);
-      border:2.5px solid transparent;
-      cursor:pointer;
-      position:relative;
-      box-shadow:0 2px 10px rgba(0,0,0,.06);
-      transition:border-color .2s, background .2s, box-shadow .2s;
-      min-height:clamp(180px,26vw,320px);
-      user-select:none;
-    }
+    background: var(--card-bg);
+    border-radius: var(--radius-card);
+    padding: clamp(14px,1.8vw,26px) clamp(10px,1.2vw,18px) clamp(12px,1.5vw,20px);
+    display: flex; flex-direction: column; align-items: center;
+    gap: clamp(6px,0.8vw,12px);
+    border: 2.5px solid transparent;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    transition: border-color .2s, background .2s, box-shadow .2s;
+    min-height: clamp(140px,18vw,220px);    
+    user-select: none;
+  }
     .goal-card:hover { box-shadow:0 4px 18px rgba(0,0,0,.10); }
     .goal-card.selected { border-color:var(--purple); background:#f5f0ff; }
 
@@ -103,15 +103,58 @@
     .goal-card.selected .radio-circle svg { display:block; }
 
     /* Text sits at the bottom */
-    .goal-spacer { flex:1; }
-    .goal-name {
+    .goal-spacer { display: none; }
+  .goal-name {
+    font-family:'Nunito',sans-serif; font-weight:800;
+    font-size:clamp(14px,1.7vw,22px); color:#111; line-height:1.25;
+    text-align: center;
+  }
+  .goal-sub {
+    font-family:'Roboto',sans-serif; font-weight:400;
+    font-size:clamp(10px,1.2vw,15px); color:#999; line-height:1.45;
+    text-align: center;
+  }
+
+
+    /* ── Info banner ── */
+    .info-banner {
+      position:relative; z-index:1;
+      margin:0 clamp(16px,2.5vw,36px) clamp(16px,2vw,26px);
+      border-radius:var(--radius-card);
+      padding:clamp(14px,1.8vw,24px) clamp(16px,2vw,28px);
+      display:flex; align-items:center; gap:clamp(14px,1.8vw,24px);
+      overflow:hidden;
+      background: #fff;
+      opacity: 0.7;  /* ← add this */
+    }
+    /* The background png covers the whole banner */
+    .info-banner-bg {
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit:cover; object-position:center right;
+      z-index:0;
+      border-radius:var(--radius-card);
+    }
+    .info-mascot {
+      position:relative; z-index:1;
+      width:clamp(60px,8.5vw,110px); height:clamp(60px,8.5vw,110px);
+      flex-shrink:0;
+    }
+    .info-mascot img { width:100%; height:100%; object-fit:contain; }
+    .info-text { position:relative; z-index:1; flex:1; }
+    .fun-fact-label {
       font-family:'Nunito',sans-serif; font-weight:800;
-      font-size:clamp(14px,1.7vw,22px); color:#111; line-height:1.25;
+      font-size:clamp(10px,1.2vw,15px); letter-spacing:.08em; text-transform:uppercase;
+      margin-bottom:clamp(3px,0.4vw,7px);
+      background: linear-gradient(90deg, #F6A952 0%, #EAA4A6 3%, #BBA1D4 6%, #1DCBD6 10%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    .goal-sub {
-      font-family:'Roboto',sans-serif; font-weight:400;
-      font-size:clamp(10px,1.2vw,15px); color:#999; line-height:1.45;
-    }
+    .info-title { font-family:'Nunito',sans-serif; font-weight:800; font-size:clamp(14px,1.7vw,22px); color:#111; margin-bottom:clamp(3px,0.4vw,7px); }
+    .info-sub   { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(11px,1.2vw,16px); color:#666; line-height:1.5; }
+    /* sparkle SVGs in top-right of banner */
+    .info-sparkles { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; gap:clamp(4px,0.5vw,8px); flex-shrink:0; padding-right:clamp(4px,0.8vw,12px); }
 
     /* ── Bottom area ── */
     .bottom-area { position:relative; z-index:1; padding:0 clamp(16px,2.5vw,36px); display:flex; flex-direction:column; /* gap:clamp(10px,1.2vw,18px);*/ }
@@ -140,6 +183,12 @@
     transform: none;
     }
 
+  .time-icon {
+    width: clamp(64px,9vw,100px);
+    height: clamp(64px,9vw,100px);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .time-icon img { width: 100%; height: 100%; object-fit: contain; }
   </style>
 </head>
 <body>
@@ -177,6 +226,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <div class="goal-spacer"></div>
+       <div class="time-icon"><img src="assets/balance.png" alt="feel more balance" /></div>
       <p class="goal-name">Feel more balance</p>
       <p class="goal-sub">Slow down and feel more grounded.</p>
     </div>
@@ -186,6 +236,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <div class="goal-spacer"></div>
+      <div class="time-icon"><img src="assets/habits.png" alt="build better habits" /></div>
       <p class="goal-name">Build better habits</p>
       <p class="goal-sub">Slow down and feel more grounded.</p>
     </div>
@@ -195,6 +246,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <div class="goal-spacer"></div>
+       <div class="time-icon"><img src="assets/understand.png" alt="understand my emotions" /></div>
       <p class="goal-name">Understand my emotions</p>
       <p class="goal-sub">Slow down and feel more grounded.</p>
     </div>
@@ -203,16 +255,18 @@
       <div class="radio-circle">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
-      <div class="goal-spacer"></div>
-      <p class="goal-name">Feel less alone</p>
-      <p class="goal-sub">Slow down and feel more grounded.</p>
-    </div>
+    <div class="goal-spacer"></div>
+    <div class="time-icon"><img src="assets/alone.png" alt="feel less alone" style="width:125px;height:125px;object-fit:contain;" /></div>
+    <p class="goal-name">Feel less alone</p>
+    <p class="goal-sub">Slow down and feel more grounded.</p>
+        </div>
 
     <div class="goal-card" data-id="stress" onclick="toggleGoal(this)">
       <div class="radio-circle">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <div class="goal-spacer"></div>
+      <div class="time-icon"><img src="assets/stress.png" alt="manage stress better" /></div>
       <p class="goal-name">Manage stress better</p>
       <p class="goal-sub">Slow down and feel more grounded.</p>
     </div>
@@ -222,22 +276,47 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <div class="goal-spacer"></div>
+      <div class="time-icon"><img src="assets/confident.png" alt="feel more confident" /></div>
       <p class="goal-name">Feel more confident</p>
       <p class="goal-sub">Slow down and feel more grounded.</p>
     </div>
 
   </div>
 
-  <!-- Bottom -->
-  <div class="bottom-area">
-    <button class="confirm-btn" id="confirmBtn" disabled onclick="window.location.href='onboarding5.html'">Confirm</button>    <p class="settings-note">You can change these anytime in your settings.</p>
+  <!-- Info banner -->
+  <div class="info-banner">
+    <!-- gradient background image -->
+    <img class="info-banner-bg" src="assets/onboarding4bar.png" alt="" aria-hidden="true" />
+    <div class="info-mascot">
+      <img src="assets/yellowfloweralone.png" alt="Flower mascot" />
+    </div>
+    <div class="info-text">
+      <p class="fun-fact-label">Fun Fact</p>
+      <p class="info-title">Routine makes reflection easier</p>
+      <p class="info-sub">When you log your feelings regularly, it becomes more  <br> natural to understand what affects your mood.</p>
+    </div>
   </div>
 
+  <!-- Bottom -->
+  <div class="bottom-area">
+  <button class="confirm-btn" id="confirmBtn" disabled onclick="handleConfirm()">Confirm</button>  </div>
+      <p class="settings-note">You can change these anytime in your settings.</p>
+  </div>
 </div>
 
 <script>
   const MAX = 3;
   let selected = new Set();
+
+  // Map data-id → display label
+  const GOAL_LABELS = {
+    balance:   'Feel more balanced',
+    habits:    'Build better habits',
+    emotions:  'Understand my emotions',
+    alone:     'Feel less alone',
+    stress:    'Manage stress better',
+    confident: 'Feel more confident'
+  };
 
   function toggleGoal(card) {
     const id = card.dataset.id;
@@ -253,25 +332,15 @@
       selected.add(id);
       card.classList.add('selected');
     }
+    document.getElementById('confirmBtn').disabled = selected.size === 0;
   }
 
-  function toggleGoal(card) {
-  const id = card.dataset.id;
-  if (selected.has(id)) {
-    selected.delete(id);
-    card.classList.remove('selected');
-  } else {
-    if (selected.size >= MAX) {
-      const oldest = selected.values().next().value;
-      selected.delete(oldest);
-      document.querySelector(`[data-id="${oldest}"]`).classList.remove('selected');
-    }
-    selected.add(id);
-    card.classList.add('selected');
+  function handleConfirm() {
+    if (selected.size === 0) return;
+    const goalLabels = [...selected].map(id => GOAL_LABELS[id]);
+    localStorage.setItem('ob_goals', JSON.stringify(goalLabels));
+    window.location.href = 'onboarding5.html';
   }
-  document.getElementById('confirmBtn').disabled = selected.size === 0;
-}
-
 </script>
 </body>
 </html>

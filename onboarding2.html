@@ -62,16 +62,16 @@
       box-shadow: 0 2px 10px rgba(0,0,0,.06);
     }
 
-    .emotion-card.f-happiness  { background: rgba(246,169,82,0.1); }
-    .emotion-card.f-anger      { background: rgba(192,57,43,0.1); }
-    .emotion-card.f-fear       { background: rgba(108,52,131,0.1); }
-    .emotion-card.f-disgust    { background: rgba(93,122,43,0.1); }
-    .emotion-card.f-sadness    { background: rgba(91,158,201,0.1); }
-    .emotion-card.f-envy       { background: rgba(233,30,140,0.1); }
-    .emotion-card.f-contempt   { background: rgba(14,140,119,0.1); }
-    .emotion-card.f-pride      { background: rgba(146,43,33,0.1); }
-    .emotion-card.f-nostalgia  { background: rgba(69,179,157,0.1); }
-
+    .emotion-card.f-happiness  { background: #ffffff5d; }
+    .emotion-card.f-anger      { background: #ffffff5d; }
+    .emotion-card.f-fear       { background: #ffffff5d; }
+    .emotion-card.f-disgust    { background: #ffffff5d; }
+    .emotion-card.f-sadness    { background: #ffffff5d; }
+    .emotion-card.f-envy       { background: #ffffff5d; }
+    .emotion-card.f-contempt   { background: #ffffff5d; }
+    .emotion-card.f-pride      { background: #ffffff5d; }
+    .emotion-card.f-nostalgia  { background: #ffffff5d; }
+  
 
     .emotion-card:hover { box-shadow:0 4px 18px rgba(0,0,0,.10); }
     .emotion-card.selected { border-color: var(--purple); }
@@ -125,26 +125,25 @@
 
     .emotion-name { font-family:'Nunito',sans-serif; font-weight:800; font-size:clamp(13px,1.6vw,20px); color:#111; text-align:center; }
     .emotion-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(10px,1.1vw,14px); color:#888; text-align:center; margin-top:-clamp(2px,0.3vw,5px); }
-
+    
     /* ── Add button ── */
     .add-btn {
       display:flex; align-items:center; justify-content:center;
-      gap:clamp(5px,0.6vw,10px); background:#e8eef7; color:#111;
+      gap:clamp(5px,0.6vw,10px); background:#fff; color:#111;
       border:none; border-radius:100px;
       padding:clamp(7px,0.9vw,12px) clamp(16px,2vw,28px);
       font-family:'Roboto',sans-serif; font-weight:500;
       font-size:clamp(12px,1.3vw,17px); cursor:pointer; width:100%;
-      transition: background 0.4s ease; background-size: 200% 100%;
+      transition: background 0.4s ease, color 0.4s ease; background-size: 200% 100%;
     }
     .add-btn:active { transform:scale(.97); }
     .add-btn svg { width:clamp(14px,1.6vw,20px); height:clamp(14px,1.6vw,20px); flex-shrink:0; }
     .add-btn.animating {
-      background:  var(--purple);
+      background: var(--purple); color: #fff;
       background-size: 200% 100%;
       animation: gradientFlash 2s ease forwards;
     }
-    .add-btn.added { background: var(--purple); }
-
+    .add-btn.added { background: var(--purple); color: #fff; }
     @keyframes gradientFlash {
       0%   { background-position: 0% 50%; }
       50%  { background-position: 100% 50%; }
@@ -232,10 +231,12 @@
     .cat-dot { width:clamp(10px,1.2vw,16px); height:clamp(10px,1.2vw,16px); border-radius:50%; }
     .cat-name { font-family:'Nunito',sans-serif; font-weight:800; font-size:clamp(16px,2vw,26px); color:#111; }
     .cat-toggle svg { width:clamp(18px,2.2vw,28px); height:clamp(18px,2.2vw,28px); color:#888; }
-    .cat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(8px,1vw,14px); background:#fff; border-radius:var(--radius-card); padding:clamp(10px,1.2vw,18px); }
+    .cat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(8px,1vw,14px); background:#ffffff5d; border-radius:var(--radius-card); padding:clamp(10px,1.2vw,18px); }
     
         /* mini card colors */
-    .mini-card { display:flex; align-items:center; gap:clamp(8px,1vw,12px); border-radius:clamp(10px,1.2vw,16px); padding:clamp(8px,1vw,12px); cursor:pointer; border:2px solid transparent; transition:border-color .2s; }
+    .mini-card { display:flex; align-items:center; gap:clamp(8px,1vw,12px); border-radius:clamp(10px,1.2vw,16px); background: #fff; padding:clamp(8px,1vw,12px); cursor:pointer; border:2px solid transparent; transition:border-color .2s; }
+    
+    /* mini card colors 
     .mini-card.f-happiness    { background: rgba(246,169,82,0.1); }
     .mini-card.f-anger        { background: rgba(192,57,43,0.1); }
     .mini-card.f-fear         { background: rgba(108,52,131,0.1); }
@@ -274,7 +275,7 @@
     .mini-card.f-sympathy     { background: rgba(133,193,233,0.1); }
     .mini-card.f-empathy      { background: rgba(118,215,196,0.1); }
     .mini-card.f-romance      { background: rgba(241,148,138,0.1); }
-    
+   */
     
     
     .mini-card.added { border-color:var(--orange); background:#fff5ec; }
@@ -285,13 +286,52 @@
     .mini-name { font-family:'Roboto',sans-serif; font-weight:700; font-size:clamp(10px,1.1vw,14px); color:#111; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     .mini-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(9px,1vw,12px); color:#888; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     .modal-footer { padding:clamp(12px,1.5vw,20px) clamp(16px,2.5vw,36px); flex-shrink:0; }
-    .cant-find-banner { background:rgba(255,255,255,.85); backdrop-filter:blur(6px); border-radius:var(--radius-card); padding:clamp(12px,1.5vw,20px) clamp(16px,2vw,26px); display:flex; align-items:center; gap:clamp(12px,1.5vw,20px); margin-bottom:clamp(12px,1.5vw,20px); }
-    .cant-icon { width:clamp(40px,5vw,60px); height:clamp(40px,5vw,60px); background:#e8e0f5; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    
+    .cant-find-banner {
+      background: linear-gradient(90deg, rgba(246,169,82,0.20) 0%, rgba(234,164,166,0.20) 36.82%, rgba(187,161,212,0.20) 61.9%, rgba(29,203,214,0.20) 86.98%);
+      padding: clamp(16px,2vw,28px) clamp(16px,2vw,26px);
+      display: flex;
+      align-items: center;
+      gap: clamp(12px,1.5vw,20px);
+      border-radius: 20px;
+      margin-bottom: clamp(16px,2vw,28px);
+    }
+
+    .cant-icon {
+      width: clamp(48px,6vw,72px);
+      height: clamp(48px,6vw,72px);
+      flex-shrink: 0;
+    }
+    
     .cant-icon svg { width:55%; height:55%; color:var(--purple); }
     .cant-text { flex:1; }
-    .cant-title { font-family:'Nunito',sans-serif; font-weight:800; font-size:clamp(13px,1.5vw,19px); color:#111; }
+    .cant-title { font-family:'Nunito',sans-serif; font-weight:800; font-size:clamp(13px,1.5vw,19px); color:#fff; }
     .cant-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(10px,1.1vw,14px); color:#888; }
-    .create-btn { background:#fff; border:2px solid var(--purple-light); color:var(--purple); border-radius:100px; padding:clamp(8px,1vw,14px) clamp(14px,1.8vw,24px); font-family:'Roboto',sans-serif; font-weight:500; font-size:clamp(12px,1.3vw,17px); cursor:pointer; display:flex; align-items:center; gap:6px; flex-shrink:0; }
+
+      .create-btn {
+      background: #fff;
+      box-shadow: 0 0 10.989px 2.198px rgba(0,0,0,0.10);
+      border: none;
+      border-radius: 100px;
+      padding: clamp(10px,1.3vw,18px) clamp(16px,2vw,28px);
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: clamp(13px,1.5vw,19px);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    .create-btn span {
+      background: linear-gradient(90deg, #F6A952 0%, #EAA4A6 36.82%, #BBA1D4 61.9%, #1DCBD6 86.98%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
     .added-strip { display:flex; align-items:center; justify-content:space-between; gap:clamp(10px,1.2vw,18px); }
     .added-label { font-family:'Roboto',sans-serif; font-weight:500; font-size:clamp(13px,1.5vw,19px); color:var(--orange); }
     .added-flowers { display:flex; gap:clamp(4px,0.5vw,8px); align-items:center; }
@@ -365,7 +405,7 @@
       <p class="emotion-name">Pride</p><p class="emotion-sub">Activation</p>
       <button class="add-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add</button>
     </div>
-    <div class="emotion-card f-nostalgia" data-id="pride" onclick="toggleEmotion(this)">
+    <div class="emotion-card f-nostalgia" data-id="nostalgia" onclick="toggleEmotion(this)">
       <div class="flower-img f-nostalgia"></div>
       <p class="emotion-name">Nostalgia</p><p class="emotion-sub">Expansiveness</p>
       <button class="add-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add</button>
@@ -373,7 +413,7 @@
   </div>
 
   <div class="explore-banner" onclick="openModal()">
-    <div class="explore-icon"><div class="f-teal flower-img" style="width:100%;height:100%;"></div></div>
+    <img src="assets/icon_floweradd.png" style="width:10%;height:10%;object-fit:contain;">
     <div class="explore-text">
       <p class="explore-title">Explore more emotions</p>
       <p class="explore-sub">Discover more emotions to add to your palette</p>
@@ -408,7 +448,9 @@
 <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
   <div class="modal">
     <div class="modal-header">
-      <div class="modal-flower-icon"><div class="f-teal flower-img" style="width:100%;height:100%;"></div></div>
+  <div class="modal-flower-icon">
+    <img src="assets/icon_floweradd.png" style="width:100%;height:100%;object-fit:contain;">
+  </div>
       <h2 class="modal-title">Explore more emotions</h2>
       <p class="modal-sub">Tap any emotion to add it to your palette</p>
     </div>
@@ -552,14 +594,17 @@
       </div>
     </div>
     <div class="modal-footer">
-      <div class="cant-find-banner">
-        <div class="cant-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-        <div class="cant-text">
-          <p class="cant-title">Can't find the right one?</p>
-          <p class="cant-sub">Create a custom emotion that fits exactly how you feel</p>
-        </div>
-        <button class="create-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Create</button>
-      </div>
+        <div class="cant-find-banner">
+    <img src="assets/icon_morecolors.png" class="cant-icon" alt="more emotions">
+    <div class="cant-text">
+      <p class="cant-title">Can't find the right one?</p>
+      <p class="cant-sub">Create a custom emotion that fits exactly how you feel</p>
+    </div>
+<button class="create-btn">
+  <img src="assets/icon_addcolorful.png" style="width:24px;height:24px;object-fit:contain;flex-shrink:0;">
+  <span>Create</span>
+</button>
+  </div>
     <div class="added-strip">
         <span class="added-label" id="addedLabel">0 emotions added</span>
         <div class="added-flowers" id="addedFlowers">
@@ -582,57 +627,54 @@
   const ADD_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
   const CHECK_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`;
 
-function updateConfirmBtn() {
-  const btn = document.getElementById('confirmBtn');
-  const counter = document.getElementById('confirmCounter');
-  counter.textContent = `${added.size} / 5`;
-  btn.classList.toggle('ready', added.size === MAX);
+  function updateConfirmBtn() {
+    const btn = document.getElementById('confirmBtn');
+    const counter = document.getElementById('confirmCounter');
+    counter.textContent = `${added.size} / 5`;
+    btn.classList.toggle('ready', added.size === MAX);
 
-  // update modal label
-  const label = document.getElementById('addedLabel');
-  label.textContent = `${added.size} emotion${added.size === 1 ? '' : 's'} added`;
+    const label = document.getElementById('addedLabel');
+    label.textContent = `${added.size} emotion${added.size === 1 ? '' : 's'} added`;
 
-  // update flower dots
-  const dotsWrap = document.getElementById('addedFlowers');
-  const dots = dotsWrap.querySelectorAll('.added-flower-dot');
+    const dotsWrap = document.getElementById('addedFlowers');
+    const dots = dotsWrap.querySelectorAll('.added-flower-dot');
 
-  // build a list of colors from the added set
-  const colors = [...added].map(id => {
-    // main grid emotions
-    const mainCard = document.querySelector(`.emotion-card[data-id="${id}"]`);
-    if (mainCard) {
-      const flowerDiv = mainCard.querySelector('.flower-img');
-      const fClass = [...flowerDiv.classList].find(c => c.startsWith('f-') && c !== 'flower-img');
-      return fClass || null;
-    }
-    // mini card emotions — id is 'mini-comfort' etc
-    const fClass = 'f-' + id.replace('mini-', '');
-    return fClass;
-  }).filter(Boolean);
+    const colors = [...added].map(id => {
+      const mainCard = document.querySelector(`.emotion-card[data-id="${id}"]`);
+      if (mainCard) {
+        const flowerDiv = mainCard.querySelector('.flower-img');
+        const fClass = [...flowerDiv.classList].find(c => c.startsWith('f-') && c !== 'flower-img');
+        return fClass || null;
+      }
+      const fClass = 'f-' + id.replace('mini-', '');
+      return fClass;
+    }).filter(Boolean);
 
-  dots.forEach((dot, i) => {
-    // remove all f- classes
-    [...dot.classList].filter(c => c.startsWith('f-')).forEach(c => dot.classList.remove(c));
-
-    if (i < colors.length) {
-      dot.classList.add(colors[i]);
-      dot.classList.remove('empty');
-    } else {
-      dot.classList.add('f-anger'); // default placeholder
-      dot.classList.add('empty');
-    }
-  });
-}
+    dots.forEach((dot, i) => {
+      [...dot.classList].filter(c => c.startsWith('f-')).forEach(c => dot.classList.remove(c));
+      if (i < colors.length) {
+        dot.classList.add(colors[i]);
+        dot.classList.remove('empty');
+      } else {
+        dot.classList.add('f-anger');
+        dot.classList.add('empty');
+      }
+    });
+  }
 
   function handleConfirm() {
     if (added.size < MAX) {
-      // Temporarily allow pointer events so the shake is visible, then re-lock
       const btn = document.getElementById('confirmBtn');
       btn.style.pointerEvents = 'none';
       btn.classList.add('shake');
       btn.addEventListener('animationend', () => btn.classList.remove('shake'), { once: true });
       return;
     }
+
+    // Save only the emotions the user actually selected, stripping 'mini-' prefix
+    const emotionKeys = [...added].map(id => id.replace('mini-', ''));
+    localStorage.setItem('ob_emotions', JSON.stringify(emotionKeys));
+
     window.location.href = 'onboarding3.html';
   }
 
@@ -673,27 +715,23 @@ function updateConfirmBtn() {
     poly.setAttribute('points', isHidden ? '18 15 12 9 6 15' : '6 9 12 15 18 9');
   }
 
-function toggleMini(card) {
-  const flowerDiv = card.querySelector('.flower-img');
-  // get emotion id from the f-* class
-  const emotionClass = [...flowerDiv.classList].find(c => c.startsWith('f-') && c !== 'flower-img');
-  const id = emotionClass ? 'mini-' + emotionClass.replace('f-', '') : null;
+  function toggleMini(card) {
+    const flowerDiv = card.querySelector('.flower-img');
+    const emotionClass = [...flowerDiv.classList].find(c => c.startsWith('f-') && c !== 'flower-img');
+    const id = emotionClass ? 'mini-' + emotionClass.replace('f-', '') : null;
 
-  if (card.classList.contains('added')) {
-    // deselect
-    card.classList.remove('added');
-    card.querySelector('.mini-plus').textContent = '+';
-    if (id) added.delete(id);
-  } else {
-    // select — check max
-    if (added.size >= MAX) return;
-    card.classList.add('added');
-    card.querySelector('.mini-plus').textContent = '✓';
-    if (id) added.add(id);
+    if (card.classList.contains('added')) {
+      card.classList.remove('added');
+      card.querySelector('.mini-plus').textContent = '+';
+      if (id) added.delete(id);
+    } else {
+      if (added.size >= MAX) return;
+      card.classList.add('added');
+      card.querySelector('.mini-plus').textContent = '✓';
+      if (id) added.add(id);
+    }
+    updateConfirmBtn();
   }
-
-  updateConfirmBtn();
-}
 
   function filterCategory(cat, pill) {
     document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
@@ -705,5 +743,59 @@ function toggleMini(card) {
 
   updateConfirmBtn();
 </script>
+<script>
+
+  function filterCategory(cat, pill) {
+    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    document.querySelectorAll('.cat-section').forEach(sec => {
+      sec.style.display = (cat === 'all' || sec.dataset.cat === cat) ? 'block' : 'none';
+    });
+  }
+
+  updateConfirmBtn();
+
+localStorage.setItem('ob_emotions', JSON.stringify([
+  'happiness',
+  'anger',
+  'fear',
+  'disgust',
+  'sadness',
+  'envy',
+  'contempt',
+  'pride',
+  'nostalgia',
+  'teal',
+  'red',
+  'comfort',
+  'gratitude',
+  'love',
+  'hope',
+  'supported',
+  'safe',
+  'jealousy',
+  'resentment',
+  'shame',
+  'guilt',
+  'rejection',
+  'betrayal',
+  'loneliness',
+  'disappointment',
+  'numbness',
+  'insecurity',
+  'boredom',
+  'overwhelmed',
+  'triumph',
+  'craving',
+  'excitement',
+  'determination',
+  'confidence',
+  'inspired',
+  'compassion',
+  'admiration',
+  'sympathy',
+  'empathy',
+  'romance'
+]));</script>
 </body>
 </html>

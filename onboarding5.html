@@ -48,7 +48,28 @@
     .progress-label { font-family:'Nunito',sans-serif; font-weight:700; font-size:clamp(13px,1.4vw,20px); color:var(--teal); white-space:nowrap; }
 
     /* ── Hero ── */
-    .hero { padding:clamp(4px,0.8vw,12px) clamp(20px,3vw,40px) clamp(14px,1.8vw,24px); text-align:center; }
+    .hero { 
+      position: relative;
+      padding:clamp(4px,0.8vw,12px) clamp(20px,3vw,40px) clamp(14px,1.8vw,24px); 
+      text-align:center; }
+
+  .hero-character {
+    position: absolute;
+    top: clamp(-20px, -2vw, -10px);
+    right: clamp(10px, 2vw, 24px);
+    width: clamp(140px, 22vw, 240px);
+    height: auto;
+    pointer-events: none;
+  }
+
+  /* ── Emotions intro text ── */
+.emotions-intro {
+  font-family: 'Roboto', sans-serif; font-weight: 400;
+  font-size: clamp(12px, 1.4vw, 17px); color: #aaa;
+  line-height: 1.5;
+  margin-bottom: clamp(12px, 1.5vw, 20px);
+}
+
     .step-label {
       font-family:'Nunito',sans-serif; font-style:normal; font-weight:800;
       font-size:clamp(14px,2vw,26px); letter-spacing:.12em; text-transform:uppercase;
@@ -59,15 +80,16 @@
     .step-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(13px,1.5vw,19px); color:#888; }
 
     /* ── Recap card ── */
-    .recap-card {
-      margin: 0 clamp(16px,2.5vw,36px) clamp(16px,2vw,26px);
-      background: var(--card-bg);
-      border-radius: var(--radius-card);
-      padding: clamp(20px,2.8vw,42px) clamp(20px,2.8vw,42px) clamp(24px,3vw,46px);
-      box-shadow: 0 4px 24px rgba(0,0,0,.07);
-      display: flex; flex-direction: column;
-      gap: clamp(16px,2vw,28px);
-    }
+  .recap-card {
+    margin: 0 clamp(16px,2.5vw,36px) clamp(16px,2vw,26px);
+    background: var(--card-bg);
+    border-radius: var(--radius-card);
+    padding: clamp(60px,10vw,120px) clamp(20px,2.8vw,42px) clamp(24px,3vw,46px);
+    box-shadow: 0 4px 24px rgba(0,0,0,.07);
+    display: flex; flex-direction: column;
+    gap: clamp(16px,2vw,28px);
+  }
+
 
     /* ── Recap prose ── */
     .recap-title {
@@ -111,18 +133,25 @@
       margin-bottom:clamp(10px,1.3vw,20px);
     }
 
-    .emotion-grid-recap {
-      display:grid;
-      grid-template-columns: repeat(2,1fr);
-      gap:clamp(8px,1.1vw,16px);
-    }
+   /* ── Emotion grid — horizontal row ── */
+.emotion-grid-recap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: clamp(8px, 1.1vw, 14px);
+}
 
-    .emotion-mini {
-      display:flex; align-items:center; gap:clamp(10px,1.3vw,18px);
-      background:#fef0f0;
-      border-radius:clamp(12px,1.4vw,20px);
-      padding:clamp(10px,1.3vw,18px);
-    }
+.emotion-mini {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(6px, 0.8vw, 10px);
+  background: #f5f5f8;
+  border-radius: clamp(12px, 1.4vw, 18px);
+  padding: clamp(10px, 1.3vw, 16px) clamp(10px, 1.2vw, 14px);
+  flex: 1;
+  min-width: clamp(60px, 8vw, 90px);
+}
 
     /* Flower via CSS mask */
     .mini-flower {
@@ -138,27 +167,68 @@
       mask-repeat: no-repeat;
       mask-position: center;
     }
+
     /* Emotion colors */
-    .f-happiness { background:#F6A952; }
-    .f-anger     { background:#C0392B; }
-    .f-fear      { background:#6C3483; }
-    .f-disgust   { background:#5D7A2B; }
-    .f-sadness   { background:#5B9EC9; }
-    .f-surprise  { background:#E91E8C; }
-    .f-contempt  { background:#0E8C77; }
-    .f-pride     { background:#922B21; }
-    .f-nostalgia { background:#45B39D; }
-    .f-red       { background:#C0392B; }
+.f-happiness      { background: #F6A952; }
+.f-anger          { background: #C0392B; }
+.f-fear           { background: #6C3483; }
+.f-disgust        { background: #5D7A2B; }
+.f-sadness        { background: #5B9EC9; }
+.f-envy           { background: #E91E8C; }
+.f-contempt       { background: #0E8C77; }
+.f-pride          { background: #922B21; }
+.f-nostalgia      { background: #45B39D; }
+.f-neutral        { background: #999;    }
+.f-comfort        { background: #F0A87E; }
+.f-gratitude      { background: #F7C948; }
+.f-love           { background: #E8537A; }
+.f-hope           { background: #7EC8A4; }
+.f-supported      { background: #5DADE2; }
+.f-safe           { background: #52BE80; }
+.f-jealousy       { background: #A569BD; }
+.f-resentment     { background: #884EA0; }
+.f-shame          { background: #B03A2E; }
+.f-guilt          { background: #9B59B6; }
+.f-rejection      { background: #CB4335; }
+.f-betrayal       { background: #7B241C; }
+.f-loneliness     { background: #5D6D7E; }
+.f-disappointment { background: #797D7F; }
+.f-numbness       { background: #AAB7B8; }
+.f-insecurity     { background: #8E44AD; }
+.f-boredom        { background: #95A5A6; }
+.f-overwhelmed    { background: #E74C3C; }
+.f-triumph        { background: #F39C12; }
+.f-craving        { background: #E67E22; }
+.f-excitement     { background: #F1C40F; }
+.f-determination  { background: #D35400; }
+.f-confidence     { background: #2E86C1; }
+.f-inspired       { background: #1ABC9C; }
+.f-compassion     { background: #E91E8C; }
+.f-admiration     { background: #3498DB; }
+.f-sympathy       { background: #85C1E9; }
+.f-empathy        { background: #76D7C4; }
+.f-romance        { background: #F1948A; }
 
     .mini-info { flex:1; min-width:0; }
-    .mini-name {
-      font-family:'Nunito',sans-serif; font-weight:800;
-      font-size:clamp(13px,1.5vw,19px); color:#111;
-    }
-    .mini-sub {
-      font-family:'Roboto',sans-serif; font-weight:400;
-      font-size:clamp(10px,1.1vw,14px); color:#aaa;
-      line-height:1.4;
+.mini-name {
+  font-family: 'Nunito', sans-serif; font-weight: 800;
+  font-size: clamp(11px, 1.2vw, 15px); color: #111;
+  text-align: center;
+}
+.mini-sub {
+  font-family: 'Roboto', sans-serif; font-weight: 400;
+  font-size: clamp(9px, 1vw, 12px); color: #aaa;
+  line-height: 1.4;
+  text-align: center;
+}
+
+    /* Empty state */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: clamp(16px,2vw,28px);
+      color: #bbb;
+      font-size: clamp(13px,1.4vw,17px);
     }
 
     /* ── Done btn ── */
@@ -192,11 +262,12 @@
   </div>
 
   <!-- Hero -->
-  <div class="hero">
-    <p class="step-label">Step 5</p>
-    <h1 class="step-title">Overview</h1>
-    <p class="step-sub">Copywriting goes here</p>
-  </div>
+<div class="hero">
+  <img src="assets/emotionsbluestanding.png" class="hero-character" alt="" aria-hidden="true" />
+  <p class="step-label">Step 5</p>
+  <h1 class="step-title">Overview</h1>
+  <p class="step-sub">Here's everything you've set up</p>
+</div>
 
   <!-- Recap card -->
   <div class="recap-card">
@@ -204,68 +275,15 @@
     <!-- Prose summary -->
     <div>
       <h2 class="recap-title">So, to recap...</h2>
-      <p class="recap-prose">
-        You want to
-        <span class="tag tag-teal" id="goalTag">Manage stress better</span>
-        and will send you a reminder to journal at
-        <span class="tag tag-purple" id="time1Tag">Night</span>
-        and
-        <span class="tag tag-purple" id="time2Tag">Before bed</span>
-        so let's fix that and make sure you get back on track!
+      <p class="recap-prose" id="recapProse"> 
+        <!-- Populated by JS -->
       </p>
     </div>
 
-    <div class="divider"></div>
-
-    <!-- Emotional palette -->
-    <div>
-      <p class="palette-label">Selected emotional palette</p>
-      <p class="palette-sublabel">You can always change this later.</p>
-
-      <div class="emotion-grid-recap" id="emotionGrid">
-
-        <div class="emotion-mini">
-          <div class="mini-flower f-happiness"></div>
-          <div class="mini-info">
-            <p class="mini-name">Happiness</p>
-            <p class="mini-sub">Warmth</p>
-          </div>
-        </div>
-
-        <div class="emotion-mini">
-          <div class="mini-flower f-anger"></div>
-          <div class="mini-info">
-            <p class="mini-name">Anger</p>
-            <p class="mini-sub">Social Tension</p>
-          </div>
-        </div>
-
-        <div class="emotion-mini">
-          <div class="mini-flower f-fear"></div>
-          <div class="mini-info">
-            <p class="mini-name">Fear</p>
-            <p class="mini-sub">Withdrawal</p>
-          </div>
-        </div>
-
-        <div class="emotion-mini">
-          <div class="mini-flower f-sadness"></div>
-          <div class="mini-info">
-            <p class="mini-name">Sadness</p>
-            <p class="mini-sub">Withdrawal</p>
-          </div>
-        </div>
-
-        <div class="emotion-mini">
-          <div class="mini-flower f-surprise"></div>
-          <div class="mini-info">
-            <p class="mini-name">Surprise</p>
-            <p class="mini-sub">Social Tension</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
+<!-- Emotional palette -->
+<div>
+  <div class="emotion-grid-recap" id="emotionGrid"></div>
+</div>
 
   </div>
 
@@ -275,5 +293,148 @@
   </div>
 
 </div>
+
+<script>
+  // ─────────────────────────────────────────────
+  // Emotion metadata — keep in sync with onboarding2
+  // ─────────────────────────────────────────────
+const EMOTION_META = {
+  happiness:      { label: 'Happiness',      sub: 'Warmth',            cssClass: 'f-happiness'      },
+  anger:          { label: 'Anger',          sub: 'Social Tension',    cssClass: 'f-anger'          },
+  fear:           { label: 'Fear',           sub: 'Withdrawal',        cssClass: 'f-fear'           },
+  disgust:        { label: 'Disgust',        sub: 'Avoidance',         cssClass: 'f-disgust'        },
+  sadness:        { label: 'Sadness',        sub: 'Withdrawal',        cssClass: 'f-sadness'        },
+  envy:           { label: 'Envy',           sub: 'Social Tension',    cssClass: 'f-envy'           },
+  contempt:       { label: 'Contempt',       sub: 'Distancing',        cssClass: 'f-contempt'       },
+  pride:          { label: 'Pride',          sub: 'Self-assertion',    cssClass: 'f-pride'          },
+  nostalgia:      { label: 'Nostalgia',      sub: 'Reflection',        cssClass: 'f-nostalgia'      },
+  comfort:        { label: 'Comfort',        sub: 'Ease',              cssClass: 'f-comfort'        },
+  gratitude:      { label: 'Gratitude',      sub: 'Appreciation',      cssClass: 'f-gratitude'      },
+  love:           { label: 'Love',           sub: 'Connection',        cssClass: 'f-love'           },
+  hope:           { label: 'Hope',           sub: 'Anticipation',      cssClass: 'f-hope'           },
+  supported:      { label: 'Supported',      sub: 'Security',          cssClass: 'f-supported'      },
+  safe:           { label: 'Safe',           sub: 'Calm',              cssClass: 'f-safe'           },
+  jealousy:       { label: 'Jealousy',       sub: 'Insecurity',        cssClass: 'f-jealousy'       },
+  resentment:     { label: 'Resentment',     sub: 'Bitterness',        cssClass: 'f-resentment'     },
+  shame:          { label: 'Shame',          sub: 'Self-consciousness', cssClass: 'f-shame'         },
+  guilt:          { label: 'Guilt',          sub: 'Remorse',           cssClass: 'f-guilt'          },
+  rejection:      { label: 'Rejection',      sub: 'Exclusion',         cssClass: 'f-rejection'      },
+  betrayal:       { label: 'Betrayal',       sub: 'Broken Trust',      cssClass: 'f-betrayal'       },
+  loneliness:     { label: 'Loneliness',     sub: 'Isolation',         cssClass: 'f-loneliness'     },
+  disappointment: { label: 'Disappointment', sub: 'Unmet Expectations', cssClass: 'f-disappointment'},
+  numbness:       { label: 'Numbness',       sub: 'Disconnection',     cssClass: 'f-numbness'       },
+  insecurity:     { label: 'Insecurity',     sub: 'Self-doubt',        cssClass: 'f-insecurity'     },
+  boredom:        { label: 'Boredom',        sub: 'Restlessness',      cssClass: 'f-boredom'        },
+  overwhelmed:    { label: 'Overwhelmed',    sub: 'Overload',          cssClass: 'f-overwhelmed'    },
+  triumph:        { label: 'Triumph',        sub: 'Achievement',       cssClass: 'f-triumph'        },
+  craving:        { label: 'Craving',        sub: 'Desire',            cssClass: 'f-craving'        },
+  excitement:     { label: 'Excitement',     sub: 'Enthusiasm',        cssClass: 'f-excitement'     },
+  determination:  { label: 'Determination',  sub: 'Drive',             cssClass: 'f-determination'  },
+  confidence:     { label: 'Confidence',     sub: 'Self-assurance',    cssClass: 'f-confidence'     },
+  inspired:       { label: 'Inspired',       sub: 'Creativity',        cssClass: 'f-inspired'       },
+  compassion:     { label: 'Compassion',     sub: 'Caring',            cssClass: 'f-compassion'     },
+  admiration:     { label: 'Admiration',     sub: 'Respect',           cssClass: 'f-admiration'     },
+  sympathy:       { label: 'Sympathy',       sub: 'Understanding',     cssClass: 'f-sympathy'       },
+  empathy:        { label: 'Empathy',        sub: 'Shared Feeling',    cssClass: 'f-empathy'        },
+  romance:        { label: 'Romance',        sub: 'Intimacy',          cssClass: 'f-romance'        },
+};
+  
+
+  // ─────────────────────────────────────────────
+  // Read saved values from localStorage
+  // Keys must match what onboarding2/3/4 write
+  // ─────────────────────────────────────────────
+  function getStored(key, fallback) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw !== null ? JSON.parse(raw) : fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  // onboarding4 saves: localStorage.setItem('ob_goal', JSON.stringify("Manage stress better"))
+const goals = getStored('ob_goals', ['your goal']);
+
+  // onboarding3 saves: localStorage.setItem('ob_times', JSON.stringify(["Morning", "Night"]))
+  const times = getStored('ob_times', []);
+
+  // onboarding2 saves: localStorage.setItem('ob_emotions', JSON.stringify(["happiness","anger",...]))
+  const emotions = getStored('ob_emotions', []);
+
+  // ─────────────────────────────────────────────
+  // Build recap prose
+  // ─────────────────────────────────────────────
+  function buildProse() {
+  const goalTags = goals.map(g => `<span class="tag tag-teal">${escHtml(g)}</span>`).join(' and ');
+
+    let timePart = '';
+    if (times.length === 0) {
+      timePart = 'at your chosen times';
+    } else if (times.length === 1) {
+      timePart = `at <span class="tag tag-purple">${escHtml(times[0])}</span>`;
+    } else if (times.length === 2) {
+      timePart = `at <span class="tag tag-purple">${escHtml(times[0])}</span> and <span class="tag tag-purple">${escHtml(times[1])}</span>`;
+    } else {
+      const last = times[times.length - 1];
+      const rest = times.slice(0, -1).map(t => `<span class="tag tag-purple">${escHtml(t)}</span>`).join(', ');
+      timePart = `at ${rest} and <span class="tag tag-purple">${escHtml(last)}</span>`;
+    }
+
+document.getElementById('recapProse').innerHTML =
+  `You want to ${goalTags} and we'll send you a reminder to journal ${timePart} — so let's make sure you stay on track! You are starting your journey with the following emotions:`;
+  }
+
+  // ─────────────────────────────────────────────
+  // Build emotion grid
+  // ─────────────────────────────────────────────
+  function buildEmotions() {
+    const grid = document.getElementById('emotionGrid');
+    grid.innerHTML = '';
+
+    if (emotions.length === 0) {
+      grid.innerHTML = '<p class="empty-state">No emotions selected yet.</p>';
+      return;
+    }
+
+    emotions.forEach(key => {
+      const meta = EMOTION_META[key.toLowerCase()] || {
+        label: capitalize(key),
+        sub: '',
+        cssClass: 'f-neutral'
+      };
+
+      const card = document.createElement('div');
+      card.className = 'emotion-mini';
+      card.innerHTML = `
+        <div class="mini-flower ${meta.cssClass}"></div>
+        <div class="mini-info">
+          <p class="mini-name">${escHtml(meta.label)}</p>
+          <p class="mini-sub">${escHtml(meta.sub)}</p>
+        </div>`;
+      grid.appendChild(card);
+    });
+  }
+
+  // ─────────────────────────────────────────────
+  // Helpers
+  // ─────────────────────────────────────────────
+  function escHtml(str) {
+    return String(str)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+  function capitalize(s) {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  // ─────────────────────────────────────────────
+  // Init
+  // ─────────────────────────────────────────────
+  buildProse();
+  buildEmotions();
+</script>
 </body>
 </html>
