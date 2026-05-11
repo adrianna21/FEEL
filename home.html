@@ -431,6 +431,21 @@
   .cal-month-divider { height:1px;background:#e0e0dc;margin:28px 0 0; }
 
 
+    /* Ripple on tap */
+    .ripple {
+      position: fixed;
+      border-radius: 50%;
+      width: 8px; height: 8px;
+      background: #29c1e758;
+      transform: scale(0);
+      pointer-events: none;
+      animation: rippleOut 0.5s ease-out forwards;
+      z-index: 20;
+    }
+    @keyframes rippleOut {
+      to { transform: scale(40); opacity: 0; }
+    }
+
 </style>
 </head>
 <body>
@@ -991,6 +1006,18 @@ function initNav(activePage) {
     document.body.appendChild(toast);
   }
 }
+
+  // Ripple effect on tap, then navigate
+  document.body.addEventListener('click', function(e) {
+    const ripple = document.createElement('div');
+    ripple.className = 'ripple';
+    ripple.style.left = (e.clientX - 5) + 'px';
+    ripple.style.top  = (e.clientY - 5) + 'px';
+    document.body.appendChild(ripple);
+    setTimeout(() => {
+      window.location.href = 'home.html';
+    }, 300);
+  });
 
 initNav('home');
 </script>

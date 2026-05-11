@@ -74,7 +74,7 @@
     }
     .f-happiness { background: #F6A952; } .f-anger { background: #C0392B; }
     .f-fear { background: #6C3483; }      .f-disgust { background: #5D7A2B; }
-    .f-sadness { background: #5B9EC9; }   .f-surprise { background: #E91E8C; }
+    .f-sadness { background: #5B9EC9; }   .f-envy { background: #E91E8C; }
     .f-contempt { background: #0E8C77; }  .f-pride { background: #922B21; }
     .f-nostalgia { background: #45B39D; } .f-teal { background: #29B6D0; }
     .f-red { background: #C0392B; }
@@ -263,9 +263,9 @@
       <p class="emotion-name">Sadness</p><p class="emotion-sub">Withdrawal</p>
       <button class="add-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add</button>
     </div>
-    <div class="emotion-card" data-id="surprise" onclick="toggleEmotion(this)">
-      <div class="flower-img f-surprise"></div>
-      <p class="emotion-name">Surprise</p><p class="emotion-sub">Social Tension</p>
+    <div class="emotion-card" data-id="envy" onclick="toggleEmotion(this)">
+      <div class="flower-img f-envy"></div>
+      <p class="emotion-name">Envy</p><p class="emotion-sub">Social Tension</p>
       <button class="add-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add</button>
     </div>
     <div class="emotion-card" data-id="contempt" onclick="toggleEmotion(this)">
@@ -339,15 +339,12 @@
           <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></div>
         </div>
         <div class="cat-grid">
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Frustrated</div><div class="mini-sub">Things aren't going my way</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Elated</div><div class="mini-sub">On top of the world</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Grateful</div><div class="mini-sub">Thankful for what I have</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Cozy</div><div class="mini-sub">Safe and comfortable</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Hopeful</div><div class="mini-sub">Looking forward to good</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Tender</div><div class="mini-sub">Soft and caring</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Cheerful</div><div class="mini-sub">Light and bright</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Serene</div><div class="mini-sub">Calm and at peace</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Playful</div><div class="mini-sub">Feeling fun and silly</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Comfort</div><div class="mini-sub">Things aren't going my way</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Gratitude</div><div class="mini-sub">On top of the world</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Love</div><div class="mini-sub">Thankful for what I have</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Hope</div><div class="mini-sub">Safe and comfortable</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Supported</div><div class="mini-sub">Looking forward to good</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Safe</div><div class="mini-sub">Soft and caring</div></div></div>
         </div>
       </div>
       <div class="cat-section" data-cat="social">
@@ -356,12 +353,12 @@
           <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></div>
         </div>
         <div class="cat-grid">
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Anxious</div><div class="mini-sub">Worried about what's next</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Embarrassed</div><div class="mini-sub">Wishing I could disappear</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Jealous</div><div class="mini-sub">Wanting what others have</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Guilty</div><div class="mini-sub">Carrying something heavy</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Shy</div><div class="mini-sub">Holding back a little</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Irritated</div><div class="mini-sub">Little things adding up</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Jealosy</div><div class="mini-sub">Worried about what's next</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Resentment</div><div class="mini-sub">Wishing I could disappear</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Shame</div><div class="mini-sub">Wanting what others have</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Guilt</div><div class="mini-sub">Carrying something heavy</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Rejection</div><div class="mini-sub">Holding back a little</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Betrayal</div><div class="mini-sub">Little things adding up</div></div></div>
         </div>
       </div>
       <div class="cat-section" data-cat="withdrawal">
@@ -370,9 +367,12 @@
           <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></div>
         </div>
         <div class="cat-grid">
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Lonely</div><div class="mini-sub">Missing connection</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Numb</div><div class="mini-sub">Feeling nothing at all</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Withdrawn</div><div class="mini-sub">Pulling away from others</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Loneliness</div><div class="mini-sub">Missing connection</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Disappointment</div><div class="mini-sub">Feeling nothing at all</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Numbness</div><div class="mini-sub">Pulling away from others</div></div></div>
+           <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Insecurity</div><div class="mini-sub">Missing connection</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Boredom</div><div class="mini-sub">Feeling nothing at all</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Overwhelmed</div><div class="mini-sub">Pulling away from others</div></div></div>
         </div>
       </div>
       <div class="cat-section" data-cat="activation">
@@ -381,12 +381,40 @@
           <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></div>
         </div>
         <div class="cat-grid">
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Excited</div><div class="mini-sub">Buzzing with energy</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Motivated</div><div class="mini-sub">Ready to take on the day</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Driven</div><div class="mini-sub">Focused on a goal</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Bold</div><div class="mini-sub">Feeling fearless</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Restless</div><div class="mini-sub">Can't sit still</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Triumph</div><div class="mini-sub">Buzzing with energy</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Craving</div><div class="mini-sub">Ready to take on the day</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Excitement</div><div class="mini-sub">Focused on a goal</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Determination</div><div class="mini-sub">Feeling fearless</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Confidence</div><div class="mini-sub">Can't sit still</div></div></div>
           <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Inspired</div><div class="mini-sub">Ideas flowing freely</div></div></div>
+        </div>
+      </div>
+      <div class="cat-section" data-cat="expansiveness">
+        <div class="cat-header" onclick="toggleCat(this)">
+          <div class="cat-header-left"><div class="cat-dot" style="background:#922B21"></div><span class="cat-name">Expansiveness</span></div>
+          <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></div>
+        </div>
+        <div class="cat-grid">
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Triumph</div><div class="mini-sub">Buzzing with energy</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Craving</div><div class="mini-sub">Ready to take on the day</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Excitement</div><div class="mini-sub">Focused on a goal</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Determination</div><div class="mini-sub">Feeling fearless</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Confidence</div><div class="mini-sub">Can't sit still</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Inspired</div><div class="mini-sub">Ideas flowing freely</div></div></div>
+        </div>
+      </div>
+      <div class="cat-section" data-cat="tenderness">
+        <div class="cat-header" onclick="toggleCat(this)">
+          <div class="cat-header-left"><div class="cat-dot" style="background:#922B21"></div><span class="cat-name">Tenderness</span></div>
+          <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></div>
+        </div>
+        <div class="cat-grid">
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Love</div><div class="mini-sub">Buzzing with energy</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Compassion</div><div class="mini-sub">Ready to take on the day</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Admiration</div><div class="mini-sub">Focused on a goal</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Sympathy</div><div class="mini-sub">Feeling fearless</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Empathy</div><div class="mini-sub">Can't sit still</div></div></div>
+          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Romance</div><div class="mini-sub">Ideas flowing freely</div></div></div>
         </div>
       </div>
     </div>
