@@ -561,8 +561,8 @@ function updateFlower(newIndex, oldIndex) {
   if (curr.src.includes(newSrc.split('/').pop())) return;
 
   const overrides = [
-    { from: 0, to: 4, dir: -1 },
-    { from: 4, to: 0, dir: 1 },
+    { from: 0, to: 4, dir: 1 },
+    { from: 4, to: 0, dir: -1 },
   ];
   const override = overrides.find(o => o.from === oldIndex && o.to === newIndex);
   const direction = override ? override.dir : (newIndex > oldIndex ? -1 : 1);
