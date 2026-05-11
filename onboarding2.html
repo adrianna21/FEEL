@@ -54,13 +54,25 @@
     .emotion-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(10px,1.4vw,20px); padding:0 clamp(16px,2.5vw,36px) clamp(16px,2vw,28px); }
 
     .emotion-card {
-      background:var(--card-bg); border-radius:var(--radius-card);
-      padding:clamp(12px,1.5vw,22px) clamp(10px,1.2vw,16px);
-      display:flex; flex-direction:column; align-items:center;
-      gap:clamp(6px,0.8vw,10px); border:2.5px solid transparent;
-      cursor:pointer; transition:border-color .3s, box-shadow .2s;
-      box-shadow:0 2px 10px rgba(0,0,0,.06);
+      border-radius: var(--radius-card);
+      padding: clamp(12px,1.5vw,22px) clamp(10px,1.2vw,16px);
+      display: flex; flex-direction: column; align-items: center;
+      gap: clamp(6px,0.8vw,10px); border: 2.5px solid transparent;
+      cursor: pointer; transition: border-color .3s, box-shadow .2s, background .2s;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
     }
+
+    .emotion-card.f-happiness  { background: rgba(246,169,82,0.1); }
+    .emotion-card.f-anger      { background: rgba(192,57,43,0.1); }
+    .emotion-card.f-fear       { background: rgba(108,52,131,0.1); }
+    .emotion-card.f-disgust    { background: rgba(93,122,43,0.1); }
+    .emotion-card.f-sadness    { background: rgba(91,158,201,0.1); }
+    .emotion-card.f-envy       { background: rgba(233,30,140,0.1); }
+    .emotion-card.f-contempt   { background: rgba(14,140,119,0.1); }
+    .emotion-card.f-pride      { background: rgba(146,43,33,0.1); }
+    .emotion-card.f-nostalgia  { background: rgba(69,179,157,0.1); }
+
+
     .emotion-card:hover { box-shadow:0 4px 18px rgba(0,0,0,.10); }
     .emotion-card.selected { border-color: var(--purple); }
 
@@ -79,13 +91,45 @@
     .f-nostalgia { background: #45B39D; } .f-teal { background: #29B6D0; }
     .f-red { background: #C0392B; }
 
+
+        /* additional emotions */
+    .f-comfort        { background: #F0A87E; }
+    .f-gratitude      { background: #F7C948; }
+    .f-love           { background: #E8537A; }
+    .f-hope           { background: #7EC8A4; }
+    .f-supported      { background: #5DADE2; }
+    .f-safe           { background: #52BE80; }
+    .f-jealousy       { background: #A569BD; }
+    .f-resentment     { background: #884EA0; }
+    .f-shame          { background: #B03A2E; }
+    .f-guilt          { background: #9B59B6; }
+    .f-rejection      { background: #CB4335; }
+    .f-betrayal       { background: #7B241C; }
+    .f-loneliness     { background: #5D6D7E; }
+    .f-disappointment { background: #797D7F; }
+    .f-numbness       { background: #AAB7B8; }
+    .f-insecurity     { background: #8E44AD; }
+    .f-boredom        { background: #95A5A6; }
+    .f-overwhelmed    { background: #E74C3C; }
+    .f-triumph        { background: #F39C12; }
+    .f-craving        { background: #E67E22; }
+    .f-excitement     { background: #F1C40F; }
+    .f-determination  { background: #D35400; }
+    .f-confidence     { background: #2E86C1; }
+    .f-inspired       { background: #1ABC9C; }
+    .f-compassion     { background: #E91E8C; }
+    .f-admiration     { background: #3498DB; }
+    .f-sympathy       { background: #85C1E9; }
+    .f-empathy        { background: #76D7C4; }
+    .f-romance        { background: #F1948A; }
+
     .emotion-name { font-family:'Nunito',sans-serif; font-weight:800; font-size:clamp(13px,1.6vw,20px); color:#111; text-align:center; }
     .emotion-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(10px,1.1vw,14px); color:#888; text-align:center; margin-top:-clamp(2px,0.3vw,5px); }
 
     /* ── Add button ── */
     .add-btn {
       display:flex; align-items:center; justify-content:center;
-      gap:clamp(5px,0.6vw,10px); background:#111; color:#fff;
+      gap:clamp(5px,0.6vw,10px); background:#e8eef7; color:#111;
       border:none; border-radius:100px;
       padding:clamp(7px,0.9vw,12px) clamp(16px,2vw,28px);
       font-family:'Roboto',sans-serif; font-weight:500;
@@ -179,7 +223,7 @@
     .filter-row::-webkit-scrollbar { display:none; }
     .filter-pill { padding:clamp(6px,0.8vw,10px) clamp(14px,1.8vw,24px); border-radius:100px; border:none; cursor:pointer; font-family:'Roboto',sans-serif; font-weight:500; font-size:clamp(12px,1.3vw,16px); white-space:nowrap; flex-shrink:0; transition:background .2s, color .2s; }
     .filter-pill.active { background:#111; color:#fff; }
-    .filter-pill:not(.active) { background:#e0e4ef; color:#444; }
+    .filter-pill:not(.active) { background:#fff; color:#444; }
     .filter-pill:not(.active) .dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:#bbb; margin-right:5px; vertical-align:middle; }
     .modal-body { flex:1; overflow-y:auto; padding:0 clamp(16px,2.5vw,36px); scrollbar-width:thin; }
     .cat-section { margin-bottom:clamp(12px,1.5vw,22px); }
@@ -189,7 +233,50 @@
     .cat-name { font-family:'Nunito',sans-serif; font-weight:800; font-size:clamp(16px,2vw,26px); color:#111; }
     .cat-toggle svg { width:clamp(18px,2.2vw,28px); height:clamp(18px,2.2vw,28px); color:#888; }
     .cat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(8px,1vw,14px); background:#fff; border-radius:var(--radius-card); padding:clamp(10px,1.2vw,18px); }
-    .mini-card { display:flex; align-items:center; gap:clamp(8px,1vw,12px); background:#fef0f0; border-radius:clamp(10px,1.2vw,16px); padding:clamp(8px,1vw,12px); cursor:pointer; border:2px solid transparent; transition:border-color .2s; }
+    
+        /* mini card colors */
+    .mini-card { display:flex; align-items:center; gap:clamp(8px,1vw,12px); border-radius:clamp(10px,1.2vw,16px); padding:clamp(8px,1vw,12px); cursor:pointer; border:2px solid transparent; transition:border-color .2s; }
+    .mini-card.f-happiness    { background: rgba(246,169,82,0.1); }
+    .mini-card.f-anger        { background: rgba(192,57,43,0.1); }
+    .mini-card.f-fear         { background: rgba(108,52,131,0.1); }
+    .mini-card.f-disgust      { background: rgba(93,122,43,0.1); }
+    .mini-card.f-sadness      { background: rgba(91,158,201,0.1); }
+    .mini-card.f-envy         { background: rgba(233,30,140,0.1); }
+    .mini-card.f-contempt     { background: rgba(14,140,119,0.1); }
+    .mini-card.f-pride        { background: rgba(146,43,33,0.1); }
+    .mini-card.f-nostalgia    { background: rgba(69,179,157,0.1); }
+    .mini-card.f-comfort      { background: rgba(240,168,126,0.1); }
+    .mini-card.f-gratitude    { background: rgba(247,201,72,0.1); }
+    .mini-card.f-love         { background: rgba(232,83,122,0.1); }
+    .mini-card.f-hope         { background: rgba(126,200,164,0.1); }
+    .mini-card.f-supported    { background: rgba(93,173,226,0.1); }
+    .mini-card.f-safe         { background: rgba(82,190,128,0.1); }
+    .mini-card.f-jealousy     { background: rgba(165,105,189,0.1); }
+    .mini-card.f-resentment   { background: rgba(136,78,160,0.1); }
+    .mini-card.f-shame        { background: rgba(176,58,46,0.1); }
+    .mini-card.f-guilt        { background: rgba(155,89,182,0.1); }
+    .mini-card.f-rejection    { background: rgba(203,67,53,0.1); }
+    .mini-card.f-betrayal     { background: rgba(123,36,28,0.1); }
+    .mini-card.f-loneliness   { background: rgba(93,109,126,0.1); }
+    .mini-card.f-disappointment { background: rgba(121,125,127,0.1); }
+    .mini-card.f-numbness     { background: rgba(170,183,184,0.1); }
+    .mini-card.f-insecurity   { background: rgba(142,68,173,0.1); }
+    .mini-card.f-boredom      { background: rgba(149,165,166,0.1); }
+    .mini-card.f-overwhelmed  { background: rgba(231,76,60,0.1); }
+    .mini-card.f-triumph      { background: rgba(243,156,18,0.1); }
+    .mini-card.f-craving      { background: rgba(230,126,34,0.1); }
+    .mini-card.f-excitement   { background: rgba(241,196,15,0.1); }
+    .mini-card.f-determination { background: rgba(211,84,0,0.1); }
+    .mini-card.f-confidence   { background: rgba(46,134,193,0.1); }
+    .mini-card.f-inspired     { background: rgba(26,188,156,0.1); }
+    .mini-card.f-compassion   { background: rgba(233,30,140,0.1); }
+    .mini-card.f-admiration   { background: rgba(52,152,219,0.1); }
+    .mini-card.f-sympathy     { background: rgba(133,193,233,0.1); }
+    .mini-card.f-empathy      { background: rgba(118,215,196,0.1); }
+    .mini-card.f-romance      { background: rgba(241,148,138,0.1); }
+    
+    
+    
     .mini-card.added { border-color:var(--orange); background:#fff5ec; }
     .mini-flower-wrap { width:clamp(36px,5vw,52px); height:clamp(36px,5vw,52px); position:relative; flex-shrink:0; }
     .mini-flower-wrap > div { width:100%; height:100%; }
@@ -238,47 +325,47 @@
   </div>
 
   <div class="emotion-grid">
-    <div class="emotion-card" data-id="happiness" onclick="toggleEmotion(this)">
+    <div class="emotion-card f-happiness" data-id="happiness" onclick="toggleEmotion(this)">
       <div class="flower-img f-happiness"></div>
       <p class="emotion-name">Happiness</p><p class="emotion-sub">Warmth</p>
       <button class="add-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add</button>
     </div>
-    <div class="emotion-card" data-id="anger" onclick="toggleEmotion(this)">
+    <div class="emotion-card f-anger" data-id="anger" onclick="toggleEmotion(this)">
       <div class="flower-img f-anger"></div>
       <p class="emotion-name">Anger</p><p class="emotion-sub">Social Tension</p>
       <button class="add-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add</button>
     </div>
-    <div class="emotion-card" data-id="fear" onclick="toggleEmotion(this)">
+    <div class="emotion-card f-fear" data-id="fear" onclick="toggleEmotion(this)">
       <div class="flower-img f-fear"></div>
       <p class="emotion-name">Fear</p><p class="emotion-sub">Withdrawal</p>
       <button class="add-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add</button>
     </div>
-    <div class="emotion-card" data-id="disgust" onclick="toggleEmotion(this)">
+    <div class="emotion-card f-disgust" data-id="disgust" onclick="toggleEmotion(this)">
       <div class="flower-img f-disgust"></div>
       <p class="emotion-name">Disgust</p><p class="emotion-sub">Sadness</p>
       <button class="add-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add</button>
     </div>
-    <div class="emotion-card" data-id="sadness" onclick="toggleEmotion(this)">
+    <div class="emotion-card f-sadness" data-id="sadness" onclick="toggleEmotion(this)">
       <div class="flower-img f-sadness"></div>
       <p class="emotion-name">Sadness</p><p class="emotion-sub">Withdrawal</p>
       <button class="add-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add</button>
     </div>
-    <div class="emotion-card" data-id="envy" onclick="toggleEmotion(this)">
+    <div class="emotion-card f-envy" data-id="envy" onclick="toggleEmotion(this)">
       <div class="flower-img f-envy"></div>
       <p class="emotion-name">Envy</p><p class="emotion-sub">Social Tension</p>
       <button class="add-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add</button>
     </div>
-    <div class="emotion-card" data-id="contempt" onclick="toggleEmotion(this)">
+    <div class="emotion-card f-contempt" data-id="contempt" onclick="toggleEmotion(this)">
       <div class="flower-img f-contempt"></div>
       <p class="emotion-name">Contempt</p><p class="emotion-sub">Withdrawal</p>
       <button class="add-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add</button>
     </div>
-    <div class="emotion-card" data-id="pride" onclick="toggleEmotion(this)">
+    <div class="emotion-card f-pride" data-id="pride" onclick="toggleEmotion(this)">
       <div class="flower-img f-pride"></div>
       <p class="emotion-name">Pride</p><p class="emotion-sub">Activation</p>
       <button class="add-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add</button>
     </div>
-    <div class="emotion-card" data-id="nostalgia" onclick="toggleEmotion(this)">
+    <div class="emotion-card f-nostalgia" data-id="pride" onclick="toggleEmotion(this)">
       <div class="flower-img f-nostalgia"></div>
       <p class="emotion-name">Nostalgia</p><p class="emotion-sub">Expansiveness</p>
       <button class="add-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add</button>
@@ -327,94 +414,140 @@
     </div>
     <div class="filter-row">
       <button class="filter-pill active" onclick="filterCategory('all',this)">All</button>
-      <button class="filter-pill" onclick="filterCategory('warmth',this)"><span class="dot"></span>Warmth</button>
-      <button class="filter-pill" onclick="filterCategory('social',this)"><span class="dot"></span>Social Tension</button>
-      <button class="filter-pill" onclick="filterCategory('withdrawal',this)"><span class="dot"></span>Withdrawal</button>
-      <button class="filter-pill" onclick="filterCategory('activation',this)"><span class="dot"></span>Activation</button>
+      <!-- WARMTH -->
+      <button class="filter-pill" onclick="filterCategory('warmth',this)" style="display:flex;align-items:center;gap:4px;">
+      <img src="assets/icon_warmth.png" alt="warmth" style="width:20px;height:20px;object-fit:contain;" />
+      Warmth
+      </button>
+      <!-- SOCIAL TENSION -->
+      <button class="filter-pill" onclick="filterCategory('socialtension',this)" style="display:flex;align-items:center;gap:4px;">
+      <img src="assets/icon_socialtension.png" alt="socialtension" style="width:20px;height:20px;object-fit:contain;" />
+      Social Tension
+      </button>
+      <!-- WITHDRAWL -->
+      <button class="filter-pill" onclick="filterCategory('withdrawal',this)" style="display:flex;align-items:center;gap:4px;">
+      <img src="assets/icon_withdrawl.png" alt="withdrawal" style="width:20px;height:20px;object-fit:contain;" />
+      Withdrawal
+      </button>
+      <!-- ACTIVATION -->
+      <button class="filter-pill" onclick="filterCategory('activation',this)" style="display:flex;align-items:center;gap:4px;">
+      <img src="assets/icon_activation.png" alt="activation" style="width:20px;height:20px;object-fit:contain;" />
+      Activation
+      </button>
+      <!-- EXPANSIVENESS -->
+      <button class="filter-pill" onclick="filterCategory('expansiveness',this)" style="display:flex;align-items:center;gap:4px;">
+      <img src="assets/icon_expansiveness.png" alt="Expansiveness" style="width:20px;height:20px;object-fit:contain;" />
+      Expansiveness
+      </button>
+      <!-- TENDERNESS -->
+      <button class="filter-pill" onclick="filterCategory('tenderness',this)" style="display:flex;align-items:center;gap:4px;">
+      <img src="assets/icon_Tenderness.png" alt="Tenderness" style="width:20px;height:20px;object-fit:contain;" />
+      Tenderness
+      </button>
+
+
     </div>
     <div class="modal-body">
       <div class="cat-section" data-cat="warmth">
         <div class="cat-header" onclick="toggleCat(this)">
-          <div class="cat-header-left"><div class="cat-dot" style="background:#F6A952"></div><span class="cat-name">Warmth</span></div>
+          <div class="cat-header-left">
+          <img src="assets/icon_warmth.png" alt="warmth" style="width:30px;height:30px;object-fit:contain;">
+          <span class="cat-name">Warmth</span>
+        </div>
           <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></div>
         </div>
         <div class="cat-grid">
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Comfort</div><div class="mini-sub">Things aren't going my way</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Gratitude</div><div class="mini-sub">On top of the world</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Love</div><div class="mini-sub">Thankful for what I have</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Hope</div><div class="mini-sub">Safe and comfortable</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Supported</div><div class="mini-sub">Looking forward to good</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Safe</div><div class="mini-sub">Soft and caring</div></div></div>
+          <div class="mini-card f-comfort" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-comfort flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Comfort</div><div class="mini-sub">Things aren't going my way</div></div></div>
+          <div class="mini-card f-gratitude" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-gratitude flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Gratitude</div><div class="mini-sub">On top of the world</div></div></div>
+          <div class="mini-card f-love" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-love flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Love</div><div class="mini-sub">Thankful for what I have</div></div></div>
+          <div class="mini-card f-hope" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-hope flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Hope</div><div class="mini-sub">Safe and comfortable</div></div></div>
+          <div class="mini-card f-supported" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-supported flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Supported</div><div class="mini-sub">Looking forward to good</div></div></div>
+          <div class="mini-card f-safe" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-safe flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Safe</div><div class="mini-sub">Soft and caring</div></div></div>
         </div>
       </div>
-      <div class="cat-section" data-cat="social">
+      <div class="cat-section" data-cat="socialtension">
         <div class="cat-header" onclick="toggleCat(this)">
-          <div class="cat-header-left"><div class="cat-dot" style="background:#E91E8C"></div><span class="cat-name">Social Tension</span></div>
+          <div class="cat-header-left">
+          <img src="assets/icon_socialtension.png" alt="socialtention" style="width:30px;height:30px;object-fit:contain;">
+          <span class="cat-name">Social Tension</span>
+        </div>
           <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></div>
         </div>
         <div class="cat-grid">
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Jealosy</div><div class="mini-sub">Worried about what's next</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Resentment</div><div class="mini-sub">Wishing I could disappear</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Shame</div><div class="mini-sub">Wanting what others have</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Guilt</div><div class="mini-sub">Carrying something heavy</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Rejection</div><div class="mini-sub">Holding back a little</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Betrayal</div><div class="mini-sub">Little things adding up</div></div></div>
+          <div class="mini-card f-jealousy" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-jealousy flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Jealosy</div><div class="mini-sub">Worried about what's next</div></div></div>
+          <div class="mini-card f-resentment" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-resentment flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Resentment</div><div class="mini-sub">Wishing I could disappear</div></div></div>
+          <div class="mini-card f-shame" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-shame flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Shame</div><div class="mini-sub">Wanting what others have</div></div></div>
+          <div class="mini-card f-guilt" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-guilt flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Guilt</div><div class="mini-sub">Carrying something heavy</div></div></div>
+          <div class="mini-card f-rejection" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-rejection flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Rejection</div><div class="mini-sub">Holding back a little</div></div></div>
+          <div class="mini-card f-betrayal" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-betrayal flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Betrayal</div><div class="mini-sub">Little things adding up</div></div></div>
         </div>
       </div>
       <div class="cat-section" data-cat="withdrawal">
         <div class="cat-header" onclick="toggleCat(this)">
-          <div class="cat-header-left"><div class="cat-dot" style="background:#2471A3"></div><span class="cat-name">Withdrawal</span></div>
+        <div class="cat-header-left">
+          <img src="assets/icon_withdrawl.png" alt="Withdrawal" style="width:30px;height:30px;object-fit:contain;">
+          <span class="cat-name">Withdrawal</span>
+        </div>
           <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></div>
         </div>
         <div class="cat-grid">
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Loneliness</div><div class="mini-sub">Missing connection</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Disappointment</div><div class="mini-sub">Feeling nothing at all</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Numbness</div><div class="mini-sub">Pulling away from others</div></div></div>
-           <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Insecurity</div><div class="mini-sub">Missing connection</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Boredom</div><div class="mini-sub">Feeling nothing at all</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Overwhelmed</div><div class="mini-sub">Pulling away from others</div></div></div>
+          <div class="mini-card f-loneliness" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-loneliness flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Loneliness</div><div class="mini-sub">Missing connection</div></div></div>
+          <div class="mini-card f-disappointment" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-disappointment flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Disappointment</div><div class="mini-sub">Feeling nothing at all</div></div></div>
+          <div class="mini-card f-numbness" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-numbness flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Numbness</div><div class="mini-sub">Pulling away from others</div></div></div>
+           <div class="mini-card f-insecurity" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-insecurity flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Insecurity</div><div class="mini-sub">Missing connection</div></div></div>
+          <div class="mini-card f-boredom" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-boredom flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Boredom</div><div class="mini-sub">Feeling nothing at all</div></div></div>
+          <div class="mini-card f-overwhelmed" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-overwhelmed flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Overwhelmed</div><div class="mini-sub">Pulling away from others</div></div></div>
         </div>
       </div>
       <div class="cat-section" data-cat="activation">
         <div class="cat-header" onclick="toggleCat(this)">
-          <div class="cat-header-left"><div class="cat-dot" style="background:#922B21"></div><span class="cat-name">Activation</span></div>
+        <div class="cat-header-left">
+          <img src="assets/icon_activation.png" alt="Activation" style="width:30px;height:30px;object-fit:contain;">
+          <span class="cat-name">Activation</span>
+        </div>
           <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></div>
         </div>
         <div class="cat-grid">
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Triumph</div><div class="mini-sub">Buzzing with energy</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Craving</div><div class="mini-sub">Ready to take on the day</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Excitement</div><div class="mini-sub">Focused on a goal</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Determination</div><div class="mini-sub">Feeling fearless</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Confidence</div><div class="mini-sub">Can't sit still</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Inspired</div><div class="mini-sub">Ideas flowing freely</div></div></div>
+          <div class="mini-card f-triumph" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-triumph flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Triumph</div><div class="mini-sub">Buzzing with energy</div></div></div>
+          <div class="mini-card f-craving" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-craving flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Craving</div><div class="mini-sub">Ready to take on the day</div></div></div>
+          <div class="mini-card f-excitement" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-excitement flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Excitement</div><div class="mini-sub">Focused on a goal</div></div></div>
+          <div class="mini-card f-determination" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-determination flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Determination</div><div class="mini-sub">Feeling fearless</div></div></div>
+          <div class="mini-card f-confidence" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-confidence flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Confidence</div><div class="mini-sub">Can't sit still</div></div></div>
+          <div class="mini-card f-inspired" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-inspired flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Inspired</div><div class="mini-sub">Ideas flowing freely</div></div></div>
         </div>
       </div>
       <div class="cat-section" data-cat="expansiveness">
         <div class="cat-header" onclick="toggleCat(this)">
-          <div class="cat-header-left"><div class="cat-dot" style="background:#922B21"></div><span class="cat-name">Expansiveness</span></div>
+        <div class="cat-header-left">
+          <img src="assets/icon_expansiveness.png" alt="Expansiveness" style="width:30px;height:30px;object-fit:contain;">
+          <span class="cat-name">Expansiveness</span>
+        </div>
           <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></div>
         </div>
         <div class="cat-grid">
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Triumph</div><div class="mini-sub">Buzzing with energy</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Craving</div><div class="mini-sub">Ready to take on the day</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Excitement</div><div class="mini-sub">Focused on a goal</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Determination</div><div class="mini-sub">Feeling fearless</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Confidence</div><div class="mini-sub">Can't sit still</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Inspired</div><div class="mini-sub">Ideas flowing freely</div></div></div>
+          <div class="mini-card f-triumph" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-triumph flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Triumph</div><div class="mini-sub">Buzzing with energy</div></div></div>
+          <div class="mini-card f-craving" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-craving flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Craving</div><div class="mini-sub">Ready to take on the day</div></div></div>
+          <div class="mini-card f-excitement" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-excitement flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Excitement</div><div class="mini-sub">Focused on a goal</div></div></div>
+          <div class="mini-card f-determination" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-determination flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Determination</div><div class="mini-sub">Feeling fearless</div></div></div>
+          <div class="mini-card f-confidence" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-confidence flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Confidence</div><div class="mini-sub">Can't sit still</div></div></div>
+          <div class="mini-card f-inspired" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-inspired flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Inspired</div><div class="mini-sub">Ideas flowing freely</div></div></div>
         </div>
       </div>
       <div class="cat-section" data-cat="tenderness">
         <div class="cat-header" onclick="toggleCat(this)">
-          <div class="cat-header-left"><div class="cat-dot" style="background:#922B21"></div><span class="cat-name">Tenderness</span></div>
+        <div class="cat-header-left">
+          <img src="assets/icon_tenderness.png" alt="Tenderness" style="width:30px;height:30px;object-fit:contain;">
+          <span class="cat-name">Tenderness</span>
+        </div>
           <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></div>
         </div>
         <div class="cat-grid">
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Love</div><div class="mini-sub">Buzzing with energy</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Compassion</div><div class="mini-sub">Ready to take on the day</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Admiration</div><div class="mini-sub">Focused on a goal</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Sympathy</div><div class="mini-sub">Feeling fearless</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Empathy</div><div class="mini-sub">Can't sit still</div></div></div>
-          <div class="mini-card" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-red flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Romance</div><div class="mini-sub">Ideas flowing freely</div></div></div>
+          <div class="mini-card f-love" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-love flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Love</div><div class="mini-sub">Buzzing with energy</div></div></div>
+          <div class="mini-card f-compassion" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-compassion flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Compassion</div><div class="mini-sub">Ready to take on the day</div></div></div>
+          <div class="mini-card f-admiration" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-admiration flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Admiration</div><div class="mini-sub">Focused on a goal</div></div></div>
+          <div class="mini-card f-sympathy" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-sympathy flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Sympathy</div><div class="mini-sub">Feeling fearless</div></div></div>
+          <div class="mini-card f-empathy" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-empathy flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Empathy</div><div class="mini-sub">Can't sit still</div></div></div>
+          <div class="mini-card f-romance" onclick="toggleMini(this)"><div class="mini-flower-wrap"><div class="f-romance flower-img" style="width:100%;height:100%;"></div><div class="mini-plus">+</div></div><div class="mini-info"><div class="mini-name">Romance</div><div class="mini-sub">Ideas flowing freely</div></div></div>
         </div>
       </div>
     </div>
@@ -427,7 +560,7 @@
         </div>
         <button class="create-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Create</button>
       </div>
-      <div class="added-strip">
+    <div class="added-strip">
         <span class="added-label" id="addedLabel">0 emotions added</span>
         <div class="added-flowers" id="addedFlowers">
           <div class="added-flower-dot f-anger empty"></div>
@@ -435,7 +568,6 @@
           <div class="added-flower-dot f-anger empty"></div>
           <div class="added-flower-dot f-anger empty"></div>
           <div class="added-flower-dot f-anger empty"></div>
-        </div>
         <button class="done-btn" onclick="closeModal()">Done <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></button>
       </div>
     </div>
@@ -450,12 +582,47 @@
   const ADD_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
   const CHECK_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`;
 
-  function updateConfirmBtn() {
-    const btn = document.getElementById('confirmBtn');
-    const counter = document.getElementById('confirmCounter');
-    counter.textContent = `${added.size} / 5`;
-    btn.classList.toggle('ready', added.size === MAX);
-  }
+function updateConfirmBtn() {
+  const btn = document.getElementById('confirmBtn');
+  const counter = document.getElementById('confirmCounter');
+  counter.textContent = `${added.size} / 5`;
+  btn.classList.toggle('ready', added.size === MAX);
+
+  // update modal label
+  const label = document.getElementById('addedLabel');
+  label.textContent = `${added.size} emotion${added.size === 1 ? '' : 's'} added`;
+
+  // update flower dots
+  const dotsWrap = document.getElementById('addedFlowers');
+  const dots = dotsWrap.querySelectorAll('.added-flower-dot');
+
+  // build a list of colors from the added set
+  const colors = [...added].map(id => {
+    // main grid emotions
+    const mainCard = document.querySelector(`.emotion-card[data-id="${id}"]`);
+    if (mainCard) {
+      const flowerDiv = mainCard.querySelector('.flower-img');
+      const fClass = [...flowerDiv.classList].find(c => c.startsWith('f-') && c !== 'flower-img');
+      return fClass || null;
+    }
+    // mini card emotions — id is 'mini-comfort' etc
+    const fClass = 'f-' + id.replace('mini-', '');
+    return fClass;
+  }).filter(Boolean);
+
+  dots.forEach((dot, i) => {
+    // remove all f- classes
+    [...dot.classList].filter(c => c.startsWith('f-')).forEach(c => dot.classList.remove(c));
+
+    if (i < colors.length) {
+      dot.classList.add(colors[i]);
+      dot.classList.remove('empty');
+    } else {
+      dot.classList.add('f-anger'); // default placeholder
+      dot.classList.add('empty');
+    }
+  });
+}
 
   function handleConfirm() {
     if (added.size < MAX) {
@@ -506,10 +673,27 @@
     poly.setAttribute('points', isHidden ? '18 15 12 9 6 15' : '6 9 12 15 18 9');
   }
 
-  function toggleMini(card) {
-    card.classList.toggle('added');
-    card.querySelector('.mini-plus').textContent = card.classList.contains('added') ? '✓' : '+';
+function toggleMini(card) {
+  const flowerDiv = card.querySelector('.flower-img');
+  // get emotion id from the f-* class
+  const emotionClass = [...flowerDiv.classList].find(c => c.startsWith('f-') && c !== 'flower-img');
+  const id = emotionClass ? 'mini-' + emotionClass.replace('f-', '') : null;
+
+  if (card.classList.contains('added')) {
+    // deselect
+    card.classList.remove('added');
+    card.querySelector('.mini-plus').textContent = '+';
+    if (id) added.delete(id);
+  } else {
+    // select — check max
+    if (added.size >= MAX) return;
+    card.classList.add('added');
+    card.querySelector('.mini-plus').textContent = '✓';
+    if (id) added.add(id);
   }
+
+  updateConfirmBtn();
+}
 
   function filterCategory(cat, pill) {
     document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
