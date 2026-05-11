@@ -99,6 +99,7 @@
     display: flex;
     align-items: center;
     min-height: 500px;
+    touch-action: none;
   }
 
   /* ── Device image — left overflow ── */
@@ -623,8 +624,9 @@ function handleSwipe(diff) {
 }
 
 contentArea.addEventListener('touchstart', (e) => {
+  e.preventDefault();  /* add this */
   touchStartY = e.touches[0].clientY;
-}, { passive: true });
+}, { passive: false });  /* change passive to false */
 
 contentArea.addEventListener('touchend', (e) => {
   const diff = touchStartY - e.changedTouches[0].clientY;
