@@ -270,92 +270,30 @@ try {
 
 </script>
 
+
+<!-- Radial nav -->
 <script>
-/* ── Inlined nav.js ── */
 function initNav(activePage) {
   const style = document.createElement('style');
   style.textContent = `
-    .radial-nav-wrap {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      z-index: 1000;
-      pointer-events: none;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      padding-bottom: 85px;
-    }
-    .radial-scene {
-      position: relative;
-      width: 120px;
-      height: 120px;
-      pointer-events: all;
-      transform: scale(0.6);
-      transform-origin: center bottom;
-    }
-    .r-circle {
-      position: absolute;
-      border-radius: 50%;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: transform .15s, background .15s, box-shadow .15s;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.32);
-    }
-    .r-circle:hover { background: #1a1a1a; box-shadow: 0 6px 24px rgba(0,0,0,0.45); }
-    .r-center {
-      width: 120px; height: 120px;
-      top: 0; left: 0; z-index: 10;
-    }
-    .r-center svg { width: 52%; height: 52%; }
-    .r-orbit {
-      width: 80px; height: 80px;
-      top: 20px; left: 20px;
-      opacity: 0;
-      pointer-events: none;
-      transform: scale(0.4);
-      transition: opacity .22s ease, transform .3s cubic-bezier(.34,1.56,.64,1);
-    }
-    .r-orbit svg { width: 40%; height: 40%; }
-    .radial-scene.open .r-orbit {
-      opacity: 1;
-      pointer-events: all;
-      transform: translate(var(--ox), var(--oy)) scale(1);
-    }
-    .radial-scene.open .r-orbit:nth-child(1) { transition-delay: .02s; }
-    .radial-scene.open .r-orbit:nth-child(2) { transition-delay: .05s; }
-    .radial-scene.open .r-orbit:nth-child(3) { transition-delay: .08s; }
-    .radial-scene.open .r-orbit:nth-child(4) { transition-delay: .11s; }
-    .radial-scene.open .r-orbit:nth-child(5) { transition-delay: .14s; }
-    .r-orbit .r-label {
-      position: absolute;
-      bottom: -22px; left: 50%;
-      transform: translateX(-50%);
-      font-size: 10px; font-weight: 600;
-      color: #333; white-space: nowrap;
-      pointer-events: none; opacity: 0;
-      transition: opacity .15s;
-      font-family: 'Roboto', sans-serif;
-    }
-    .radial-scene.open .r-orbit .r-label { opacity: 1; transition-delay: .2s; }
-    .r-orbit.active-page {
-      background: #222;
-      box-shadow: 0 0 0 3px #77DEF8, 0 4px 18px rgba(0,0,0,0.32);
-    }
-    .toast {
-      position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%);
-      background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 20px;
-      font-size: 14px; font-family: Roboto, sans-serif;
-      opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 9999;
-    }
-    .toast.show { opacity: 1; }
+    .radial-nav-wrap { position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;z-index:1000;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding-bottom:36px; }
+    .radial-scene { position:relative;width:120px;height:120px;pointer-events:all;transform:scale(0.6);transform-origin:center bottom; }
+    .r-circle { position:absolute;border-radius:50%;background:#000;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s,background .15s,box-shadow .15s;box-shadow:0 4px 18px rgba(0,0,0,0.32); }
+    .r-circle:hover { background:#1a1a1a; }
+    .r-center { width:120px;height:120px;top:0;left:0;z-index:10; }
+    .r-center svg { width:52%;height:52%; }
+    .r-orbit { width:80px;height:80px;top:20px;left:20px;opacity:0;pointer-events:none;transform:scale(0.4);transition:opacity .22s ease,transform .3s cubic-bezier(.34,1.56,.64,1); }
+    .r-orbit svg { width:40%;height:40%; }
+    .radial-scene.open .r-orbit { opacity:1;pointer-events:all;transform:translate(var(--ox),var(--oy)) scale(1); }
+    .radial-scene.open .r-orbit:nth-child(1){transition-delay:.02s}
+    .radial-scene.open .r-orbit:nth-child(2){transition-delay:.05s}
+    .radial-scene.open .r-orbit:nth-child(3){transition-delay:.08s}
+    .radial-scene.open .r-orbit:nth-child(4){transition-delay:.11s}
+    .radial-scene.open .r-orbit:nth-child(5){transition-delay:.14s}
+    .r-orbit.active-page { background:#222;box-shadow:0 0 0 3px #77DEF8,0 4px 18px rgba(0,0,0,0.32); }
+    .toast { position:fixed;bottom:120px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:10px 20px;border-radius:20px;font-size:14px;font-family:'Roboto',sans-serif;opacity:0;pointer-events:none;transition:opacity 0.3s;z-index:9999; }
+    .toast.show { opacity:1; }
   `;
-  
   document.head.appendChild(style);
   const wrap = document.createElement('div');
   wrap.className = 'radial-nav-wrap';
@@ -388,49 +326,6 @@ function initNav(activePage) {
   centerBtn.addEventListener('click', e => { e.stopPropagation(); open = !open; scene.classList.toggle('open', open); });
   document.addEventListener('click', e => { if (open && !scene.contains(e.target)) { open = false; scene.classList.remove('open'); } });
 }
-
-function editDeviceName() {
-  const nameEl = document.getElementById('device-name-text');
-  const current = nameEl.textContent;
-  const input = document.createElement('input');
-  input.value = current;
-  input.style.cssText = `
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 24px;
-    font-weight: 900;
-    color: #1a1a1a;
-    border: none;
-    border-bottom: 2px solid #1a1a1a;
-    outline: none;
-    background: transparent;
-    width: 180px;
-  `;
-  nameEl.replaceWith(input);
-  input.focus();
-  input.select();
-
-  function save() {
-    const newName = input.value.trim() || current;
-    const span = document.createElement('span');
-    span.className = 'device-name';
-    span.id = 'device-name-text';
-    span.textContent = newName;
-    input.replaceWith(span);
-    localStorage.setItem('feel_device_name', newName);
-  }
-
-  input.addEventListener('blur', save);
-  input.addEventListener('keydown', e => { if (e.key === 'Enter') input.blur(); });
-}
-
-// Load saved name on page load
-const saved = localStorage.getItem('feel_device_name');
-if (saved) document.getElementById('device-name-text').textContent = saved;
-
-
-</script>
-<script src="nav.js"></script>
-<script>
 initNav('emotions');
 </script>
 
