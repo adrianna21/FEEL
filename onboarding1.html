@@ -285,9 +285,23 @@
     checkFormComplete();
   });
 
-  function saveAndContinue() {
-    const name = document.getElementById('name-input').value.trim();
-    if (name) localStorage.setItem('userName', name);
+ function saveAndContinue() {
+    const name     = document.getElementById('name-input').value.trim();
+    const pronouns = document.getElementById('pronoun-select').value;
+    const month    = parseInt(document.getElementById('dob-month').value);
+    const day      = parseInt(document.getElementById('dob-day').value);
+    const year     = parseInt(document.getElementById('dob-year').value);
+
+    if (name)     localStorage.setItem('userName', name);
+    if (pronouns) localStorage.setItem('userPronouns', pronouns);
+
+    if (month && day && year) {
+      const today = new Date();
+      let age = today.getFullYear() - year;
+      if (today.getMonth() + 1 < month || (today.getMonth() + 1 === month && today.getDate() < day)) age--;
+      localStorage.setItem('userAge', age);
+    }
+
     window.location.href = 'onboarding2.html';
   }
 

@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  html, body { min-height: 100%; }
+  html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
 
   body {
     font-family: 'Nunito Sans', sans-serif;
@@ -17,6 +17,7 @@
     background-image: url('assets/JournalGradientBackground.png');
     background-size: cover;
     padding-bottom: 120px;
+    overflow: hidden;
   }
 
   /* ── GRADIENT HEADER ── */
@@ -76,14 +77,15 @@
   }
 
   /* ── WHITE CONTENT SHEET ── */
-  .sheet {
-    background: #fff;
-    border-radius: 50px 50px 0 0;
-    margin-top: 0px;
-    padding: 28px 0 0;
-    min-height: calc(100vh - 300px);
-    z-index: 2;
-  }
+    .sheet {
+        background: #fff;
+        border-radius: 50px 50px 0 0;
+        margin-top: 0px;
+        padding: 28px 0 0;
+        height: calc(100vh - 300px);
+        overflow-y: auto;
+        z-index: 2;
+      }
 
   /* ── SETTINGS LIST ── */
   .settings-list {
@@ -169,8 +171,8 @@
     </div>
   </div>
 
-  <div class="profile-name">Isabella</div>
-  <div class="profile-sub">18 years old | She/Her</div>
+  <div class="profile-name" id="profile-name">Isabella</div>
+  <div class="profile-sub" id="profile-sub">18 years old | She/Her</div>
 </div>
 
 <!-- CONTENT SHEET -->
@@ -248,6 +250,19 @@
     Copyright ©2026 Frequent Emotional Experience Logger, Inc. All rights reserved.
   </div>
 </div>
+
+<script>
+  const name     = localStorage.getItem('userName');
+  const pronouns = localStorage.getItem('userPronouns');
+  const age      = localStorage.getItem('userAge');
+
+  if (name) document.getElementById('profile-name').textContent = name;
+
+  const parts = [];
+  if (age)      parts.push(age + ' years old');
+  if (pronouns) parts.push(pronouns);
+  if (parts.length) document.getElementById('profile-sub').textContent = parts.join(' | ');
+</script>
 
 <!-- Radial nav -->
 <script>
