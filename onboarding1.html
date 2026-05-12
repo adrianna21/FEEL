@@ -9,32 +9,27 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --purple:     #7c5cbf;
+      --purple:       #7c5cbf;
       --purple-light: #a07de0;
-      --purple-bg:  #ede9f8;
-      --bg:         #eef1fb;
-      --card-bg:    #ffffff;
-      --text-dark:  #1a1a2e;
-      --text-mid:   #555577;
-      --text-soft:  #9999bb;
-      --orange:     #f5a623;
-      --orange-bg:  #fef3e2;
-      --teal-bg:    #e0f5f5;
-      --progress-h: clamp(6px, 0.5vw, 10px);
-      --radius-card: clamp(16px, 1.5vw, 24px);
-      --radius-btn:  clamp(20px, 2vw, 40px);
+      --purple-bg:    #ede9f8;
+      --bg:           #eef1fb;
+      --card-bg:      #ffffff;
+      --text-dark:    #1a1a2e;
+      --text-mid:     #555577;
+      --text-soft:    #9999bb;
+      --orange:       #f5a623;
+      --progress-h:   clamp(6px, 0.5vw, 10px);
+      --radius-card:  clamp(16px, 1.5vw, 24px);
+      --radius-btn:   clamp(20px, 2vw, 40px);
     }
 
     html, body {
       height: 100%;
       background: #d8daf0;
       font-family: 'Roboto', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
     }
 
-    /* ── Outer shell ── */
     .shell {
       width: min(100vw, 820px);
       min-height: 100vh;
@@ -46,280 +41,99 @@
     }
 
     /* ── Decorative blobs ── */
-    .blob {
-      position: absolute;
-      border-radius: 50%;
-      pointer-events: none;
-    }
-    .blob-pink   { width: clamp(90px,14vw,180px); height: clamp(90px,14vw,180px); border: clamp(5px,0.6vw,9px) solid #f4b8c8; top: clamp(120px,18%,220px); left: clamp(-60px,-8vw,-30px); background: transparent; z-index: 0; }
-    .blob-gold   { width: clamp(80px,12vw,150px); height: clamp(80px,12vw,150px); border: clamp(5px,0.6vw,9px) solid #f5d78e; top: clamp(30px,4%,60px); right: clamp(-50px,-7vw,-20px); background: transparent; z-index: 0; }
-    .blob-teal   { width: clamp(80px,12vw,150px); height: clamp(80px,12vw,150px); background: #b2e8e8; border-radius: 50%; bottom: clamp(120px,14%,200px); right: clamp(-50px,-7vw,-20px); opacity: .55; z-index: 0; }
-    .blob-purple { width: clamp(100px,16vw,200px); height: clamp(100px,16vw,200px); background: #c8b8f0; border-radius: 50%; bottom: clamp(-60px,-8vw,-30px); left: clamp(-60px,-8vw,-30px); opacity: .45; z-index: 0; }
+    .blob { position:absolute; border-radius:50%; pointer-events:none; }
+    .blob-pink   { width:clamp(90px,14vw,180px); height:clamp(90px,14vw,180px); border:clamp(5px,0.6vw,9px) solid #f4b8c8; top:clamp(120px,18%,220px); left:clamp(-60px,-8vw,-30px); background:transparent; z-index:0; }
+    .blob-gold   { width:clamp(80px,12vw,150px); height:clamp(80px,12vw,150px); border:clamp(5px,0.6vw,9px) solid #f5d78e; top:clamp(30px,4%,60px); right:clamp(-50px,-7vw,-20px); background:transparent; z-index:0; }
+    .blob-teal   { width:clamp(80px,12vw,150px); height:clamp(80px,12vw,150px); background:#b2e8e8; bottom:clamp(120px,14%,200px); right:clamp(-50px,-7vw,-20px); opacity:.55; z-index:0; }
+    .blob-purple { width:clamp(100px,16vw,200px); height:clamp(100px,16vw,200px); background:#c8b8f0; bottom:clamp(-60px,-8vw,-30px); left:clamp(-60px,-8vw,-30px); opacity:.45; z-index:0; }
 
     /* ── Top bar ── */
-    .topbar {
-      display: flex;
-      align-items: center;
-      gap: clamp(10px,1.5vw,20px);
-      padding: clamp(16px,2.5vw,32px) clamp(20px,3vw,40px) clamp(10px,1.5vw,20px);
-    }
-    .back-btn {
-      width: clamp(36px,5vw,56px);
-      height: clamp(36px,5vw,56px);
-      border-radius: 50%;
-      background: var(--card-bg);
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,.10);
-      flex-shrink: 0;
-    }
-    .back-btn svg { width: clamp(14px,2vw,22px); height: clamp(14px,2vw,22px); }
-
-    .progress-wrap {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: clamp(8px,1vw,14px);
-    }
-    .progress-track {
-      flex: 1;
-      height: var(--progress-h);
-      background: #d5d5e8;
-      border-radius: 100px;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      width: 20%;
-      background: var(--purple);
-      border-radius: 100px;
-    }
-    .progress-label {
-      font-family: 'Nunito', sans-serif;
-      font-weight: 700;
-      font-size: clamp(13px,1.4vw,18px);
-      color: var(--purple);
-      white-space: nowrap;
-    }
+    .topbar { display:flex; align-items:center; gap:clamp(10px,1.5vw,20px); padding:clamp(16px,2.5vw,32px) clamp(20px,3vw,40px) clamp(10px,1.5vw,20px); }
+    .back-btn { width:clamp(36px,5vw,56px); height:clamp(36px,5vw,56px); border-radius:50%; background:var(--card-bg); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,.10); flex-shrink:0; }
+    .back-btn svg { width:clamp(14px,2vw,22px); height:clamp(14px,2vw,22px); }
+    .progress-wrap { flex:1; display:flex; align-items:center; gap:clamp(8px,1vw,14px); }
+    .progress-track { flex:1; height:var(--progress-h); background:#d5d5e8; border-radius:100px; overflow:hidden; }
+    .progress-fill { height:100%; width:20%; background:var(--purple); border-radius:100px; }
+    .progress-label { font-family:'Nunito',sans-serif; font-weight:700; font-size:clamp(15px,1.6vw,22px); color:var(--purple); white-space:nowrap; }
 
     /* ── Hero section ── */
-    .hero {
-      position: relative;
-      padding: clamp(12px,1.5vw,24px) clamp(20px,3vw,40px) 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .step-label {
-      font-family: 'Nunito', sans-serif;
-      font-weight: 800;
-      font-size: clamp(16px,2.2vw,28px);
-      color: var(--purple-light);
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      margin-bottom: clamp(2px,0.3vw,6px);
-    }
-    .step-title {
-      font-family: 'Nunito', sans-serif;
-      font-weight: 800;
-      font-size: clamp(28px,4.5vw,58px);
-      color: var(--text-dark);
-      margin-bottom: clamp(4px,0.5vw,10px);
-      text-align: center;
-    }
-    .step-sub {
-      font-family: 'Roboto', sans-serif;
-      font-weight: 400;
-      font-size: clamp(13px,1.5vw,20px);
-      color: var(--text-mid);
-      text-align: center;
-    }
+    .hero { position:relative; padding:clamp(12px,1.5vw,24px) clamp(20px,3vw,40px) 0; display:flex; flex-direction:column; align-items:center; }
+
+    .step-label { font-family:'Nunito',sans-serif; font-weight:800; font-size:clamp(16px,2.4vw,32px); color:var(--purple-light); letter-spacing:.12em; text-transform:uppercase; margin-bottom:clamp(2px,0.3vw,6px); }
+    .step-title  { font-family:'Nunito',sans-serif; font-weight:800; font-size:clamp(32px,5.5vw,68px); color:var(--text-dark); margin-bottom:clamp(4px,0.5vw,10px); text-align:center; }
+    .step-sub    { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(15px,1.8vw,23px); color:var(--text-mid); text-align:center; }
 
     /* ── Mascot ── */
-    .mascot-wrap {
-      position: absolute;
-      right: clamp(16px,3vw,48px);
-      top: clamp(-10px,-1vw,0px);
-      width: clamp(120px,18vw,240px);
-      pointer-events: none;
-      z-index: 2;
-    }
-    .mascot-wrap img {
-      width: 100%;
-      height: auto;
-      display: block;
-      filter: drop-shadow(0 8px 18px rgba(120,80,200,.25));
-    }
-
+    .mascot-wrap { position:absolute; right:clamp(16px,3vw,48px); top:clamp(-10px,-1vw,0px); width:clamp(130px,20vw,260px); pointer-events:none; z-index:2; }
+    .mascot-wrap img { width:100%; height:auto; display:block; filter:drop-shadow(0 8px 18px rgba(120,80,200,.25)); }
 
     /* ── Cards section ── */
-    .cards {
-      padding: clamp(20px,2.5vw,40px) clamp(20px,3vw,40px);
-      display: flex;
-      flex-direction: column;
-      gap: clamp(12px,1.5vw,22px);
-      z-index: 1;
-      position: relative;
-    }
+    .cards { padding:clamp(20px,2.5vw,40px) clamp(20px,3vw,40px); display:flex; flex-direction:column; gap:clamp(14px,1.8vw,26px); z-index:1; position:relative; }
 
-      .card {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        padding: 16px 20px;
-        background: #fff;
-        border-radius: 16px;
-        border: 1px solid #e8eaf0;
-      }
+    .card { display:flex; align-items:center; gap:clamp(14px,1.8vw,24px); padding:clamp(16px,2vw,28px) clamp(18px,2.2vw,30px); background:#fff; border-radius:clamp(16px,2vw,26px); border:1px solid #e8eaf0; }
 
-    .card-icon {
-      width: clamp(48px,7vw,90px);
-      height: clamp(48px,7vw,90px);
-      border-radius: clamp(12px,1.4vw,20px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
+    .card-icon { width:clamp(56px,8vw,100px); height:clamp(56px,8vw,100px); border-radius:clamp(12px,1.4vw,20px); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .card-icon img { width:70%; height:70%; object-fit:contain; }
 
-    .card-body { flex: 1; }
-    
-    .card-label {
-      font-family: 'Nunito', sans-serif;
-      font-weight: 700;
-      font-size: clamp(15px,1.8vw,24px);
-      color: var(--text-dark);
-      margin-bottom: clamp(3px,0.4vw,7px);
-    }
+    .card-body { flex:1; }
+    .card-label { font-family:'Nunito',sans-serif; font-weight:700; font-size:clamp(16px,2vw,26px); color:var(--text-dark); margin-bottom:clamp(4px,0.5vw,8px); }
     .card-input {
-      font-family: 'Roboto', sans-serif;
-      font-weight: 400;
-      font-size: clamp(12px,1.4vw,18px);
-      color: var(--text-soft);
-      border: none;
-      outline: none;
-      background: transparent;
-      width: 100%;
+      font-family:'Roboto',sans-serif; font-weight:400;
+      font-size:clamp(14px,1.6vw,21px); color:var(--text-soft);
+      border:none; outline:none; background:transparent; width:100%;
     }
-    .card-input::placeholder { color: var(--text-soft); }
+    .card-input::placeholder { color:var(--text-soft); }
 
-    .card-action {
-      color: var(--text-soft);
-      flex-shrink: 0;
-    }
-    .card-action svg { width: clamp(18px,2vw,28px); height: clamp(18px,2vw,28px); }
+    .card-sublabel { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(13px,1.5vw,19px); color:var(--text-soft); margin:0; }
+
+    .card-action { color:var(--text-soft); flex-shrink:0; }
+    .card-action svg { width:clamp(20px,2.4vw,32px); height:clamp(20px,2.4vw,32px); }
 
     /* Pronoun select */
-    .card-select {
-      font-family: 'Roboto', sans-serif;
-      font-weight: 400;
-      font-size: clamp(12px,1.4vw,18px);
-      color: var(--text-soft);
-      border: none;
-      outline: none;
-      background: transparent;
-      width: 100%;
-      cursor: pointer;
-      appearance: none;
-    }
+    .card-select { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(14px,1.6vw,21px); color:var(--text-soft); border:none; outline:none; background:transparent; width:100%; cursor:pointer; appearance:none; }
 
-      .card-sublabel {
-      font-size: 0.9rem;
-      color: #aaa;
-      margin: 0;
-      font-size: clamp(12px, 1.4vw, 18px);
-      color: var(--text-soft);
-  }
-
-      .dob-selects {
-      display: flex;
-      gap: 6px;
-      flex-shrink: 0; /* prevents dropdowns from squishing */
-    }
-
+    /* DOB dropdowns */
+    .dob-selects { display:flex; gap:clamp(6px,0.8vw,12px); flex-shrink:0; }
     .dob-selects select {
-  padding: 8px 28px 8px 10px;
-  border-radius: 10px;
-  border: 1px solid #d0d4dc;
-  font-size: 0.9rem;
-  color: #333;
-  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 8px center;
-  appearance: none;
-  -webkit-appearance: none;
-  cursor: pointer;
-}
-
-.dob-selects select:focus {
-  outline: none;
-  border-color: #6bb5d6;
-  box-shadow: 0 0 0 3px rgba(107, 181, 214, 0.15);
-}
+      padding:clamp(8px,1vw,14px) clamp(28px,3.5vw,46px) clamp(8px,1vw,14px) clamp(10px,1.2vw,16px);
+      border-radius:clamp(10px,1.2vw,16px);
+      border:1px solid #d0d4dc;
+      font-size:clamp(13px,1.5vw,19px);
+      color:#333;
+      background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 10px center;
+      appearance:none; -webkit-appearance:none; cursor:pointer;
+    }
+    .dob-selects select:focus { outline:none; border-color:#6bb5d6; box-shadow:0 0 0 3px rgba(107,181,214,.15); }
 
     /* ── CTA ── */
-    .cta-wrap {
-      padding: clamp(10px,1.5vw,20px) clamp(20px,3vw,40px) clamp(8px,1vw,14px);
-    }
+    .cta-wrap { padding:clamp(10px,1.5vw,20px) clamp(20px,3vw,40px) clamp(8px,1vw,14px); }
     .cta-btn {
-      width: 100%;
-      padding: clamp(16px,2.2vw,28px);
-      background: #111;
-      color: #fff;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 800;
-      font-size: clamp(17px,2.2vw,28px);
-      border: none;
-      border-radius: var(--radius-btn);
-      cursor: pointer;
-      letter-spacing: .03em;
-      transition: background .2s, transform .12s;
+      width:100%; padding:clamp(18px,2.6vw,32px);
+      background:#111; color:#fff;
+      font-family:'Nunito',sans-serif; font-weight:800;
+      font-size:clamp(20px,2.8vw,36px);
+      border:none; border-radius:var(--radius-btn);
+      cursor:pointer; letter-spacing:.03em;
+      transition:background .2s, transform .12s;
     }
-    .cta-btn:hover  { background: #2a2a2a; }
-    .cta-btn:active { transform: scale(.98); }
+    .cta-btn:hover  { background:#2a2a2a; }
+    .cta-btn:active { transform:scale(.98); }
+    .cta-btn:disabled { opacity:.4; cursor:not-allowed; pointer-events:none; }
 
-    .cta-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    pointer-events: none;
-  }
+    .cta-note { text-align:center; font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(13px,1.4vw,19px); color:var(--text-soft); padding:clamp(8px,1vw,14px) 0 clamp(16px,2vw,28px); }
 
-    .cta-note {
-      text-align: center;
-      font-family: 'Roboto', sans-serif;
-      font-weight: 400;
-      font-size: clamp(11px,1.2vw,16px);
-      color: var(--text-soft);
-      padding: clamp(8px,1vw,14px) 0 clamp(16px,2vw,28px);
-    }
-
-    /* ── Responsive: hero row layout on wide screens ── */
-    @media (min-width: 600px) {
-      .hero-text {
-        text-align: center;
-        width: 100%;
-      }
-    }
-
-    @media (max-width: 420px) {
-      .mascot-wrap { width: 100px; right: 10px; }
-    }
-
+    @media (max-width:420px) { .mascot-wrap { width:100px; right:10px; } }
   </style>
 </head>
 <body>
 
-
 <div class="shell">
 
-  <!-- Decorative blobs -->
   <div class="blob blob-pink"></div>
   <div class="blob blob-gold"></div>
   <div class="blob blob-teal"></div>
   <div class="blob blob-purple"></div>
 
-  <!-- Top bar -->
   <div class="topbar">
     <button class="back-btn" onclick="window.location.href='index.html'" aria-label="Go back">
       <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -327,30 +141,15 @@
       </svg>
     </button>
     <div class="progress-wrap">
-      <div class="progress-track">
-        <div class="progress-fill"></div>
-      </div>
+      <div class="progress-track"><div class="progress-fill"></div></div>
       <span class="progress-label">1/5</span>
     </div>
   </div>
 
-  <!-- Hero -->
   <div class="hero">
-    <!-- Mascot positioned top-right of hero -->
     <div class="mascot-wrap" aria-hidden="true">
       <img src="assets/purpleflower1.png" alt="Purple flower mascot" />
-      <div class="mascot-legs">
-        <div>
-          <div class="leg"></div>
-          <div class="foot"></div>
-        </div>
-        <div>
-          <div class="leg"></div>
-          <div class="foot"></div>
-        </div>
-      </div>
     </div>
-
     <div class="hero-text">
       <p class="step-label">Step 1</p>
       <h1 class="step-title">Welcome</h1>
@@ -358,180 +157,158 @@
     </div>
   </div>
 
-  <!-- Cards -->
   <div class="cards">
 
     <!-- Name -->
     <div class="card">
-      <div class="card-icon orange">
-        <img src="assets/name_icon.png" style="width:50px;height:50px;object-fit:contain;" />
+      <div class="card-icon">
+        <img src="assets/name_icon.png" />
       </div>
       <div class="card-body">
         <p class="card-label">What should we call you?</p>
-          <input class="card-input" type="text" placeholder="Your name...." id="name-input" />      </div>
+        <input class="card-input" type="text" placeholder="Your name...." id="name-input" />
+      </div>
     </div>
 
-  <!-- Pronouns -->
-<div class="card">
-  <div class="card-icon violet">
-    <img src="assets/pronouns_icon.png" style="width:50px;height:50px;object-fit:contain;" />
-  </div>
-  <div class="card-body">
-    <p class="card-label">What are your pronouns?</p>
-    <p class="card-sublabel" id="pronoun-sublabel" style="display:none;"></p>
-  </div>
-  <div class="card-action" style="position:relative;">
-    <select id="pronoun-select" style="position:absolute; inset:0; opacity:0; cursor:pointer;">
-      <option value="" disabled selected>Your pronouns</option>
-      <option>she/her</option>
-      <option>he/him</option>
-      <option>they/them</option>
-      <option>she/they</option>
-      <option>he/they</option>
-      <option>prefer not to say</option>
-    </select>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="6 9 12 15 18 9"/>
-    </svg>
-  </div>
-</div>
+    <!-- Pronouns -->
+    <div class="card">
+      <div class="card-icon">
+        <img src="assets/pronouns_icon.png" />
+      </div>
+      <div class="card-body">
+        <p class="card-label">What are your pronouns?</p>
+        <p class="card-sublabel" id="pronoun-sublabel" style="display:none;"></p>
+      </div>
+      <div class="card-action" style="position:relative;">
+        <select id="pronoun-select" style="position:absolute; inset:0; opacity:0; cursor:pointer;">
+          <option value="" disabled selected>Your pronouns</option>
+          <option>she/her</option>
+          <option>he/him</option>
+          <option>they/them</option>
+          <option>she/they</option>
+          <option>he/they</option>
+          <option>prefer not to say</option>
+        </select>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+    </div>
 
     <!-- Birthday -->
     <div class="card">
-      <div class="card-icon teal">
-        <img src="assets/calendar_blue.png" style="width:50px;height:50px;object-fit:contain;" />
+      <div class="card-icon">
+        <img src="assets/calendar_blue.png" />
       </div>
       <div class="card-body">
-        <p class="card-label" style="font-weight:700; font: size 15px;; color: var(--text-primary);">When is your birthday?</p>
+        <p class="card-label">When is your birthday?</p>
         <p class="card-sublabel" id="dob-sublabel" style="display:none;"></p>
       </div>
       <div class="dob-selects">
-        <select id="dob-month" aria-label="Month">
-          <option value="" disabled selected>MM</option>
-        </select>
-        <select id="dob-day" aria-label="Day">
-          <option value="" disabled selected>DD</option>
-        </select>
-        <select id="dob-year" aria-label="Year">
-          <option value="" disabled selected>YYYY</option>
-        </select>
+        <select id="dob-month" aria-label="Month"><option value="" disabled selected>MM</option></select>
+        <select id="dob-day"   aria-label="Day">  <option value="" disabled selected>DD</option></select>
+        <select id="dob-year"  aria-label="Year"> <option value="" disabled selected>YYYY</option></select>
       </div>
     </div>
 
-  <!-- CTA -->
+  </div>
 
   <div class="cta-wrap">
-  <button class="cta-btn" id="begin-btn" onclick="saveAndContinue()" disabled>Begin</button>
-</div>
+    <button class="cta-btn" id="begin-btn" onclick="saveAndContinue()" disabled>Begin</button>
+    <p class="cta-note">Your info is private and never shared.</p>
+  </div>
 
 </div>
 
- <script>
+<script>
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const monthSel = document.getElementById('dob-month');
+  const daySel   = document.getElementById('dob-day');
+  const yearSel  = document.getElementById('dob-year');
 
-document.getElementById('name-input').addEventListener('input', (e) => {
-  localStorage.setItem('userName', e.target.value.trim());
-});
+  months.forEach((m, i) => {
+    const o = document.createElement('option');
+    o.value = i + 1; o.textContent = m;
+    monthSel.appendChild(o);
+  });
 
-    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-    const monthSel = document.getElementById('dob-month');
-    const daySel = document.getElementById('dob-day');
-    const yearSel = document.getElementById('dob-year');
-
-    months.forEach((m, i) => {
+  function populateDays(max) {
+    const prev = daySel.value;
+    daySel.innerHTML = '<option value="" disabled>Day</option>';
+    for (let d = 1; d <= max; d++) {
       const o = document.createElement('option');
-      o.value = i + 1;
-      o.textContent = m;
-      monthSel.appendChild(o);
-    });
-
-    function populateDays(max) {
-      const prev = daySel.value;
-      daySel.innerHTML = '<option value="" disabled>Day</option>';
-      for (let d = 1; d <= max; d++) {
-        const o = document.createElement('option');
-        o.value = d;
-        o.textContent = String(d).padStart(2, '0');
-        daySel.appendChild(o);
-      }
-      if (prev && parseInt(prev) <= max) daySel.value = prev;
+      o.value = d; o.textContent = String(d).padStart(2, '0');
+      daySel.appendChild(o);
     }
+    if (prev && parseInt(prev) <= max) daySel.value = prev;
+  }
 
-    function getDaysInMonth() {
-      const m = parseInt(monthSel.value);
-      const y = parseInt(yearSel.value) || 2000;
-      return m ? new Date(y, m, 0).getDate() : 31;
+  function getDaysInMonth() {
+    const m = parseInt(monthSel.value);
+    const y = parseInt(yearSel.value) || 2000;
+    return m ? new Date(y, m, 0).getDate() : 31;
+  }
+
+  populateDays(31);
+
+  const currentYear = new Date().getFullYear();
+  for (let y = currentYear; y >= currentYear - 120; y--) {
+    const o = document.createElement('option');
+    o.value = y; o.textContent = y;
+    yearSel.appendChild(o);
+  }
+
+  monthSel.addEventListener('change', () => { populateDays(getDaysInMonth()); updateDobSublabel(); });
+  yearSel.addEventListener('change',  () => { populateDays(getDaysInMonth()); updateDobSublabel(); });
+
+  function formatOrdinal(d) {
+    const s = ["th","st","nd","rd"];
+    const v = d % 100;
+    return d + (s[(v - 20) % 10] || s[v] || s[0]);
+  }
+
+  function updateDobSublabel() {
+    const m = monthSel.value, d = daySel.value, y = yearSel.value;
+    if (m && d && y) {
+      document.getElementById('dob-sublabel').textContent = `${months[parseInt(m)-1]} ${formatOrdinal(parseInt(d))}, ${y}`;
+      document.getElementById('dob-sublabel').style.display = 'block';
     }
+  }
 
-    populateDays(31);
+  daySel.addEventListener('change', updateDobSublabel);
 
-    const currentYear = new Date().getFullYear();
-    for (let y = currentYear; y >= currentYear - 120; y--) {
-      const o = document.createElement('option');
-      o.value = y;
-      o.textContent = y;
-      yearSel.appendChild(o);
-    }
+  const pronounSelect   = document.getElementById('pronoun-select');
+  const pronounSublabel = document.getElementById('pronoun-sublabel');
+  pronounSelect.addEventListener('change', () => {
+    pronounSublabel.textContent = pronounSelect.value;
+    pronounSublabel.style.display = 'block';
+    checkFormComplete();
+  });
 
-    monthSel.addEventListener('change', () => populateDays(getDaysInMonth()));
-    yearSel.addEventListener('change', () => populateDays(getDaysInMonth()));    
-    
-    function formatOrdinal(d) {
-      const s = ["th","st","nd","rd"];
-      const v = d % 100;
-      return d + (s[(v - 20) % 10] || s[v] || s[0]);
-    }
+  function saveAndContinue() {
+    const name = document.getElementById('name-input').value.trim();
+    if (name) localStorage.setItem('userName', name);
+    window.location.href = 'onboarding2.html';
+  }
 
-    function updateDobSublabel() {
-      const m = monthSel.value;
-      const d = daySel.value;
-      const y = yearSel.value;
+  function checkFormComplete() {
+    const name     = document.getElementById('name-input').value.trim();
+    const pronouns = document.getElementById('pronoun-select').value;
+    const month    = document.getElementById('dob-month').value;
+    const day      = document.getElementById('dob-day').value;
+    const year     = document.getElementById('dob-year').value;
+    document.getElementById('begin-btn').disabled = !(name && pronouns && month && day && year);
+  }
 
-      if (m && d && y) {
-        const monthName = months[parseInt(m) - 1]; // reuses your existing months array
-        document.getElementById('dob-sublabel').textContent = `${monthName} ${formatOrdinal(parseInt(d))}, ${y}`;
-        document.getElementById('dob-sublabel').style.display = 'block';
-      }
-    }
+  document.getElementById('name-input').addEventListener('input', () => {
+    localStorage.setItem('userName', document.getElementById('name-input').value.trim());
+    checkFormComplete();
+  });
+  document.getElementById('pronoun-select').addEventListener('change', checkFormComplete);
+  document.getElementById('dob-month').addEventListener('change', checkFormComplete);
+  document.getElementById('dob-day').addEventListener('change', checkFormComplete);
+  document.getElementById('dob-year').addEventListener('change', checkFormComplete);
+</script>
 
-    monthSel.addEventListener('change', updateDobSublabel);
-    daySel.addEventListener('change', updateDobSublabel);
-    yearSel.addEventListener('change', updateDobSublabel);
-
-    const pronounSelect = document.getElementById('pronoun-select');
-    const pronounSublabel = document.getElementById('pronoun-sublabel');
-
-    pronounSelect.addEventListener('change', () => {
-      pronounSublabel.textContent = pronounSelect.value;
-      pronounSublabel.style.display = 'block';
-    });
-
-    function saveAndContinue() {
-  const name = document.getElementById('name-input').value.trim();
-  if (name) localStorage.setItem('userName', name);
-  window.location.href = 'onboarding2.html';
-}
-function checkFormComplete() {
-  const name = document.getElementById('name-input').value.trim();
-  const pronouns = document.getElementById('pronoun-select').value;
-  const month = document.getElementById('dob-month').value;
-  const day = document.getElementById('dob-day').value;
-  const year = document.getElementById('dob-year').value;
-
-  const isComplete = name && pronouns && month && day && year;
-  document.getElementById('begin-btn').disabled = !isComplete;
-}
-
-// Attach to all fields
-document.getElementById('name-input').addEventListener('input', () => {
-  localStorage.setItem('userName', document.getElementById('name-input').value.trim());
-  checkFormComplete();
-});
-
-document.getElementById('pronoun-select').addEventListener('change', checkFormComplete);
-document.getElementById('dob-month').addEventListener('change', checkFormComplete);
-document.getElementById('dob-day').addEventListener('change', checkFormComplete);
-document.getElementById('dob-year').addEventListener('change', checkFormComplete);
-    </script>
-    
 </body>
 </html>

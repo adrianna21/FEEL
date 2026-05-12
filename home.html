@@ -35,7 +35,6 @@
     padding-bottom: 60%;
   }
 
-  /* Background gradient image overlay */
   body::before {
     content: '';
     position: fixed;
@@ -49,7 +48,6 @@
     pointer-events: none;
   }
 
-  /* Everything sits above the bg — full viewport flex column */
   .page-content {
     position: relative;
     z-index: 1;
@@ -57,7 +55,6 @@
     display: flex;
     flex-direction: column;
     padding-bottom: 80%;
-
   }
 
   /* ── Header ── */
@@ -73,418 +70,177 @@
     position: relative;
   }
 
-  .header-left {
-    position: relative;
-    z-index: 1;
-    flex: 1;
-  }
-
+  .header-left { position: relative; z-index: 1; flex: 1; }
 
   .greeting-line {
-    font-size: 40px;
-    font-weight: 700;
+    font-size: 40px; font-weight: 700;
     font-family: Nunito, sans-serif;
-    color: #ffff;
-    margin-bottom: 0px;
-    letter-spacing: 0.3px;
+    color: #fff; margin-bottom: 0; letter-spacing: 0.3px;
   }
 
   .header-name {
-   font-family: Nunito, sans-serif;
+    font-family: Nunito, sans-serif;
     font-size: clamp(80px, 5vh, 60px);
-    font-weight: 900;
-    font-style: italic;
-    line-height: 1;
-    margin-bottom: 0px;
-    /* Gradient text */
+    font-weight: 900; font-style: italic; line-height: 1; margin-bottom: 0;
     background: var(--card-bg);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   }
 
   .header-insight {
     font-family: 'Roboto', sans-serif;
-    font-size: 20px;
-    font-weight: 400;
-    color: #ffffff;
-    line-height: 1.55;
-    max-width: 290px;
+    font-size: 20px; font-weight: 400;
+    color: #fff; line-height: 1.55; max-width: 290px;
   }
 
   .emotion-chip {
-    display: inline-block;
-    padding: 1px 8px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #ffffff;
-    margin: 0 1px;
+    display: inline-block; padding: 1px 8px;
+    border-radius: 20px; font-size: 13px; font-weight: 600;
+    color: #fff; margin: 0 1px;
   }
 
   .header-mascot {
     padding: 20vh 20px 12vh;
-    position: absolute;
-    bottom: -55%;
-    right: 18%;
-    width: 400px;
-    z-index: -1;
-    pointer-events: none;
+    position: absolute; bottom: -55%; right: 18%;
+    width: 400px; z-index: -1; pointer-events: none;
   }
+  .header-mascot img { width: 550px; height: auto; object-fit: contain; }
 
-  .header-mascot img {
-    width: 550px;
-    height: auto;
-    object-fit: contain;
-  }
-
-  /* ── Recommend + Device row ── */
+  /* ── Two-col ── */
   .two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    padding: 0 16px 14px;
-    flex-shrink: 0;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; padding: 0 16px 14px; flex-shrink: 0;
   }
 
-  /* Recommend cards stack */
-  .recommend-col {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+  .recommend-col { display: flex; flex-direction: column; gap: 10px; }
 
   .recommend-card {
-    background: var(--card-bg);
-    border-radius: var(--radius-md);
+    background: var(--card-bg); border-radius: var(--radius-md);
     padding: clamp(12px, 1.8vh, 22px) 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display: flex; align-items: center; gap: 10px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    cursor: pointer;
-    transition: transform 0.12s;
+    cursor: pointer; transition: transform 0.12s;
   }
   .recommend-card:active { transform: scale(0.97); }
 
   .recommend-icon {
-    width: clamp(40px, 5vh, 56px);
-    height: clamp(40px, 5vh, 56px);
-    border-radius: 10px;
-    flex-shrink: 0;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: clamp(40px, 5vh, 56px); height: clamp(40px, 5vh, 56px);
+    border-radius: 10px; flex-shrink: 0; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
   }
-  .recommend-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
-  }
-
+  .recommend-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
   .recommend-text { flex: 1; min-width: 0; }
-  .recommend-label {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    color: #aaa;
-    margin-bottom: 2px;
-  }
-  .recommend-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: #1a1a1a;
-    line-height: 1.25;
-  }
+  .recommend-label { font-size: 9px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: #aaa; margin-bottom: 2px; }
+  .recommend-title { font-size: 13px; font-weight: 600; color: #1a1a1a; line-height: 1.25; }
   .recommend-chevron { font-size: 16px; color: #ccc; flex-shrink: 0; }
 
   /* Device card */
   .device-card {
-    background: var(--card-bg);
-    border-radius: var(--radius-md);
-    padding: 12px 14px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    display: flex;
-    flex-direction: column;
-    gap: 0;
+    background: var(--card-bg); border-radius: var(--radius-md);
+    padding: 12px 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    display: flex; flex-direction: column; gap: 0;
   }
-
-  .device-status-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 6px;
-  }
-
-  .device-status-dot {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 10px;
-    color: #aaa;
-  }
-  .status-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: #e55;
-  }
+  .device-status-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .device-status-dot { display: flex; align-items: center; gap: 4px; font-size: 10px; color: #aaa; }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #e55; }
   .status-dot.live { background: #4caf50; }
-
-  .device-title-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  .device-title {
-    font-family: Nunito, sans-serif;
-    font-size: 17px;
-    font-weight: 800;
-    color: #1a1a1a;
-  }
-  .device-edit {
-    background: none;
-    border: none;
-    font-size: 16px;
-    color: #888;
-    cursor: pointer;
-  }
-
+  .device-title-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .device-title { font-family: Nunito, sans-serif; font-size: 17px; font-weight: 800; color: #1a1a1a; }
+  .device-edit { background: none; border: none; font-size: 16px; color: #888; cursor: pointer; }
   .device-emotions { display: flex; flex-direction: column; gap: 5px; }
-  .device-emotion-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 6px;
-  }
+  .device-emotion-row { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
   .device-emotion-left { display: flex; align-items: center; gap: 6px; }
   .dev-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
   .dev-name { font-size: 12px; font-weight: 500; color: #1a1a1a; }
   .dev-time { font-size: 10px; color: #bbb; }
 
-  /* ── Today's Insight card ── */
+  /* ── Insight card ── */
   .insight-card {
-    margin: 0 16px 14px;
-    background: var(--card-bg);
-    border-radius: var(--radius-lg);
-    padding: 20px 20px 18px;
+    margin: 0 16px 14px; background: var(--card-bg);
+    border-radius: var(--radius-lg); padding: 20px 20px 18px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    display: flex;
-    gap: 14px;
-    align-items: stretch;
-    flex: 1;
-    min-height: 0;
-    overflow: hidden;
+    display: flex; gap: 14px; align-items: stretch;
+    flex: 1; min-height: 0; overflow: hidden;
   }
-
   .insight-left { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: flex-start; gap: 4px; }
-
-  .insight-section-label {
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 18px;
-    font-weight: 800;
-    color: #1a1a1a;
-    margin-bottom: 2px;
-    text-align: left;
-  }
-
+  .insight-section-label { font-family: 'Nunito Sans', sans-serif; font-size: 18px; font-weight: 800; color: #1a1a1a; margin-bottom: 2px; text-align: left; }
   .insight-headline {
-    font-family: 'Roboto', sans-serif;
-    font-size: 28px;
-    font-weight: 700;
-    line-height: 1.15;
-    margin-bottom: 4px;
+    font-family: 'Roboto', sans-serif; font-size: 28px; font-weight: 700;
+    line-height: 1.15; margin-bottom: 4px;
     background: var(--gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     text-align: left;
   }
-
-  .insight-sub {
-    font-family: 'Roboto', sans-serif;
-    font-size: 13px;
-    color: #454D52;
-    line-height: 1.4;
-    margin-bottom: 10px;
-    text-align: left;
-  }
-
+  .insight-sub { font-family: 'Roboto', sans-serif; font-size: 13px; color: #454D52; line-height: 1.4; margin-bottom: 10px; text-align: left; }
   .insight-btn {
-    display: inline-block;
-    padding: 9px 5px;
-    border-radius: 7px;
-    background: #f2f2f0;
-    border: none;
-    font-size: 12px;
-    font-weight: 600;
-    color: #555;
-    width: 200px;
-    cursor: pointer;
-    font-family: 'Roboto', sans-serif;
-    transition: background 0.15s;
-    text-align: center;
-    margin-top: auto;
+    display: inline-block; padding: 9px 5px; border-radius: 7px;
+    background: #f2f2f0; border: none; font-size: 12px; font-weight: 600;
+    color: #555; width: 200px; cursor: pointer;
+    font-family: 'Roboto', sans-serif; transition: background 0.15s;
+    text-align: center; margin-top: auto;
   }
   .insight-btn:active { background: #e8e8e6; }
-
   .insight-right {
-    width: clamp(160px, 22vw, 240px);
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: -10px;
-    margin-bottom: -8px;
-    right: 90%;
+    width: clamp(160px, 22vw, 240px); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    margin-right: -10px; margin-bottom: -8px;
   }
-  .insight-right img {
-    width: clamp(300px, 25vw, 260px);
-    height: auto;
-  }
+  .insight-right img { width: clamp(300px, 25vw, 260px); height: auto; }
 
   /* ── Calendar card ── */
   .cal-card {
-    margin: 0 16px 14px;
-    background: var(--card-bg);
-    border-radius: var(--radius-lg);
-    padding: 16px 14px 18px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    flex-shrink: 0;
+    margin: 0 16px 14px; background: var(--card-bg);
+    border-radius: var(--radius-lg); padding: 16px 14px 18px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06); flex-shrink: 0;
   }
-
-  .cal-header-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-  }
-
-  .cal-month-label {
-    font-family: Nunito, sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: #1a1a1a;
-  }
-
+  .cal-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .cal-month-label { font-family: Nunito, sans-serif; font-size: 18px; font-weight: 700; color: #1a1a1a; }
   .day-strip { display: flex; gap: 6px; }
-
   .day-chip-wrap { flex: 1; position: relative; }
-
-  .day-chip-star {
-    position: absolute;
-    top: -9px; right: -7px;
-    width: 22px; height: 22px;
-    z-index: 2;
-    pointer-events: none;
-  }
-
+  .day-chip-star { position: absolute; top: -9px; right: -7px; width: 22px; height: 22px; z-index: 2; pointer-events: none; }
   .day-chip {
-    width: 100%;
-    height: clamp(82px, 10vh, 120px);
-    border-radius: 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    cursor: pointer;
+    width: 100%; height: clamp(82px, 10vh, 120px); border-radius: 16px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 5px; cursor: pointer;
   }
-
   .day-chip.past   { background: #1a1a1a; color: #fff; }
-  .day-chip.today  {
-    background: #8755E4;
-    color: #fff;
-  }
+  .day-chip.today  { background: #8755E4; color: #fff; }
   .day-chip.future { background: #EEF7FE; color: #1a1a1a; }
   .day-chip .day-num  { font-size: clamp(26px, 3.5vh, 40px); font-weight: 700; line-height: 1; font-family: 'Nunito Sans', sans-serif; }
   .day-chip .day-name { font-size: 11px; font-weight: 600; }
 
-
-
-  /* ── Overlays ── */
   @keyframes fadeUp { from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;} }
 
-  .cal-overlay { position:fixed;inset:0;z-index:500;display:none;flex-direction:column;background:#f5f4f0; }
-  .cal-overlay.open { display:flex;animation:fadeUp 0.2s ease; }
-  .cal-ov-header { background:rgba(255,255,255,0.9);backdrop-filter:blur(14px);padding:54px 20px 16px;position:sticky;top:0;z-index:2;box-shadow:0 2px 8px rgba(0,0,0,0.07); }
-  .cal-ov-top { display:flex;align-items:center;justify-content:space-between; }
-  .cal-ov-close { background:none;border:none;cursor:pointer;font-size:22px;color:#1a1a1a; }
-  .cal-toggle { display:flex;background:#efefeb;border-radius:40px;padding:3px;gap:2px; }
-  .cal-toggle-btn { padding:7px 22px;border-radius:40px;border:none;font-family:'Roboto',sans-serif;font-size:14px;font-weight:500;cursor:pointer;background:none;color:#888;transition:all 0.15s; }
-  .cal-toggle-btn.active { background:#fff;color:#1a1a1a;box-shadow:0 1px 4px rgba(0,0,0,0.12); }
-  .cal-ov-body { flex:1;overflow-y:auto;padding:0 20px 120px;scrollbar-width:none; }
-  .cal-ov-body::-webkit-scrollbar { display:none; }
-  .cal-month-block { margin-top:32px; }
-  .cal-month-name { font-size:20px;font-weight:700;color:#1a1a1a;text-align:center;margin-bottom:14px;font-family:'Nunito Sans',sans-serif; }
-  .cal-grid-dow { display:grid;grid-template-columns:repeat(7,1fr);text-align:center;margin-bottom:6px; }
-  .cal-grid-dow span { font-size:13px;color:#aaa;font-weight:600; }
-  .cal-grid { display:grid;grid-template-columns:repeat(7,1fr);row-gap:2px; }
-  .cal-cell { display:flex;align-items:center;justify-content:center;height:52px;cursor:pointer;font-size:17px;font-weight:600;color:#1a1a1a;transition:opacity 0.12s; }
-  .cal-cell:hover { opacity:0.7; }
-  .cal-cell.empty { pointer-events:none; }
-  .cal-cell-inner { width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center; }
-  .cal-cell.today .cal-cell-inner { background:#8755E4;color:#fff; }
-  .cal-cell.past-data .cal-cell-inner { background:#1a1a1a;color:#fff; }
-  .cal-month-divider { height:1px;background:#e0e0dc;margin:28px 0 0; }
-
-
-    /* Ripple on tap */
-    .ripple {
-      position: fixed;
-      border-radius: 50%;
-      width: 8px; height: 8px;
-      background: #29c1e758;
-      transform: scale(0);
-      pointer-events: none;
-      animation: rippleOut 0.5s ease-out forwards;
-      z-index: 20;
-    }
-    @keyframes rippleOut {
-      to { transform: scale(40); opacity: 0; }
-    }
-
+  .ripple {
+    position: fixed; border-radius: 50%; width: 8px; height: 8px;
+    background: #29c1e758; transform: scale(0); pointer-events: none;
+    animation: rippleOut 0.5s ease-out forwards; z-index: 20;
+  }
+  @keyframes rippleOut { to { transform: scale(40); opacity: 0; } }
 </style>
 </head>
 <body>
 
 <div class="page-content">
 
-  <!-- Header -->
   <div class="header">
     <div class="header-left">
       <div class="greeting-line" id="greeting-line">Good morning,</div>
-      <div class="header-name">Isabella</div>
-      <div class="header-insight" id="header-insight">
-        Loading your mood…
-      </div>
+      <div class="header-name" id="header-name">Friend</div>
+      <div class="header-insight" id="header-insight">Loading your mood…</div>
     </div>
     <div class="header-mascot">
-      <img src="assets/flowersitting.png" alt="Mascot reading" onerror="this.style.display='none'">
+      <img src="assets/flowersitting.png" alt="Mascot" onerror="this.style.display='none'">
     </div>
   </div>
 
-  <!-- Calendar card -->
   <div class="cal-card">
     <div class="cal-header-row">
       <div class="cal-month-label" id="cal-month-label">May 2026</div>
-          <rect x="3" y="4" width="18" height="18" rx="3"/>
-          <line x1="3" y1="9" x2="21" y2="9"/>
-          <line x1="8" y1="2" x2="8" y2="6"/>
-          <line x1="16" y1="2" x2="16" y2="6"/>
-        </svg>
-      </button>
     </div>
     <div class="day-strip" id="day-strip"></div>
   </div>
 
-  <!-- Recommend + Device row -->
   <div class="two-col">
-
-    <!-- Recommendations column -->
     <div class="recommend-col">
       <div class="recommend-card" onclick="window.location.href='welcome.html'">
         <div class="recommend-icon">
@@ -508,7 +264,6 @@
       </div>
     </div>
 
-    <!-- My Device card -->
     <div class="device-card">
       <div class="device-status-row">
         <div class="device-status-dot">
@@ -518,7 +273,7 @@
       </div>
       <div class="device-title-row">
         <div class="device-title">My Device</div>
-        <button class="device-edit">✎</button>
+        <button class="device-edit" onclick="window.location.href='device_button.html'">✎</button>
       </div>
       <div class="device-emotions" id="device-emotions">
         <div style="font-size:11px;color:#bbb;text-align:center;padding:8px 0;">No logs today</div>
@@ -526,12 +281,11 @@
     </div>
   </div>
 
-  <!-- Today's Insight card -->
   <div class="insight-card">
     <div class="insight-left">
       <div class="insight-section-label">Today's Insight</div>
-      <div class="insight-headline" id="insight-headline">Today felt like a sunny stroll</div>
-      <div class="insight-sub" id="insight-sub">You logged mostly warm emotions today</div>
+      <div class="insight-headline" id="insight-headline">Today felt like a quiet journey</div>
+      <div class="insight-sub" id="insight-sub">Loading your emotion data…</div>
       <button class="insight-btn" onclick="window.location.href='data.html'">View Summary</button>
     </div>
     <div class="insight-right">
@@ -539,20 +293,23 @@
     </div>
   </div>
 
+</div>
 
-
-</div><!-- /page-content -->
-
+<script src="emotions-data.js"></script>
+<script src="placeholder-data.js"></script>
 
 <script>
-/* ──────────────────────────────────────────────
-   DATA LAYER
-─────────────────────────────────────────────── */
-const userName = localStorage.getItem('userName');
-if (userName) {
-  document.querySelector('.header-name').textContent = userName;
+
+/* ── Safe fallback if getBlend isn't available ── */
+if (typeof getBlend === 'undefined') {
+  window.getBlend = (a, b) => `${a.toLowerCase()} & ${b.toLowerCase()}`;
 }
 
+/* ── User name ── */
+const userName = localStorage.getItem('userName');
+if (userName) document.getElementById('header-name').textContent = userName;
+
+/* ── Storage ── */
 const STORAGE_KEY = 'spark_api_data';
 
 function loadStoredData() {
@@ -578,49 +335,120 @@ function utcToLocal(ts) {
 }
 function todayStr() { return new Date().toLocaleDateString('en-CA'); }
 
-/* ── Emotion palette ── */
-const DEFAULT_EMOTIONS = [
-  {name:'Happiness', key:1}, {name:'Sadness', key:2}, {name:'Boredom', key:3},
-  {name:'Envy', key:4}, {name:'Excitement', key:5}
-];
-function loadEmotions() {
-  return JSON.parse(localStorage.getItem('spark_emotions') || 'null') || DEFAULT_EMOTIONS;
-}
-const EMOTION_COLORS = {
-  'Happiness':'#FAC038','Joy':'#FAC038','Sadness':'#3b82c4','Boredom':'#9b8ec4',
-  'Envy':'#5bc4b0','Excitement':'#f06080','Calm':'#7ecfbe','Anxious':'#e88a8a',
-  'Angry':'#e05050','Anger':'#e05050','Fear':'#7b4ea8','Surprise':'#c87ad4',
-  'Pride':'#e06060','Relief':'#68c87a','Contempt':'#5a8a7a','Disgust':'#8aaa30'
-};
-function getCol(name) { return EMOTION_COLORS[name] || '#77DEF8'; }
-function getEmotionByKey(emos, val) { return emos.find(e => e.key === val) || {name:'Unknown', key:val}; }
-
-/* ── Mixed-word generator ── */
-const BLEND_MAP = {
-  'Sadness+Calm': 'quiet melancholy',
-  'Calm+Sadness': 'quiet melancholy',
-  'Sadness+Happiness': 'bittersweet',
-  'Happiness+Sadness': 'bittersweet',
-  'Happiness+Excitement': 'radiant joy',
-  'Excitement+Happiness': 'radiant joy',
-  'Anxiety+Calm': 'cautious stillness',
-  'Calm+Anxiety': 'cautious stillness',
-  'Anger+Sadness': 'heavy ache',
-  'Sadness+Anger': 'heavy ache',
-  'Happiness+Calm': 'warm serenity',
-  'Calm+Happiness': 'warm serenity',
-  'Boredom+Sadness': 'hollow drift',
-  'Sadness+Boredom': 'hollow drift',
-  'Envy+Sadness': 'wistful longing',
-  'Sadness+Envy': 'wistful longing',
-};
-function blendWord(e1, e2) {
-  const key = `${e1}+${e2}`;
-  return BLEND_MAP[key] || `${e1.toLowerCase()} & ${e2.toLowerCase()}`;
+/* ── Emotion helpers ──
+ *
+ * feel_emotions is an array like:
+ *   [ { name: "Happiness", value: 1, color: "#F6A952" }, ... ]
+ *
+ * button_value in log entries is 1-based (1 = slot 0, 2 = slot 1, …).
+ * We resolve by matching button_value === emotion.value.
+ */
+function getPlaceholderEmotions() {
+  try {
+    const raw = localStorage.getItem('feel_emotions');
+    if (raw) return JSON.parse(raw);
+  } catch(e){}
+  return [];
 }
 
-/* ── Insight headline generator ── */
+function getPlaceholderData() {
+  try {
+    const raw = localStorage.getItem('feel_placeholder');
+    if (raw) return JSON.parse(raw);
+  } catch(e){}
+  return [];
+}
+
+/* Returns the emotion object for a given button_value (1-based index).
+   Checks both .value (set by placeholder-data.js) and positional index
+   as a fallback so it works regardless of how feel_emotions was written. */
+function emotionForButtonValue(buttonValue, emotions) {
+  if (!emotions || !emotions.length) return null;
+
+  // Primary: match by the stored .value field (should equal button_value)
+  let match = emotions.find(e => e.value === buttonValue);
+  if (match) return match;
+
+  // Fallback: treat button_value as 1-based position
+  const idx = buttonValue - 1;
+  if (idx >= 0 && idx < emotions.length) return emotions[idx];
+
+  return null;
+}
+
+/* Returns the color for an emotion name string */
+function getColorForName(name, emotions) {
+  if (!name || !emotions) return '#77DEF8';
+  const found = emotions.find(e => e.name === name);
+  return (found && found.color) ? found.color : '#77DEF8';
+}
+
+let apiData = loadStoredData();
+
+/* ── Fetch from Railway ── */
+const API_URL   = 'https://web-production-e1116.up.railway.app/data';
+const PROXY_URL = 'https://corsproxy.io/?' + encodeURIComponent(API_URL);
+
+async function fetchData() {
+  for (const url of [API_URL+'?t='+Date.now(), PROXY_URL+'&t='+Date.now()]) {
+    try {
+      const c = new AbortController();
+      const t = setTimeout(() => c.abort(), 8000);
+      const res = await fetch(url, { signal: c.signal });
+      clearTimeout(t);
+      if (!res.ok) continue;
+      const fresh = JSON.parse(await res.text());
+      if (!Array.isArray(fresh) || !fresh.length) continue;
+      apiData = mergeAndStore(apiData, fresh);
+      renderHome();
+      return;
+    } catch(e) { continue; }
+  }
+}
+
+/* ── Merge all data ── */
+function getAllData() {
+  const placeholderData = getPlaceholderData();
+  const normPlaceholder = placeholderData.map(d => ({
+    ...d,
+    button_value: d.button_value !== undefined ? d.button_value : 1
+  }));
+  const m = new Map(normPlaceholder.map(d => [d.id, d]));
+  apiData.forEach(d => m.set(d.id, d));
+  return [...m.values()].sort((a,b) =>
+    new Date(b.timestamp.replace(' ','T')+'Z') - new Date(a.timestamp.replace(' ','T')+'Z')
+  );
+}
+
+/* ── Top N emotions by frequency ── */
+function getTopEmotions(data, emotions, n = 2) {
+  const today = todayStr();
+  let filtered = data.filter(d => utcToLocal(d.timestamp) === today);
+  if (!filtered.length) filtered = data; // fall back to all-time if no entries today
+  if (!filtered.length) return [];
+
+  // Count by button_value
+  const counts = {};
+  filtered.forEach(d => {
+    const k = d.button_value;
+    counts[k] = (counts[k] || 0) + 1;
+  });
+
+  return Object.entries(counts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, n)
+    .map(([bv]) => {
+      const em = emotionForButtonValue(parseInt(bv), emotions);
+      return em ? em.name : null;
+    })
+    .filter(Boolean);
+}
+
+/* ── Insight headline ── */
 function insightHeadline(top1, top2) {
+  if (!top1) return 'Today felt like a quiet journey';
+  if (!top2) return `Today you felt a lot of ${top1.toLowerCase()}`;
+  const key = `${top1}+${top2}`;
   const pairs = {
     'Sadness+Calm':'Today drifted like still water',
     'Calm+Sadness':'Today drifted like still water',
@@ -633,152 +461,52 @@ function insightHeadline(top1, top2) {
     'Calm+Happiness':'Today was peacefully bright',
     'Happiness+Calm':'Today was peacefully bright',
   };
-  return pairs[`${top1}+${top2}`] || `Today felt like a quiet journey`;
+  return pairs[key] || `Today was shaped by ${top1.toLowerCase()} & ${top2.toLowerCase()}`;
 }
 
-/* ── Chip color for emotion chips in header ── */
-const CHIP_COLORS = {
-  'Happiness':'#FEF3C7','Joy':'#FEF3C7','Sadness':'#DBEAFE','Boredom':'#EDE9FE',
-  'Envy':'#D1FAE5','Excitement':'#FCE7F3','Calm':'#D1FAE5','Anger':'#FEE2E2',
-  'Angry':'#FEE2E2','Fear':'#EDE9FE',
-};
-function getChipBg(name) { return CHIP_COLORS[name] || '#f2f2f0'; }
-
-let apiData = loadStoredData();
-const emotions = loadEmotions();
-
-/* ──────────────────────────────────────────────
-   FETCH
-─────────────────────────────────────────────── */
-const API_URL = 'https://web-production-e1116.up.railway.app/data';
-const PROXY_URL = 'https://corsproxy.io/?' + encodeURIComponent(API_URL);
-
-async function fetchData() {
-  for (const url of [API_URL+'?t='+Date.now(), PROXY_URL+'&t='+Date.now()]) {
-    try {
-      const c = new AbortController(); const t = setTimeout(()=>c.abort(), 8000);
-      const res = await fetch(url, {signal: c.signal}); clearTimeout(t);
-      if (!res.ok) continue;
-      const fresh = JSON.parse(await res.text());
-      if (!Array.isArray(fresh) || !fresh.length) continue;
-      apiData = mergeAndStore(apiData, fresh);
-      renderHome(); return;
-    } catch(e) { continue; }
-  }
-}
-
-/* ──────────────────────────────────────────────
-   PLACEHOLDER DATA (from placeholder_data.js)
-─────────────────────────────────────────────── */
-function getPlaceholderData() {
-  try {
-    const raw = localStorage.getItem('feel_placeholder');
-    if (raw) return JSON.parse(raw);
-  } catch(e){}
-  return [];
-}
-function getPlaceholderEmotions() {
-  try {
-    const raw = localStorage.getItem('feel_emotions');
-    if (raw) return JSON.parse(raw);
-  } catch(e){}
-  return null;
-}
-
-/* Get the top N emotions from today's logs (or all data if today empty) */
-function getTopEmotions(data, emos, n=2) {
-  const today = todayStr();
-  let filtered = data.filter(d => utcToLocal(d.timestamp) === today);
-  if (!filtered.length) filtered = data; // fallback to all data
-  if (!filtered.length) return [];
-
-  // Count by button_value
-  const counts = {};
-  filtered.forEach(d => {
-    const k = d.button_value;
-    counts[k] = (counts[k] || 0) + 1;
-  });
-
-  // Sort by count desc
-  return Object.entries(counts)
-    .sort((a,b) => b[1]-a[1])
-    .slice(0, n)
-    .map(([key]) => {
-      const em = emos.find(e => e.key === parseInt(key)) ||
-                 emos.find(e => e.value === parseInt(key)); // placeholder uses 'value'
-      return em ? (em.name || em.name) : 'Unknown';
-    });
-}
-
-/* Merge API + placeholder data intelligently */
-function getAllData() {
-  const placeholderData = getPlaceholderData();
-  const placeholderEmotions = getPlaceholderEmotions();
-
-  // Normalize placeholder data to have button_value
-  const normPlaceholder = placeholderData.map(d => ({
-    ...d,
-    button_value: d.button_value !== undefined ? d.button_value :
-                  (placeholderEmotions ? (() => {
-                    const idx = Math.floor(Math.random() * placeholderEmotions.length);
-                    return placeholderEmotions[idx].value;
-                  })() : 1)
-  }));
-
-  // Merge: API data takes priority
-  const m = new Map(normPlaceholder.map(d => [d.id, d]));
-  apiData.forEach(d => m.set(d.id, d));
-  return [...m.values()].sort((a,b) => {
-    return new Date(b.timestamp.replace(' ','T')+'Z') - new Date(a.timestamp.replace(' ','T')+'Z');
-  });
-}
-
-/* Build emotion list combining placeholder + API emotions */
-function getAllEmotions() {
-  const ph = getPlaceholderEmotions();
-  if (ph && ph.length) {
-    // Normalize: placeholder uses 'value', API uses 'key'
-    return ph.map(e => ({name: e.name, key: e.value !== undefined ? e.value : e.key, color: e.color}));
-  }
-  return emotions;
-}
-
-/* ──────────────────────────────────────────────
-   RENDER
-─────────────────────────────────────────────── */
+/* ── Render ── */
 function renderHome() {
   const now = new Date();
   const h = now.getHours();
-  const greetWord = h < 12 ? 'Good morning,' : h < 18 ? 'Good afternoon,' : 'Good evening,';
-  document.getElementById('greeting-line').textContent = greetWord;
+  document.getElementById('greeting-line').textContent =
+    h < 12 ? 'Good morning,' : h < 18 ? 'Good afternoon,' : 'Good evening,';
 
-  const allData = getAllData();
-  const allEmos = getAllEmotions();
+  const allData    = getAllData();
+  const allEmos    = getPlaceholderEmotions(); // [ { name, value, color }, … ]
 
-  /* ── Top emotions ── */
-  const topEmotions = getTopEmotions(allData, allEmos, 2);
-  const e1 = topEmotions[0] || 'Calm';
-  const e2 = topEmotions[1] || 'Sadness';
-  const mixed = blendWord(e1, e2);
+  const topNames   = getTopEmotions(allData, allEmos, 2);
+  const e1 = topNames[0] || null;
+  const e2 = topNames[1] || null;
 
-  /* ── Header insight text ── */
-  const insightEl = document.getElementById('header-insight');
-insightEl.innerHTML = `Today you seem <em style="font-style:italic;font-weight:900;font-size:1.15em;filter:drop-shadow(0px 1px 3px rgba(0,0,0,0.18));background:var(--card-bg);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">${mixed}</em>, with higher levels of <span class="emotion-chip" style="background:#3AC6E9">${e1}</span> and <span class="emotion-chip" style="background:#68BC7A">${e2}</span> being logged.`;  /* ── Today's Insight headline ── */
+  /* Header insight */
+  if (e1) {
+    const mixed = e2 ? getBlend(e1, e2) : e1.toLowerCase();
+    const c1 = getColorForName(e1, allEmos);
+    const c2 = e2 ? getColorForName(e2, allEmos) : null;
+    document.getElementById('header-insight').innerHTML =
+      `Today you seem to be in <em style="font-style:italic;font-weight:900;font-size:1.15em;background:var(--card-bg);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">${mixed}</em>, with higher levels of ` +
+      `<span class="emotion-chip" style="background:${c1}">${e1}</span>` +
+      (e2 ? ` and <span class="emotion-chip" style="background:${c2}">${e2}</span>` : '') +
+      ` being logged.`;
+  } else {
+    document.getElementById('header-insight').textContent = 'No emotions logged yet today.';
+  }
+
+  /* Insight card */
   document.getElementById('insight-headline').textContent = insightHeadline(e1, e2);
-  document.getElementById('insight-sub').textContent =
-    `You logged ${e1.toLowerCase()} and ${e2.toLowerCase()} most today`;
+  document.getElementById('insight-sub').textContent = e1
+    ? `You logged ${e1.toLowerCase()}${e2 ? ' and ' + e2.toLowerCase() : ''} most today`
+    : 'Start logging to see your daily insight';
 
-  /* ── Calendar month label ── */
+  /* Calendar month */
   document.getElementById('cal-month-label').textContent =
-    now.toLocaleDateString('en-GB', {month:'long', year:'numeric'});
+    now.toLocaleDateString('en-GB', { month:'long', year:'numeric' });
 
-  /* ── Device card (today's logs) ── */
-  const todayLogs = allData
-    .filter(d => utcToLocal(d.timestamp) === todayStr())
-    .slice(0, 5);
-  const devEl = document.getElementById('device-emotions');
-  const devDot = document.getElementById('dev-status-dot');
-  const devText = document.getElementById('dev-status-text');
+  /* ── Device card ── */
+  const todayLogs = allData.filter(d => utcToLocal(d.timestamp) === todayStr()).slice(0, 5);
+  const devEl    = document.getElementById('device-emotions');
+  const devDot   = document.getElementById('dev-status-dot');
+  const devText  = document.getElementById('dev-status-text');
 
   if (apiData.length) {
     devDot.classList.add('live');
@@ -793,13 +521,17 @@ insightEl.innerHTML = `Today you seem <em style="font-style:italic;font-weight:9
   } else {
     devEl.innerHTML = '';
     todayLogs.forEach(d => {
-      const em = allEmos.find(e => e.key === d.button_value) || {name:'Unknown'};
+      // ← THE FIX: use emotionForButtonValue instead of e.key lookup
+      const em    = emotionForButtonValue(d.button_value, allEmos);
+      const name  = em ? em.name  : 'Unknown';
+      const color = em ? em.color : '#77DEF8';
+
       const row = document.createElement('div');
       row.className = 'device-emotion-row';
       row.innerHTML = `
         <div class="device-emotion-left">
-          <div class="dev-dot" style="background:${getCol(em.name)}"></div>
-          <span class="dev-name">${em.name}</span>
+          <div class="dev-dot" style="background:${color}"></div>
+          <span class="dev-name">${name}</span>
         </div>
         <span class="dev-time">${formatTime(d.timestamp)}</span>`;
       devEl.appendChild(row);
@@ -815,7 +547,6 @@ insightEl.innerHTML = `Today you seem <em style="font-style:italic;font-weight:9
   for (let i = -3; i <= 3; i++) {
     const d = new Date(now); d.setDate(now.getDate() + i);
     const dStr = d.toLocaleDateString('en-CA');
-
     const wrap = document.createElement('div');
     wrap.className = 'day-chip-wrap';
 
@@ -827,20 +558,21 @@ insightEl.innerHTML = `Today you seem <em style="font-style:italic;font-weight:9
     }
 
     const chip = document.createElement('div');
+    const dayLogs = allData.filter(e => utcToLocal(e.timestamp) === dStr);
+
     if (i === 0) {
       chip.className = 'day-chip today';
-      const todayLogs = allData.filter(e => utcToLocal(e.timestamp) === dStr);
-      if (todayLogs.length > 0) {
-        const topEm = allEmos.find(e => e.key === todayLogs[0].button_value);
-        if (topEm) chip.style.background = getCol(topEm.name);
-      }
-    } else if (i > 0) chip.className = 'day-chip future';
-    else {
-      chip.className = 'day-chip past';
-      const dayLogs = allData.filter(e => utcToLocal(e.timestamp) === dStr);
       if (dayLogs.length > 0) {
-        const topEm = allEmos.find(e => e.key === dayLogs[0].button_value);
-        if (topEm) chip.style.background = getCol(topEm.name);
+        const topEm = emotionForButtonValue(dayLogs[0].button_value, allEmos);
+        if (topEm) chip.style.background = topEm.color;
+      }
+    } else if (i > 0) {
+      chip.className = 'day-chip future';
+    } else {
+      chip.className = 'day-chip past';
+      if (dayLogs.length > 0) {
+        const topEm = emotionForButtonValue(dayLogs[0].button_value, allEmos);
+        if (topEm) chip.style.background = topEm.color;
       }
     }
 
@@ -848,93 +580,15 @@ insightEl.innerHTML = `Today you seem <em style="font-style:italic;font-weight:9
     wrap.appendChild(chip);
     strip.appendChild(wrap);
   }
-
-
 }
 
-
-/* ──────────────────────────────────────────────
-   INIT
-─────────────────────────────────────────────── */
+/* ── Init ── */
 renderHome();
 fetchData();
 setInterval(fetchData, 30000);
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') fetchData();
 });
-</script>
-
-<!-- Placeholder data seeder -->
-<script>
-(function seedPlaceholderData() {
-  const EMOTIONS = [
-    { name: 'Sadness',   value: 1, color: '#4a8fd4' },
-    { name: 'Joy',       value: 2, color: '#f5c842' },
-    { name: 'Anger',     value: 3, color: '#e05c5c' },
-    { name: 'Envy',      value: 4, color: '#5ec47e' },
-    { name: 'Calm',      value: 5, color: '#6bcfb0' },
-    { name: 'Contempt',  value: 6, color: '#b47fd4' },
-    { name: 'Boredom',   value: 7, color: '#d4b896' },
-  ];
-
-  const _now = new Date();
-  const _dow = _now.getUTCDay();
-  const _daysToMon = (_dow + 6) % 7;
-  const _monday = new Date(_now);
-  _monday.setUTCDate(_now.getUTCDate() - _daysToMon);
-  _monday.setUTCHours(0,0,0,0);
-
-  function ts(dayOfWeek, hour, minute=0) {
-    const d = new Date(_monday);
-    d.setUTCDate(_monday.getUTCDate() + dayOfWeek);
-    d.setUTCHours(hour, minute, 0, 0);
-    const pad = n => String(n).padStart(2,'0');
-    return `${d.getUTCFullYear()}-${pad(d.getUTCMonth()+1)}-${pad(d.getUTCDate())} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:00`;
-  }
-
-  const DATA = [
-    {id:'p001',button_value:3,timestamp:ts(0,7,5)},
-    {id:'p002',button_value:1,timestamp:ts(0,9,20)},
-    {id:'p003',button_value:5,timestamp:ts(0,12,0)},
-    {id:'p004',button_value:3,timestamp:ts(0,14,45)},
-    {id:'p005',button_value:1,timestamp:ts(0,20,10)},
-    {id:'p006',button_value:2,timestamp:ts(1,8,30)},
-    {id:'p007',button_value:4,timestamp:ts(1,11,0)},
-    {id:'p008',button_value:1,timestamp:ts(1,13,15)},
-    {id:'p009',button_value:6,timestamp:ts(1,17,40)},
-    {id:'p010',button_value:6,timestamp:ts(1,21,5)},
-    {id:'p011',button_value:1,timestamp:ts(1,22,50)},
-    {id:'p012',button_value:5,timestamp:ts(2,7,55)},
-    {id:'p013',button_value:2,timestamp:ts(2,10,20)},
-    {id:'p014',button_value:1,timestamp:ts(2,12,30)},
-    {id:'p015',button_value:4,timestamp:ts(2,15,0)},
-    {id:'p016',button_value:5,timestamp:ts(2,19,45)},
-    {id:'p017',button_value:1,timestamp:ts(2,23,10)},
-    {id:'p018',button_value:5,timestamp:ts(3,8,0)},
-    {id:'p019',button_value:5,timestamp:ts(3,10,30)},
-    {id:'p020',button_value:2,timestamp:ts(3,12,0)},
-    {id:'p021',button_value:5,timestamp:ts(3,14,0)},
-    {id:'p022',button_value:5,timestamp:ts(3,16,20)},
-    {id:'p023',button_value:5,timestamp:ts(3,20,0)},
-    {id:'p024',button_value:2,timestamp:ts(4,9,10)},
-    {id:'p025',button_value:1,timestamp:ts(4,11,40)},
-    {id:'p026',button_value:7,timestamp:ts(4,14,0)},
-    {id:'p027',button_value:3,timestamp:ts(4,16,55)},
-    {id:'p028',button_value:1,timestamp:ts(4,21,30)},
-    {id:'p029',button_value:2,timestamp:ts(5,9,0)},
-    {id:'p030',button_value:4,timestamp:ts(5,11,15)},
-    {id:'p031',button_value:1,timestamp:ts(5,14,50)},
-    {id:'p032',button_value:7,timestamp:ts(5,17,30)},
-    {id:'p033',button_value:6,timestamp:ts(5,20,45)},
-    {id:'p034',button_value:3,timestamp:ts(6,8,0)},
-    {id:'p035',button_value:1,timestamp:ts(6,10,30)},
-  ];
-
-  try {
-    localStorage.setItem('feel_emotions', JSON.stringify(EMOTIONS));
-    localStorage.setItem('feel_placeholder', JSON.stringify(DATA));
-  } catch(e) {}
-})();
 </script>
 
 <!-- Radial nav -->
@@ -988,9 +642,9 @@ function initNav(activePage) {
   `;
   document.body.appendChild(wrap);
 
-  const scene = wrap.querySelector('#radial-scene');
+  const scene     = wrap.querySelector('#radial-scene');
   const centerBtn = wrap.querySelector('#radial-center-btn');
-  let radialOpen = false;
+  let radialOpen  = false;
 
   centerBtn.addEventListener('click', e => {
     e.stopPropagation();
@@ -998,7 +652,10 @@ function initNav(activePage) {
     scene.classList.toggle('open', radialOpen);
   });
   document.addEventListener('click', e => {
-    if (radialOpen && !scene.contains(e.target)) { radialOpen = false; scene.classList.remove('open'); }
+    if (radialOpen && !scene.contains(e.target)) {
+      radialOpen = false;
+      scene.classList.remove('open');
+    }
   });
 
   if (!document.getElementById('toast')) {
@@ -1007,18 +664,6 @@ function initNav(activePage) {
     document.body.appendChild(toast);
   }
 }
-
-  // Ripple effect on tap, then navigate
-  document.body.addEventListener('click', function(e) {
-    const ripple = document.createElement('div');
-    ripple.className = 'ripple';
-    ripple.style.left = (e.clientX - 5) + 'px';
-    ripple.style.top  = (e.clientY - 5) + 'px';
-    document.body.appendChild(ripple);
-    setTimeout(() => {
-      window.location.href = 'home.html';
-    }, 300);
-  });
 
 initNav('home');
 </script>

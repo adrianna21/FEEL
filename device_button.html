@@ -8,311 +8,125 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --card-bg: #fff;
-    --radius-lg: 28px;
-  }
-
+  :root { --card-bg: #fff; --radius-lg: 28px; }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   html, body { height: 100%; overflow-x: hidden; }
-
   body {
     background-color: #F0F7FD;
     background-image: url('assets/JournalGradientBackground.png');
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
-    font-family: 'Roboto', sans-serif;
+    background-size: cover; background-position: center;
+    min-height: 100vh; font-family: 'Roboto', sans-serif;
   }
-
   .page {
-    position: relative;
-    z-index: 1;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 16px 16px 100px 16px;
-    overflow: hidden;  /* add this */
+    position: relative; z-index: 1; min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 16px 16px 100px 16px; overflow: hidden;
   }
-
-  /* ── Card ── */
   .device-card {
-    width: 100%;
-    flex: 1;
-    background: var(--card-bg);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    position: relative; 
+    width: 100%; flex: 1; background: var(--card-bg);
+    border-radius: var(--radius-lg); box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    display: flex; flex-direction: column; align-items: center; position: relative;
   }
-
-  /* ── Header ── */
   .card-header {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 28px 24px 8px;
-    position: relative;
-    flex-shrink: 0;
+    width: 100%; display: flex; align-items: center; justify-content: center;
+    padding: 28px 24px 8px; position: relative; flex-shrink: 0;
   }
-
   .back-btn {
-    position: absolute;
-    left: 24px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 28px;
-    color: #1a1a1a;
-    font-weight: 300;
-    line-height: 1;
-    padding: 4px;
+    position: absolute; left: 24px; background: none; border: none;
+    cursor: pointer; font-size: 28px; color: #1a1a1a; font-weight: 300; line-height: 1; padding: 4px;
   }
+  .page-title { font-family: 'Nunito Sans', sans-serif; font-size: 26px; font-weight: 900; color: #1a1a1a; text-align: center; }
+  .page-subtitle { font-size: 13px; color: #aaa; text-align: center; padding: 4px 40px 0; line-height: 1.4; flex-shrink: 0; }
+  .content-area { width: 100%; flex: 1; position: relative; display: flex; align-items: center; min-height: 500px; touch-action: none; }
+  .device-img-wrap { position: absolute; left: -40%; top: 50%; transform: translateY(-50%); width: 75%; z-index: 2; pointer-events: none; }
+  .device-img-wrap img { width: 100%; height: auto; display: block; filter: drop-shadow(0 12px 32px rgba(0,0,0,0.15)); }
+  .arc-area { position: absolute; right: 0; top: 0; bottom: 0; left: 0; display: flex; align-items: center; isolation: isolate; }
+  .arc-img { position: absolute; left: -210px; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; pointer-events: none; z-index: 1; }
+  .emotion-list { position: absolute; left: 0; right: 0; top: 0; bottom: 0; z-index: 10; }
+  .edit-icon { margin-left: auto; opacity: 1; font-size: 18px; flex-shrink: 0; }
 
-  .page-title {
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 26px;
-    font-weight: 900;
-    color: #1a1a1a;
-    text-align: center;
-  }
-
-  .page-subtitle {
-    font-size: 13px;
-    color: #aaa;
-    text-align: center;
-    padding: 4px 40px 0;
-    line-height: 1.4;
-    flex-shrink: 0;
-  }
-
-  /* ── Main content area ── */
-  .content-area {
-    width: 100%;
-    flex: 1;
-    position: relative;
-    display: flex;
-    align-items: center;
-    min-height: 500px;
-    touch-action: none;
-  }
-
-  /* ── Device image — left overflow ── */
-  .device-img-wrap {
-    position: absolute;
-    left: -40%;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 75%;
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  .device-img-wrap img {
-    width: 100%;
-    height: auto;
-    display: block;
-    filter: drop-shadow(0 12px 32px rgba(0,0,0,0.15));
-  }
-
-  /* ── Arc + emotion list ── */
-.arc-area {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-    isolation: isolate;
-}
-
-    .arc-img {
-    position: absolute;
-    left: -210px;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    pointer-events: none;
-    z-index: 1;
-    }
-
-    .emotion-list {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 10;
-    }
-
-  .emotion-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 0;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(.34,1.56,.64,1);
-  }
-
-  .emotion-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    transition: transform 0.2s;
-  }
-
-  .emotion-name {
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    color: #aaa;
-    transition: all 0.2s;
-  }
-
-  /* Active state */
-  .emotion-row.active .emotion-dot {
-    width: 14px;
-    height: 14px;
-    transform: scale(1.2);
-  }
-
-  .emotion-row.active .emotion-name {
-    font-size: 28px;
-    font-weight: 900;
-    color: inherit;
-  }
-
-  .edit-icon {
-    margin-left: auto;
-    opacity: 1;
-    font-size: 18px;
-    flex-shrink: 0;
-  }
-
-
-  /* Active row card pill */
-  .emotion-row.active {
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-    padding: 10px 14px;
-    margin: 4px 0;
-  }
-
-  /* Picker overlay */
+  /* ══ PICKER OVERLAY ══ */
   .picker-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 400;
-    background: rgba(255,255,255,0.4);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    align-items: flex-end;
-    justify-content: center;
-    padding: 0 16px 40px;
+    display: none; position: fixed; inset: 0; z-index: 400;
+    background: rgba(0,0,0,.35); backdrop-filter: blur(4px);
+    align-items: flex-end; justify-content: center;
   }
-  .picker-overlay.active { display: flex; animation: slideUp 0.3s ease; }
-
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(40px); }
-    to   { opacity: 1; transform: none; }
-  }
+  .picker-overlay.active { display: flex; animation: slideUp 0.35s cubic-bezier(.32,.72,0,1); }
+  @keyframes slideUp { from { opacity:0; transform:translateY(40px); } to { opacity:1; transform:none; } }
 
   .picker-card {
-    width: 100%;
-    max-width: 520px;
-    background: #fff;
-    border-radius: 32px;
-    padding: 24px 20px 28px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    width: 100%; max-width: 820px; max-height: 90vh;
+    background: #e8eef7; border-radius: 28px 28px 0 0;
+    display: flex; flex-direction: column; overflow: hidden;
   }
 
-  .picker-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
+  /* Header */
+  .picker-header { padding: 24px 24px 12px; text-align: center; flex-shrink: 0; }
+  .picker-flower-icon { width: 52px; height: 52px; margin: 0 auto 10px; }
+  .picker-title { font-family: 'Nunito Sans', sans-serif; font-size: 24px; font-weight: 900; color: #1a1a1a; margin-bottom: 4px; }
+  .picker-sub { font-family: 'Roboto', sans-serif; font-size: 13px; color: #888; }
 
-  .picker-title {
+  /* Filter pills */
+  .filter-row { display: flex; gap: 8px; padding: 0 16px 10px; overflow-x: auto; flex-shrink: 0; scrollbar-width: none; }
+  .filter-row::-webkit-scrollbar { display: none; }
+  .filter-pill { padding: 8px 16px; border-radius: 100px; border: none; cursor: pointer; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 13px; white-space: nowrap; flex-shrink: 0; transition: background .2s, color .2s; }
+  .filter-pill.active { background: #111; color: #fff; }
+  .filter-pill:not(.active) { background: #fff; color: #444; }
+
+  /* Body */
+  .picker-body { flex: 1; overflow-y: auto; padding: 0 16px; scrollbar-width: thin; }
+  .cat-section { margin-bottom: 16px; }
+  .cat-header-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0 8px; cursor: pointer; }
+  .cat-header-left { display: flex; align-items: center; gap: 10px; }
+  .cat-name { font-family: 'Nunito Sans', sans-serif; font-size: 18px; font-weight: 800; color: #1a1a1a; }
+  .cat-toggle svg { width: 22px; height: 22px; color: #888; }
+  .cat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; background: rgba(255,255,255,0.4); border-radius: 16px; padding: 12px; }
+  .mini-card { display: flex; align-items: center; gap: 8px; border-radius: 12px; background: #fff; padding: 10px; cursor: pointer; border: 2px solid transparent; transition: border-color .2s; }
+  .mini-card.selected { border-color: #F6A952; background: #fff5ec; }
+  .mini-flower-wrap { width: 40px; height: 40px; position: relative; flex-shrink: 0; }
+  .mini-flower-wrap > div { width: 100%; height: 100%; }
+  .mini-plus { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; font-weight: 700; text-shadow: 0 1px 3px rgba(0,0,0,.4); }
+  .mini-info { flex: 1; min-width: 0; }
+  .mini-name-text { font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 11px; color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mini-sub-text { font-family: 'Roboto', sans-serif; font-weight: 400; font-size: 10px; color: #888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* Footer */
+  .picker-footer { padding: 14px 16px 24px; background: #e8eef7; flex-shrink: 0; }
+  .active-label {
     font-family: 'Nunito Sans', sans-serif;
-    font-size: 18px;
-    font-weight: 800;
-    color: #1a1a1a;
-  }
-
-  .picker-close {
-    background: #f3f4f6;
-    border: none;
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    font-size: 16px;
-    color: #888;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .picker-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-  }
-
-  .picker-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    padding: 12px 8px;
-    border-radius: 16px;
-    cursor: pointer;
-    transition: background 0.15s, transform 0.15s;
-    border: 2px solid transparent;
-  }
-
-  .picker-item:hover { background: #f8f9fa; transform: scale(1.04); }
-  .picker-item.selected { border-color: currentColor; background: #f8f9fa; }
-
-  .picker-dot {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-  }
-
-  .picker-name {
-    font-size: 12px;
-    font-weight: 600;
-    color: #555;
+    font-size: 13px; font-weight: 700; color: #888;
+    margin-bottom: 10px;
     text-align: center;
-    font-family: 'Roboto', sans-serif;
+    padding-top: 10px;
   }
+  .active-emotions-strip {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;  /* centers the chips */
+    gap: 8px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-bottom: 0;
+    scrollbar-width: none;
+    padding-bottom: 20px;
 
-  .picker-done {
-    width: 100%;
-    margin-top: 18px;
-    background: #1a1a1a;
-    color: #fff;
-    border: none;
-    border-radius: 50px;
-    padding: 15px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'Roboto', sans-serif;
   }
+  .active-emotions-strip::-webkit-scrollbar { display: none; }  
+
+  .active-emotion-chip {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 6px;
+  background: #f5f5f8;
+  border-radius: 14px;
+  padding: 16px 12px 10px; /* increased top padding */
+  min-width: 70px;
+  position: relative;
+  margin-top: 8px; /* pushes chip down so dot has room above */
+}  
+.active-chip-dot { position: absolute; top: -4px; left: -4px; width: 14px; height: 14px; border-radius: 50%; }
+  .active-chip-flower { width: 40px; height: 40px; -webkit-mask-image: url('assets/flower.png'); -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; -webkit-mask-position: center; mask-image: url('assets/flower.png'); mask-size: contain; mask-repeat: no-repeat; mask-position: center; }
+  .active-chip-name { font-family: 'Nunito Sans', sans-serif; font-size: 10px; font-weight: 700; color: #111; text-align: center; }
+  .picker-done { width: 100%; background: #1a1a1a; color: #fff; border: none; border-radius: 50px; padding: 16px; font-size: 16px; font-weight: 600; cursor: pointer; font-family: 'Roboto', sans-serif; }
 </style>
 </head>
 <body>
@@ -320,217 +134,319 @@
 <div class="page">
   <div class="device-card">
 
-    <!-- Header -->
     <div class="card-header">
       <button class="back-btn" onclick="window.location.href='emotions.html'">‹</button>
       <span class="page-title">My Device</span>
     </div>
     <p class="page-subtitle">What emotion would you like to track<br>on your Journey?</p>
 
-<!-- Main content -->
-<div class="content-area">
+    <div class="content-area">
+      <div class="device-img-wrap">
+        <img id="flower-img-prev" src="assets/flower_yellowactive.png" style="width:1000px;height:1000px;object-fit:contain;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
+        <img id="flower-img-curr" src="assets/flower_yellowactive.png" style="width:1000px;height:1000px;object-fit:contain;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
+      </div>
+      <div class="arc-area">
+        <img src="assets/arc.png" class="arc-img" alt="">
+        <div class="emotion-list" id="emotion-list"></div>
+      </div>
+    </div>
 
-  <!-- Device image — overflows left -->
-  <div class="device-img-wrap">
-    <img id="flower-img-prev" src="assets/flower_redactive.png" style="width:1000px;height:1000px;object-fit:contain;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
-    <img id="flower-img-curr" src="assets/flower_redactive.png" style="width:1000px;height:1000px;object-fit:contain;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
   </div>
-
-  <!-- Arc png + emotion list -->
-  <div class="arc-area">
-    <img src="assets/arc.png" class="arc-img" alt="">
-    <div class="emotion-list" id="emotion-list"></div>
-  </div>
-
 </div>
 
-<!-- Emotion picker overlay -->
+<!-- ══ PICKER OVERLAY ══ -->
 <div class="picker-overlay" id="picker-overlay" onclick="handlePickerOverlay(event)">
   <div class="picker-card">
+
+    <!-- Header -->
     <div class="picker-header">
-      <span class="picker-title">Choose emotion for <span id="picker-button-name">Button</span></span>
-      <button class="picker-close" onclick="closePicker()">✕</button>
+      <div class="picker-flower-icon">
+        <img src="assets/icon_floweradd.png" style="width:100%;height:100%;object-fit:contain;">
+      </div>
+      <h2 class="picker-title">Explore more emotions</h2>
+      <p class="picker-sub">Tap any emotion to assign it to this button</p>
+
+      <!-- Active strip moves here -->
+      <p class="active-label" style="margin-top:14px;">Emotions Active</p>
+      <div class="active-emotions-strip" id="active-emotions-strip"></div>
     </div>
-    <div class="picker-grid" id="picker-grid"></div>
-    <button class="picker-done" onclick="closePicker()">Done</button>
+
+    <!-- Filters -->
+    <div class="filter-row">
+      <button class="filter-pill active" onclick="filterPickerCat('all',this)">All</button>
+      <button class="filter-pill" onclick="filterPickerCat('warmth',this)" style="display:flex;align-items:center;gap:4px;"><img src="assets/icon_warmth.png" style="width:18px;height:18px;object-fit:contain;">Warmth</button>
+      <button class="filter-pill" onclick="filterPickerCat('socialtension',this)" style="display:flex;align-items:center;gap:4px;"><img src="assets/icon_socialtension.png" style="width:18px;height:18px;object-fit:contain;">Social Tension</button>
+      <button class="filter-pill" onclick="filterPickerCat('withdrawal',this)" style="display:flex;align-items:center;gap:4px;"><img src="assets/icon_withdrawl.png" style="width:18px;height:18px;object-fit:contain;">Withdrawal</button>
+      <button class="filter-pill" onclick="filterPickerCat('activation',this)" style="display:flex;align-items:center;gap:4px;"><img src="assets/icon_activation.png" style="width:18px;height:18px;object-fit:contain;">Activation</button>
+      <button class="filter-pill" onclick="filterPickerCat('expansiveness',this)" style="display:flex;align-items:center;gap:4px;"><img src="assets/icon_expansiveness.png" style="width:18px;height:18px;object-fit:contain;">Expansiveness</button>
+      <button class="filter-pill" onclick="filterPickerCat('tenderness',this)" style="display:flex;align-items:center;gap:4px;"><img src="assets/icon_tenderness.png" style="width:18px;height:18px;object-fit:contain;">Tenderness</button>
+    </div>
+
+    <!-- Body -->
+    <div class="picker-body">
+      <div class="cat-section" data-cat="warmth">
+        <div class="cat-header-row" onclick="togglePickerCat(this)">
+          <div class="cat-header-left"><img src="assets/icon_warmth.png" style="width:24px;height:24px;object-fit:contain;"><span class="cat-name">Warmth</span></div>
+          <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg></div>
+        </div>
+        <div class="cat-grid" id="picker-grid-warmth"></div>
+      </div>
+      <div class="cat-section" data-cat="socialtension">
+        <div class="cat-header-row" onclick="togglePickerCat(this)">
+          <div class="cat-header-left"><img src="assets/icon_socialtension.png" style="width:24px;height:24px;object-fit:contain;"><span class="cat-name">Social Tension</span></div>
+          <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg></div>
+        </div>
+        <div class="cat-grid" id="picker-grid-socialtension"></div>
+      </div>
+      <div class="cat-section" data-cat="withdrawal">
+        <div class="cat-header-row" onclick="togglePickerCat(this)">
+          <div class="cat-header-left"><img src="assets/icon_withdrawl.png" style="width:24px;height:24px;object-fit:contain;"><span class="cat-name">Withdrawal</span></div>
+          <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg></div>
+        </div>
+        <div class="cat-grid" id="picker-grid-withdrawal"></div>
+      </div>
+      <div class="cat-section" data-cat="activation">
+        <div class="cat-header-row" onclick="togglePickerCat(this)">
+          <div class="cat-header-left"><img src="assets/icon_activation.png" style="width:24px;height:24px;object-fit:contain;"><span class="cat-name">Activation</span></div>
+          <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg></div>
+        </div>
+        <div class="cat-grid" id="picker-grid-activation"></div>
+      </div>
+      <div class="cat-section" data-cat="expansiveness">
+        <div class="cat-header-row" onclick="togglePickerCat(this)">
+          <div class="cat-header-left"><img src="assets/icon_expansiveness.png" style="width:24px;height:24px;object-fit:contain;"><span class="cat-name">Expansiveness</span></div>
+          <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg></div>
+        </div>
+        <div class="cat-grid" id="picker-grid-expansiveness"></div>
+      </div>
+      <div class="cat-section" data-cat="tenderness">
+        <div class="cat-header-row" onclick="togglePickerCat(this)">
+          <div class="cat-header-left"><img src="assets/icon_tenderness.png" style="width:24px;height:24px;object-fit:contain;"><span class="cat-name">Tenderness</span></div>
+          <div class="cat-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg></div>
+        </div>
+        <div class="cat-grid" id="picker-grid-tenderness"></div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="picker-footer">
+      <button class="picker-done" onclick="closePicker()">Done</button>
+    </div>
+
   </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
+<script src="emotions-data.js"></script>
 <script>
-const EMOTIONS = [
-  { name: 'Happiness',  color: '#FAC038' },
-  { name: 'Calmness',   color: '#67C8AF' },
-  { name: 'Anger',      color: '#EB585A' },
-  { name: 'Sadness',    color: '#77DEF8' },
-  { name: 'Envy',       color: '#B293EB' },
-  { name: 'Fear',       color: '#711A79' },
-  { name: 'Disgust',    color: '#6F8919' },
-  { name: 'Contempt',   color: '#0D555A' },
-  { name: 'Admiration', color: '#F9EC43' },
-  { name: 'Pride',      color: '#931C4A' },
-  { name: 'Nostalgia',  color: '#67C8AF' },
-  { name: 'Boredom',    color: '#33263E' },
+
+// ── Slot colors and flowers (yellow, green, red, blue, purple) ──
+const SLOT_COLORS  = ['#F6A952','#5FC672','#EB585A','#29C1E7','#B293EB'];
+const SLOT_FLOWERS = [
+  'assets/flower_yellowactive.png',
+  'assets/flower_greenactive.png',
+  'assets/flower_redactive.png',
+  'assets/flower_blueactive.png',
+  'assets/flower_purpleactive.png',
 ];
 
-// 5 button slots matching the 5 petals on the flower
-const BUTTONS = [
-  { id: 0, label: 'Button 1', emotion: 'Happiness' },
-  { id: 1, label: 'Button 2', emotion: 'Calmness'  },
-  { id: 2, label: 'Button 3', emotion: 'Anger'     },
-  { id: 3, label: 'Button 4', emotion: 'Sadness'   },
-  { id: 4, label: 'Button 5', emotion: 'Envy'      },
-];
-
-let activeButton = 2; // Anger selected by default (matching screenshot)
-let editingButton = null;
-
-function getEmotion(name) {
-  return EMOTIONS.find(e => e.name === name) || EMOTIONS[0];
-}
-
-// put these BEFORE renderList()
-const EMOTION_FLOWERS = {
-  '#67C8AF': 'assets/flower_greenactive.png',
-  '#77DEF8': 'assets/flower_blueactive.png',
-  '#B293EB': 'assets/flower_purpleactive.png',
-  '#FAC038': 'assets/flower_yellowactive.png',
-  '#EB585A': 'assets/flower_redactive.png',
+// Flower mask colors per emotion key
+const FLOWER_COLORS = {
+  happiness:'#F6A952', anger:'#C0392B', fear:'#6C3483', disgust:'#5D7A2B',
+  sadness:'#5B9EC9', envy:'#E91E8C', contempt:'#0E8C77', pride:'#922B21',
+  nostalgia:'#45B39D', comfort:'#F0A87E', gratitude:'#F7C948', love:'#E8537A',
+  hope:'#7EC8A4', supported:'#5DADE2', safe:'#52BE80', jealousy:'#A569BD',
+  resentment:'#884EA0', shame:'#B03A2E', guilt:'#9B59B6', rejection:'#CB4335',
+  betrayal:'#7B241C', loneliness:'#5D6D7E', disappointment:'#797D7F',
+  numbness:'#AAB7B8', insecurity:'#8E44AD', boredom:'#95A5A6',
+  overwhelmed:'#E74C3C', triumph:'#F39C12', craving:'#E67E22',
+  excitement:'#F1C40F', determination:'#D35400', confidence:'#2E86C1',
+  inspired:'#1ABC9C', compassion:'#E91E8C', admiration:'#3498DB',
+  sympathy:'#85C1E9', empathy:'#76D7C4', romance:'#F1948A',
 };
 
+// Emotion categories for picker
+const PICKER_CATEGORIES = {
+  warmth:        ['comfort','gratitude','love','hope','supported','safe'],
+  socialtension: ['jealousy','resentment','shame','guilt','rejection','betrayal'],
+  withdrawal:    ['loneliness','disappointment','numbness','insecurity','boredom','overwhelmed'],
+  activation:    ['triumph','craving','excitement','determination','confidence','inspired'],
+  expansiveness: ['nostalgia','pride','happiness','admiration','gratitude','hope'],
+  tenderness:    ['love','compassion','admiration','sympathy','empathy','romance'],
+};
+
+// Read onboarding selections
+function getOnboardingEmotions() {
+  try {
+    const raw = localStorage.getItem('ob_emotions');
+    if (raw) {
+      const parsed = JSON.parse(raw).slice(0, 5);
+      if (parsed.length) return parsed;
+    }
+  } catch(e) {}
+  return ['happiness','sadness','anger','fear','envy'];
+}
+
+const selectedEmotions = getOnboardingEmotions();
+
+// Build BUTTONS
+const BUTTONS = selectedEmotions.map((key, i) => {
+  const meta = EMOTION_META[key.toLowerCase()];
+  return {
+    id:      i,
+    label:   `Button ${i + 1}`,
+    key:     key.toLowerCase(),
+    emotion: meta ? meta.label : key.charAt(0).toUpperCase() + key.slice(1),
+    color:   SLOT_COLORS[i],
+    flower:  SLOT_FLOWERS[i],
+  };
+});
+
+let activeButton  = 0;
+let editingButton = null;
+
+// Helpers
 function getFlowerForActive() {
-  const emo = getEmotion(BUTTONS[activeButton].emotion);
-  return EMOTION_FLOWERS[emo.color] || 'assets/flower_redactive.png';
+  return BUTTONS[activeButton] ? BUTTONS[activeButton].flower : SLOT_FLOWERS[0];
 }
+
 function updateFlower(newIndex, oldIndex) {
-  const newSrc = getFlowerForActive();
-  const curr = document.getElementById('flower-img-curr');
-  const prev = document.getElementById('flower-img-prev');
-
+  const newSrc = BUTTONS[newIndex].flower;
+  const curr   = document.getElementById('flower-img-curr');
+  const prev   = document.getElementById('flower-img-prev');
   if (curr.src.includes(newSrc.split('/').pop())) return;
-
-  // special case overrides
-  const overrides = [
-  { from: 0, to: 4, dir: -1 },  // Happiness → Envy: go up
-  { from: 4, to: 0, dir: 1 },   // Envy → Happiness: go down
-  { from: 4, to: 0, dir: -1 },  // Envy → Happiness: reverse
-  { from: 0, to: 4, dir: -1 },   // Happiness → Envy: reverse
-  ];
-
-  const override = overrides.find(o => o.from === oldIndex && o.to === newIndex);
-  const direction = override ? override.dir : (newIndex > oldIndex ? -1 : 1);
-
-  const rotOut = direction * 15;
-  const rotIn  = direction * -15;
-
+  const direction = newIndex > oldIndex ? -1 : 1;
   prev.src = curr.src;
-  gsap.set(prev, { opacity: 1, rotation: 0, scale: 1 });
-
+  gsap.set(prev, { opacity:1, rotation:0, scale:1 });
   curr.src = newSrc;
-  gsap.set(curr, { opacity: 0, rotation: rotIn, scale: 0.9 });
-
-  gsap.to(prev, { opacity: 0, rotation: rotOut, scale: 0.9, duration: 0.4, ease: 'power2.in' });
-  gsap.to(curr, { opacity: 1, rotation: 0, scale: 1, duration: 0.4, ease: 'power2.out', delay: 0.15 });
+  gsap.set(curr, { opacity:0, rotation:direction * -15, scale:0.9 });
+  gsap.to(prev, { opacity:0, rotation:direction * 15, scale:0.9, duration:0.4, ease:'power2.in' });
+  gsap.to(curr, { opacity:1, rotation:0, scale:1, duration:0.4, ease:'power2.out', delay:0.15 });
 }
 
-// then renderList() and at the very bottom:
-renderList();
-initNav('emotions');
+// Render emotion list
 function renderList() {
   const list = document.getElementById('emotion-list');
+  if (!list) return;
   list.innerHTML = '';
 
   const positions = [
-    { top: '9%',  left: '52%' },
-    { top: '27%', left: '65%' },
-    { top: '50%', left: '70%' },
-    { top: '73%', left: '65%' },
-    { top: '91%', left: '52%' },
+    { top:'9%',  left:'52%' },
+    { top:'27%', left:'65%' },
+    { top:'50%', left:'70%' },
+    { top:'73%', left:'65%' },
+    { top:'91%', left:'52%' },
   ];
 
   BUTTONS.forEach((btn, i) => {
-    const emo = getEmotion(btn.emotion);
     const isActive = i === activeButton;
     const pos = positions[i];
-
     const row = document.createElement('div');
     row.style.cssText = `
-      position: absolute;
-      left: ${pos.left};
-      top: ${pos.top};
-      transform: translateY(-50%);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      transition: all 0.2s cubic-bezier(.34,1.56,.64,1);
-      z-index: 10;
+      position:absolute; left:${pos.left}; top:${pos.top};
+      transform:translateY(-50%); display:flex; align-items:center;
+      gap:10px; cursor:pointer; z-index:10;
+      transition:all 0.2s cubic-bezier(.34,1.56,.64,1);
     `;
 
     if (isActive) {
       row.innerHTML = `
-        <div style="width:14px;height:14px;border-radius:50%;background:${emo.color};flex-shrink:0;"></div>
-        <span style="font-family:'Nunito Sans',sans-serif;font-size:28px;font-weight:900;color:${emo.color};white-space:nowrap;">${btn.emotion}</span>
-       <span class="edit-icon" style="margin-left:40px;">
+        <div style="width:14px;height:14px;border-radius:50%;background:${btn.color};flex-shrink:0;"></div>
+        <span style="font-family:'Nunito Sans',sans-serif;font-size:28px;font-weight:900;color:${btn.color};white-space:nowrap;">${btn.emotion}</span>
+        <span class="edit-icon" style="margin-left:40px;">
           <img src="assets/edit_icon.png" style="width:20px;height:20px;object-fit:contain;">
-        </span>
         </span>
         <div style="position:absolute;inset:-10px -14px;background:#fff;border-radius:16px;box-shadow:0 2px 16px rgba(0,0,0,0.08);z-index:-1;"></div>
       `;
     } else {
       row.innerHTML = `
-        <div style="width:10px;height:10px;border-radius:50%;background:${emo.color};flex-shrink:0;"></div>
-        <span style="font-family:'Nunito Sans',sans-serif;font-size:16px;font-weight:700;color:${emo.color};white-space:nowrap;">${btn.emotion}</span>
+        <div style="width:10px;height:10px;border-radius:50%;background:${btn.color};flex-shrink:0;"></div>
+        <span style="font-family:'Nunito Sans',sans-serif;font-size:16px;font-weight:700;color:${btn.color};white-space:nowrap;">${btn.emotion}</span>
       `;
     }
 
-    // single click handler with direction tracking
     row.onclick = () => {
       const prev = activeButton;
       activeButton = i;
       updateFlower(i, prev);
       renderList();
     };
-
     const editIcon = row.querySelector('.edit-icon');
-    if (editIcon) {
-      editIcon.onclick = (e) => { e.stopPropagation(); openPicker(i); };
-    }
-
+    if (editIcon) editIcon.onclick = (e) => { e.stopPropagation(); openPicker(i); };
     list.appendChild(row);
   });
 }
 
-renderList();
-initNav('emotions');
+// Build picker grids
+function buildPickerGrids() {
+  Object.entries(PICKER_CATEGORIES).forEach(([cat, keys]) => {
+    const grid = document.getElementById(`picker-grid-${cat}`);
+    if (!grid) return;
+    grid.innerHTML = '';
+    keys.forEach(key => {
+      const meta  = EMOTION_META[key];
+      const label = meta ? meta.label : key.charAt(0).toUpperCase() + key.slice(1);
+      const sub   = meta ? meta.sub : '';
+      const color = FLOWER_COLORS[key] || '#999';
+      const isSelected = editingButton !== null && BUTTONS[editingButton].key === key;
 
-/* ── Picker ── */
+      const card = document.createElement('div');
+      card.className = 'mini-card' + (isSelected ? ' selected' : '');
+      card.innerHTML = `
+        <div class="mini-flower-wrap">
+          <div style="width:100%;height:100%;background:${color};
+            -webkit-mask-image:url('assets/flower.png');-webkit-mask-size:contain;
+            -webkit-mask-repeat:no-repeat;-webkit-mask-position:center;
+            mask-image:url('assets/flower.png');mask-size:contain;
+            mask-repeat:no-repeat;mask-position:center;"></div>
+          <div class="mini-plus">${isSelected ? '✓' : '+'}</div>
+        </div>
+        <div class="mini-info">
+          <div class="mini-name-text">${label}</div>
+          <div class="mini-sub-text">${sub}</div>
+        </div>`;
+
+      card.onclick = () => {
+        BUTTONS[editingButton].emotion = label;
+        BUTTONS[editingButton].key     = key;
+        // clear all selected states across all grids
+        document.querySelectorAll('.mini-card').forEach(c => {
+          c.classList.remove('selected');
+          const plus = c.querySelector('.mini-plus');
+          if (plus) plus.textContent = '+';
+        });
+        card.classList.add('selected');
+        card.querySelector('.mini-plus').textContent = '✓';
+        renderList();
+        updateActiveStrip();
+      };
+      grid.appendChild(card);
+    });
+  });
+}
+
+// Update active emotions strip in footer
+function updateActiveStrip() {
+  const strip = document.getElementById('active-emotions-strip');
+  if (!strip) return;
+  strip.innerHTML = '';
+  BUTTONS.forEach((btn, i) => {
+    const color = FLOWER_COLORS[btn.key] || SLOT_COLORS[i];
+    const chip = document.createElement('div');
+    chip.className = 'active-emotion-chip';
+    chip.innerHTML = `
+      <div class="active-chip-dot" style="background:${SLOT_COLORS[i]};"></div>
+      <div class="active-chip-flower" style="background:${color};"></div>
+      <div class="active-chip-name">${btn.emotion}</div>`;
+    strip.appendChild(chip);
+  });
+}
+
+// Picker open/close
 function openPicker(buttonIdx) {
   editingButton = buttonIdx;
-  const btn = BUTTONS[buttonIdx];
-  document.getElementById('picker-button-name').textContent = btn.label;
-
-  const grid = document.getElementById('picker-grid');
-  grid.innerHTML = '';
-
-  EMOTIONS.forEach(emo => {
-    const item = document.createElement('div');
-    item.className = 'picker-item' + (btn.emotion === emo.name ? ' selected' : '');
-    item.style.color = emo.color;
-    item.innerHTML = `
-      <div class="picker-dot" style="background:${emo.color};"></div>
-      <span class="picker-name">${emo.name}</span>
-    `;
-    item.onclick = () => {
-      BUTTONS[buttonIdx].emotion = emo.name;
-      grid.querySelectorAll('.picker-item').forEach(el => el.classList.remove('selected'));
-      item.classList.add('selected');
-      renderList();
-    };
-    grid.appendChild(item);
-  });
-
+  buildPickerGrids();
+  updateActiveStrip();
   document.getElementById('picker-overlay').classList.add('active');
 }
 
@@ -543,84 +459,64 @@ function handlePickerOverlay(e) {
   if (e.target === document.getElementById('picker-overlay')) closePicker();
 }
 
-renderList();
-</script>
-
-<!-- Radial nav -->
-<script>
-
-function getFlowerForActive() {
-  const emo = getEmotion(BUTTONS[activeButton].emotion);
-  return EMOTION_FLOWERS[emo.color] || 'assets/flower_redactive.png';
+// Filter categories
+function filterPickerCat(cat, pill) {
+  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  pill.classList.add('active');
+  document.querySelectorAll('.cat-section').forEach(sec => {
+    sec.style.display = (cat === 'all' || sec.dataset.cat === cat) ? 'block' : 'none';
+  });
 }
 
-function updateFlower(newIndex, oldIndex) {
-  const newSrc = getFlowerForActive();
-  const curr = document.getElementById('flower-img-curr');
-  const prev = document.getElementById('flower-img-prev');
-  if (curr.src.includes(newSrc.split('/').pop())) return;
-
-  const overrides = [
-    { from: 0, to: 4, dir: 1 },
-    { from: 4, to: 0, dir: -1 },
-  ];
-  const override = overrides.find(o => o.from === oldIndex && o.to === newIndex);
-  const direction = override ? override.dir : (newIndex > oldIndex ? -1 : 1);
-  const rotOut = direction * 15;
-  const rotIn  = direction * -15;
-
-  prev.src = curr.src;
-  gsap.set(prev, { opacity: 1, rotation: 0, scale: 1 });
-  curr.src = newSrc;
-  gsap.set(curr, { opacity: 0, rotation: rotIn, scale: 0.9 });
-  gsap.to(prev, { opacity: 0, rotation: rotOut, scale: 0.9, duration: 0.4, ease: 'power2.in' });
-  gsap.to(curr, { opacity: 1, rotation: 0, scale: 1, duration: 0.4, ease: 'power2.out', delay: 0.15 });
+function togglePickerCat(header) {
+  const grid = header.nextElementSibling;
+  const poly = header.querySelector('.cat-toggle svg polyline');
+  const isHidden = grid.style.display === 'none';
+  grid.style.display = isHidden ? 'grid' : 'none';
+  if (poly) poly.setAttribute('points', isHidden ? '18 15 12 9 6 15' : '6 9 12 15 18 9');
 }
 
-let touchStartY = 0;
-let mouseStartY = 0;
-let isDragging = false;
+// Swipe
+let touchStartY = 0, mouseStartY = 0, isDragging = false;
 
 function handleSwipe(diff) {
   if (Math.abs(diff) < 30) return;
-  const swipeUpOrder   = [2, 1, 0, 4, 3];
-  const swipeDownOrder = [2, 3, 4, 0, 1];
   const prev = activeButton;
-  const order = diff > 0 ? swipeUpOrder : swipeDownOrder;
-  const currentPos = order.indexOf(activeButton);
-  const nextPos = (currentPos + 1) % order.length;
-  activeButton = order[nextPos];
+
+  // Exception: direct wrap between 0 and 4
+  if (activeButton === 4 && diff > 0) {
+    activeButton = 0;
+  } else if (activeButton === 0 && diff < 0) {
+    activeButton = 4;
+  } else {
+    const order = diff > 0 ? [2,3,4,0,1] : [2,1,0,4,3];
+    const nextPos = (order.indexOf(activeButton) + 1) % order.length;
+    activeButton = order[nextPos];
+  }
+
   updateFlower(activeButton, prev);
   renderList();
 }
 
-document.addEventListener('touchstart', (e) => {
-  touchStartY = e.touches[0].clientY;
-}, { passive: true });
-
-document.addEventListener('touchend', (e) => {
-  if (document.getElementById('picker-overlay').classList.contains('active')) return;
-  handleSwipe(touchStartY - e.changedTouches[0].clientY);
+document.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive:true });
+document.addEventListener('touchend',   e => {
+  if (!document.getElementById('picker-overlay').classList.contains('active'))
+    handleSwipe(touchStartY - e.changedTouches[0].clientY);
 });
-
-document.addEventListener('mousedown', (e) => {
-  mouseStartY = e.clientY;
-  isDragging = true;
-});
-
-window.addEventListener('mouseup', (e) => {
+document.addEventListener('mousedown', e => { mouseStartY = e.clientY; isDragging = true; });
+window.addEventListener('mouseup', e => {
   if (!isDragging) return;
   isDragging = false;
-  if (document.getElementById('picker-overlay').classList.contains('active')) return;
-  handleSwipe(mouseStartY - e.clientY);
+  if (!document.getElementById('picker-overlay').classList.contains('active'))
+    handleSwipe(mouseStartY - e.clientY);
 });
 
-function initNav(activePage) {
-  // ... your existing initNav code
-}
-
+// Init
+document.getElementById('flower-img-curr').src = SLOT_FLOWERS[0];
+document.getElementById('flower-img-prev').src = SLOT_FLOWERS[0];
+renderList();
 initNav('emotions');
 </script>
 
 </body>
-</html>
+</html>a

@@ -17,6 +17,11 @@
       --radius-card: clamp(16px,2vw,28px);
       --radius-btn: clamp(20px,2.5vw,40px);
       --radius-tag: 100px;
+      --dot-1: #EB585A;
+      --dot-2: #5FC672;
+      --dot-3: #FBA732;
+      --dot-4: #B293EB;
+      --dot-5: #29C1E7;
     }
 
     html, body {
@@ -97,7 +102,7 @@
 
     .settings-note {
       font-family:'Roboto',sans-serif; font-weight:400;
-      font-size:clamp(18px,1.3vw,17px); color:#aaa;
+      font-size:clamp(13px,1.5vw,19px); color:#aaa;
       text-align:center;
       padding-top: 2%;
     }
@@ -130,6 +135,7 @@
     }
 
     .emotion-mini {
+      position: relative; /* needed for dot positioning */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -140,6 +146,16 @@
       flex: 1;
       min-width: clamp(80px,10vw,120px);
     }
+
+  .emotion-dot {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: clamp(16px,2.2vw,28px);
+    height: clamp(16px,2.2vw,28px);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
 
     /* Flower via CSS mask */
     .mini-flower {
@@ -354,31 +370,34 @@
     document.getElementById('recapProse').innerHTML =
       `You want to ${goalTags} and we'll send you a reminder to journal ${timePart} — so let's make sure you stay on track! You are starting your journey with the following emotions:`;
   }
+const DOT_COLORS = ['#EB585A', '#5FC672', '#FBA732', '#B293EB', '#29C1E7'];
 
-  function buildEmotions() {
-    const grid = document.getElementById('emotionGrid');
-    grid.innerHTML = '';
+function buildEmotions() {
+  const grid = document.getElementById('emotionGrid');
+  grid.innerHTML = '';
 
-    if (emotions.length === 0) {
-      grid.innerHTML = '<p class="empty-state">No emotions selected yet.</p>';
-      return;
-    }
-
-    emotions.forEach(key => {
-      const meta = EMOTION_META[key.toLowerCase()] || {
-        label: capitalize(key), sub: '', cssClass: 'f-neutral'
-      };
-      const card = document.createElement('div');
-      card.className = 'emotion-mini';
-      card.innerHTML = `
-        <div class="mini-flower ${meta.cssClass}"></div>
-        <div class="mini-info">
-          <p class="mini-name">${escHtml(meta.label)}</p>
-          <p class="mini-sub">${escHtml(meta.sub)}</p>
-        </div>`;
-      grid.appendChild(card);
-    });
+  if (emotions.length === 0) {
+    grid.innerHTML = '<p class="empty-state">No emotions selected yet.</p>';
+    return;
   }
+
+  emotions.forEach((key, index) => {
+    const meta = EMOTION_META[key.toLowerCase()] || {
+      label: capitalize(key), sub: '', cssClass: 'f-neutral'
+    };
+    const dotColor = DOT_COLORS[index % DOT_COLORS.length];
+    const card = document.createElement('div');
+    card.className = 'emotion-mini';
+    card.innerHTML = `
+      <div class="emotion-dot" style="background:${dotColor};"></div>
+      <div class="mini-flower ${meta.cssClass}"></div>
+      <div class="mini-info">
+        <p class="mini-name">${escHtml(meta.label)}</p>
+        <p class="mini-sub">${escHtml(meta.sub)}</p>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
 
   function escHtml(str) {
     return String(str)

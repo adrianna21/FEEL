@@ -49,13 +49,13 @@
     .progress-wrap { flex:1; display:flex; align-items:center; gap:clamp(8px,1vw,14px); }
     .progress-track { flex:1; height:clamp(6px,0.6vw,10px); background:#d5d5e8; border-radius:100px; overflow:hidden; }
     .progress-fill { height:100%; width:60%; background:linear-gradient(90deg,#F6A952 0%,#E8585F 54.33%,#8956E2 100%); border-radius:100px; }
-    .progress-label { font-family:'Nunito',sans-serif; font-weight:700; font-size:clamp(13px,1.4vw,20px); color:#F6A952; white-space:nowrap; }
+    .progress-label { font-family:'Nunito',sans-serif; font-weight:700; font-size:clamp(15px,1.6vw,22px); color:#F6A952; white-space:nowrap; }
 
     /* ── Hero ── */
     .hero { position:relative; z-index:1; padding:clamp(6px,1vw,16px) clamp(20px,3vw,40px) clamp(14px,1.8vw,24px); text-align:center; padding-bottom: 5%; }
-    .step-label { font-family:'Nunito',sans-serif; font-style:normal; font-weight:800; font-size:clamp(14px,2vw,26px); color:var(--orange); letter-spacing:.12em; text-transform:uppercase; margin-bottom:clamp(2px,0.3vw,6px); }
-    .step-title { font-family:'Nunito',sans-serif; font-style:normal; font-weight:900; font-size:clamp(28px,4.5vw,58px); color:#111; line-height:1.1; margin-bottom:clamp(6px,0.8vw,14px); }
-    .step-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(13px,1.5vw,19px); color:#666; line-height:1.55;  }
+    .step-label { font-family:'Nunito',sans-serif; font-style:normal; font-weight:800; font-size:clamp(16px,2.4vw,32px); color:var(--orange); letter-spacing:.12em; text-transform:uppercase; margin-bottom:clamp(2px,0.3vw,6px); }
+    .step-title { font-family:'Nunito',sans-serif; font-style:normal; font-weight:900; font-size:clamp(32px,5.5vw,68px); color:#111; line-height:1.1; margin-bottom:clamp(6px,0.8vw,14px); }
+    .step-sub { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(15px,1.8vw,23px); color:#666; line-height:1.55; }
 
     /* ── Time grid ── */
     .time-grid {
@@ -69,15 +69,16 @@
     .time-card {
       background:var(--card-bg);
       border-radius:var(--radius-card);
-      padding:clamp(14px,1.8vw,26px) clamp(10px,1.2vw,18px) clamp(12px,1.5vw,20px);
+      padding:clamp(16px,2vw,28px) clamp(12px,1.5vw,20px) clamp(14px,1.8vw,24px);
       display:flex; flex-direction:column; align-items:center;
-      gap:clamp(6px,0.8vw,12px);
+      gap:clamp(8px,1vw,14px);
       border:2.5px solid transparent;
       cursor:pointer;
       position:relative;
       box-shadow:0 2px 10px rgba(0,0,0,.06);
       transition:border-color .2s, background .2s, box-shadow .2s;
       user-select:none;
+      min-height:clamp(160px,20vw,260px);
     }
     .time-card:hover { box-shadow:0 4px 18px rgba(0,0,0,.10); }
     .time-card.selected { border-color:var(--purple); background:#f5f0ff; }
@@ -85,7 +86,7 @@
     /* Radio circle top-right */
     .radio-circle {
       position:absolute; top:clamp(10px,1.2vw,16px); right:clamp(10px,1.2vw,16px);
-      width:clamp(22px,2.8vw,36px); height:clamp(22px,2.8vw,36px);
+      width:clamp(24px,3vw,40px); height:clamp(24px,3vw,40px);
       border-radius:50%;
       border:2.5px solid #c0b8d8;
       background:#fff;
@@ -93,28 +94,25 @@
       transition:border-color .2s, background .2s;
       flex-shrink:0;
     }
-    .time-card.selected .radio-circle {
-      border-color:var(--purple);
-      background:var(--purple);
-    }
+    .time-card.selected .radio-circle { border-color:var(--purple); background:var(--purple); }
     .radio-circle svg { display:none; width:60%; height:60%; }
     .time-card.selected .radio-circle svg { display:block; }
 
     /* Time icon */
     .time-icon {
-      width:clamp(64px,10vw,120px);
-      height:clamp(64px,10vw,120px);
+      width:clamp(72px,11vw,130px);
+      height:clamp(72px,11vw,130px);
       display:flex; align-items:center; justify-content:center;
     }
     .time-icon img { width:100%; height:100%; object-fit:contain; }
 
     .time-name {
       font-family:'Nunito',sans-serif; font-weight:800;
-      font-size:clamp(13px,1.6vw,20px); color:#111; text-align:center;
+      font-size:clamp(15px,1.9vw,24px); color:#111; text-align:center;
     }
     .time-range {
       font-family:'Roboto',sans-serif; font-weight:400;
-      font-size:clamp(10px,1.1vw,14px); color:#888; text-align:center;
+      font-size:clamp(11px,1.3vw,17px); color:#888; text-align:center;
       margin-top:-clamp(3px,0.4vw,6px);
     }
 
@@ -123,13 +121,12 @@
       position:relative; z-index:1;
       margin:0 clamp(16px,2.5vw,36px) clamp(16px,2vw,26px);
       border-radius:var(--radius-card);
-      padding:clamp(14px,1.8vw,24px) clamp(16px,2vw,28px);
+      padding:clamp(16px,2vw,28px) clamp(18px,2.2vw,32px);
       display:flex; align-items:center; gap:clamp(14px,1.8vw,24px);
       overflow:hidden;
       background: #fff;
-      opacity: 0.7;  /* ← add this */
+      opacity: 0.7;
     }
-    /* The background png covers the whole banner */
     .info-banner-bg {
       position:absolute; inset:0;
       width:100%; height:100%;
@@ -139,65 +136,52 @@
     }
     .info-mascot {
       position:relative; z-index:1;
-      width:clamp(60px,8.5vw,110px); height:clamp(60px,8.5vw,110px);
+      width:clamp(70px,10vw,130px); height:clamp(70px,10vw,130px);
       flex-shrink:0;
     }
     .info-mascot img { width:100%; height:100%; object-fit:contain; }
     .info-text { position:relative; z-index:1; flex:1; }
     .fun-fact-label {
       font-family:'Nunito',sans-serif; font-weight:800;
-      font-size:clamp(10px,1.2vw,15px); letter-spacing:.08em; text-transform:uppercase;
+      font-size:clamp(11px,1.3vw,17px); letter-spacing:.08em; text-transform:uppercase;
       margin-bottom:clamp(3px,0.4vw,7px);
       background: linear-gradient(90deg, #F6A952 0%, #EAA4A6 3%, #BBA1D4 6%, #1DCBD6 10%);
       background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .info-title { font-family:'Nunito',sans-serif; font-weight:800; font-size:clamp(14px,1.7vw,22px); color:#111; margin-bottom:clamp(3px,0.4vw,7px); }
-    .info-sub   { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(11px,1.2vw,16px); color:#666; line-height:1.5; }
-    /* sparkle SVGs in top-right of banner */
-    .info-sparkles { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; gap:clamp(4px,0.5vw,8px); flex-shrink:0; padding-right:clamp(4px,0.8vw,12px); }
-    .spark-icon { color:#fff; }
-    .spark-icon.large  { width:clamp(20px,2.8vw,38px); height:clamp(20px,2.8vw,38px); }
-    .spark-icon.small  { width:clamp(14px,1.8vw,24px); height:clamp(14px,1.8vw,24px); }
+    .info-title { font-family:'Nunito',sans-serif; font-weight:800; font-size:clamp(16px,2vw,26px); color:#111; margin-bottom:clamp(3px,0.4vw,7px); }
+    .info-sub   { font-family:'Roboto',sans-serif; font-weight:400; font-size:clamp(13px,1.4vw,19px); color:#666; line-height:1.5; }
 
     /* ── Begin btn ── */
     .begin-wrap { position:relative; z-index:1; padding:0 clamp(16px,2.5vw,36px); }
     .begin-btn {
-      width:100%; padding:clamp(16px,2.2vw,26px);
+      width:100%; padding:clamp(18px,2.6vw,32px);
       background:#111; color:#fff;
       font-family:'Roboto',sans-serif; font-weight:500; font-style:normal; line-height:normal;
-      font-size:clamp(18px,2.4vw,30px);
+      font-size:clamp(20px,2.8vw,36px);
       border:none; border-radius:var(--radius-btn);
       cursor:pointer; transition:background .2s, transform .12s;
     }
     .begin-btn:hover  { background:#2a2a2a; }
     .begin-btn:active { transform:scale(.98); }
+    .begin-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
 
     .settings-note {
       font-family:'Roboto',sans-serif; font-weight:400;
-      font-size:clamp(11px,1.3vw,17px); color:#aaa;
+      font-size:clamp(13px,1.5vw,19px); color:#aaa;
       text-align:center;
       padding-top: 2%;
     }
-
-    .begin-btn:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-    transform: none;
-}
-  
   </style>
 </head>
 <body>
 <div class="shell">
 
-  <!-- Blobs -->
   <div class="blob blob-sand"></div>
   <div class="blob blob-teal"></div>
   <div class="blob blob-pink"></div>
 
-  <!-- Top bar -->
   <div class="topbar">
     <button class="back-btn" onclick="window.location.href='onboarding2.html'" aria-label="Go back">
       <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -210,17 +194,14 @@
     </div>
   </div>
 
-  <!-- Hero -->
   <div class="hero">
     <p class="step-label">Step 3</p>
     <h1 class="step-title">Pick journaling times</h1>
     <p class="step-sub">Choose up to 3 times you want to start with.<br>Choose the times that work best for you</p>
   </div>
 
-  <!-- Time grid -->
   <div class="time-grid">
 
-    <!-- Morning -->
     <div class="time-card" data-id="morning" onclick="toggleTime(this)">
       <div class="radio-circle">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -230,7 +211,6 @@
       <p class="time-range">7:00 AM - 11:00 AM</p>
     </div>
 
-    <!-- Afternoon -->
     <div class="time-card" data-id="afternoon" onclick="toggleTime(this)">
       <div class="radio-circle">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -240,17 +220,15 @@
       <p class="time-range">11:00 AM - 2:00 PM</p>
     </div>
 
-    <!-- Evening -->
     <div class="time-card" data-id="evening" onclick="toggleTime(this)">
       <div class="radio-circle">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
-      <div class="time-icon"><img src="assets/evening.png" style="width:120px;height:120px;object-fit:contain;" alt="Evening" /></div>
+      <div class="time-icon"><img src="assets/evening.png" alt="Evening" /></div>
       <p class="time-name">Evening</p>
       <p class="time-range">5:00 PM - 9:00 PM</p>
     </div>
 
-    <!-- Night -->
     <div class="time-card" data-id="night" onclick="toggleTime(this)">
       <div class="radio-circle">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -260,7 +238,6 @@
       <p class="time-range">9:00 PM - 12:00 AM</p>
     </div>
 
-    <!-- Before bed -->
     <div class="time-card" data-id="beforebed" onclick="toggleTime(this)">
       <div class="radio-circle">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -270,7 +247,6 @@
       <p class="time-range">12:00 AM - 2:00 AM</p>
     </div>
 
-    <!-- Whenever -->
     <div class="time-card" data-id="whenever" onclick="toggleTime(this)">
       <div class="radio-circle">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -282,9 +258,7 @@
 
   </div>
 
-  <!-- Info banner -->
   <div class="info-banner">
-    <!-- gradient background image -->
     <img class="info-banner-bg" src="assets/onboarding3bar.png" alt="" aria-hidden="true" />
     <div class="info-mascot">
       <img src="assets/yellowfloweralone.png" alt="Flower mascot" />
@@ -292,11 +266,10 @@
     <div class="info-text">
       <p class="fun-fact-label">Fun Fact</p>
       <p class="info-title">Small check-ins create big awareness</p>
-      <p class="info-sub">Noticing your emotions a little bit every day can <br>make patterns easier to spot over time.</p>
+      <p class="info-sub">Noticing your emotions a little bit every day can make patterns easier to spot over time.</p>
     </div>
   </div>
 
-  <!-- Begin -->
   <div class="begin-wrap">
     <button class="begin-btn" id="confirmBtn" disabled onclick="handleConfirm()">Confirm</button>
     <p class="settings-note">You can change these anytime in your settings.</p>
@@ -308,7 +281,6 @@
   const MAX = 3;
   let selected = new Set();
 
-  // Map data-id → display label
   const TIME_LABELS = {
     morning:   'Morning',
     afternoon: 'Afternoon',
