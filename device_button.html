@@ -331,20 +331,36 @@ function renderList() {
   list.innerHTML = '';
 
 const CENTER = 50;
-const OFFSETS = [-36, -18, 0, 18, 36]; // % spacing between items
-const LEFT_POSITIONS = [52, 65, 70, 65, 52]; // left% per distance from center
+const STEP = 16;
 
-  const positions = BUTTONS.map((_, i) => {
-      const dist = i - activeButton;
-      // wrap distance so it's always -2 to +2
-      let d = dist;
-      if (d > 2)  d -= BUTTONS.length;
-      if (d < -2) d += BUTTONS.length;
-      const topPct  = CENTER + (d * 18);
-      const absDist = Math.abs(d);
-      const leftPct = LEFT_POSITIONS[absDist + 2] ?? 52;
-      return { top: topPct + '%', left: leftPct + '%' };
-    });
+// Arc is a circle. We calculate x on the circle at each y position
+// so the dot sits exactly on the curve line.
+const contentArea = document.querySelector('.content-area');
+const H = contentArea ? contentArea.offsetHeight : 500;
+const W = contentArea ? contentArea.offsetWidth  : 400;
+
+// The arc.png is a circle arc. Approximate radius and center from
+// its CSS: left:-210px, centered vertically
+const arcCenterX = -210; // px from content-area left (off-screen left)
+const arcCenterY = H / 2;
+const arcRadius  = W * 1.05; // approximate radius to match the arc image
+
+const positions = BUTTONS.map((_, i) => {
+  let d = i - activeButton;
+  if (d > 2)  d -= BUTTONS.length;
+  if (d < -2) d += BUTTONS.length;
+
+  const topPct = CENTER + (d * STEP);
+  const yPx    = (topPct / 100) * H;
+
+  // Solve circle equation: (x - cx)^2 + (y - cy)^2 = r^2
+  const dy   = yPx - arcCenterY;
+  const dx   = Math.sqrt(Math.max(0, arcRadius * arcRadius - dy * dy));
+  const xPx  = arcCenterX + dx;
+  const leftPct = (xPx / W) * 100;
+
+  return { top: topPct + '%', left: leftPct + '%' };
+});
 
   BUTTONS.forEach((btn, i) => {
     const isActive = i === activeButton;
