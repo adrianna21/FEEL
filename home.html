@@ -30,9 +30,9 @@
     min-height: 100vh;
     font-family: 'Roboto', sans-serif;
     position: relative;
-    height: 100%;
-    overflow: hidden;
-    padding-bottom: 60%;
+    height: 100%; 
+    overflow: hidden; 
+    overscroll-behavior: none; 
   }
 
   body::before {
@@ -49,17 +49,18 @@
   }
 
   .page-content {
-    position: relative;
-    z-index: 1;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 80%;
-  }
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding-bottom: 120px;
+    }
 
   /* ── Header ── */
   .header {
-    padding: 20vh 60px 6vh;
+    padding: 16vh 60px 6vh;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
