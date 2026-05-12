@@ -201,8 +201,8 @@ body {
     </div>
     <div id="pm-header" style="padding:0 24px 20px;"></div>
     <div style="display:flex;gap:12px;padding:0 20px 16px;flex-wrap:wrap;">
-      <div id="pm-why" style="flex:1;min-width:200px;background:#fffaf3;border-radius:18px;padding:18px;">
-        <p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;color:#FBA732;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;">Why this might be happening</p>
+      <div id="pm-why" style="flex:1;min-width:200px;background:#f0fbff;border-radius:18px;padding:18px;">
+          <p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;color:#29C1E7;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;">Why this might be happening</p>
         <div id="pm-why-text" style="font-size:13px;color:#555;line-height:1.65;"></div>
       </div>
       <div style="flex:1;min-width:180px;background:#fafafa;border-radius:18px;padding:18px;">
@@ -215,15 +215,13 @@ body {
     <div style="margin:0 20px 16px;background:#fafafa;border-radius:18px;padding:18px;position:relative;">
       <p id="pm-tips-label" style="font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;color:#FBA732;">Tips</p>
       <div id="pm-tips" style="display:flex;flex-direction:column;gap:14px;"></div>
-      <div style="position:absolute;right:12px;bottom:12px;width:clamp(70px,12vw,100px);height:clamp(70px,12vw,100px);background:#f0ece4;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:11px;text-align:center;">character<br>here</div>
-    </div>
-    <div id="pm-reflection" style="margin:0 20px;border:2px dashed #FBA732;border-radius:18px;padding:18px;display:flex;align-items:center;gap:16px;cursor:pointer;background:#fffaf3;" onclick="openJournalWithPrompt()">
-      <div style="width:48px;height:48px;border-radius:14px;background:#FBA732;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">💬</div>
-      <div style="flex:1;">
+      <img id="pm-mascot" src="assets/mascot_calm.png" style="position:absolute;right:0px;bottom:120px;width:clamp(100px,16vw,150px);height:auto;pointer-events:none;object-fit:contain;" onerror="this.style.display='none'"> 
+      <div id="pm-reflection" style="margin:0 20px;border:2px dashed #B293EB;border-radius:18px;padding:18px;margin-top:16px;display:flex;align-items:center;gap:16px;cursor:pointer;background:#f5f0ff;" onclick="openJournalWithPrompt()">
+      <div style="width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><img src="assets/reflection_icon.png" style="width:28px;height:28px;object-fit:contain;" onerror="this.textContent='💬'"></div>      <div style="flex:1;">
         <p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;color:#1a1a1a;margin-bottom:4px;">Reflection Prompt</p>
         <p id="pm-prompt-text" style="font-size:13px;color:#888;line-height:1.5;"></p>
       </div>
-      <div style="width:40px;height:40px;border-radius:50%;background:#FBA732;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:20px;">›</div>
+      <div style="width:40px;height:40px;border-radius:50%;background:#B293EB;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:20px;">›</div>
     </div>
   </div>
 </div>
@@ -498,8 +496,8 @@ function renderWeekSections(filtered, total, countByEm) {
   const patternIcons=['assets/weeklypatterns1.png','assets/weeklypatterns2.png','assets/weeklypatterns3.png'];
   generatePatterns(filtered).forEach((text,i)=>{
     const item=document.createElement('div'); item.className='pattern-item';
-    item.setAttribute('onclick',`window.openPatternModal(${i})`);
     item.innerHTML=`<img class="pattern-thumb" src="${patternIcons[i%patternIcons.length]}" alt="" /><div class="pattern-text">${text}</div><div class="pattern-chevron">›</div>`;
+    item.addEventListener('click', (function(idx){ return function(){ window.openPatternModal(idx); }; })(i));
     pCard.appendChild(item);
   });
 }
@@ -558,19 +556,29 @@ function generatePatterns(filtered) {
   const patterns=[];
   const countByEm={};
   filtered.forEach(d=>{countByEm[d.button_value]=(countByEm[d.button_value]||0)+1;});
-  let mostVal=null,mostCnt=0;
-  Object.entries(countByEm).forEach(([v,c])=>{if(c>mostCnt){mostVal=+v;mostCnt=c;}});
-  if(mostVal){
-    const newEms=Object.keys(countByEm).map(v=>getEmotionByValue(emotions,+v)).filter(e=>e.name!=='Unknown');
-    const newNames=newEms.map(e=>`<span class="pat-green">${e.name}</span>`).join(' and ');
-    patterns.push(`You logged ${newNames} this period. It showed up mostly on <strong>Tuesday evenings</strong>.`);
-  }
+
+  // Pattern 1: emotions logged this period
+  const newEms=Object.keys(countByEm).map(v=>getEmotionByValue(emotions,+v)).filter(e=>e.name!=='Unknown');
+  const newNames=newEms.map(e=>`<span class="pat-green">${e.name}</span>`).join(' and ');
   const countByDay={};
-  filtered.forEach(d=>{const ts=new Date(d.timestamp.replace(' ','T')+'Z');const day=ts.toLocaleDateString('en-US',{weekday:'long'});countByDay[day]=(countByDay[day]||0)+1;});
-  const calmest=Object.entries(countByDay).sort((a,b)=>a[1]-b[1])[0];
-  if(calmest)patterns.push(`<strong>${calmest[0]}</strong> is consistently your <span class="pat-orange">calmest day</span> — you logged fewer emotions with no overwhelm.`);
+  filtered.forEach(d=>{
+    const ts=new Date(d.timestamp.replace(' ','T')+'Z');
+    const day=ts.toLocaleDateString('en-US',{weekday:'long'});
+    countByDay[day]=(countByDay[day]||0)+1;
+  });
+  patterns.push(`You logged ${newNames} this period. It showed up mostly on <strong>${Object.entries(countByDay).sort((a,b)=>b[1]-a[1])[0]?.[0]||'weekdays'}</strong>.`);
+
+  // Pattern 2: most active day (highest log count)
   const busiest=Object.entries(countByDay).sort((a,b)=>b[1]-a[1])[0];
-  if(busiest)patterns.push(`<span class="pat-red">Higher emotional activity</span> on <strong>${busiest[0]}</strong> — a recurring pattern worth exploring.`);
+  if(busiest) patterns.push(`<strong>${busiest[0]}</strong> is your <span class="pat-orange">most active day</span> — you logged ${busiest[1]} emotion${busiest[1]>1?'s':''} with higher intensity overall.`);
+  else patterns.push('<span>Not enough daily data yet.</span>');
+
+  // Pattern 3: calmest day (lowest log count, min 1 entry)
+  const daysWithData=Object.entries(countByDay).filter(([,c])=>c>0).sort((a,b)=>a[1]-b[1]);
+  const calmest=daysWithData[0];
+  if(calmest) patterns.push(`<span class="pat-red">Lower emotional activity</span> on <strong>${calmest[0]}</strong> — ${calmest[1]} log${calmest[1]>1?'s':''} recorded, a pattern worth noticing.`);
+  else patterns.push('<span>Not enough daily data yet.</span>');
+
   return patterns;
 }
 
@@ -627,9 +635,8 @@ window.addEventListener('resize', ()=>{
 (function(){
 const PATTERN_CONFIGS=[
   {accentColor:'#5FC672',titlePrefix:'About your',titleHighlight:'New Emotions',highlightColor:'#5FC672',tipsLabel:'Tips to keep exploring',defaultPrompt:'What surprised you most about logging a new emotion this week?'},
-  {accentColor:'#FBA732',titlePrefix:'About your',titleHighlight:'Calmest Day',highlightColor:'#FBA732',tipsLabel:'Tips to keep this calm going',defaultPrompt:'What makes your calmest day feel calmer for you?'},
-  {accentColor:'#EB585A',titlePrefix:'About your',titleHighlight:'Tension Pattern',highlightColor:'#EB585A',tipsLabel:'Tips to ease the tension',defaultPrompt:'When frustration shows up, what is it usually telling you?'},
-];
+  {accentColor:'#FBA732',titlePrefix:'About your',titleHighlight:'Most Active Day',highlightColor:'#FBA732',tipsLabel:'Tips to keep this calm going',defaultPrompt:'What makes your most active day feel more manageable for you?'},
+  {accentColor:'#EB585A',titlePrefix:'About your',titleHighlight:'Calmest Day',highlightColor:'#EB585A',tipsLabel:'Tips to keep this calm going',defaultPrompt:'What makes your calmest day feel different from the rest of the week?'},];
 let currentPatternIdx=0,currentPrompt='';
 
 window.openPatternModal=function(idx){
@@ -642,29 +649,33 @@ window.openPatternModal=function(idx){
   document.querySelector('.radial-nav-wrap').style.display='none';
   document.getElementById('pm-header').innerHTML=`
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px;">
-      <div style="width:56px;height:56px;border-radius:16px;background:${cfg.accentColor}22;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;">${idx===0?'🌱':idx===1?'⭐':'🔥'}</div>
-      <div>
+    <div style="width:56px;height:56px;border-radius:16p;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      ${idx===0?'<span style="font-size:26px">🌱</span>':idx===1?'<img src="assets/weeklypatterns2.png" style="width:50px;height:50px;object-fit:contain;">':'<img src="assets/weeklypatterns3.png" style="width:50px;height:50px;object-fit:contain;">'}   </div>      
+    <div>
         <p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;background:linear-gradient(90deg,#F6A952,#EAA4A6,#BBA1D4,#1DCBD6);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:3px;">Powered by AI</p>
         <h2 style="font-family:'Nunito',sans-serif;font-weight:900;font-size:clamp(20px,4vw,28px);color:#1a1a1a;line-height:1.1;">${cfg.titlePrefix} <span style="color:${cfg.highlightColor}">${cfg.titleHighlight}</span></h2>
       </div>
     </div>
     <div id="pm-summary-text" style="font-size:14px;color:#666;line-height:1.65;padding-left:4px;"></div>`;
-  document.getElementById('pm-chart-label').textContent=idx===0?'New this week':idx===1?'Calmest day':'Busiest day';
+document.getElementById('pm-chart-label').textContent=idx===0?'New this week':idx===1?'Most active day':'Your calmest day';
   drawSparkChart(idx);
-  document.getElementById('pm-tips-label').style.color=cfg.accentColor;
-  document.getElementById('pm-tips-label').textContent=cfg.tipsLabel;
-  const tipsEl=document.getElementById('pm-tips'); tipsEl.innerHTML='';
-  getTips(idx).forEach(t=>{
+  document.getElementById('pm-tips-label').style.color=cfg.accentColor;  document.getElementById('pm-tips-label').textContent=cfg.tipsLabel;
+ const tipsEl=document.getElementById('pm-tips'); tipsEl.innerHTML='';
+  getTips(idx).forEach((t, ti)=>{
     const div=document.createElement('div');
     div.style.cssText='display:flex;gap:12px;align-items:flex-start;padding-right:clamp(70px,12vw,110px);';
-    div.innerHTML=`<div style="width:32px;height:32px;border-radius:10px;background:${cfg.accentColor}22;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;">${t.icon}</div><div><p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;color:#1a1a1a;margin-bottom:2px;">${t.title}</p><p id="tip-${t.id}" style="font-size:12px;color:#888;line-height:1.5;">${t.placeholder}</p></div>`;
+    div.innerHTML=`
+      <div style="width:28px;height:28px;border-radius:8px;background:${cfg.accentColor}33;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;color:${cfg.accentColor};">${ti+1}</div>
+      <div><p style="font-family:'Nunito',sans-serif;font-weight:900;font-size:16px;color:#1a1a1a;margin-bottom:2px;">${t.title}</p><p id="tip-${t.id}" style="font-size:12px;color:#888;line-height:1.5;">${t.placeholder}</p></div>`;
     tipsEl.appendChild(div);
   });
   currentPrompt=cfg.defaultPrompt;
   document.getElementById('pm-prompt-text').textContent=currentPrompt;
   document.getElementById('pm-why-text').innerHTML='<div style="font-size:13px;color:#aaa;font-style:italic;">Generating AI insight…</div>';
   generatePatternInsight(idx,cfg);
-};
+    const mascot=document.getElementById('pm-mascot');
+    if(mascot) mascot.src=idx===2?'assets/mascot_eager.png':'assets/mascot_calm.png';
+  };
 
 window.closePatternModal=function(){
   document.getElementById('pattern-modal-overlay').style.opacity='0';
@@ -679,8 +690,7 @@ function getTips(idx){
   const all=[
     [{id:'t0a',icon:'🌸',title:'Name it to tame it',placeholder:'When you notice this emotion, pause and name exactly what you feel.'},{id:'t0b',icon:'📖',title:'Track when it shows up',placeholder:'Log the time and context each time.'},{id:'t0c',icon:'💬',title:'Talk about it',placeholder:'Sharing a new emotion with someone you trust can help it feel less overwhelming.'}],
     [{id:'t1a',icon:'🛡️',title:'Protect your calm day recipe',placeholder:'Notice what is different on this day — keep doing more of it.'},{id:'t1b',icon:'📅',title:'Schedule what matters',placeholder:'Use your calmest day for tasks or people that fill your cup.'},{id:'t1c',icon:'⚓',title:'Build calm anchors',placeholder:'Replicate small habits that bring calm so they can spread to other days.'}],
-    [{id:'t2a',icon:'🌅',title:'Reframe your tension mornings',placeholder:'A small ritual before the week starts can interrupt the dread.'},{id:'t2b',icon:'🌬️',title:'Release before the week ends',placeholder:'A short wind-down habit on your hardest evenings can ease the transition.'},{id:'t2c',icon:'📝',title:'Name the tension',placeholder:'Write down one thing you are dreading — externalising it reduces its hold.'}],
-  ];
+    [{id:'t2a',icon:'🛡️',title:'Protect your calm day recipe',placeholder:'Notice what is different on this day — keep doing more of it.'},{id:'t2b',icon:'📅',title:'Schedule what fills you up',placeholder:'Use your calmest day for tasks or people that restore your energy.'},{id:'t2c',icon:'⚓',title:'Build calm anchors',placeholder:'Replicate the small habits from this day so they can spread to the rest of the week.'}],  ];
   return all[idx]||all[0];
 }
 
@@ -725,24 +735,23 @@ async function generatePatternInsight(idx,cfg){
   const busiestDay=Object.entries(countByDay).sort((a,b)=>b[1]-a[1])[0]?.[0]||'Monday';
   const newEmNames=sorted.slice(0,2).map(([v])=>getName(v)).join(' and ');
   const staticSummaries=[
-    `You logged new emotions this week — that takes courage. Sitting with unfamiliar feelings is how self-awareness grows.`,
-    `${calmestDay} stood out as your calmest day. Your nervous system clearly has a rhythm worth protecting.`,
-    `Emotional activity tends to peak around ${busiestDay} — that tension at weekly transitions is more common than you think.`,
+    `You logged new emotions this week — that takes courage. Sitting with unfamiliar feelings is how self-awareness grows.`,`${calmestDay} stands out as your calmest day this week. Quieter days like this are worth understanding — they hold clues to what helps you reset.`,
+    `${busiestDay} stands out as your most active day emotionally. High-volume days often reveal where your energy is being spent.`,    
   ];
   const staticWhy=[
     `New emotions often surface when something shifts in your environment. ${newEmNames} usually signal unmet needs.`,
-    `${calmestDay}s often carry less decision fatigue. Your rhythm may include small habits that calm your nervous system without you realising it.`,
-    `${busiestDay} carries a specific emotional load — anticipation, pressure, and transition. This often reflects a chronic low-level stress response.`,
+    `${busiestDay}s tend to carry more emotional load. This could reflect external pressure, social interactions, or a weekly rhythm your body has adapted to.`,
+    `${calmestDay}s often carry less decision fatigue and fewer social demands. Your nervous system seems to find more ease on this day — that rhythm is worth protecting.`,
   ];
   document.getElementById('pm-summary-text').textContent=staticSummaries[idx]||'';
   document.getElementById('pm-why-text').textContent=staticWhy[idx]||'';
   const patternContext=[
-    `New emotions: ${newEmNames}. Top: ${sorted.slice(0,3).map(([v,c])=>getName(v)+' '+c+'x').join(', ')}.`,
-    `${calmestDay} is calmest. Top emotion: ${topName} (${topCount}x).`,
-    `Most logs on ${busiestDay}. Top emotion: ${topName} (${topCount}x).`,
-  ][idx];
+      `New emotions: ${newEmNames}. Top: ${sorted.slice(0,3).map(([v,c])=>getName(v)+' '+c+'x').join(', ')}.`,
+      `Most active day: ${busiestDay} with the most emotion logs. Top emotion: ${topName} (${topCount}x). Write a brief header summary (1-2 sentences) and a "why this might be happening" insight specific to ${busiestDay} being the most emotionally active day.`,
+      `Calmest day: ${calmestDay} with fewest emotion logs. Top emotion overall: ${topName} (${topCount}x). Write a brief summary and why insight about ${calmestDay} being the calmest day, specific to that day of week.`,    ][idx];
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:500,messages:[{role:'user',content:`You are a warm, concise emotional wellness coach. Data: ${patternContext}\n\nWrite JSON only: {"summary":"...","why":"...","tip_0":"...","tip_1":"...","tip_2":"...","reflection_prompt":"...?"}`}]})});
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:500,messages:[{role:'user',content:`You are a warm, concise emotional wellness coach. Data: ${patternContext}\n\nFor the summary: write 1-2 sentences about what it means that ${idx===1?busiestDay:idx===2?busiestDay:''} is the most emotionally active day, referencing the actual day name and top emotion.\nFor the why: explain in 2-3 sentences why ${idx===1?busiestDay:'this day'} might carry more emotional weight, making it personal and specific to the day of week.\n\nWrite JSON only, no markdown: {"summary":"...","why":"...","tip_0":"...","tip_1":"...","tip_2":"...","reflection_prompt":"...?"}`}]})});
     if(!res.ok)throw new Error(res.status);
     const data=await res.json();
     const raw=(data.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
