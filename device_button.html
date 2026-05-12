@@ -330,13 +330,21 @@ function renderList() {
   if (!list) return;
   list.innerHTML = '';
 
-  const positions = [
-    { top:'9%',  left:'52%' },
-    { top:'27%', left:'65%' },
-    { top:'50%', left:'70%' },
-    { top:'73%', left:'65%' },
-    { top:'91%', left:'52%' },
-  ];
+const CENTER = 50;
+const OFFSETS = [-36, -18, 0, 18, 36]; // % spacing between items
+const LEFT_POSITIONS = [52, 65, 70, 65, 52]; // left% per distance from center
+
+  const positions = BUTTONS.map((_, i) => {
+      const dist = i - activeButton;
+      // wrap distance so it's always -2 to +2
+      let d = dist;
+      if (d > 2)  d -= BUTTONS.length;
+      if (d < -2) d += BUTTONS.length;
+      const topPct  = CENTER + (d * 18);
+      const absDist = Math.abs(d);
+      const leftPct = LEFT_POSITIONS[absDist + 2] ?? 52;
+      return { top: topPct + '%', left: leftPct + '%' };
+    });
 
   BUTTONS.forEach((btn, i) => {
     const isActive = i === activeButton;
@@ -514,6 +522,7 @@ window.addEventListener('mouseup', e => {
 // Init
 document.getElementById('flower-img-curr').src = SLOT_FLOWERS[0];
 document.getElementById('flower-img-prev').src = SLOT_FLOWERS[0];
+renderList();
 </script>
 
 <!-- Radial nav -->

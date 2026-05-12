@@ -241,28 +241,28 @@
   </div>
 
   <div class="two-col">
-    <div class="recommend-col">
-      <div class="recommend-card" onclick="window.location.href='welcome.html'">
-        <div class="recommend-icon">
-          <img src="assets/iconaffirmations.png" alt="Affirmations" onerror="this.parentElement.style.background='#77DEF8'">
-        </div>
-        <div class="recommend-text">
-          <div class="recommend-label">We Recommend</div>
-          <div class="recommend-title">Words of affirmation</div>
-        </div>
-        <span class="recommend-chevron">›</span>
+  <div class="recommend-col" id="recommend-col">
+    <div class="recommend-card" id="rec-card-1" onclick="window.location.href='welcome.html'">
+      <div class="recommend-icon">
+        <img src="assets/iconaffirmations.png" alt="Rec 1" id="rec-icon-1" onerror="this.parentElement.style.background='#77DEF8'">
       </div>
-      <div class="recommend-card" onclick="window.location.href='profile.html'">
-        <div class="recommend-icon">
-          <img src="assets/iconbreathing.png" alt="Breathing" onerror="this.parentElement.style.background='#B293EB'">
-        </div>
-        <div class="recommend-text">
-          <div class="recommend-label">We Recommend</div>
-          <div class="recommend-title">Breathing Exercise</div>
-        </div>
-        <span class="recommend-chevron">›</span>
+      <div class="recommend-text">
+        <div class="recommend-label">We Recommend</div>
+        <div class="recommend-title" id="rec-title-1">Words of affirmation</div>
       </div>
+      <span class="recommend-chevron">›</span>
     </div>
+    <div class="recommend-card" id="rec-card-2" onclick="window.location.href='profile.html'">
+      <div class="recommend-icon">
+        <img src="assets/iconbreathing.png" alt="Rec 2" id="rec-icon-2" onerror="this.parentElement.style.background='#B293EB'">
+      </div>
+      <div class="recommend-text">
+        <div class="recommend-label">We Recommend</div>
+        <div class="recommend-title" id="rec-title-2">Breathing Exercise</div>
+      </div>
+      <span class="recommend-chevron">›</span>
+    </div>
+  </div>
 
     <div class="device-card">
       <div class="device-status-row">
@@ -403,6 +403,56 @@ async function fetchData() {
       renderHome();
       return;
     } catch(e) { continue; }
+
+    /* ── Dynamic recommendations ── */
+const EMOTION_TO_FAK = {
+  'Warmth':       [
+    { title:'Words of Affirmation', icon:'assets/iconaffirmations.png', href:'welcome.html', bg:'#77DEF8' },
+    { title:'Body Scan',            icon:'assets/iconaffirmations.png', href:'body-scan.html', bg:'#9DD2A6' }
+  ],
+  'Social Tension': [
+    { title:'Rant Zone',    icon:'assets/iconaffirmations.png', href:'rant.html',    bg:'#F0A5A7' },
+    { title:'3-3-3 Rule',   icon:'assets/iconaffirmations.png', href:'333-rule.html', bg:'#FFC675' }
+  ],
+  'Withdrawal': [
+    { title:'Words of Affirmation', icon:'assets/iconaffirmations.png', href:'welcome.html',   bg:'#77DEF8' },
+    { title:'Grounding Exercise',   icon:'assets/iconaffirmations.png', href:'grounding.html', bg:'#B293EB' }
+  ],
+  'Activation': [
+    { title:'Anxiety Breathing', icon:'assets/iconbreathing.png', href:'anxiety-breathing.html', bg:'#B293EB' },
+    { title:'Breathing Exercise', icon:'assets/iconbreathing.png', href:'breathing.html',        bg:'#B293EB' }
+  ],
+  'Expansiveness': [
+    { title:'Words of Affirmation', icon:'assets/iconaffirmations.png', href:'welcome.html',  bg:'#77DEF8' },
+    { title:'Breathing Exercise',   icon:'assets/iconbreathing.png',    href:'breathing.html', bg:'#B293EB' }
+  ],
+  'Tenderness': [
+    { title:'Body Scan',            icon:'assets/iconaffirmations.png', href:'body-scan.html', bg:'#9DD2A6' },
+    { title:'Words of Affirmation', icon:'assets/iconaffirmations.png', href:'welcome.html',   bg:'#77DEF8' }
+  ],
+};
+
+const DEFAULT_RECS = [
+  { title:'Words of Affirmation', icon:'assets/iconaffirmations.png', href:'welcome.html',  bg:'#77DEF8' },
+  { title:'Breathing Exercise',   icon:'assets/iconbreathing.png',    href:'breathing.html', bg:'#B293EB' }
+];
+
+function applyRec(slotNum, rec) {
+  const card  = document.getElementById('rec-card-' + slotNum);
+  const icon  = document.getElementById('rec-icon-' + slotNum);
+  const title = document.getElementById('rec-title-' + slotNum);
+  if (!card || !icon || !title) return;
+  card.onclick = () => window.location.href = rec.href;
+  icon.src = rec.icon;
+  icon.onerror = () => { icon.style.display='none'; icon.parentElement.style.background = rec.bg; };
+  title.textContent = rec.title;
+}
+
+const topEmotion = e1; // already computed above in renderHome
+const recs = (topEmotion && EMOTION_TO_FAK[topEmotion]) ? EMOTION_TO_FAK[topEmotion] : DEFAULT_RECS;
+applyRec(1, recs[0]);
+applyRec(2, recs[1]);
+
   }
 }
 

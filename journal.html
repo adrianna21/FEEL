@@ -18,22 +18,27 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   html { overflow-x: hidden; }
+  
   body {
-  background-color: #F0F7FD;
-  background-image: url('assets/JournalGradientBackground.png');
-  background-size: cover;
-  background-position: center top;
-  background-attachment: fixed;
-  min-height: 100vh;
-  font-family: Roboto, sans-serif;
-  overflow-x: hidden;
-}
+    background-color: #F0F7FD;
+    background-image: url('assets/JournalGradientBackground.png');
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+    height: 100vh;
+    font-family: Roboto, sans-serif;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
 
   /* ── Journal Page ── */
   .journal-page {
-    position: relative;
-    min-height: 100vh;
-  }
+      position: relative;
+      height: 100vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      overscroll-behavior: none;
+    }
 
   /* Centered content wrapper */
   .page-inner {

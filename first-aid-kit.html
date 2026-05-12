@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>FEEL — First Aid Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
+
+  body {
+    background-color: #F0F7FD;
+    background-image: url('assets/JournalGradientBackground.png');
+    background-size: cover;
+    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    position: relative;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-color: #F0F7FD;
+    background-image: url('assets/JournalGradientBackground.png');
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .page-wrap {
+    position: relative;
+    z-index: 1;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: none;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 100px;
+  }
+
+  /* ── Back button ── */
+  .back-btn {
+    position: absolute;
+    top: 52px;
+    left: 20px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.35);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 10;
+    transition: background 0.15s, transform 0.12s;
+  }
+  .back-btn:active { transform: scale(0.93); }
+  .back-btn svg { width: 18px; height: 18px; }
+
+  /* ── Header ── */
+  .fak-header {
+    padding: 52px 24px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .fak-icon-wrap {
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .fak-icon-wrap svg {
+    width: 60px;
+    height: 60px;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+  }
+
+  .fak-title {
+    font-family: 'Nunito', sans-serif;
+    font-size: 34px;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.12);
+    letter-spacing: -0.3px;
+    text-align: center;
+  }
+
+  /* ── List ── */
+  .fak-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 8px 20px 20px;
+  }
+
+  .fak-card {
+    background: rgba(255,255,255,0.92);
+    border-radius: 20px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 2px 14px rgba(0,0,0,0.07);
+    cursor: pointer;
+    transition: transform 0.12s, box-shadow 0.12s;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    text-decoration: none;
+  }
+  .fak-card:active { transform: scale(0.97); box-shadow: 0 1px 8px rgba(0,0,0,0.08); }
+
+  .fak-card-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fak-card-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+  }
+
+  .fak-card-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .fak-card-title {
+    font-family: 'Nunito', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+  .fak-card-desc {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.45;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .fak-chevron {
+    font-size: 22px;
+    color: #ccc;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <button class="back-btn" onclick="history.back()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </button>
+
+  <div class="fak-header">
+    <div class="fak-icon-wrap">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="5" width="20" height="16" rx="3" fill="white" opacity="0.95"/>
+        <path d="M8 5V4C8 2.9 8.9 2 10 2H14C15.1 2 16 2.9 16 4V5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="12" y1="9" x2="12" y2="17" stroke="#E05A5A" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="8" y1="13" x2="16" y2="13" stroke="#E05A5A" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="fak-title">First Aid Kit</div>
+  </div>
+
+  <div class="fak-list">
+
+    <div class="fak-card" onclick="window.location.href='welcome.html'">
+      <div class="fak-card-icon">
+        <img src="assets/iconaffirmations.png" alt="Words of Affirmation"
+             onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#3AC6E9,#2aa8ca)'">
+      </div>
+      <div class="fak-card-body">
+        <div class="fak-card-title">Words of Affirmation</div>
+        <div class="fak-card-desc">Gentle reminders that you are enough. Read these when the inner critic gets loud.</div>
+      </div>
+      <div class="fak-chevron">›</div>
+    </div>
+
+    <div class="fak-card" onclick="window.location.href='breathing.html'">
+      <div class="fak-card-icon">
+        <img src="assets/iconbreathing.png" alt="Breathing Exercise"
+             onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#B293EB,#9370d8)'">
+      </div>
+      <div class="fak-card-body">
+        <div class="fak-card-title">Breathing Exercise</div>
+        <div class="fak-card-desc">Slow your nervous system down with a guided breathing session in under 3 minutes.</div>
+      </div>
+      <div class="fak-chevron">›</div>
+    </div>
+
+    <div class="fak-card" onclick="window.location.href='rant.html'">
+      <div class="fak-card-icon">
+        <img src="assets/iconaffirmations.png" alt="Rant Zone"
+             onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#8755E4,#6b40c4)'">
+      </div>
+      <div class="fak-card-body">
+        <div class="fak-card-title">Rant Zone</div>
+        <div class="fak-card-desc">Get it all out. A safe space to say exactly what's on your mind — no judgment.</div>
+      </div>
+      <div class="fak-chevron">›</div>
+    </div>
+
+    <div class="fak-card" onclick="window.location.href='anxiety-breathing.html'">
+      <div class="fak-card-icon">
+        <img src="assets/iconaffirmations.png" alt="Anxiety Breathing"
+             onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#8755E4,#6b40c4)'">
+      </div>
+      <div class="fak-card-body">
+        <div class="fak-card-title">Anxiety Breathing</div>
+        <div class="fak-card-desc">A specific 4-7-8 pattern designed to interrupt anxious spirals fast.</div>
+      </div>
+      <div class="fak-chevron">›</div>
+    </div>
+
+    <div class="fak-card" onclick="window.location.href='333-rule.html'">
+      <div class="fak-card-icon">
+        <img src="assets/iconaffirmations.png" alt="3-3-3 Rule"
+             onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#8755E4,#6b40c4)'">
+      </div>
+      <div class="fak-card-body">
+        <div class="fak-card-title">3-3-3 Rule</div>
+        <div class="fak-card-desc">Name 3 things you see, 3 you hear, and move 3 parts of your body. Ground yourself now.</div>
+      </div>
+      <div class="fak-chevron">›</div>
+    </div>
+
+    <div class="fak-card" onclick="window.location.href='body-scan.html'">
+      <div class="fak-card-icon">
+        <img src="assets/iconaffirmations.png" alt="Body Scan"
+             onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#8755E4,#6b40c4)'">
+      </div>
+      <div class="fak-card-body">
+        <div class="fak-card-title">Body Scan</div>
+        <div class="fak-card-desc">Check in with where you're holding tension and gently release it from head to toe.</div>
+      </div>
+      <div class="fak-chevron">›</div>
+    </div>
+
+    <div class="fak-card" onclick="window.location.href='grounding.html'">
+      <div class="fak-card-icon">
+        <img src="assets/iconaffirmations.png" alt="Grounding Exercise"
+             onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#8755E4,#6b40c4)'">
+      </div>
+      <div class="fak-card-body">
+        <div class="fak-card-title">Grounding Exercise</div>
+        <div class="fak-card-desc">Reconnect with the present moment using sensory awareness and simple anchoring.</div>
+      </div>
+      <div class="fak-chevron">›</div>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
