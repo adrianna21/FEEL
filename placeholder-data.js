@@ -92,9 +92,15 @@
     } catch(e) { return true; }
   }
 
-  const activeKeys = getActiveEmotionKeys();
+const activeKeys = getActiveEmotionKeys();
 
-  if (!needsReseed(activeKeys)) {
+// Force reseed if placeholder data count doesn't match DATA length
+try {
+  const existing = JSON.parse(localStorage.getItem('feel_placeholder') || '[]');
+  if (existing.length !== 44) localStorage.removeItem('feel_emotions');
+} catch(e) {}
+
+if (!needsReseed(activeKeys)) {
     console.log('[FEEL] Placeholder data already up to date, skipping reseed.');
     return;
   }
@@ -145,7 +151,12 @@
     { id:'p011', button_value:4, timestamp:ts(2, 11,  0) },
     { id:'p012', button_value:1, timestamp:ts(2, 13, 15) },
     { id:'p013', button_value:5, timestamp:ts(2, 17, 40) },
+    { id:'p049', button_value:5, timestamp:ts(2, 17, 55) },
+    { id:'p050', button_value:5, timestamp:ts(2, 20, 40) },
+    { id:'p051', button_value:5, timestamp:ts(2, 19, 40) },
+    { id:'p052', button_value:5, timestamp:ts(2, 17, 40) },
     { id:'p014', button_value:1, timestamp:ts(2, 22, 50) },
+    { id:'p053', button_value:4, timestamp:ts(2, 22, 55) },
 
     // May 13 (Wed)
     { id:'p015', button_value:5, timestamp:ts(3,  7, 55) },

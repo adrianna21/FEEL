@@ -12,14 +12,15 @@
     --bg: #dde6f4; --white: #ffffff; --radius: 20px; --radius-sm: 14px;
     --text: #1a1a1a; --text-soft: #aaa; --orange: #F6A952;
   }
-  body {
+body {
     background-color: #F0F7FD;
     background-image: url('assets/JournalGradientBackground.png');
     background-size: cover; font-family: 'Roboto', sans-serif;
-    height: 100%; 
-    overflow: hidden; 
+    height: 100vh;
+    overflow: hidden;
     overscroll-behavior: none;
   }
+
   .header-bg { padding: 52px 24px 0; text-align: center; }
   .header-title { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: clamp(22px,3.5vw,32px); color: #fff; margin-bottom: 6px; }
   .header-date-row { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px; color: #fff; font-weight: 400; margin-bottom: 18px; }
@@ -108,21 +109,21 @@
 </style>
 </head>
 <body>
-
-<div class="header-bg">
-  <h1 class="header-title">Insights</h1>
-  <div class="header-date-row">
-    <button id="btn-prev">&#8249;</button>
-    <span id="date-range-label">May 11, 2026</span>
-    <button id="btn-next">&#8250;</button>
-  </div>
-  <div class="toggle-wrap">
-    <div class="toggle">
-      <button class="active" id="tog-day" onclick="setMode('day')">Day</button>
-      <button id="tog-week" onclick="setMode('week')">Week</button>
+<div id="scroll-wrap" style="height:100vh;overflow-y:auto;overflow-x:hidden;overscroll-behavior:none;padding-bottom:100px;">
+  <div class="header-bg">
+    <h1 class="header-title">Insights</h1>
+    <div class="header-date-row">
+      <button id="btn-prev">&#8249;</button>
+      <span id="date-range-label">May 11, 2026</span>
+      <button id="btn-next">&#8250;</button>
+    </div>
+    <div class="toggle-wrap">
+      <div class="toggle">
+        <button class="active" id="tog-day" onclick="setMode('day')">Day</button>
+        <button id="tog-week" onclick="setMode('week')">Week</button>
+      </div>
     </div>
   </div>
-</div>
 
 <!-- Always visible -->
 <div class="section-title">Emotions Tracked <img class="section-icon" src="assets/starsicon.png" alt="" /></div>
@@ -191,7 +192,7 @@
     </div>
     <img class="article-chevron" src="assets/backbutton_grey.png" alt="›">
 </div>
-
+</div>
 <!-- PATTERN MODAL -->
 <div id="pattern-modal-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(6px);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;">
   <div id="pattern-modal" style="width:min(100vw,820px);max-height:92vh;background:#fff;border-radius:28px 28px 0 0;overflow-y:auto;overflow-x:hidden;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,.72,0,1);padding-bottom:40px;">
@@ -638,6 +639,7 @@ window.openPatternModal=function(idx){
   document.getElementById('pattern-modal-overlay').style.pointerEvents='all';
   document.getElementById('pattern-modal').style.transform='translateY(0)';
   document.body.style.overflow='hidden';
+  document.querySelector('.radial-nav-wrap').style.display='none';
   document.getElementById('pm-header').innerHTML=`
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px;">
       <div style="width:56px;height:56px;border-radius:16px;background:${cfg.accentColor}22;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;">${idx===0?'🌱':idx===1?'⭐':'🔥'}</div>
@@ -669,6 +671,7 @@ window.closePatternModal=function(){
   document.getElementById('pattern-modal-overlay').style.pointerEvents='none';
   document.getElementById('pattern-modal').style.transform='translateY(100%)';
   document.body.style.overflow='';
+  document.querySelector('.radial-nav-wrap').style.display='flex';
 };
 document.getElementById('pattern-modal-overlay').addEventListener('click',function(e){if(e.target===this)window.closePatternModal();});
 
