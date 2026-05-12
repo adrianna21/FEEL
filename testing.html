@@ -252,12 +252,17 @@
   .pattern-chevron { color: #ccc; font-size: 18px; flex-shrink: 0; }
 
   /* ── Article card ── */
-  .article-card {
-    display: flex; align-items: center; gap: 14px;
-    background: #fff; border-radius: var(--radius);
-    padding: 14px; cursor: pointer; transition: box-shadow .15s;
-    box-shadow: 0 2px 12px rgba(0,0,0,.06);
-  }
+ .article-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 14px;
+    cursor: pointer;
+    transition: box-shadow .15s;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, .06);
+    
   .article-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,.10); }
   .article-thumb {
     width: clamp(90px, 15vw, 140px); height: clamp(90px, 15vw, 140px);
@@ -375,14 +380,14 @@
   Learn more about your emotions
   <img class="section-icon" src="assets/learnicon.png" alt="" />
 </div>
-<div class="article-card" style="margin:0 16px 20px;" >
-    <img class="article-thumb" src="assets/book-2.png" alt="Article" />
+<div class="article-card" style="margin:0 16px 20px;">
+    <img class="article-thumb" src="assets/book-2.png" alt="Article">
     <div class="article-meta">
       <div class="article-kicker">Article of the week</div>
       <div class="article-title">Understanding emotional patterns</div>
       <div class="article-excerpt">Therapy with Rick</div>
     </div>
-    <img class="article-chevron" src="assets/backbutton_grey.png" alt="›" />
+    <img class="article-chevron" src="assets/backbutton_grey.png" alt="›">
 </div>
 
 <!-- ══════════ PATTERN DETAIL MODAL ══════════ -->

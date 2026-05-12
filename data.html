@@ -8,244 +8,75 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #dde6f4;
-    --white: #ffffff;
-    --radius: 20px;
-    --radius-sm: 14px;
-    --text: #1a1a1a;
-    --text-soft: #aaa;
-    --purple: #8956E2;
-    --teal: #1DCBD6;
-    --orange: #F6A952;
-    --pink: #EAA4A6;
-    --red: #E8585F;
-    --green: #76D586;
+    --bg: #dde6f4; --white: #ffffff; --radius: 20px; --radius-sm: 14px;
+    --text: #1a1a1a; --text-soft: #aaa; --orange: #F6A952;
   }
-
   body {
     background-color: #F0F7FD;
     background-image: url('assets/JournalGradientBackground.png');
-    background-size: cover;
-    font-family: 'Roboto', sans-serif;
-    min-height: 100vh;
-    padding-bottom: 100px;
+    background-size: cover; font-family: 'Roboto', sans-serif;
+    min-height: 100vh; padding-bottom: 100px;
   }
-
-  .header-bg {
-    padding: 52px 24px 0;
-    text-align: center;
-  }
-  .header-title {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 900;
-    font-size: clamp(22px, 3.5vw, 32px);
-    color: #fff;
-    margin-bottom: 6px;
-  }
-  .header-date-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-size: 14px;
-    color: #fff;
-    font-weight: 400;
-    margin-bottom: 18px;
-  }
-  .header-date-row button {
-    background: none; border: none; cursor: pointer;
-    font-size: 20px; color: #fff; padding: 0 2px; line-height: 1;
-    opacity: .8;
-  }
+  .header-bg { padding: 52px 24px 0; text-align: center; }
+  .header-title { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: clamp(22px,3.5vw,32px); color: #fff; margin-bottom: 6px; }
+  .header-date-row { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px; color: #fff; font-weight: 400; margin-bottom: 18px; }
+  .header-date-row button { background: none; border: none; cursor: pointer; font-size: 20px; color: #fff; padding: 0 2px; line-height: 1; opacity: .8; }
   .header-date-row button:hover { opacity: 1; }
-
-  .toggle-wrap {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 20px;
-  }
-  .toggle {
-    display: flex;
-    background: #1a1a1a;
-    border-radius: 24px;
-    padding: 3px;
-    gap: 2px;
-  }
-  .toggle button {
-    background: none; border: none; cursor: pointer;
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px; font-weight: 500;
-    padding: 7px 26px;
-    border-radius: 20px;
-    color: #777;
-    transition: all 0.2s;
-  }
+  .toggle-wrap { display: flex; justify-content: center; padding-bottom: 20px; }
+  .toggle { display: flex; background: #1a1a1a; border-radius: 24px; padding: 3px; gap: 2px; }
+  .toggle button { background: none; border: none; cursor: pointer; font-family: 'Roboto', sans-serif; font-size: 14px; font-weight: 500; padding: 7px 26px; border-radius: 20px; color: #777; transition: all 0.2s; }
   .toggle button.active { background: #fff; color: #1a1a1a; }
-
-  .section-title {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'Nunito', sans-serif;
-    font-size: clamp(16px, 2.2vw, 22px);
-    font-weight: 900;
-    color: var(--text);
-    padding: 0 20px 12px;
-  }
-  .section-icon {
-    width: clamp(22px, 3vw, 30px);
-    height: clamp(22px, 3vw, 30px);
-    object-fit: contain;
-  }
-
-  .card {
-    background: var(--white);
-    border-radius: var(--radius);
-    margin: 0 16px 20px;
-    padding: 18px;
-    box-shadow: 0 2px 12px rgba(0,0,0,.06);
-  }
-
+.section-title { display: flex; align-items: center; gap: 8px; font-family: 'Nunito', sans-serif; font-size: clamp(16px,2.2vw,22px); font-weight: 900; color: var(--text); padding: 0 20px 12px; }  .section-icon { width: clamp(22px,3vw,30px); height: clamp(22px,3vw,30px); object-fit: contain; }
+  .card { background: var(--white); border-radius: var(--radius); margin: 0 16px 20px; padding: 18px; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
   .emotion-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip {
-    display: inline-flex; align-items: center; gap: 6px;
-    border: none; border-radius: 24px;
-    padding: 7px 16px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px; font-weight: 600;
-    color: #fff; cursor: pointer;
-    transition: opacity 0.15s, transform 0.1s;
-  }
+  .chip { display: inline-flex; align-items: center; gap: 6px; border: none; border-radius: 24px; padding: 7px 16px; font-family: 'Roboto', sans-serif; font-size: 14px; font-weight: 600; color: #fff; cursor: pointer; transition: opacity 0.15s, transform 0.1s; }
   .chip:active { transform: scale(.96); }
-  .chip.inactive { opacity: .45; }
-  .chip-badge {
-    font-size: 10px; font-weight: 700;
-    background: rgba(255,255,255,.3);
-    border-radius: 8px; padding: 1px 6px;
-  }
-
   .stats-row { display: flex; gap: 12px; margin: 0 16px 20px; }
-
-  .stat-card {
-    flex: 1; background: var(--white);
-    border-radius: var(--radius); padding: 16px 14px 14px;
-    box-shadow: 0 2px 12px rgba(0,0,0,.06);
-    overflow: hidden; position: relative;
-    min-height: clamp(120px, 18vw, 170px);
-    display: flex; flex-direction: column; justify-content: flex-start;
-  }
-  .stat-label-small {
-    font-size: clamp(9px, 1.2vw, 11px); font-weight: 600;
-    letter-spacing: .1em; text-transform: uppercase;
-    color: var(--orange); margin-bottom: 4px;
-  }
-  .stat-value-big {
-    font-family: 'Nunito', sans-serif; font-weight: 900;
-    font-size: clamp(38px, 7vw, 60px); color: var(--text); line-height: 1;
-  }
-  .stat-sub-text {
-    font-size: clamp(10px, 1.3vw, 13px); color: var(--text-soft);
-    font-weight: 400; line-height: 1.4;
-    margin-top: 4px;
-  }
-  .stat-value-name {
-    font-family: 'Nunito', sans-serif; font-weight: 900;
-    font-size: clamp(24px, 4.5vw, 38px); color: var(--text); line-height: 1.1;
-  }
-  .stat-asset {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    pointer-events: none;
-    border-radius: var(--radius);
-    z-index: 0;
-  }
+  .stat-card { flex: 1; background: var(--white); border-radius: var(--radius); padding: 16px 14px 14px; box-shadow: 0 2px 12px rgba(0,0,0,.06); overflow: hidden; position: relative; min-height: clamp(120px,18vw,170px); display: flex; flex-direction: column; justify-content: flex-start; }
+  .stat-label-small { font-size: clamp(9px,1.2vw,11px); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--orange); margin-bottom: 4px; }
+  .stat-value-big { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: clamp(38px,7vw,60px); color: var(--text); line-height: 1; }
+  .stat-sub-text { font-size: clamp(10px,1.3vw,13px); color: var(--text-soft); font-weight: 400; line-height: 1.4; margin-top: 4px; }
+  .stat-value-name { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: clamp(24px,4.5vw,38px); color: var(--text); line-height: 1.1; }
+  .stat-asset { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; pointer-events: none; border-radius: var(--radius); z-index: 0; }
   .stat-card > div { position: relative; z-index: 1; }
-
   .chart-scroll { overflow-x: auto; padding-bottom: 4px; }
-  .chart-scroll::-webkit-scrollbar { height: 4px; }
-  .chart-scroll::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 2px; }
-  #line-chart { min-width: 480px; width: 100%; display: block; }
-
-  .chart-legend {
-    display: flex; flex-wrap: wrap; gap: 10px;
-    margin-top: 12px;
-  }
-  .legend-item {
-    display: flex; align-items: center; gap: 5px;
-    font-size: 12px; color: #666; font-weight: 400;
-  }
-  .legend-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-  }
-
-  .freq-row {
-    display: flex; align-items: center; gap: 12px;
-    margin-bottom: 12px;
-  }
+  #line-chart { min-width: 300px; width: 100%; display: block; }
+  .chart-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #666; font-weight: 400; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .freq-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
   .freq-row:last-child { margin-bottom: 0; }
-  .freq-dot {
-    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
-  }
-  .freq-label {
-    width: 78px; font-size: 14px; color: var(--text); font-weight: 500; flex-shrink: 0;
-  }
-  .freq-bar-wrap {
-    flex: 1; height: 8px; background: #f0f0f0; border-radius: 4px; overflow: hidden;
-  }
-  .freq-bar-fill {
-    height: 100%; border-radius: 4px;
-    transition: width 0.7s cubic-bezier(.34,1.2,.64,1);
-  }
-  .freq-pct {
-    width: 38px; font-size: 13px; color: var(--text-soft);
-    text-align: right; font-weight: 500; flex-shrink: 0;
-  }
-
-  .heatmap-grid {
-    display: grid;
-    grid-template-columns: 36px repeat(7, 1fr);
-    gap: 6px; align-items: center;
-  }
+  .freq-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .freq-label { width: 78px; font-size: 14px; color: var(--text); font-weight: 500; flex-shrink: 0; }
+  .freq-bar-wrap { flex: 1; height: 8px; background: #f0f0f0; border-radius: 4px; overflow: hidden; }
+  .freq-bar-fill { height: 100%; border-radius: 4px; transition: width 0.7s cubic-bezier(.34,1.2,.64,1); }
+  .freq-pct { width: 38px; font-size: 13px; color: var(--text-soft); text-align: right; font-weight: 500; flex-shrink: 0; }
   .hm-day-header { font-size: 11px; font-weight: 600; color: #bbb; text-align: center; }
   .hm-row-label { font-size: 11px; color: #bbb; font-weight: 500; text-align: right; padding-right: 4px; }
-  .hm-cell {
-    aspect-ratio: 1; border-radius: 10px; background: #f0f0ec;
-    cursor: pointer; transition: transform 0.1s, box-shadow 0.1s;
-  }
+  .hm-cell { aspect-ratio: 1; border-radius: 10px; background: #f0f0ec; cursor: pointer; transition: transform 0.1s, box-shadow 0.1s; }
   .hm-cell:hover { transform: scale(1.12); box-shadow: 0 2px 8px rgba(0,0,0,.12); }
-
-  .pattern-item {
-    display: flex; align-items: center; gap: 12px;
-    padding: 12px 14px; background: #fafafa;
-    border-radius: var(--radius-sm); margin-bottom: 10px;
-    cursor: pointer; transition: background .15s;
-  }
+  .pattern-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: #fafafa; border-radius: var(--radius-sm); margin-bottom: 10px; cursor: pointer; transition: background .15s; }
   .pattern-item:last-child { margin-bottom: 0; }
   .pattern-item:hover { background: #f3f3f3; }
-  .pattern-thumb {
-    width: clamp(40px, 7vw, 56px); height: clamp(40px, 7vw, 56px);
-    border-radius: 12px; object-fit: cover; flex-shrink: 0;
-  }
-  .pattern-text { flex: 1; font-size: clamp(12px, 1.5vw, 14px); color: #666; line-height: 1.6; }
+  .pattern-thumb { width: clamp(40px,7vw,56px); height: clamp(40px,7vw,56px); border-radius: 12px; object-fit: cover; flex-shrink: 0; }
+  .pattern-text { flex: 1; font-size: clamp(12px,1.5vw,14px); color: #666; line-height: 1.6; }
   .pattern-text strong { font-weight: 700; color: var(--text); }
-  .pat-green  { color: #5FC672; font-weight: 700; }
+  .pat-green { color: #5FC672; font-weight: 700; }
   .pat-orange { color: #FBA732; font-weight: 700; }
-  .pat-red    { color: #EB585A; font-weight: 700; }
+  .pat-red { color: #EB585A; font-weight: 700; }
   .pattern-chevron { color: #ccc; font-size: 18px; flex-shrink: 0; }
-
-  .article-card {
-    display: flex; align-items: center; gap: 14px;
-    background: #fff; border-radius: var(--radius);
-    padding: 14px; cursor: pointer; transition: box-shadow .15s;
-    box-shadow: 0 2px 12px rgba(0,0,0,.06);
-  }
-  .article-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,.10); }
+ .article-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 14px;
+    cursor: pointer;
+    transition: box-shadow .15s;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, .06);
+ }
   .article-thumb {
     width: clamp(90px, 15vw, 140px); height: clamp(90px, 15vw, 140px);
     border-radius: 14px; object-fit: cover; flex-shrink: 0;
@@ -254,7 +85,7 @@
   .article-kicker {
     font-size: 11px; font-weight: 700; letter-spacing: .12em;
     text-transform: uppercase; margin-bottom: 6px;
-    background: linear-gradient(90deg, #F6A952 0%, #EAA4A6 36.82%, #BBA1D4 61.9%, #1DCBD6 86.98%);
+    background: linear-gradient(90deg, #F6A952 0%, #EAA4A6 9%, #BBA1D4 14%, #1DCBD6 28%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -271,6 +102,7 @@
     width: clamp(32px, 4.5vw, 44px); height: clamp(32px, 4.5vw, 44px);
     flex-shrink: 0; object-fit: contain;
   }
+  .week-only-section { display: none; }
 </style>
 </head>
 <body>
@@ -279,31 +111,27 @@
   <h1 class="header-title">Insights</h1>
   <div class="header-date-row">
     <button id="btn-prev">&#8249;</button>
-    <span id="date-range-label">May 1 - May 7, 2026</span>
+    <span id="date-range-label">May 11, 2026</span>
     <button id="btn-next">&#8250;</button>
   </div>
   <div class="toggle-wrap">
     <div class="toggle">
-    <button class="active" id="tog-day" onclick="setMode('day')">Day</button>
-    <button id="tog-week" onclick="setMode('week')">Week</button>
+      <button class="active" id="tog-day" onclick="setMode('day')">Day</button>
+      <button id="tog-week" onclick="setMode('week')">Week</button>
     </div>
   </div>
 </div>
 
-<div class="section-title">
-  Emotions Tracked
-  <img class="section-icon" src="assets/starsicon.png" alt="" />
-</div>
-<div class="card">
-  <div class="emotion-chips" id="emotion-chips"></div>
-</div>
+<!-- Always visible -->
+<div class="section-title">Emotions Tracked <img class="section-icon" src="assets/starsicon.png" alt="" /></div>
+<div class="card"><div class="emotion-chips" id="emotion-chips"></div></div>
 
 <div class="stats-row">
   <div class="stat-card">
     <div>
       <div class="stat-label-small">Total Logs</div>
       <div class="stat-value-big" id="stat-total">—</div>
-      <div class="stat-sub-text" id="stat-total-sub">Emotions were<br>logged this week</div>
+      <div class="stat-sub-text" id="stat-total-sub">Emotions logged</div>
     </div>
     <img class="stat-asset" src="assets/total_logs.png" alt="" />
   </div>
@@ -311,91 +139,67 @@
     <div>
       <div class="stat-label-small">Most Felt</div>
       <div class="stat-value-name" id="stat-most">—</div>
-      <div class="stat-sub-text" id="stat-most-sub">Was the emotion most<br>felt this week</div>
+      <div class="stat-sub-text" id="stat-most-sub"></div>
     </div>
     <img class="stat-asset" src="assets/most_felt.png" alt="" />
   </div>
 </div>
 
-<div class="card" style="padding:18px 12px 14px;">
+<!-- DAY: flower breakdown + history -->
+<div id="day-two-col" style="display:none; gap:12px; margin:0 16px 20px;">
+  <div style="background:#fff;border-radius:20px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,.06);flex:1;min-width:0;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;background:linear-gradient(90deg,#F6A952,#EAA4A6,#BBA1D4,#1DCBD6);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Breakdown</div>
+    <div id="flower-chart" style="display:flex;justify-content:center;align-items:center;"></div>
+    <div id="chart-legend" style="display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:14px;justify-content:center;"></div>
+  </div>
+  <div style="background:#fff;border-radius:20px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,.06);flex:1;min-width:0;overflow-y:auto;max-height:380px;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;background:linear-gradient(90deg,#F6A952,#EAA4A6,#BBA1D4,#1DCBD6);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Today's History</div>
+    <div id="day-log-list"></div>
+  </div>
+</div>
+
+<!-- WEEK: line chart -->
+<div class="card week-only-section" id="week-chart-card" style="padding:18px 12px 14px;">
   <div class="chart-scroll">
-    <canvas id="line-chart" height="160"></canvas>
+    <canvas id="line-chart" height="200"></canvas>
   </div>
-  <div class="chart-legend" id="chart-legend"></div>
+  <div id="chart-legend-week" class="chart-legend"></div>
 </div>
 
-<div class="section-title">
-  Emotions Frequency
-  <img class="section-icon" src="assets/frequencyicon.png" alt="" />
-</div>
-<div class="card" id="freq-card"></div>
+<!-- WEEK ONLY sections -->
+<div class="section-title week-only-section">Emotions Frequency <img class="section-icon" src="assets/frequencyicon.png" alt="" /></div>
+<div class="card week-only-section" id="freq-card"></div>
 
-<div class="section-title">
-  Emotion Heatmap
-  <img class="section-icon" src="assets/heaticon.png" alt="" />
-</div>
-<div style="position:relative; margin-right: clamp(90px,14vw,150px);">
-  <div class="card">
-    <div class="heatmap-grid" id="heatmap"></div>
-  </div>
-  <img src="assets/morecolor_arrow.png" alt="more color = more feels"
-       style="position:absolute; top:0; right:clamp(-110px,-16vw,-85px); width:clamp(80px,12vw,130px); pointer-events:none;" />
+<div class="section-title week-only-section">Emotion Heatmap <img class="section-icon" src="assets/heaticon.png" alt="" /></div>
+<div class="week-only-section" style="position:relative;margin-right:clamp(90px,14vw,150px);">
+  <div class="card"><div id="heatmap"></div></div>
+  <img src="assets/morecolor_arrow.png" alt="more color = more feels" style="position:absolute;top:0;right:clamp(-110px,-16vw,-85px);width:clamp(80px,12vw,130px);pointer-events:none;" />
 </div>
 
-<div class="section-title">
-  Weekly Patterns
-  <img class="section-icon" src="assets/puzzleicon.png" alt="" />
-</div>
-<div class="card" id="patterns-card"></div>
+<div class="section-title week-only-section">Weekly Patterns <img class="section-icon" src="assets/puzzleicon.png" alt="" /></div>
+<div class="card week-only-section" id="patterns-card"></div>
 
-<div class="section-title">
-  Learn more about your emotions
-  <img class="section-icon" src="assets/learnicon.png" alt="" />
-</div>
-<div class="article-card" style="margin:0 16px 20px;" onclick="window.open('https://www.therapywithrick.com/emotion/understanding-emotional-patterns','_blank')" role="link">
-    <img class="article-thumb" src="assets/book-2.png" alt="Article" />
+<div class="section-title week-only-section">Learn more about your emotions <img class="section-icon" src="assets/learnicon.png" alt="" /></div>
+<div class="article-card" style="margin:0 16px 20px;">
+    <img class="article-thumb" src="assets/book-2.png" alt="Article">
     <div class="article-meta">
       <div class="article-kicker">Article of the week</div>
       <div class="article-title">Understanding emotional patterns</div>
-      <div class="article-excerpt">Stood in line for 20 minutes today and I was very dissapointed by the coffee I got. This really set...</div>
+      <div class="article-excerpt">Therapy with Rick</div>
     </div>
-    <img class="article-chevron" src="assets/backbutton_grey.png" alt="›" />
+    <img class="article-chevron" src="assets/backbutton_grey.png" alt="›">
 </div>
 
-<!-- ══ PATTERN DETAIL MODAL ══ -->
-<div id="pattern-modal-overlay" style="
-  position:fixed; inset:0; background:rgba(0,0,0,.35);
-  backdrop-filter:blur(6px); z-index:200;
-  display:flex; align-items:flex-end; justify-content:center;
-  opacity:0; pointer-events:none;
-  transition:opacity .3s;">
-  <div id="pattern-modal" style="
-    width:min(100vw,820px); max-height:92vh;
-    background:#fff; border-radius:28px 28px 0 0;
-    overflow-y:auto; overflow-x:hidden;
-    transform:translateY(100%);
-    transition:transform .38s cubic-bezier(.32,.72,0,1);
-    padding-bottom:40px;">
-
+<!-- PATTERN MODAL -->
+<div id="pattern-modal-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(6px);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;">
+  <div id="pattern-modal" style="width:min(100vw,820px);max-height:92vh;background:#fff;border-radius:28px 28px 0 0;overflow-y:auto;overflow-x:hidden;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,.72,0,1);padding-bottom:40px;">
     <div style="display:flex;justify-content:flex-end;padding:18px 20px 0;">
-      <button onclick="closePatternModal()" style="
-        width:36px;height:36px;border-radius:50%;
-        background:#f0f0f5;border:none;cursor:pointer;
-        display:flex;align-items:center;justify-content:center;
-        font-size:18px;color:#888;">✕</button>
+      <button onclick="closePatternModal()" style="width:36px;height:36px;border-radius:50%;background:#f0f0f5;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:#888;">✕</button>
     </div>
-
     <div id="pm-header" style="padding:0 24px 20px;"></div>
-
     <div style="display:flex;gap:12px;padding:0 20px 16px;flex-wrap:wrap;">
-      <div id="pm-why" style="
-        flex:1;min-width:200px;background:#fffaf3;
-        border-radius:18px;padding:18px;">
-        <p style="font-family:'Nunito',sans-serif;font-weight:800;
-          font-size:13px;color:#FBA732;letter-spacing:.06em;
-          text-transform:uppercase;margin-bottom:10px;">
-          Why this might be happening
-        </p>
+      <div id="pm-why" style="flex:1;min-width:200px;background:#fffaf3;border-radius:18px;padding:18px;">
+        <p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;color:#FBA732;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;">Why this might be happening</p>
         <div id="pm-why-text" style="font-size:13px;color:#555;line-height:1.65;"></div>
       </div>
       <div style="flex:1;min-width:180px;background:#fafafa;border-radius:18px;padding:18px;">
@@ -405,44 +209,19 @@
         <div id="pm-spark-labels" style="display:flex;justify-content:space-between;font-size:10px;color:#bbb;margin-top:4px;"></div>
       </div>
     </div>
-
     <div style="margin:0 20px 16px;background:#fafafa;border-radius:18px;padding:18px;position:relative;">
-      <p id="pm-tips-label" style="font-family:'Nunito',sans-serif;font-weight:800;
-        font-size:13px;letter-spacing:.06em;text-transform:uppercase;
-        margin-bottom:14px;color:#FBA732;">Tips</p>
+      <p id="pm-tips-label" style="font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;color:#FBA732;">Tips</p>
       <div id="pm-tips" style="display:flex;flex-direction:column;gap:14px;"></div>
-      <div style="
-        position:absolute;right:12px;bottom:12px;
-        width:clamp(70px,12vw,100px);height:clamp(70px,12vw,100px);
-        background:#f0ece4;border-radius:50%;
-        display:flex;align-items:center;justify-content:center;
-        color:#ccc;font-size:11px;text-align:center;">
-        character<br>here
-      </div>
+      <div style="position:absolute;right:12px;bottom:12px;width:clamp(70px,12vw,100px);height:clamp(70px,12vw,100px);background:#f0ece4;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:11px;text-align:center;">character<br>here</div>
     </div>
-
-    <div id="pm-reflection" style="
-      margin:0 20px;
-      border:2px dashed #FBA732;
-      border-radius:18px;padding:18px;
-      display:flex;align-items:center;gap:16px;
-      cursor:pointer;background:#fffaf3;"
-      onclick="openJournalWithPrompt()">
-      <div style="
-        width:48px;height:48px;border-radius:14px;
-        background:#FBA732;display:flex;align-items:center;
-        justify-content:center;font-size:22px;flex-shrink:0;">💬</div>
+    <div id="pm-reflection" style="margin:0 20px;border:2px dashed #FBA732;border-radius:18px;padding:18px;display:flex;align-items:center;gap:16px;cursor:pointer;background:#fffaf3;" onclick="openJournalWithPrompt()">
+      <div style="width:48px;height:48px;border-radius:14px;background:#FBA732;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">💬</div>
       <div style="flex:1;">
-        <p style="font-family:'Nunito',sans-serif;font-weight:800;
-          font-size:15px;color:#1a1a1a;margin-bottom:4px;">Reflection Prompt</p>
+        <p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;color:#1a1a1a;margin-bottom:4px;">Reflection Prompt</p>
         <p id="pm-prompt-text" style="font-size:13px;color:#888;line-height:1.5;"></p>
       </div>
-      <div style="
-        width:40px;height:40px;border-radius:50%;
-        background:#FBA732;display:flex;align-items:center;
-        justify-content:center;flex-shrink:0;color:#fff;font-size:20px;">›</div>
+      <div style="width:40px;height:40px;border-radius:50%;background:#FBA732;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:20px;">›</div>
     </div>
-
   </div>
 </div>
 
@@ -452,63 +231,29 @@
 <script>
 (function(){
 
-/* ════════════════════════════════════════════
-   DATA & HELPERS
-════════════════════════════════════════════ */
-
+/* ── DATA & HELPERS ── */
 function loadEmotions() {
-  try {
-    const raw = localStorage.getItem('feel_emotions');
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed && parsed.length) return parsed;
-    }
-  } catch(e) {}
+  try { const r=localStorage.getItem('feel_emotions'); if(r){const p=JSON.parse(r);if(p&&p.length)return p;} } catch(e){}
   return [];
 }
-
 function loadStoredData() {
   try {
-    const placeholder = JSON.parse(localStorage.getItem('feel_placeholder') || '[]');
-    const apiData     = JSON.parse(localStorage.getItem('feel_data')        || '[]');
-    const map = {};
-    placeholder.forEach(d => map[d.id] = d);
-    apiData.forEach(d => map[d.id] = d);
+    const ph=JSON.parse(localStorage.getItem('feel_placeholder')||'[]');
+    const api=JSON.parse(localStorage.getItem('feel_data')||'[]');
+    const map={}; ph.forEach(d=>map[d.id]=d); api.forEach(d=>map[d.id]=d);
     return Object.values(map);
   } catch { return []; }
 }
-
-// ── THE FIX: resolve emotion by button_value using feel_emotions ──
-// feel_emotions stores: [{ name, value, color }, ...]
-// button_value in logs is 1-based and matches .value
-function getEmotionByValue(emotions, val) {
-  // Primary: match by stored .value field
-  let match = emotions.find(e => e.value === val);
-  if (match) return match;
-  // Fallback: treat as 1-based index
-  const idx = val - 1;
-  if (idx >= 0 && idx < emotions.length) return emotions[idx];
-  return { name: 'Unknown', value: val, color: '#bbb' };
+function getEmotionByValue(emos, val) {
+  let m=emos.find(e=>e.value===val); if(m)return m;
+  const idx=val-1; if(idx>=0&&idx<emos.length)return emos[idx];
+  return {name:'Unknown',value:val,color:'#bbb'};
 }
 
-// ── THE FIX: always use color from feel_emotions, not a hardcoded map ──
-function getCol(emotions, nameOrValue) {
-  let em;
-  if (typeof nameOrValue === 'number') {
-    em = getEmotionByValue(emotions, nameOrValue);
-  } else {
-    em = emotions.find(e => e.name === nameOrValue);
-  }
-  return (em && em.color) ? em.color : '#bbb';
-}
-
-// Load emotions — these carry the correct colors set during onboarding/device setup
 let emotions = loadEmotions();
 let allData   = loadStoredData();
 
-/* ════════════════════════════════════════════
-   DATE WINDOW
-════════════════════════════════════════════ */
+/* ── DATE WINDOW ── */
 let mode = 'day';
 let weekOffset = 0;
 
@@ -516,758 +261,508 @@ function getWindowBounds() {
   const today = new Date();
   if (mode === 'day') {
     const start = new Date(today);
-    start.setHours(0, 0, 0, 0);
+    start.setHours(0,0,0,0);
     start.setDate(start.getDate() + weekOffset);
     const end = new Date(start);
-    end.setHours(23, 59, 59, 999);
+    end.setHours(23,59,59,999);
     return { start, end };
   } else {
     const dow = today.getDay();
     const sunday = new Date(today);
     sunday.setDate(today.getDate() - dow + weekOffset * 7);
-    sunday.setHours(0, 0, 0, 0);
+    sunday.setHours(0,0,0,0);
     const saturday = new Date(sunday);
     saturday.setDate(sunday.getDate() + 6);
-    saturday.setHours(23, 59, 59, 999);
+    saturday.setHours(23,59,59,999);
     return { start: sunday, end: saturday };
   }
 }
 
 function formatWindowLabel() {
-  const {start, end} = getWindowBounds();
-  if (mode === 'day') {
-    return start.toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
-  }
-  const fmt = d => d.toLocaleDateString('en-US', { month:'short', day:'numeric' });
+  const {start,end} = getWindowBounds();
+  if (mode === 'day') return start.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  const fmt = d => d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
   return `${fmt(start)} - ${fmt(end)}, ${end.getFullYear()}`;
 }
 
 function getFilteredData() {
-  const {start, end} = getWindowBounds();
+  const {start,end} = getWindowBounds();
   return allData.filter(d => {
     const ts = new Date(d.timestamp.replace(' ','T')+'Z');
     return ts >= start && ts <= end;
   });
 }
 
-/* ════════════════════════════════════════════
-   LINE CHART
-════════════════════════════════════════════ */
-function drawLineChart(filtered) {
-  const canvas = document.getElementById('line-chart');
-  const dpr = window.devicePixelRatio || 1;
-  const W = canvas.parentElement.clientWidth - 24;
-  const H = 160;
-  canvas.style.width  = W + 'px';
-  canvas.style.height = H + 'px';
-  canvas.width  = W * dpr;
-  canvas.height = H * dpr;
-  const ctx = canvas.getContext('2d');
-  ctx.scale(dpr, dpr);
-
-  const pad = { top:10, right:10, bottom:32, left:10 };
-  const cW = W - pad.left - pad.right;
-  const cH = H - pad.top - pad.bottom;
-  ctx.clearRect(0, 0, W, H);
-
-  // Grid lines
-  for (let i=0; i<=4; i++) {
-    const y = pad.top + (cH / 4) * i;
-    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(W - pad.right, y);
-    ctx.strokeStyle = '#f0f0f0'; ctx.lineWidth = 1; ctx.stroke();
-  }
-
+/* ── DAY: flower breakdown + history ── */
+function drawDayBreakdown(filtered) {
   const legend = document.getElementById('chart-legend');
   legend.innerHTML = '';
-
-  if (mode === 'day') {
-    // X-axis: hours
-    const xLabels = ['12AM','3AM','6AM','9AM','12PM','3PM','6PM','9PM'];
-    const xHours  = [0, 3, 6, 9, 12, 15, 18, 21];
-    ctx.font = '10px Roboto, sans-serif'; ctx.fillStyle = '#bbb'; ctx.textAlign = 'center';
-    xHours.forEach((h, i) => {
-      const x = pad.left + (h / 24) * cW;
-      ctx.fillText(xLabels[i], x, H - 8);
-    });
-
-    // Group by emotion, plot by hour-of-day
-    const byEmotion = {};
-    filtered.forEach(d => {
-      const ts = new Date(d.timestamp.replace(' ','T')+'Z');
-      const h = ts.getHours() + ts.getMinutes()/60;
-      if (!byEmotion[d.button_value]) byEmotion[d.button_value] = [];
-      byEmotion[d.button_value].push(h);
-    });
-
-    const buckets = {};
-    filtered.forEach(d => {
-      const ts = new Date(d.timestamp.replace(' ','T')+'Z');
-      const b = Math.floor(ts.getHours());
-      buckets[b] = (buckets[b] || 0) + 1;
-    });
-    const maxCount = Math.max(...Object.values(buckets), 1);
-
-    Object.entries(byEmotion).forEach(([val, hours]) => {
-      const em  = getEmotionByValue(emotions, +val);
-      const col = em.color || '#bbb';
-      hours.sort((a,b) => a-b);
-      const points = hours.map(h => ({
-        x: pad.left + (h / 24) * cW,
-        y: pad.top + cH - ((buckets[Math.floor(h)] || 1) / maxCount) * cH * 0.85
-      }));
-
-      if (points.length < 2) {
-        ctx.beginPath(); ctx.arc(points[0].x, points[0].y, 5, 0, Math.PI*2);
-        ctx.fillStyle = col; ctx.fill();
-      } else {
-        ctx.beginPath();
-        ctx.moveTo(points[0].x, points[0].y);
-        for (let i=1; i<points.length; i++) {
-          const cpx = (points[i-1].x + points[i].x) / 2;
-          ctx.bezierCurveTo(cpx, points[i-1].y, cpx, points[i].y, points[i].x, points[i].y);
-        }
-        ctx.strokeStyle = col; ctx.lineWidth = 2.5; ctx.lineJoin = 'round'; ctx.stroke();
-        points.forEach(p => {
-          ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI*2);
-          ctx.fillStyle = '#fff'; ctx.fill();
-          ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2);
-          ctx.fillStyle = col; ctx.fill();
-        });
-      }
-
-      const li = document.createElement('div'); li.className = 'legend-item';
-      li.innerHTML = `<div class="legend-dot" style="background:${col}"></div>${em.name}`;
-      legend.appendChild(li);
-    });
-
-  } else {
-    // X-axis: days of week
-    const dayLabels = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-    ctx.font = '10px Roboto, sans-serif'; ctx.fillStyle = '#bbb'; ctx.textAlign = 'center';
-    dayLabels.forEach((lbl, i) => {
-      const x = pad.left + ((i + 0.5) / 7) * cW;
-      ctx.fillText(lbl, x, H - 8);
-    });
-
-    // Group by emotion, count per day-of-week
-    const byEmotion = {};
-    filtered.forEach(d => {
-      const ts = new Date(d.timestamp.replace(' ','T')+'Z');
-      const dow = ts.getDay(); // 0=Sun
-      if (!byEmotion[d.button_value]) byEmotion[d.button_value] = Array(7).fill(0);
-      byEmotion[d.button_value][dow]++;
-    });
-
-    const maxCount = Math.max(
-      ...Object.values(byEmotion).map(arr => Math.max(...arr)), 1
-    );
-
-    Object.entries(byEmotion).forEach(([val, counts]) => {
-      const em  = getEmotionByValue(emotions, +val);
-      const col = em.color || '#bbb';
-
-      const points = counts.map((c, i) => ({
-        x: pad.left + ((i + 0.5) / 7) * cW,
-        y: pad.top + cH - (c / maxCount) * cH * 0.85
-      }));
-
-      ctx.beginPath();
-      ctx.moveTo(points[0].x, points[0].y);
-      for (let i=1; i<points.length; i++) {
-        const cpx = (points[i-1].x + points[i].x) / 2;
-        ctx.bezierCurveTo(cpx, points[i-1].y, cpx, points[i].y, points[i].x, points[i].y);
-      }
-      ctx.strokeStyle = col; ctx.lineWidth = 2.5; ctx.lineJoin = 'round'; ctx.stroke();
-
-      points.forEach((p, i) => {
-        if (counts[i] === 0) return;
-        ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI*2);
-        ctx.fillStyle = '#fff'; ctx.fill();
-        ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2);
-        ctx.fillStyle = col; ctx.fill();
-      });
-
-      const li = document.createElement('div'); li.className = 'legend-item';
-      li.innerHTML = `<div class="legend-dot" style="background:${col}"></div>${em.name}`;
-      legend.appendChild(li);
-    });
-  }
-
-  if (!filtered.length) {
-    ctx.font = '13px Roboto'; ctx.fillStyle = '#ccc'; ctx.textAlign = 'center';
-    ctx.fillText('No data for this period', W/2, H/2 - 10);
-  }
-}
-
-/* ════════════════════════════════════════════
-   RENDER
-════════════════════════════════════════════ */
-function render() {
-  // Re-read emotions each render so changes from device_button are picked up
-  emotions = loadEmotions();
-
-  document.getElementById('date-range-label').textContent = formatWindowLabel();
- 
-  const filtered = getFilteredData();
-  const {start} = getWindowBounds();
-
-  /* ── Chips ── */
-  const chips = document.getElementById('emotion-chips');
-  chips.innerHTML = '';
-  emotions.forEach(em => {
-    const col = em.color || '#bbb';
-    const chip = document.createElement('div');
-    chip.className = 'chip';
-    chip.style.background = col;
-    chip.innerHTML = em.name;
-    chips.appendChild(chip);
-  });
-
-  /* ── Stats ── */
-  const total = filtered.length;
-  document.getElementById('stat-total').textContent = total || '—';
-  document.getElementById('stat-total-sub').innerHTML = total
-    ? 'Emotions were<br>logged this week'
-    : 'No logs yet';
+  const logList = document.getElementById('day-log-list');
+  logList.innerHTML = '';
 
   const countByEm = {};
   filtered.forEach(d => { countByEm[d.button_value] = (countByEm[d.button_value]||0)+1; });
-  let mostVal=null, mostCnt=0;
-  Object.entries(countByEm).forEach(([v,c]) => { if (c>mostCnt){mostVal=+v;mostCnt=c;} });
-  const mostEm = mostVal ? getEmotionByValue(emotions, mostVal) : null;
-  document.getElementById('stat-most').textContent = mostEm ? mostEm.name : '—';
-  document.getElementById('stat-most-sub').innerHTML = mostEm
-    ? 'Was the emotion most<br>felt this week' : '';
+  const total = Object.values(countByEm).reduce((a,b)=>a+b,0);
+  const flowerDiv = document.getElementById('flower-chart');
 
-  /* ── Line chart ── */
-  drawLineChart(filtered);
+  if (!total) {
+    flowerDiv.innerHTML = '<p style="color:#ccc;font-size:13px;text-align:center;padding:40px 0;">No data for this day</p>';
+    logList.innerHTML = '<p style="color:#ccc;font-size:12px;text-align:center;padding:20px 0;">No logs yet</p>';
+    return;
+  }
 
-  /* ── Frequency — use emotion.color directly ── */
-  const freqCard = document.getElementById('freq-card');
-  freqCard.innerHTML = '';
+  const FLOWER_PATH = `M402.44 25C410.179 25 417.999 25.6374 425.62 26.9043L425.631 26.9063L425.643 26.9082C491.115 37.7305 540.543 92.2521 545.379 160.086L545.38 160.098C546.473 175.333 556.526 185.591 564.013 190.892C571.937 196.501 582.51 200.659 593.492 200.659C596.506 200.659 599.773 200.346 603.109 199.528L603.143 199.52L603.176 199.512C614.65 196.667 626.36 195.229 637.972 195.229C692.031 195.23 740.561 225.248 764.78 273.76L764.784 273.768C782.364 308.953 784.759 348.227 771.717 384.68C758.533 421.521 731.284 450.891 694.532 467.404C681.117 473.421 670.923 485.498 666.72 499.171L666.715 499.188L666.709 499.206C662.86 511.792 664.073 525.608 671.349 537.405L671.356 537.416C690.909 569.083 697.582 606.309 690.259 642.359C682.921 678.484 662.194 710.127 631.723 731.542L631.722 731.542C606.967 748.942 578.531 757.98 549.428 757.98L549.424 757.999C508.618 757.98 468.188 739.755 438.845 707.265L438.844 707.265C429.745 697.188 417.072 691.26 403.332 691.077L402.677 691.073C388.65 691.073 375.832 697.058 366.566 706.943L366.565 706.944C354.138 720.204 343.641 728.976 332.247 736.155C309.543 750.427 283.372 757.98 256.577 757.98C235.766 757.98 214.651 753.298 195.629 744.44L195.62 744.437L193.852 743.6C156.881 725.801 129.266 693.453 117.78 654.692L117.779 654.691L117.242 652.832C106.233 613.744 112.351 571.366 134.355 536.282L134.356 536.283C141.436 525.037 142.063 512.094 138.962 500.965L138.964 500.965C135.361 488 126.311 475.818 113.528 469.4L113.527 469.4C102.66 463.913 92.156 458.205 81.9102 450.549L81.9053 450.545L80.751 449.674C32.1152 412.589 12.8536 349.202 32.7559 291.257C52.4909 233.829 106.7 195.17 167.659 195.17C179.587 195.17 191.622 196.648 203.415 199.584L203.461 199.596L203.507 199.606C206.7 200.389 209.889 200.737 212.986 200.737C225.416 200.737 236.149 195.101 243.455 188.809C250.726 182.547 258.013 172.686 259.696 160.188L259.695 160.187C262.017 142.961 264.145 129.888 269.075 116.84L269.076 116.839C289.78 62.0356 343.429 25 402.44 25Z`;
 
-  const freqList = emotions
-    .map(em => ({ em, cnt: countByEm[em.value] || 0 }))
-    .sort((a, b) => b.cnt - a.cnt);
+  const SIZE = 220;
+  const STROKE_WIDTH = 50;
 
-  const rawPcts = freqList.map(f => total ? (f.cnt / total) * 100 : 0);
-  const floored = rawPcts.map(Math.floor);
-  const remainders = rawPcts.map((v, i) => v - floored[i]);
-  let remaining = 100 - floored.reduce((a,b) => a+b, 0);
-  const indices = remainders.map((_,i) => i).sort((a,b) => remainders[b]-remainders[a]);
-  indices.forEach(i => { if (remaining > 0) { floored[i]++; remaining--; } });
+  const tempSvg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  tempSvg.setAttribute('viewBox','0 0 805 783');
+  tempSvg.style.cssText = 'position:absolute;visibility:hidden;width:0;height:0;';
+  const tempPath = document.createElementNS('http://www.w3.org/2000/svg','path');
+  tempPath.setAttribute('d', FLOWER_PATH);
+  tempSvg.appendChild(tempPath);
+  document.body.appendChild(tempSvg);
+  const totalLength = tempPath.getTotalLength();
+  document.body.removeChild(tempSvg);
 
-  const maxCnt = freqList[0]?.cnt || 1;
+  const segments = Object.entries(countByEm).map(([val,cnt]) => ({
+    em: getEmotionByValue(emotions,+val), cnt, pct: cnt/total
+  })).sort((a,b) => b.cnt - a.cnt);
 
-  freqList.forEach(({ em, cnt }, i) => {
-    const pct  = total ? floored[i] : 0;
-    const barW = total ? Math.round((cnt / total) * 100) : 0;
-    const col  = em.color || '#bbb'; // ← directly from feel_emotions
-    const row  = document.createElement('div'); row.className = 'freq-row';
+  let strokePaths = '', offset = 0;
+  segments.forEach(seg => {
+    const segLen = seg.pct * totalLength;
+    strokePaths += `<path d="${FLOWER_PATH}" fill="none" stroke="${seg.em.color||'#bbb'}" stroke-width="${STROKE_WIDTH}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="${segLen} ${totalLength}" stroke-dashoffset="${-offset}" />`;
+    offset += segLen;
+  });
+
+  flowerDiv.innerHTML = `
+    <svg width="${SIZE}" height="${SIZE}" viewBox="0 0 805 783" xmlns="http://www.w3.org/2000/svg">
+      <path d="${FLOWER_PATH}" fill="none" stroke="rgba(200,215,235,0.4)" stroke-width="${STROKE_WIDTH}" stroke-linecap="round" stroke-linejoin="round"/>
+      ${strokePaths}
+    </svg>`;
+
+  /* Legend with percentages */
+  segments.forEach(seg => {
+    const pct = Math.round(seg.pct * 100);
+    const item = document.createElement('div');
+    item.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:2px;';
+    item.innerHTML = `
+      <span style="font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;color:#1a1a1a;">${pct}%</span>
+      <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:#666;">
+        <span style="width:8px;height:8px;border-radius:50%;background:${seg.em.color||'#bbb'};flex-shrink:0;"></span>
+        ${seg.em.name}
+      </span>`;
+    legend.appendChild(item);
+  });
+
+  /* History log */
+  const sorted = [...filtered].sort((a,b) =>
+    new Date(b.timestamp.replace(' ','T')+'Z') - new Date(a.timestamp.replace(' ','T')+'Z')
+  );
+  sorted.forEach(d => {
+    const em = getEmotionByValue(emotions, d.button_value);
+    const time = new Date(d.timestamp.replace(' ','T')+'Z').toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f5f5f5;';
     row.innerHTML = `
-      <div class="freq-dot" style="background:${col}"></div>
-      <div class="freq-label">${em.name}</div>
-      <div class="freq-bar-wrap">
-        <div class="freq-bar-fill" style="width:${barW}%;background:${col}"></div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:28px;height:28px;border-radius:50%;background:${em.color||'#bbb'};flex-shrink:0;"></div>
+        <span style="font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;color:#1a1a1a;">${em.name}</span>
       </div>
-      <div class="freq-pct">${pct}%</div>`;
-    freqCard.appendChild(row);
-  });
-/* ── Heatmap ── */
-const heatmap = document.getElementById('heatmap');
-heatmap.innerHTML = '';
-
-if (mode === 'day') {
-  // X-axis: hours (0–23 grouped into 4-hour blocks)
-  const hourBlocks = ['12AM','4AM','8AM','12PM','4PM','8PM'];
-  const hourGrid = document.createElement('div');
-  hourGrid.style.cssText = 'display:grid;grid-template-columns:36px repeat(6,1fr);gap:6px;align-items:center;';
-
-  // corner
-  hourGrid.appendChild(document.createElement('div'));
-  hourBlocks.forEach(h => {
-    const hdr = document.createElement('div');
-    hdr.style.cssText = 'font-size:10px;font-weight:600;color:#bbb;text-align:center;';
-    hdr.textContent = h;
-    hourGrid.appendChild(hdr);
-  });
-
-  emotions.forEach(em => {
-    const lbl = document.createElement('div');
-    lbl.style.cssText = 'font-size:10px;color:#bbb;font-weight:500;text-align:right;padding-right:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;';
-    lbl.textContent = em.name;
-    hourGrid.appendChild(lbl);
-
-    [0,4,8,12,16,20].forEach(startHour => {
-      const cell = document.createElement('div');
-      cell.className = 'hm-cell';
-      const entries = filtered.filter(d => {
-        const ts = new Date(d.timestamp.replace(' ','T')+'Z');
-        return d.button_value === em.value &&
-               ts.getHours() >= startHour && ts.getHours() < startHour + 4;
-      });
-      if (entries.length) {
-        const alpha = Math.min(0.3 + (entries.length / 5) * 0.7, 1);
-        cell.style.background = em.color || '#bbb';
-        cell.style.opacity = alpha;
-      }
-      hourGrid.appendChild(cell);
-    });
-  });
-  heatmap.appendChild(hourGrid);
-
-} else {
-  // Week heatmap — existing AM/PM × day grid
-  heatmap.style.cssText = 'display:grid;grid-template-columns:36px repeat(7,1fr);gap:6px;align-items:center;';
-  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  heatmap.appendChild(document.createElement('div'));
-  days.forEach(d => {
-    const h = document.createElement('div'); h.className = 'hm-day-header'; h.textContent = d;
-    heatmap.appendChild(h);
-  });
-  ['AM','PM'].forEach(slot => {
-    const lbl = document.createElement('div'); lbl.className = 'hm-row-label'; lbl.textContent = slot;
-    heatmap.appendChild(lbl);
-    days.forEach((_,di) => {
-      const cell = document.createElement('div'); cell.className = 'hm-cell';
-      const entries = filtered.filter(d => {
-        const ts = new Date(d.timestamp.replace(' ','T')+'Z');
-        const tsDay = (ts.getDay()+6)%7;
-        const isAM = ts.getHours() < 12;
-        return tsDay===di && (slot==='AM'?isAM:!isAM);
-      });
-      if (entries.length) {
-        const topEm = getEmotionByValue(emotions, entries[entries.length-1].button_value);
-        const alpha = Math.min(0.3+(entries.length/5)*0.7, 1);
-        cell.style.background = topEm.color || '#bbb';
-        cell.style.opacity = alpha;
-      }
-      heatmap.appendChild(cell);
-    });
+      <span style="font-size:11px;color:#bbb;">${time}</span>`;
+    logList.appendChild(row);
   });
 }
-  /* ── Weekly Patterns ── */
+
+/* ── WEEK: line chart ── */
+function drawWeekChart(filtered) {
+  const canvas = document.getElementById('line-chart');
+  const legend = document.getElementById('chart-legend-week');
+  legend.innerHTML = '';
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.parentElement.clientWidth - 24;
+  const H = 200;
+  canvas.style.width = W+'px'; canvas.style.height = H+'px';
+  canvas.width = W*dpr; canvas.height = H*dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,W,H);
+
+  const pad={top:10,right:10,bottom:32,left:10};
+  const cW=W-pad.left-pad.right, cH=H-pad.top-pad.bottom;
+
+  for(let i=0;i<=4;i++){
+    const y=pad.top+(cH/4)*i;
+    ctx.beginPath(); ctx.moveTo(pad.left,y); ctx.lineTo(W-pad.right,y);
+    ctx.strokeStyle='#f0f0f0'; ctx.lineWidth=1; ctx.stroke();
+  }
+
+  const dayLabels=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  ctx.font='10px Roboto,sans-serif'; ctx.fillStyle='#bbb'; ctx.textAlign='center';
+  dayLabels.forEach((lbl,i)=>{ ctx.fillText(lbl, pad.left+((i+0.5)/7)*cW, H-8); });
+
+  const byEmotion={};
+  filtered.forEach(d=>{
+    const ts=new Date(d.timestamp.replace(' ','T')+'Z');
+    const dow=ts.getDay();
+    if(!byEmotion[d.button_value])byEmotion[d.button_value]=Array(7).fill(0);
+    byEmotion[d.button_value][dow]++;
+  });
+
+  const maxCount=Math.max(...Object.values(byEmotion).map(arr=>Math.max(...arr)),1);
+
+  Object.entries(byEmotion).forEach(([val,counts])=>{
+    const em=getEmotionByValue(emotions,+val);
+    const col=em.color||'#bbb';
+    const points=counts.map((c,i)=>({
+      x: pad.left+((i+0.5)/7)*cW,
+      y: pad.top+cH-(c/maxCount)*cH*0.85
+    }));
+    ctx.beginPath(); ctx.moveTo(points[0].x,points[0].y);
+    for(let i=1;i<points.length;i++){
+      const cpx=(points[i-1].x+points[i].x)/2;
+      ctx.bezierCurveTo(cpx,points[i-1].y,cpx,points[i].y,points[i].x,points[i].y);
+    }
+    ctx.strokeStyle=col; ctx.lineWidth=2.5; ctx.lineJoin='round'; ctx.stroke();
+    points.forEach((p,i)=>{
+      if(counts[i]===0)return;
+      ctx.beginPath(); ctx.arc(p.x,p.y,4,0,Math.PI*2); ctx.fillStyle='#fff'; ctx.fill();
+      ctx.beginPath(); ctx.arc(p.x,p.y,3,0,Math.PI*2); ctx.fillStyle=col; ctx.fill();
+    });
+    const li=document.createElement('div'); li.className='legend-item';
+    li.innerHTML=`<div class="legend-dot" style="background:${col}"></div>${em.name}`;
+    legend.appendChild(li);
+  });
+
+  if(!filtered.length){
+    ctx.font='13px Roboto'; ctx.fillStyle='#ccc'; ctx.textAlign='center';
+    ctx.fillText('No data for this period',W/2,H/2);
+  }
+}
+
+/* ── WEEK: frequency, heatmap, patterns ── */
+function renderWeekSections(filtered, total, countByEm) {
+  /* Frequency */
+  const freqCard = document.getElementById('freq-card');
+  freqCard.innerHTML = '';
+  const freqList = emotions.map(em=>({em,cnt:countByEm[em.value]||0})).sort((a,b)=>b.cnt-a.cnt);
+  const rawPcts = freqList.map(f=>total?(f.cnt/total)*100:0);
+  const floored = rawPcts.map(Math.floor);
+  const remainders = rawPcts.map((v,i)=>v-floored[i]);
+  let remaining = 100-floored.reduce((a,b)=>a+b,0);
+  remainders.map((_,i)=>i).sort((a,b)=>remainders[b]-remainders[a]).forEach(i=>{if(remaining>0){floored[i]++;remaining--;}});
+  freqList.forEach(({em,cnt},i)=>{
+    const pct=total?floored[i]:0;
+    const barW=total?Math.round((cnt/total)*100):0;
+    const col=em.color||'#bbb';
+    const row=document.createElement('div'); row.className='freq-row';
+    row.innerHTML=`<div class="freq-dot" style="background:${col}"></div><div class="freq-label">${em.name}</div><div class="freq-bar-wrap"><div class="freq-bar-fill" style="width:${barW}%;background:${col}"></div></div><div class="freq-pct">${pct}%</div>`;
+    freqCard.appendChild(row);
+  });
+
+  /* Heatmap */
+  const heatmapEl = document.getElementById('heatmap');
+  heatmapEl.innerHTML = '';
+  const grid=document.createElement('div');
+  grid.style.cssText='display:grid;grid-template-columns:36px repeat(7,1fr);gap:6px;align-items:center;';
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  grid.appendChild(document.createElement('div'));
+  days.forEach(d=>{const h=document.createElement('div');h.className='hm-day-header';h.textContent=d;grid.appendChild(h);});
+  ['AM','PM'].forEach(slot=>{
+    const lbl=document.createElement('div'); lbl.className='hm-row-label'; lbl.textContent=slot; grid.appendChild(lbl);
+    days.forEach((_,di)=>{
+      const cell=document.createElement('div'); cell.className='hm-cell';
+      const entries=filtered.filter(d=>{
+        const ts=new Date(d.timestamp.replace(' ','T')+'Z');
+        const tsDay=(ts.getDay()+6)%7;
+        const isAM=ts.getHours()<12;
+        return tsDay===di&&(slot==='AM'?isAM:!isAM);
+      });
+      if(entries.length){
+        const topEm=getEmotionByValue(emotions,entries[entries.length-1].button_value);
+        cell.style.background=topEm.color||'#bbb';
+        cell.style.opacity=Math.min(0.3+(entries.length/5)*0.7,1);
+      }
+      grid.appendChild(cell);
+    });
+  });
+  heatmapEl.appendChild(grid);
+
+  /* Patterns */
   const pCard = document.getElementById('patterns-card');
   pCard.innerHTML = '';
-  const patternIcons = [
-    'assets/weeklypatterns1.png',
-    'assets/weeklypatterns2.png',
-    'assets/weeklypatterns3.png',
-  ];
-  generatePatterns(filtered).forEach((text, i) => {
-    const item = document.createElement('div'); item.className = 'pattern-item';
-    item.setAttribute('onclick', `window.openPatternModal(${i})`);
-    item.innerHTML = `
-      <img class="pattern-thumb" src="${patternIcons[i % patternIcons.length]}" alt="" />
-      <div class="pattern-text">${text}</div>
-      <div class="pattern-chevron">›</div>`;
+  const patternIcons=['assets/weeklypatterns1.png','assets/weeklypatterns2.png','assets/weeklypatterns3.png'];
+  generatePatterns(filtered).forEach((text,i)=>{
+    const item=document.createElement('div'); item.className='pattern-item';
+    item.setAttribute('onclick',`window.openPatternModal(${i})`);
+    item.innerHTML=`<img class="pattern-thumb" src="${patternIcons[i%patternIcons.length]}" alt="" /><div class="pattern-text">${text}</div><div class="pattern-chevron">›</div>`;
     pCard.appendChild(item);
   });
 }
 
-/* ════════════════════════════════════════════
-   PATTERN GENERATOR
-════════════════════════════════════════════ */
-function generatePatterns(filtered) {
-  if (!filtered.length) return ['<span>Not enough data yet. Keep logging your emotions!</span>'];
+/* ── RENDER ── */
+function render() {
+  emotions = loadEmotions();
+  document.getElementById('date-range-label').textContent = formatWindowLabel();
+  const filtered = getFilteredData();
 
-  const patterns = [];
-  const countByEm = {};
-  filtered.forEach(d => { countByEm[d.button_value]=(countByEm[d.button_value]||0)+1; });
-
-  let mostVal=null, mostCnt=0;
-  Object.entries(countByEm).forEach(([v,c]) => { if(c>mostCnt){mostVal=+v;mostCnt=c;} });
-  if (mostVal) {
-    const newEms = Object.keys(countByEm)
-      .map(v => getEmotionByValue(emotions, +v))
-      .filter(e => e.name !== 'Unknown');
-    const newNames = newEms.map(e => `<span class="pat-green">${e.name}</span>`).join(' and ');
-    patterns.push(`You added ${newNames} as a new emotion this week. It showed up mostly on <strong>Tuesday evenings</strong>.`);
-  }
-
-  const countByDay = {};
-  filtered.forEach(d => {
-    const ts = new Date(d.timestamp.replace(' ','T')+'Z');
-    const day = ts.toLocaleDateString('en-US', {weekday:'long'});
-    countByDay[day] = (countByDay[day]||0)+1;
+  /* Chips */
+  const chips = document.getElementById('emotion-chips');
+  chips.innerHTML = '';
+  emotions.forEach(em => {
+    const chip=document.createElement('div'); chip.className='chip';
+    chip.style.background=em.color||'#bbb'; chip.innerHTML=em.name;
+    chips.appendChild(chip);
   });
-  const calmest = Object.entries(countByDay).sort((a,b)=>a[1]-b[1])[0];
-  if (calmest) patterns.push(`<strong>${calmest[0]}</strong> is consistently your <span class="pat-orange">calmest day</span> — you logged fewer emotions with no overwhelm.`);
 
-  const busiest = Object.entries(countByDay).sort((a,b)=>b[1]-a[1])[0];
-  if (busiest) patterns.push(`<span class="pat-red">Higher emotional activity</span> on <strong>${busiest[0]}</strong> — a recurring pattern worth exploring.`);
+  /* Stats */
+  const total=filtered.length;
+  document.getElementById('stat-total').textContent=total||'—';
+  document.getElementById('stat-total-sub').innerHTML=total?'Emotions logged':'No logs yet';
 
-  if (patterns.length < 1) patterns.push('Keep tracking to reveal more patterns about your emotional week.');
+  const countByEm={};
+  filtered.forEach(d=>{countByEm[d.button_value]=(countByEm[d.button_value]||0)+1;});
+  let mostVal=null,mostCnt=0;
+  Object.entries(countByEm).forEach(([v,c])=>{if(c>mostCnt){mostVal=+v;mostCnt=c;}});
+  const mostEm=mostVal?getEmotionByValue(emotions,mostVal):null;
+  document.getElementById('stat-most').textContent=mostEm?mostEm.name:'—';
+  document.getElementById('stat-most-sub').innerHTML=mostEm?'Most felt':'';
+
+  /* Show/hide day vs week UI */
+  const dayCol  = document.getElementById('day-two-col');
+  const weekOnlySections = document.querySelectorAll('.week-only-section');
+
+  if (mode === 'day') {
+    dayCol.style.display = 'flex';
+    weekOnlySections.forEach(el => el.style.display = 'none');
+    drawDayBreakdown(filtered);
+} else {
+    dayCol.style.display = 'none';
+    weekOnlySections.forEach(el => {
+      // cards and section titles use block, the heatmap wrapper uses block too
+      el.style.display = el.tagName === 'DIV' && el.classList.contains('stats-row') ? 'flex' : 'block';
+    });
+    document.getElementById('week-chart-card').style.display = 'block';
+    drawWeekChart(filtered);
+    renderWeekSections(filtered, total, countByEm);
+  }
+}
+
+/* ── PATTERNS ── */
+function generatePatterns(filtered) {
+  if(!filtered.length)return['<span>Not enough data yet. Keep logging your emotions!</span>'];
+  const patterns=[];
+  const countByEm={};
+  filtered.forEach(d=>{countByEm[d.button_value]=(countByEm[d.button_value]||0)+1;});
+  let mostVal=null,mostCnt=0;
+  Object.entries(countByEm).forEach(([v,c])=>{if(c>mostCnt){mostVal=+v;mostCnt=c;}});
+  if(mostVal){
+    const newEms=Object.keys(countByEm).map(v=>getEmotionByValue(emotions,+v)).filter(e=>e.name!=='Unknown');
+    const newNames=newEms.map(e=>`<span class="pat-green">${e.name}</span>`).join(' and ');
+    patterns.push(`You logged ${newNames} this period. It showed up mostly on <strong>Tuesday evenings</strong>.`);
+  }
+  const countByDay={};
+  filtered.forEach(d=>{const ts=new Date(d.timestamp.replace(' ','T')+'Z');const day=ts.toLocaleDateString('en-US',{weekday:'long'});countByDay[day]=(countByDay[day]||0)+1;});
+  const calmest=Object.entries(countByDay).sort((a,b)=>a[1]-b[1])[0];
+  if(calmest)patterns.push(`<strong>${calmest[0]}</strong> is consistently your <span class="pat-orange">calmest day</span> — you logged fewer emotions with no overwhelm.`);
+  const busiest=Object.entries(countByDay).sort((a,b)=>b[1]-a[1])[0];
+  if(busiest)patterns.push(`<span class="pat-red">Higher emotional activity</span> on <strong>${busiest[0]}</strong> — a recurring pattern worth exploring.`);
   return patterns;
 }
 
-/* ════════════════════════════════════════════
-   MODE & NAVIGATION
-════════════════════════════════════════════ */
+/* ── MODE & NAV ── */
 window.setMode = function(m) {
-  mode = m; weekOffset = 0;
+  mode=m; weekOffset=0;
   document.getElementById('tog-day').classList.remove('active');
   document.getElementById('tog-week').classList.remove('active');
-  document.getElementById(m === 'day' ? 'tog-day' : 'tog-week').classList.add('active');
+  document.getElementById(m==='day'?'tog-day':'tog-week').classList.add('active');
   render();
-}
+};
+document.getElementById('btn-prev').onclick = ()=>{ weekOffset--; render(); };
+document.getElementById('btn-next').onclick = ()=>{ weekOffset++; render(); };
 
-document.getElementById('btn-prev').onclick = () => { weekOffset--; render(); };
-document.getElementById('btn-next').onclick = () => { weekOffset++; render(); };
+/* ── FETCH ── */
+const API_URL='https://web-production-e1116.up.railway.app/data';
+const PROXY_URL='https://corsproxy.io/?'+encodeURIComponent(API_URL);
 
-/* ════════════════════════════════════════════
-   DATA FETCH
-════════════════════════════════════════════ */
-const API_URL   = 'https://web-production-e1116.up.railway.app/data';
-const PROXY_URL = 'https://corsproxy.io/?' + encodeURIComponent(API_URL);
-
-function mergeAndStore(existing, fresh) {
-  const apiStored = JSON.parse(localStorage.getItem('feel_data') || '[]');
-  const map = {};
-  apiStored.forEach(d => map[d.id] = d);
-  fresh.forEach(d => map[d.id] = d);
-  const mergedApi = Object.values(map);
-  try { localStorage.setItem('feel_data', JSON.stringify(mergedApi)); } catch {}
+function mergeAndStore(fresh) {
+  const apiStored=JSON.parse(localStorage.getItem('feel_data')||'[]');
+  const map={}; apiStored.forEach(d=>map[d.id]=d); fresh.forEach(d=>map[d.id]=d);
+  try{localStorage.setItem('feel_data',JSON.stringify(Object.values(map)));}catch{}
   return loadStoredData();
 }
 
 async function fetchData() {
-  for (const url of [API_URL+'?t='+Date.now(), PROXY_URL+'&t='+Date.now()]) {
-    try {
-      const c = new AbortController();
-      const t = setTimeout(()=>c.abort(), 8000);
-      const res = await fetch(url, {signal:c.signal}); clearTimeout(t);
-      if (!res.ok) continue;
-      const fresh = JSON.parse(await res.text());
-      if (!Array.isArray(fresh)||!fresh.length) continue;
-      allData = mergeAndStore(allData, fresh);
-      render(); return;
-    } catch { continue; }
+  for(const url of [API_URL+'?t='+Date.now(),PROXY_URL+'&t='+Date.now()]){
+    try{
+      const c=new AbortController();const t=setTimeout(()=>c.abort(),8000);
+      const res=await fetch(url,{signal:c.signal});clearTimeout(t);
+      if(!res.ok)continue;
+      const fresh=JSON.parse(await res.text());
+      if(!Array.isArray(fresh)||!fresh.length)continue;
+      allData=mergeAndStore(fresh); render(); return;
+    }catch{continue;}
   }
 }
 
-/* ════════════════════════════════════════════
-   INIT
-════════════════════════════════════════════ */
-try { if (typeof initNav==='function') initNav('data'); } catch {}
+/* ── INIT ── */
+try{if(typeof initNav==='function')initNav('data');}catch{}
 render();
 fetchData();
-setInterval(fetchData, 30000);
-document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible') fetchData(); });
-window.addEventListener('resize', ()=>{ drawLineChart(getFilteredData()); });
+setInterval(fetchData,30000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')fetchData();});
+window.addEventListener('resize', ()=>{
+  const f = getFilteredData();
+  if (mode === 'day') drawDayBreakdown(f);
+  else drawWeekChart(f);
+});
 })();
 </script>
 
-<!-- ══ PATTERN MODAL LOGIC ══ -->
+<!-- PATTERN MODAL LOGIC -->
 <script>
 (function(){
-
-const PATTERN_CONFIGS = [
-  {
-    accentColor: '#5FC672',
-    eyebrow: 'New Emotions',
-    titlePrefix: 'About your',
-    titleHighlight: 'New Emotions',
-    highlightColor: '#5FC672',
-    tipsLabel: 'Tips to keep exploring',
-    chartMetric: 'newEmotion',
-    defaultPrompt: 'What surprised you most about logging a new emotion this week?'
-  },
-  {
-    accentColor: '#FBA732',
-    eyebrow: 'Calmest Day',
-    titlePrefix: 'About your',
-    titleHighlight: 'Calmest Day',
-    highlightColor: '#FBA732',
-    tipsLabel: 'Tips to keep this calm going',
-    chartMetric: 'calm',
-    defaultPrompt: 'What makes your calmest day feel calmer for you? How can you bring a bit of that to other days?'
-  },
-  {
-    accentColor: '#EB585A',
-    eyebrow: 'Tension Pattern',
-    titlePrefix: 'About your',
-    titleHighlight: 'Tension Pattern',
-    highlightColor: '#EB585A',
-    tipsLabel: 'Tips to ease the tension',
-    chartMetric: 'anger',
-    defaultPrompt: 'When frustration shows up on Monday mornings, what is it usually telling you?'
-  },
+const PATTERN_CONFIGS=[
+  {accentColor:'#5FC672',titlePrefix:'About your',titleHighlight:'New Emotions',highlightColor:'#5FC672',tipsLabel:'Tips to keep exploring',defaultPrompt:'What surprised you most about logging a new emotion this week?'},
+  {accentColor:'#FBA732',titlePrefix:'About your',titleHighlight:'Calmest Day',highlightColor:'#FBA732',tipsLabel:'Tips to keep this calm going',defaultPrompt:'What makes your calmest day feel calmer for you?'},
+  {accentColor:'#EB585A',titlePrefix:'About your',titleHighlight:'Tension Pattern',highlightColor:'#EB585A',tipsLabel:'Tips to ease the tension',defaultPrompt:'When frustration shows up, what is it usually telling you?'},
 ];
+let currentPatternIdx=0,currentPrompt='';
 
-let currentPatternIdx = 0;
-let currentPrompt = '';
-
-window.openPatternModal = function(idx) {
-  currentPatternIdx = idx;
-  const cfg = PATTERN_CONFIGS[idx] || PATTERN_CONFIGS[0];
-
-  const overlay = document.getElementById('pattern-modal-overlay');
-  const modal   = document.getElementById('pattern-modal');
-  overlay.style.opacity = '1';
-  overlay.style.pointerEvents = 'all';
-  modal.style.transform = 'translateY(0)';
-  document.body.style.overflow = 'hidden';
-
-  document.getElementById('pm-header').innerHTML = `
+window.openPatternModal=function(idx){
+  currentPatternIdx=idx;
+  const cfg=PATTERN_CONFIGS[idx]||PATTERN_CONFIGS[0];
+  document.getElementById('pattern-modal-overlay').style.opacity='1';
+  document.getElementById('pattern-modal-overlay').style.pointerEvents='all';
+  document.getElementById('pattern-modal').style.transform='translateY(0)';
+  document.body.style.overflow='hidden';
+  document.getElementById('pm-header').innerHTML=`
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px;">
-      <div style="width:56px;height:56px;border-radius:16px;
-        background:${cfg.accentColor}22;display:flex;align-items:center;
-        justify-content:center;font-size:26px;flex-shrink:0;">
-        ${idx===0?'🌱':idx===1?'⭐':'🔥'}
-      </div>
+      <div style="width:56px;height:56px;border-radius:16px;background:${cfg.accentColor}22;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;">${idx===0?'🌱':idx===1?'⭐':'🔥'}</div>
       <div>
-        <p style="font-family:'Nunito',sans-serif;font-weight:800;
-          font-size:11px;letter-spacing:.14em;text-transform:uppercase;
-          background:linear-gradient(90deg,#F6A952,#EAA4A6,#BBA1D4,#1DCBD6);
-          background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
-          margin-bottom:3px;">Powered by AI</p>
-        <h2 style="font-family:'Nunito',sans-serif;font-weight:900;
-          font-size:clamp(20px,4vw,28px);color:#1a1a1a;line-height:1.1;">
-          ${cfg.titlePrefix} <span style="color:${cfg.highlightColor}">${cfg.titleHighlight}</span>
-        </h2>
+        <p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;background:linear-gradient(90deg,#F6A952,#EAA4A6,#BBA1D4,#1DCBD6);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:3px;">Powered by AI</p>
+        <h2 style="font-family:'Nunito',sans-serif;font-weight:900;font-size:clamp(20px,4vw,28px);color:#1a1a1a;line-height:1.1;">${cfg.titlePrefix} <span style="color:${cfg.highlightColor}">${cfg.titleHighlight}</span></h2>
       </div>
     </div>
     <div id="pm-summary-text" style="font-size:14px;color:#666;line-height:1.65;padding-left:4px;"></div>`;
-
-  document.getElementById('pm-chart-label').textContent =
-    idx === 0 ? 'New this week' : idx === 1 ? 'Calmest day' : 'Busiest day';
-
+  document.getElementById('pm-chart-label').textContent=idx===0?'New this week':idx===1?'Calmest day':'Busiest day';
   drawSparkChart(idx);
-
-  document.getElementById('pm-tips-label').style.color = cfg.accentColor;
-  document.getElementById('pm-tips-label').textContent = cfg.tipsLabel;
-
-  const tips = getTips(idx);
-  const tipsEl = document.getElementById('pm-tips');
-  tipsEl.innerHTML = '';
-  tips.forEach(t => {
-    const div = document.createElement('div');
-    div.style.cssText = 'display:flex;gap:12px;align-items:flex-start;padding-right:clamp(70px,12vw,110px);';
-    div.innerHTML = `
-      <div style="width:32px;height:32px;border-radius:10px;
-        background:${cfg.accentColor}22;display:flex;align-items:center;
-        justify-content:center;flex-shrink:0;font-size:16px;">${t.icon}</div>
-      <div>
-        <p style="font-family:'Nunito',sans-serif;font-weight:800;
-          font-size:14px;color:#1a1a1a;margin-bottom:2px;">${t.title}</p>
-        <p id="tip-${t.id}" style="font-size:12px;color:#888;line-height:1.5;">${t.placeholder}</p>
-      </div>`;
+  document.getElementById('pm-tips-label').style.color=cfg.accentColor;
+  document.getElementById('pm-tips-label').textContent=cfg.tipsLabel;
+  const tipsEl=document.getElementById('pm-tips'); tipsEl.innerHTML='';
+  getTips(idx).forEach(t=>{
+    const div=document.createElement('div');
+    div.style.cssText='display:flex;gap:12px;align-items:flex-start;padding-right:clamp(70px,12vw,110px);';
+    div.innerHTML=`<div style="width:32px;height:32px;border-radius:10px;background:${cfg.accentColor}22;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;">${t.icon}</div><div><p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;color:#1a1a1a;margin-bottom:2px;">${t.title}</p><p id="tip-${t.id}" style="font-size:12px;color:#888;line-height:1.5;">${t.placeholder}</p></div>`;
     tipsEl.appendChild(div);
   });
-
-  currentPrompt = cfg.defaultPrompt;
-  document.getElementById('pm-prompt-text').textContent = currentPrompt;
-  document.getElementById('pm-why-text').innerHTML = '<div style="font-size:13px;color:#aaa;font-style:italic;">Generating AI insight…</div>';
-
-  generatePatternInsight(idx, cfg);
+  currentPrompt=cfg.defaultPrompt;
+  document.getElementById('pm-prompt-text').textContent=currentPrompt;
+  document.getElementById('pm-why-text').innerHTML='<div style="font-size:13px;color:#aaa;font-style:italic;">Generating AI insight…</div>';
+  generatePatternInsight(idx,cfg);
 };
 
-window.closePatternModal = function() {
-  const overlay = document.getElementById('pattern-modal-overlay');
-  const modal   = document.getElementById('pattern-modal');
-  overlay.style.opacity = '0';
-  overlay.style.pointerEvents = 'none';
-  modal.style.transform = 'translateY(100%)';
-  document.body.style.overflow = '';
+window.closePatternModal=function(){
+  document.getElementById('pattern-modal-overlay').style.opacity='0';
+  document.getElementById('pattern-modal-overlay').style.pointerEvents='none';
+  document.getElementById('pattern-modal').style.transform='translateY(100%)';
+  document.body.style.overflow='';
 };
+document.getElementById('pattern-modal-overlay').addEventListener('click',function(e){if(e.target===this)window.closePatternModal();});
 
-document.getElementById('pattern-modal-overlay').addEventListener('click', function(e) {
-  if (e.target === this) window.closePatternModal();
-});
-
-function getTips(idx) {
-  const all = [
-    [
-      { id:'t0a', icon:'🌸', title:'Name it to tame it', placeholder:'When you notice this emotion, pause and name exactly what you feel — it reduces its intensity.' },
-      { id:'t0b', icon:'📖', title:'Track when it shows up', placeholder:'Log the time and context each time. Patterns emerge faster than you think.' },
-      { id:'t0c', icon:'💬', title:'Talk about it', placeholder:'Sharing a new emotion with someone you trust can help it feel less overwhelming.' },
-    ],
-    [
-      { id:'t1a', icon:'🛡️', title:'Protect your calm day recipe', placeholder:'Notice what is different on this day — keep doing more of it.' },
-      { id:'t1b', icon:'📅', title:'Schedule what matters', placeholder:'Use your calmest day for tasks or people that fill your cup.' },
-      { id:'t1c', icon:'⚓', title:'Build calm anchors', placeholder:'Replicate small habits that bring calm so they can spread to other days.' },
-    ],
-    [
-      { id:'t2a', icon:'🌅', title:'Reframe your tension mornings', placeholder:'A small ritual before the week starts can interrupt the dread before it builds.' },
-      { id:'t2b', icon:'🌬️', title:'Release before the week ends', placeholder:'A short wind-down habit on your hardest evenings can ease the transition.' },
-      { id:'t2c', icon:'📝', title:'Name the tension', placeholder:'Write down one thing you are dreading — externalising it reduces its hold.' },
-    ],
+function getTips(idx){
+  const all=[
+    [{id:'t0a',icon:'🌸',title:'Name it to tame it',placeholder:'When you notice this emotion, pause and name exactly what you feel.'},{id:'t0b',icon:'📖',title:'Track when it shows up',placeholder:'Log the time and context each time.'},{id:'t0c',icon:'💬',title:'Talk about it',placeholder:'Sharing a new emotion with someone you trust can help it feel less overwhelming.'}],
+    [{id:'t1a',icon:'🛡️',title:'Protect your calm day recipe',placeholder:'Notice what is different on this day — keep doing more of it.'},{id:'t1b',icon:'📅',title:'Schedule what matters',placeholder:'Use your calmest day for tasks or people that fill your cup.'},{id:'t1c',icon:'⚓',title:'Build calm anchors',placeholder:'Replicate small habits that bring calm so they can spread to other days.'}],
+    [{id:'t2a',icon:'🌅',title:'Reframe your tension mornings',placeholder:'A small ritual before the week starts can interrupt the dread.'},{id:'t2b',icon:'🌬️',title:'Release before the week ends',placeholder:'A short wind-down habit on your hardest evenings can ease the transition.'},{id:'t2c',icon:'📝',title:'Name the tension',placeholder:'Write down one thing you are dreading — externalising it reduces its hold.'}],
   ];
-  return all[idx] || all[0];
+  return all[idx]||all[0];
 }
 
-function drawSparkChart(idx) {
-  const canvas = document.getElementById('pm-spark');
-  const W = canvas.parentElement.clientWidth - 36;
-  const H = 70;
-  const dpr = window.devicePixelRatio || 1;
-  canvas.style.width = W + 'px';
-  canvas.style.height = H + 'px';
-  canvas.width = W * dpr;
-  canvas.height = H * dpr;
-  const ctx = canvas.getContext('2d');
-  ctx.scale(dpr, dpr);
-  ctx.clearRect(0,0,W,H);
-
-  const days = ['S','M','T','W','T','F','S'];
-  document.getElementById('pm-spark-labels').innerHTML = days.map(d => `<span>${d}</span>`).join('');
-
-  const datasets = [
-    [0,1,3,1,0,2,1],
-    [1,2,1,5,2,3,2],
-    [1,3,2,1,1,2,3],
-  ];
-  const vals = datasets[idx] || datasets[0];
-  const max  = Math.max(...vals, 1);
-  const cfg  = PATTERN_CONFIGS[idx];
-
-  const pts = vals.map((v,i) => ({
-    x: (i / (vals.length-1)) * W,
-    y: H - 10 - (v/max) * (H-20)
-  }));
-
-  const grad = ctx.createLinearGradient(0,0,0,H);
-  grad.addColorStop(0, cfg.accentColor + '44');
-  grad.addColorStop(1, cfg.accentColor + '00');
-  ctx.beginPath();
-  ctx.moveTo(pts[0].x, H);
-  pts.forEach(p => ctx.lineTo(p.x, p.y));
-  ctx.lineTo(pts[pts.length-1].x, H);
-  ctx.closePath();
-  ctx.fillStyle = grad;
-  ctx.fill();
-
-  ctx.beginPath();
-  ctx.moveTo(pts[0].x, pts[0].y);
-  for(let i=1;i<pts.length;i++){
-    const cpx = (pts[i-1].x+pts[i].x)/2;
-    ctx.bezierCurveTo(cpx,pts[i-1].y,cpx,pts[i].y,pts[i].x,pts[i].y);
-  }
-  ctx.strokeStyle = cfg.accentColor;
-  ctx.lineWidth = 2.5;
-  ctx.stroke();
-
-  const peakIdx = vals.indexOf(max);
-  ctx.beginPath(); ctx.arc(pts[peakIdx].x, pts[peakIdx].y, 5, 0, Math.PI*2);
-  ctx.fillStyle = cfg.accentColor; ctx.fill();
-  ctx.beginPath(); ctx.arc(pts[peakIdx].x, pts[peakIdx].y, 3, 0, Math.PI*2);
-  ctx.fillStyle = '#fff'; ctx.fill();
+function drawSparkChart(idx){
+  const canvas=document.getElementById('pm-spark');
+  const W=canvas.parentElement.clientWidth-36,H=70,dpr=window.devicePixelRatio||1;
+  canvas.style.width=W+'px';canvas.style.height=H+'px';canvas.width=W*dpr;canvas.height=H*dpr;
+  const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);ctx.clearRect(0,0,W,H);
+  document.getElementById('pm-spark-labels').innerHTML=['S','M','T','W','T','F','S'].map(d=>`<span>${d}</span>`).join('');
+  const vals=[[0,1,3,1,0,2,1],[1,2,1,5,2,3,2],[1,3,2,1,1,2,3]][idx]||[0,1,3,1,0,2,1];
+  const max=Math.max(...vals,1),cfg=PATTERN_CONFIGS[idx];
+  const pts=vals.map((v,i)=>({x:(i/(vals.length-1))*W,y:H-10-(v/max)*(H-20)}));
+  const grad=ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0,cfg.accentColor+'44');grad.addColorStop(1,cfg.accentColor+'00');
+  ctx.beginPath();ctx.moveTo(pts[0].x,H);pts.forEach(p=>ctx.lineTo(p.x,p.y));
+  ctx.lineTo(pts[pts.length-1].x,H);ctx.closePath();ctx.fillStyle=grad;ctx.fill();
+  ctx.beginPath();ctx.moveTo(pts[0].x,pts[0].y);
+  for(let i=1;i<pts.length;i++){const cpx=(pts[i-1].x+pts[i].x)/2;ctx.bezierCurveTo(cpx,pts[i-1].y,cpx,pts[i].y,pts[i].x,pts[i].y);}
+  ctx.strokeStyle=cfg.accentColor;ctx.lineWidth=2.5;ctx.stroke();
+  const pi=vals.indexOf(max);
+  ctx.beginPath();ctx.arc(pts[pi].x,pts[pi].y,5,0,Math.PI*2);ctx.fillStyle=cfg.accentColor;ctx.fill();
+  ctx.beginPath();ctx.arc(pts[pi].x,pts[pi].y,3,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();
 }
 
-async function generatePatternInsight(idx, cfg) {
-  let entries = [], emos = [];
-  try {
-    const ph  = JSON.parse(localStorage.getItem('feel_placeholder')||'[]');
-    const api = JSON.parse(localStorage.getItem('feel_data')||'[]');
-    emos      = JSON.parse(localStorage.getItem('feel_emotions')||'[]');
-    const map = {}; ph.forEach(d=>map[d.id]=d); api.forEach(d=>map[d.id]=d);
-    entries = Object.values(map);
-  } catch {}
-
-  const countByEm = {};
-  entries.forEach(d => { countByEm[d.button_value]=(countByEm[d.button_value]||0)+1; });
-  const getName = v => {
-    const em = emos.find(e=>e.value===+v) || emos[+v-1];
-    return em ? em.name : 'Unknown';
-  };
-  const sorted = Object.entries(countByEm).sort((a,b)=>b[1]-a[1]);
-  const topName  = sorted[0] ? getName(sorted[0][0]) : 'your top emotion';
-  const topCount = sorted[0]?.[1] || 0;
-
-  const countByDay = {};
-  entries.forEach(d => {
-    const ts = new Date(d.timestamp.replace(' ','T')+'Z');
-    const day = ts.toLocaleDateString('en-US', { weekday: 'long' });
-    countByDay[day] = (countByDay[day]||0) + 1;
-  });
-
-  const calmestDay = Object.entries(countByDay).sort((a,b)=>a[1]-b[1])[0]?.[0] || 'your calmest day';
-  const busiestDay = Object.entries(countByDay).sort((a,b)=>b[1]-a[1])[0]?.[0] || 'Monday';
-  const newEmNames = sorted.slice(0,2).map(([v])=>getName(v)).join(' and ');
-
-  const staticSummaries = [
+async function generatePatternInsight(idx,cfg){
+  let entries=[],emos=[];
+  try{
+    const ph=JSON.parse(localStorage.getItem('feel_placeholder')||'[]');
+    const api=JSON.parse(localStorage.getItem('feel_data')||'[]');
+    emos=JSON.parse(localStorage.getItem('feel_emotions')||'[]');
+    const map={};ph.forEach(d=>map[d.id]=d);api.forEach(d=>map[d.id]=d);entries=Object.values(map);
+  }catch{}
+  const countByEm={};
+  entries.forEach(d=>{countByEm[d.button_value]=(countByEm[d.button_value]||0)+1;});
+  const getName=v=>{const em=emos.find(e=>e.value===+v)||emos[+v-1];return em?em.name:'Unknown';};
+  const sorted=Object.entries(countByEm).sort((a,b)=>b[1]-a[1]);
+  const topName=sorted[0]?getName(sorted[0][0]):'your top emotion';
+  const topCount=sorted[0]?.[1]||0;
+  const countByDay={};
+  entries.forEach(d=>{const ts=new Date(d.timestamp.replace(' ','T')+'Z');const day=ts.toLocaleDateString('en-US',{weekday:'long'});countByDay[day]=(countByDay[day]||0)+1;});
+  const calmestDay=Object.entries(countByDay).sort((a,b)=>a[1]-b[1])[0]?.[0]||'your calmest day';
+  const busiestDay=Object.entries(countByDay).sort((a,b)=>b[1]-a[1])[0]?.[0]||'Monday';
+  const newEmNames=sorted.slice(0,2).map(([v])=>getName(v)).join(' and ');
+  const staticSummaries=[
     `You logged new emotions this week — that takes courage. Sitting with unfamiliar feelings is how self-awareness grows.`,
     `${calmestDay} stood out as your calmest day. Your nervous system clearly has a rhythm worth protecting.`,
     `Emotional activity tends to peak around ${busiestDay} — that tension at weekly transitions is more common than you think.`,
   ];
-  const staticWhy = [
-    `New emotions often surface when something shifts in your environment or relationships. ${newEmNames} usually signal unmet needs — either for meaning, stimulation, or respect.`,
-    `${calmestDay}s often carry less decision fatigue and social pressure. Your ${calmestDay} rhythm may include small habits that calm your nervous system without you realising it.`,
-    `${busiestDay} carries a specific emotional load — anticipation, pressure, and transition. This pattern often reflects a chronic low-level stress response rather than a single trigger.`,
+  const staticWhy=[
+    `New emotions often surface when something shifts in your environment. ${newEmNames} usually signal unmet needs.`,
+    `${calmestDay}s often carry less decision fatigue. Your rhythm may include small habits that calm your nervous system without you realising it.`,
+    `${busiestDay} carries a specific emotional load — anticipation, pressure, and transition. This often reflects a chronic low-level stress response.`,
   ];
-
-  document.getElementById('pm-summary-text').textContent = staticSummaries[idx] || '';
-  document.getElementById('pm-why-text').textContent = staticWhy[idx] || '';
-
-  const patternContext = [
-    `New emotions this week: ${newEmNames}. Top emotions: ${sorted.slice(0,3).map(([v,c])=>getName(v)+' '+c+'x').join(', ')}.`,
-    `${calmestDay} is the calmest day. Top emotion: ${topName} (${topCount}x).`,
+  document.getElementById('pm-summary-text').textContent=staticSummaries[idx]||'';
+  document.getElementById('pm-why-text').textContent=staticWhy[idx]||'';
+  const patternContext=[
+    `New emotions: ${newEmNames}. Top: ${sorted.slice(0,3).map(([v,c])=>getName(v)+' '+c+'x').join(', ')}.`,
+    `${calmestDay} is calmest. Top emotion: ${topName} (${topCount}x).`,
     `Most logs on ${busiestDay}. Top emotion: ${topName} (${topCount}x).`,
   ][idx];
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
-        max_tokens: 500,
-        messages: [{
-          role: 'user',
-          content: `You are a warm, concise emotional wellness coach. Based on this data: ${patternContext}
-
-Write a JSON object with ONLY these keys (2 sentences max each, warm and specific):
-{"summary":"...","why":"...","tip_0":"...","tip_1":"...","tip_2":"...","reflection_prompt":"...?"}
-
-Return ONLY the JSON.`
-        }]
-      })
-    });
-
-    if (!res.ok) throw new Error(res.status);
-    const data = await res.json();
-    const raw = (data.content?.[0]?.text || '').replace(/```json|```/g,'').trim();
-    const match = raw.match(/\{[\s\S]*\}/);
-    if (!match) throw new Error('no json');
-    const ai = JSON.parse(match[0]);
-
-    if (ai.summary) streamText('pm-summary-text', ai.summary);
-    if (ai.why)     streamText('pm-why-text', ai.why);
-    const letters = ['a','b','c'];
-    ['tip_0','tip_1','tip_2'].forEach((k,i) => {
-      const tipId = `tip-t${idx}${letters[i]}`;
-      if (ai[k]) streamText(tipId, ai[k]);
-    });
-    if (ai.reflection_prompt) {
-      currentPrompt = ai.reflection_prompt;
-      document.getElementById('pm-prompt-text').textContent = currentPrompt;
-    }
-  } catch(e) {
-    console.warn('[Pattern AI] using static fallback:', e.message);
-  }
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:500,messages:[{role:'user',content:`You are a warm, concise emotional wellness coach. Data: ${patternContext}\n\nWrite JSON only: {"summary":"...","why":"...","tip_0":"...","tip_1":"...","tip_2":"...","reflection_prompt":"...?"}`}]})});
+    if(!res.ok)throw new Error(res.status);
+    const data=await res.json();
+    const raw=(data.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
+    const match=raw.match(/\{[\s\S]*\}/);if(!match)throw new Error('no json');
+    const ai=JSON.parse(match[0]);
+    if(ai.summary)streamText('pm-summary-text',ai.summary);
+    if(ai.why)streamText('pm-why-text',ai.why);
+    ['a','b','c'].forEach((l,i)=>{if(ai[`tip_${i}`])streamText(`tip-t${idx}${l}`,ai[`tip_${i}`]);});
+    if(ai.reflection_prompt){currentPrompt=ai.reflection_prompt;document.getElementById('pm-prompt-text').textContent=currentPrompt;}
+  }catch(e){console.warn('[Pattern AI] static fallback:',e.message);}
 }
 
-function streamText(elId, text) {
-  const el = document.getElementById(elId);
-  if (!el) return;
-  el.textContent = '';
-  let i = 0;
-  function tick() {
-    if (i < text.length) { el.textContent += text[i++]; setTimeout(tick, 16); }
-  }
-  tick();
+function streamText(elId,text){
+  const el=document.getElementById(elId);if(!el)return;
+  el.textContent='';let i=0;
+  (function tick(){if(i<text.length){el.textContent+=text[i++];setTimeout(tick,16);}})();
 }
 
-window.openJournalWithPrompt = function() {
+window.openJournalWithPrompt=function(){
   window.closePatternModal();
-  try { localStorage.setItem('feel_journal_prompt', currentPrompt); } catch {}
-  window.location.href = 'journal.html?prompt=' + encodeURIComponent(currentPrompt);
+  try{localStorage.setItem('feel_journal_prompt',currentPrompt);}catch{}
+  window.location.href='journal.html?prompt='+encodeURIComponent(currentPrompt);
 };
-
 })();
 </script>
 </body>
