@@ -343,7 +343,7 @@ const W = contentArea ? contentArea.offsetWidth  : 400;
 // its CSS: left:-210px, centered vertically
 const arcCenterX = -210; // px from content-area left (off-screen left)
 const arcCenterY = H / 2;
-const arcRadius  = W * 1; // approximate radius to match the arc image
+const arcRadius  = W * .995; // approximate radius to match the arc image
 
 const positions = BUTTONS.map((_, i) => {
   let d = i - activeButton;
